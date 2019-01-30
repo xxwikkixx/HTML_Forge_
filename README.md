@@ -5,6 +5,7 @@ Web based application with AI implementation. This application allows user to up
 
 
 ## Project Phase Update
+- [X] Due 2/04 Project todo cards Added
 - [X] Due 2/04	Phase 3: Project Milestones (Contribution: 5%)
 Deliverables: Software Process Schedule
 These milestones must include all components of the remaining deliverables. You should spend time making sure that your schedule is feasible and reasonable. Process schedule must include: a table showing date, development plan, test/demonstration plan Gantt chart  
