@@ -24,7 +24,7 @@ class SingleBlock():
     def getBlockType(self):
         return self.blockType
 
-    # Attribute and Behabior Dictionary Getter and Setters
+    # Attribute and Behavior Dictionary Getter and Setters
     def appendAttribute(self, attributeTag: int, userSetProperty: str):
         self.attributesDict[attributeTag] = userSetProperty
 
