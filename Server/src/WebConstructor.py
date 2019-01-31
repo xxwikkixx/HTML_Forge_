@@ -18,5 +18,3 @@ class WebConstructor():
     def getJSCode(self):
 
     def setJSCode(self):
-
-        
