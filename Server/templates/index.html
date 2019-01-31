@@ -12,12 +12,12 @@
 
 <body>
 
-    <div class="container">
-        <button class="btn waves-effect waves-light" type="submit" name="action">Upload
-            <i class="material-icons right">send</i>
-        </button>
-    </div>
-
+    <h1>Upload new File</h1>
+    <form action="upload" method=post enctype="multipart/form-data">
+        <p><input type='file' name='file[]' multiple=''>
+        <input type='submit' value='upload'>
+        </p>
+    </form>
 
 
     <!-- Compiled and minified JavaScript -->
