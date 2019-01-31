@@ -15,7 +15,7 @@ attributesDB = {
 # AI Detected Tag, actual code
 blockTypeTagsDB = {
     "button": "<button >",
-    "image": "<image >",
+    "image": "<img >",
     "textInput": "<input >",
 
     "password": "<input type=\"password\">",
@@ -45,7 +45,11 @@ blockTypeTagsDB = {
 
     "orderedLists": "<ol >",
     "unorderedLists": "<ul >",
-    "listItems": "<li >"
+    "listItems": "<li >",
+
+    "nav": "<nav >" +
+            "<a href=> Page1 </a>" +
+            "<a href=> Page2 </a>"
 }
 
 
