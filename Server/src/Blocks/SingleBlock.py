@@ -25,7 +25,7 @@ class SingleBlock():
         return self.blockType
 
     # Attribute and Behabior Dictionary Getter and Setters
-    def appendArrtibute(self, attributeTag: int, userSetProperty: str):
+    def appendAttribute(self, attributeTag: int, userSetProperty: str):
         self.attributesDict[attributeTag] = userSetProperty
 
     def removeAttribute(self, attributeTag: int):

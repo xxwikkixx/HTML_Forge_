@@ -1,14 +1,17 @@
 from SingleBlock import SingleBlock
 
 blocks = {}
+
 IDAssignCount = 1
 
 # Function will return individual block as an SingleBlock Object
 def getBlockByID(blockID: int):
     return blocks[blockID]
 
+
 def getTotalBlocks():
     return len(blocks)
+
 
 def addBlock():
     global IDAssignCount
@@ -27,8 +30,8 @@ def runExample():
 
     # Example 1
     print(blocks, "\n")
-    getBlockByID(1).appendArrtibute(1, "green")
-    getBlockByID(1).appendArrtibute(2, "24px")
+    getBlockByID(1).appendAttribute(1, "green")
+    getBlockByID(1).appendAttribute(2, "24px")
     print("Block attributes of block", getBlockByID(1).getBlockID(), "is: ", getBlockByID(1).getBlockAttributes())
 
     # Example 2
