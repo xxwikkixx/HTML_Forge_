@@ -17,4 +17,3 @@ def detect_props(path):
 
     props = response.image_properties_annotation
 
-    
