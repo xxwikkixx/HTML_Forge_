@@ -29,3 +29,5 @@ def detectPropsUri(uri):
 detectPropsUri('http://digitalnativestudios.com/textmeshpro/docs/rich-text/colors.png')
 
 # https://googleapis.github.io/google-cloud-python/latest/vision/gapic/v1/types.html
+# https://cloud.google.com/vision/docs/quickstart-client-libraries
+# https://cloud.google.com/vision/docs/detecting-faces
