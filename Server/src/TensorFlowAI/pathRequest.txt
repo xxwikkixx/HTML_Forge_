@@ -1,0 +1,3 @@
+model_full_id = automl_client.model_path(
+    "htmlforge", "us-central1", "ICN5827253256552251344"
+)
