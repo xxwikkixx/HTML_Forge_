@@ -32,6 +32,7 @@ def allowed_file(filename):
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
 UPLOAD_FOLDER = 'uploads/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 @app.route('/upload', methods = ['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -39,7 +40,6 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
             return 'OK'
         else:
             return "File Extension not allowed"
