@@ -79,6 +79,9 @@ def render_doc_text(filein, fileout):
     else:
         image.show()
 
+def cut_boxes(filein, fileout):
+
+
 
 
 if __name__ == '__main__':
@@ -93,4 +96,3 @@ if __name__ == '__main__':
 # https://googleapis.github.io/google-cloud-python/latest/vision/gapic/v1/types.html
 # https://cloud.google.com/vision/docs/quickstart-client-libraries
 # https://cloud.google.com/vision/docs/detecting-faces
-# https://cloud.google.com/vision/docs/fulltext-annotations

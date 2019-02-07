@@ -49,3 +49,7 @@ def upload_file():
 
 if __name__ == '__main__':
     app.run()
+
+
+
+# https://blog.miguelgrinberg.com/post/designing-a-restful-api-with-python-and-flask
