@@ -5,9 +5,9 @@ from google.cloud import vision
 from google.cloud.vision import types
 from PIL import Image, ImageDraw
 from enum import Enum
+from src.GoogleCloudServices import CloudServiceConfig as config
 
-
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/home/wikki/Downloads/clientTempAPIKey_htmlforge-d8f980d8c5e9.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= config.conf['service_API_Path']
 
 client = vision.ImageAnnotatorClient()
 
@@ -79,14 +79,16 @@ def render_doc_text(filein, fileout):
     else:
         image.show()
 
-def cut_boxes(filein, fileout):
-
+# def cut_boxes(filein, fileout):
 
 
 
 if __name__ == '__main__':
-    filein = 'IMG_1521.JPG'
-    render_doc_text(filein, 'test.jpeg')
+  filein = 'IMG_1521.JPG'
+  # for i in range(0,10):
+  render_doc_text(filein, 'test.jpeg')
+     # Average response time 7 sec
+     # print("======================Request",i,"Done")
 
 
 

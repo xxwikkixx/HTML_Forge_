@@ -57,9 +57,9 @@ class ImageProcessing:
         contrastImg = img.point(contrast)
         monochromeImg = contrastImg.convert('1')
 
-        monochromeImg.save(self.imageOutputFileDirectory + "Contrast and Mono Applied.jpg")
+        monochromewImg.save(self.imageOutputFileDirectory + "Contrast and Mono Applied.jpg")
 
-        # return monochromeImg
+        return monochromeImg
 
 def runExample():
     imgCrop = ImageProcessing()

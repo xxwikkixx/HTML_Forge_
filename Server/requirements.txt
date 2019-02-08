@@ -1,3 +1,6 @@
+cv2
+imutils
+google
 cachetools
 certifi
 chardet
