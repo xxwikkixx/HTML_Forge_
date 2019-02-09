@@ -93,4 +93,4 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
 
 
 #call on an image with path and cropped output dir
-box_extraction("IMG_1536.JPG", "cropped/")
+box_extraction("houghlines5.jpg", "cropped/")

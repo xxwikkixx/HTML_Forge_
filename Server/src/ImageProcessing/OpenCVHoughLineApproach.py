@@ -10,7 +10,7 @@ edges = cv2.Canny(gray, 255, 255, apertureSize=3)
 
 
 cv2.imwrite('cann.jpg', edges)
-lines = cv2.HoughLinesP(edges, rho=1, theta=1 * np.pi / 180, threshold=20, minLineLength=100, maxLineGap=50)
+lines = cv2.HoughLinesP(edges, rho=1, theta=1 * np.pi / 180, threshold=20, minLineLength=150, maxLineGap=30)
 
 print(len(lines))
 
