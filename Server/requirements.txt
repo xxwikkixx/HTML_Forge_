@@ -1,3 +1,5 @@
+numpy
+matplotlib
 cv2
 imutils
 google
