@@ -18,13 +18,11 @@ rows = 4
 # Param: a openCV Bin Image
 # Return: Bolded openCV Bin Image
 def line_Bolding(imgpath):
-
     img = cv2.imread(imgpath)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     edges = cv2.Canny(gray, 255, 255, apertureSize=3)
 
     if Image_Debug: cv2.imwrite('DebugImagesDir/cann.jpg', edges)
-
 
     # HoughLinesP()
     # pass in params (image*, rho, theta, threshold[, lines[, minLineLength[, maxLineGap]]])
@@ -42,9 +40,9 @@ def line_Bolding(imgpath):
         # Draw the thicker black line on to the image
         cv2.line(img, (x1, y1), (x2, y2), (0, 0, 0), 8)
 
-    imgtemp = img
     cv2.imwrite('DebugImagesDir/houghlines5.jpg', img)
     cv2.destroyAllWindows()
+
 
 def box_extraction(img_for_box_extraction_path, cropped_dir_path):
     img = cv2.imread(img_for_box_extraction_path, 0)  # Read the image
@@ -58,7 +56,7 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
 
     img_bin = 255 - img_bin  # Invert the image
 
-    cv2.imwrite("DebugImagesDir/Image_bin.jpg", img_bin)
+    if Image_Debug: cv2.imwrite("DebugImagesDir/Image_bin.jpg", img_bin)
 
     # Defining a kernel length
     kernel_length = np.array(img).shape[1] // 80
@@ -74,11 +72,11 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
     # Morphological operation to detect vertical lines from an image
     img_temp1 = cv2.erode(img_bin, verticle_kernel, iterations=ITERATIONS)
     verticle_lines_img = cv2.dilate(img_temp1, verticle_kernel, iterations=ITERATIONS)
-    cv2.imwrite("DebugImagesDir/verticle_lines.jpg", verticle_lines_img)
+    if Image_Debug: cv2.imwrite("DebugImagesDir/verticle_lines.jpg", verticle_lines_img)
     # Morphological operation to detect horizontal lines from an image
     img_temp2 = cv2.erode(img_bin, hori_kernel, iterations=ITERATIONS)
     horizontal_lines_img = cv2.dilate(img_temp2, hori_kernel, iterations=ITERATIONS)
-    cv2.imwrite("DebugImagesDir/horizontal_lines.jpg", horizontal_lines_img)
+    if Image_Debug: cv2.imwrite("DebugImagesDir/horizontal_lines.jpg", horizontal_lines_img)
 
     # summation or two images
     alpha = 0.5
@@ -86,7 +84,7 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
     img_final_bin = cv2.addWeighted(verticle_lines_img, alpha, horizontal_lines_img, beta, 0.0)
     img_final_bin = cv2.erode(~img_final_bin, kernel, iterations=ITERATIONS)
     (thresh, img_final_bin) = cv2.threshold(img_final_bin, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-    cv2.imwrite("DebugImagesDir/img_final_bin.jpg", img_final_bin)
+    if Image_Debug: cv2.imwrite("DebugImagesDir/img_final_bin.jpg", img_final_bin)
 
     # Find contours for image, which will detect all the boxes
     contours, hierarchy = cv2.findContours(img_final_bin, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -97,6 +95,7 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
     if Console_Logger: print(hierarchy)
     if Console_Logger: print("============================")
 
+    exported_contours = []
     idx = 0
     for c in contours:
         # Returns the location and width,height for every contour
@@ -108,28 +107,54 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
         if Console_Logger: print("========================")
         # If the box height is greater then 700 or width is >700, then only save it as a box in "cropped/" folder.
         if ((w > 700 and h > 30) or (h > 700 and w > 30)) and w != 3000 and h != 2000:
-            print("image Crop!")
-            idx += 1
-            new_img = img[y:y + h, x:x + w]
-            fig.add_subplot(rows, columns, idx)
-            plt.imshow(new_img)
-            cv2.imwrite(cropped_dir_path + str(idx) + '.png', new_img)
+            if Console_Logger: print("image Crop!")
+            exported_contours.append([x, y, w, h])
         else:
-            print("log: element too small")
-            print("===========================")
-    plt.show()
-    cv2.imshow('boxed', img)
+            if Console_Logger: print("log: element too small")
+            if Console_Logger: print("===========================")
+
+    for i in range(len(exported_contours) - 1, 0, -1):
+        for j in range(i):
+            print(exported_contours[i][0])
+            if abs(exported_contours[i][0] - exported_contours[j][0]) <= 50 and abs(
+                    exported_contours[i][1] - exported_contours[j][1]) <= 50:
+                # Similar item choose bigger frame and save to the list.
+                print("First Condition")
+                if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
+                        exported_contours[i][3]):
+                    exported_contours.pop(i)
+
+    if Console_Logger: print(exported_contours)
+    idx = 0
+    for i in range(0, len(exported_contours)):
+        idx += 1
+        x = exported_contours[i][0]
+        y = exported_contours[i][1]
+        w = exported_contours[i][2]
+        h = exported_contours[i][3]
+        new_img = img[y:y + h, x:x + w]
+        fig.add_subplot(rows, columns, idx)
+        plt.imshow(new_img)
+        cv2.imwrite(cropped_dir_path + str(idx) + '.png', new_img)
+
+    if Image_Debug: plt.show()
+    if Image_Debug: cv2.imshow('boxed', img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
 
 # call on an image with path and cropped output dir
+def demo():
+    img = 'IMG_1536.JPG'
+    imageOutputFileDirectory = "cropped/"
 
-img = 'IMG_1536.jpg'
-imageOutputFileDirectory = "cropped/"
-files = glob.glob(imageOutputFileDirectory + "*")
-for f in files:
-    os.remove(f)
+    # Delete images from previous session
+    files = glob.glob(imageOutputFileDirectory + "*")
+    for f in files:
+        os.remove(f)
 
-line_Bolding(img)
-box_extraction("DebugImagesDir/houghlines5.jpg", "cropped/")
+    line_Bolding(img)
+    box_extraction("DebugImagesDir/houghlines5.jpg", imageOutputFileDirectory)
+
+
+demo()
