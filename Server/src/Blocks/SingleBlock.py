@@ -12,6 +12,8 @@ class SingleBlock():
         self.x_Location = 0
         self.y_Location = 0
 
+        self.image_path = ""
+
     def setBlockID(self, assignID: int):
         self.blockID = assignID
 
@@ -67,3 +69,9 @@ class SingleBlock():
 
     def getY_Location(self):
         return self.y_Location
+
+    def setImagePath(self, path: str):
+        self.image_path = path
+
+    def getImagePath(self):
+        return self.image_path

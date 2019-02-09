@@ -1,4 +1,4 @@
-from SingleBlock import SingleBlock
+from src.Blocks.SingleBlock import SingleBlock
 
 blocks = {}
 
@@ -40,4 +40,4 @@ def runExample():
     print("block 2 HTML code: ", getBlockByID(2).getSingleBlock_HTMLCode())
 
 
-runExample()
+# runExample()

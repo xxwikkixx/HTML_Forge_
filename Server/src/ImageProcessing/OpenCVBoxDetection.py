@@ -4,6 +4,7 @@ import os
 import glob
 import numpy as np
 import matplotlib.pyplot as plt
+from src.Blocks.Blocks import addBlock, getBlockByID, blocks
 
 Image_Debug = False
 Console_Logger = False
@@ -12,6 +13,13 @@ Console_Logger = False
 fig = plt.figure(figsize=(8, 8))
 columns = 4
 rows = 4
+
+
+def createSingleBlockInstance(id, x, y, sorcePath):
+    addBlock()
+    getBlockByID(id).setX_Location(x)
+    getBlockByID(id).setY_Location(y)
+    getBlockByID(id).setImagePath(sorcePath)
 
 
 # line_Balding function
@@ -113,6 +121,7 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
             if Console_Logger: print("log: element too small")
             if Console_Logger: print("===========================")
 
+    # Iterate through final canadians and remove repetitive blocks
     for i in range(len(exported_contours) - 1, 0, -1):
         for j in range(i):
             if Console_Logger: print(exported_contours[i][0])
@@ -124,6 +133,7 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
                         exported_contours[i][3]):
                     exported_contours.pop(i)
 
+    # Cropping image and create single block instances
     if Console_Logger: print(exported_contours)
     idx = 0
     for i in range(0, len(exported_contours)):
@@ -133,8 +143,12 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
         w = exported_contours[i][2]
         h = exported_contours[i][3]
         new_img = img[y:y + h, x:x + w]
-        fig.add_subplot(rows, columns, idx)
-        plt.imshow(new_img)
+
+        createSingleBlockInstance(idx, x, y, cropped_dir_path + str(idx) + '.png')
+
+        if Image_Debug: fig.add_subplot(rows, columns, idx)
+        if Image_Debug: plt.imshow(new_img)
+
         cv2.imwrite(cropped_dir_path + str(idx) + '.png', new_img)
 
     if Image_Debug: plt.show()
@@ -145,6 +159,7 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
 
 # call on an image with path and cropped output dir
 def demo():
+    # This path need to be refactored
     img = 'User Upload/IMG_1536.JPG'
     imageOutputFileDirectory = "cropped/"
 
@@ -152,9 +167,19 @@ def demo():
     files = glob.glob(imageOutputFileDirectory + "*")
     for f in files:
         os.remove(f)
+    if Console_Logger:
+        line_Bolding(img)
+        box_extraction("DebugImagesDir/houghlines5.jpg", imageOutputFileDirectory)
+        print()
+        print()
+        print(blocks)
 
-    line_Bolding(img)
-    box_extraction("DebugImagesDir/houghlines5.jpg", imageOutputFileDirectory)
+        for i in blocks:
+            print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
+            print("Block ", i, "  X Location: :", getBlockByID(i).getX_Location())
+            print("Block ", i, "  Y Location: :", getBlockByID(i).getY_Location())
+            print("Block ", i, "  image path: :", getBlockByID(i).getImagePath())
+            print("========================================================================")
 
 
 demo()
