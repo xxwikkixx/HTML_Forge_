@@ -9,7 +9,7 @@ edges = cv2.Canny(gray, 255, 255, apertureSize=3)
 # edges = cv2.resize(edges, (3000, 2000))
 
 
-cv2.imwrite('cann.jpg', edges)
+cv2.imwrite('DebugImagesDir/cann.jpg', edges)
 lines = cv2.HoughLinesP(edges, rho=1, theta=1 * np.pi / 180, threshold=20, minLineLength=150, maxLineGap=30)
 
 print(len(lines))
@@ -19,5 +19,5 @@ for i in range(0,len(lines)):
     print(x1, y1, x2, y2)
     cv2.line(img, (x1, y1), (x2, y2), (0, 0, 0), 8)
 
-cv2.imwrite('houghlines5.jpg', img)
+cv2.imwrite('DebugImagesDir/houghlines5.jpg', img)
 cv2.destroyAllWindows()

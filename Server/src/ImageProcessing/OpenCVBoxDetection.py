@@ -22,7 +22,7 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
 
     img_bin = 255 - img_bin  # Invert the image
 
-    cv2.imwrite("Image_bin.jpg", img_bin)
+    cv2.imwrite("DebugImagesDir/Image_bin.jpg", img_bin)
 
 
 
@@ -41,11 +41,11 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
     # Morphological operation to detect vertical lines from an image
     img_temp1 = cv2.erode(img_bin, verticle_kernel, iterations=ITERATIONS)
     verticle_lines_img = cv2.dilate(img_temp1, verticle_kernel, iterations=ITERATIONS)
-    cv2.imwrite("verticle_lines.jpg", verticle_lines_img)
+    cv2.imwrite("DebugImagesDir/verticle_lines.jpg", verticle_lines_img)
     # Morphological operation to detect horizontal lines from an image
     img_temp2 = cv2.erode(img_bin, hori_kernel, iterations=ITERATIONS)
     horizontal_lines_img = cv2.dilate(img_temp2, hori_kernel, iterations=ITERATIONS)
-    cv2.imwrite("horizontal_lines.jpg", horizontal_lines_img)
+    cv2.imwrite("DebugImagesDir/horizontal_lines.jpg", horizontal_lines_img)
 
 
 
@@ -55,7 +55,7 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
     img_final_bin = cv2.addWeighted(verticle_lines_img, alpha, horizontal_lines_img, beta, 0.0)
     img_final_bin = cv2.erode(~img_final_bin, kernel, iterations=ITERATIONS)
     (thresh, img_final_bin) = cv2.threshold(img_final_bin, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-    cv2.imwrite("img_final_bin.jpg", img_final_bin)
+    cv2.imwrite("DebugImagesDir/img_final_bin.jpg", img_final_bin)
 
     # Find contours for image, which will detect all the boxes
     contours, hierarchy = cv2.findContours(img_final_bin, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -93,4 +93,4 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
 
 
 #call on an image with path and cropped output dir
-box_extraction("houghlines5.jpg", "cropped/")
+box_extraction("DebugImagesDir/houghlines5.jpg", "cropped/")
