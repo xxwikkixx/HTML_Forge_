@@ -5,8 +5,8 @@ import glob
 import numpy as np
 import matplotlib.pyplot as plt
 
-Image_Debug = True
-Console_Logger = True
+Image_Debug = False
+Console_Logger = False
 
 # This is just for the py plot display (debug purposes)
 fig = plt.figure(figsize=(8, 8))
@@ -115,11 +115,11 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
 
     for i in range(len(exported_contours) - 1, 0, -1):
         for j in range(i):
-            print(exported_contours[i][0])
+            if Console_Logger: print(exported_contours[i][0])
             if abs(exported_contours[i][0] - exported_contours[j][0]) <= 50 and abs(
                     exported_contours[i][1] - exported_contours[j][1]) <= 50:
                 # Similar item choose bigger frame and save to the list.
-                print("First Condition")
+                if Console_Logger: print("First Condition")
                 if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
                         exported_contours[i][3]):
                     exported_contours.pop(i)
@@ -145,7 +145,7 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
 
 # call on an image with path and cropped output dir
 def demo():
-    img = 'IMG_1536.JPG'
+    img = 'User Upload/IMG_1536.JPG'
     imageOutputFileDirectory = "cropped/"
 
     # Delete images from previous session
