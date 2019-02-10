@@ -5,6 +5,8 @@ import glob
 import numpy as np
 import matplotlib.pyplot as plt
 from src.Blocks.Blocks import addBlock, getBlockByID, blocks
+import multiprocessing as mp
+import time
 
 Image_Debug = True
 Console_Logger = True
@@ -14,7 +16,7 @@ fig = plt.figure(figsize=(8, 8))
 columns = 4
 rows = 4
 
-
+# Not being used
 def enhanceImage(fileName):
     from PIL import Image, ImageEnhance
     im = Image.open("User Upload/" + fileName)
@@ -23,7 +25,7 @@ def enhanceImage(fileName):
     enhanced_im = temp.enhance(10.0)
     enhanced_im.save("User Upload/" + fileName)
 
-
+# 3.5
 def createSingleBlockInstance(id, x, y, h, w, sorcePath):
     addBlock()
     getBlockByID(id).setX_Location(x)
@@ -32,7 +34,7 @@ def createSingleBlockInstance(id, x, y, h, w, sorcePath):
     getBlockByID(id).set_Width(w)
     getBlockByID(id).setImagePath(sorcePath)
 
-
+# 2
 # line_Balding function
 # Param: a openCV Bin Image
 # Return: Bolded openCV Bin Image
@@ -62,7 +64,7 @@ def line_Bolding(imgpath):
     cv2.imwrite('DebugImagesDir/houghlines5.jpg', img)
     cv2.destroyAllWindows()
 
-
+# 3
 def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir_path):
     orginal_image = cv2.imread(original_image_path, 0)
 
@@ -74,8 +76,10 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     img_bin = cv2.resize(img_bin, (3000, 2000))
 
     # img = line_Bolding(cv2.imread(img_for_box_extraction_path, 0))
-
-    img_bin = 255 - img_bin  # Invert the image
+    try:
+        img_bin = 255 - img_bin  # Invert the image
+    except:
+        print("failed to invert")
 
     if Image_Debug: cv2.imwrite("DebugImagesDir/Image_bin.jpg", img_bin)
 
@@ -195,7 +199,7 @@ def clearImageDir(folder_path):
     for f in files:
         os.remove(f)
 
-
+# 1
 def image_Rescale(image_Path):
     size = 3000, 2000
     from PIL import Image
@@ -205,7 +209,7 @@ def image_Rescale(image_Path):
     im.save(new_path)
     return new_path
 
-
+# Not being Used
 def move_File_To_User_Upload(original, distnation):
     current = original
     newDistnation = distnation
@@ -217,15 +221,22 @@ def execute_Box_Detection(fileName_mustBeInUserUpload):
     # file_name = "IMG_1450
     # move_File_To_User_Upload(fileName_mustBeInUserUpload, "'User Upload/userUpload.jpg")
 
+    pool = mp.Pool()
+
     img = 'User Upload/' + fileName_mustBeInUserUpload
     imageOutputFileDirectory = "cropped/"
+
+
     # Delete images from previous session
     clearImageDir(imageOutputFileDirectory)
 
     img = image_Rescale(img)
     line_Bolding(img)
+
+    # pool.map(box_extraction, [img, "DebugImagesDir/houghlines5.jpg", imageOutputFileDirectory])
     box_extraction(img, "DebugImagesDir/houghlines5.jpg", imageOutputFileDirectory)
     # box_extraction(img, imageOutputFileDirectory)
+
 
     if Console_Logger:
         print("==================Image Cropping Create Single Blocks=====================")
@@ -241,8 +252,19 @@ def execute_Box_Detection(fileName_mustBeInUserUpload):
             print("========================================================================")
 
 
-execute_Box_Detection("IMG_1554.JPG")
-print("Done")
+if __name__ == "__main__":
+    start = time.time()
+
+    # pool = mp.Pool()
+    # pool.map_async(execute_Box_Detection, ["IMG_1536.JPG"])
+
+    execute_Box_Detection("IMG_1536.JPG")
+
+
+    print("Done")
+    end = time.time()
+    print("Seconds: ", end-start)
+
 # To-do
 # [Done]  Reformat and resize the image to get consistent result and image crop
 # [Done]  Crop image with the x, y, w, h adjust.
