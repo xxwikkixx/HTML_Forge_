@@ -24,10 +24,12 @@ def enhanceImage(fileName):
     enhanced_im.save("User Upload/" + fileName)
 
 
-def createSingleBlockInstance(id, x, y, sorcePath):
+def createSingleBlockInstance(id, x, y, h, w, sorcePath):
     addBlock()
     getBlockByID(id).setX_Location(x)
     getBlockByID(id).setY_Location(y)
+    getBlockByID(id).set_Height(h)
+    getBlockByID(id).set_Width(w)
     getBlockByID(id).setImagePath(sorcePath)
 
 
@@ -127,6 +129,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         # If the box height is greater then 700 or width is >700, then only save it as a box in "cropped/" folder.
         if ((w > 700 and h > 30) or (h > 700 and w > 30)) and w != 3000 and h != 2000:
             if Console_Logger: print("image Crop!")
+            print(x, y, w, h)
             exported_contours.append([x, y, w, h])
         else:
             if Console_Logger: print("log: element too small")
@@ -147,6 +150,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
                         exported_contours[i][3]):
                     exported_contours.pop(i)
 
+    print("============")
     # Cropping image and create single block instances
     if Console_Logger: print(exported_contours)
     idx = 0
@@ -163,11 +167,18 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         w += 100
         h += 80
 
+        print(x, y, w, h)
         # Cropping the original image
         new_img = orginal_image[y:y + h, x:x + w]
-        createSingleBlockInstance(idx, x, y, cropped_dir_path + str(idx) + '.png')
 
-        cv2.imwrite(cropped_dir_path + str(idx) + '.png', new_img)
+        try:
+            cv2.imwrite(cropped_dir_path + str(idx) + '.png', new_img)
+            createSingleBlockInstance(idx, x, y, h, w, cropped_dir_path + str(idx) + '.png')
+        except:
+            exported_contours.pop(i)
+            print("error")
+            continue
+
         # Display cropped image onto the matplot
         if Image_Debug: fig.add_subplot(rows, columns, idx)
         if Image_Debug: plt.imshow(new_img)
@@ -224,11 +235,14 @@ def execute_Box_Detection(fileName_mustBeInUserUpload):
             print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
             print("Block ", i, "  X Location: :", getBlockByID(i).getX_Location())
             print("Block ", i, "  Y Location: :", getBlockByID(i).getY_Location())
+            print("Block ", i, "  Width: :", getBlockByID(i).get_Width())
+            print("Block ", i, "  Height: :", getBlockByID(i).get_Height())
             print("Block ", i, "  image path: :", getBlockByID(i).getImagePath())
             print("========================================================================")
 
 
-execute_Box_Detection("IMG_1536.JPG")
+execute_Box_Detection("IMG_1554.JPG")
+print("Done")
 # To-do
 # [Done]  Reformat and resize the image to get consistent result and image crop
 # [Done]  Crop image with the x, y, w, h adjust.

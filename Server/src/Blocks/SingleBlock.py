@@ -11,6 +11,8 @@ class SingleBlock():
 
         self.x_Location = 0
         self.y_Location = 0
+        self.width = 0
+        self.height = 0
 
         self.image_path = ""
 
@@ -69,6 +71,19 @@ class SingleBlock():
 
     def getY_Location(self):
         return self.y_Location
+
+
+    def set_Width(self, wVal: int):
+        self.width = wVal
+
+    def get_Width(self):
+        return self.width
+
+    def set_Height(self, hVal:int):
+        self.height= hVal
+
+    def get_Height(self):
+        return self.height
 
     def setImagePath(self, path: str):
         self.image_path = path
