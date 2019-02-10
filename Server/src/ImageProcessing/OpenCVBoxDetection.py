@@ -6,10 +6,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 from src.Blocks.Blocks import addBlock, getBlockByID, blocks
 
-Image_Debug = False
-Console_Logger = False
+# from PIL import Image, ImageEnhance
+# im = Image.open("User Upload/IMG_1450.JPG")
+# enhancer = ImageEnhance.Brightness(im)
+# temp = ImageEnhance.Sharpness(im)
+# enhanced_im = temp.enhance(10.0)
+# enhanced_im.save("enhanced_sample3.png")
 
-# This is just for the py plot display (debug purposes)
+Image_Debug = True
+Console_Logger = True
+
+# This is just for the py plotting results (debug purposes)
 fig = plt.figure(figsize=(8, 8))
 columns = 4
 rows = 4
@@ -52,7 +59,9 @@ def line_Bolding(imgpath):
     cv2.destroyAllWindows()
 
 
-def box_extraction(img_for_box_extraction_path, cropped_dir_path):
+def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir_path):
+    orginal_image = cv2.imread(original_image_path, 0)
+
     img = cv2.imread(img_for_box_extraction_path, 0)  # Read the image
     # img = img_for_box_extraction_path
     # cv2.imshow(img)
@@ -125,13 +134,17 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
     for i in range(len(exported_contours) - 1, 0, -1):
         for j in range(i):
             if Console_Logger: print(exported_contours[i][0])
-            if abs(exported_contours[i][0] - exported_contours[j][0]) <= 50 and abs(
-                    exported_contours[i][1] - exported_contours[j][1]) <= 50:
+            # Compare X axis and Y see if it is similar crop
+            if abs(exported_contours[i][0] - exported_contours[j][0]) <= 80 and abs(
+                    exported_contours[i][1] - exported_contours[j][1]) <= 80:
                 # Similar item choose bigger frame and save to the list.
                 if Console_Logger: print("First Condition")
+
+                # Choose the bigger crop and pop the smaller one
                 if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
                         exported_contours[i][3]):
                     exported_contours.pop(i)
+
 
     # Cropping image and create single block instances
     if Console_Logger: print(exported_contours)
@@ -142,36 +155,68 @@ def box_extraction(img_for_box_extraction_path, cropped_dir_path):
         y = exported_contours[i][1]
         w = exported_contours[i][2]
         h = exported_contours[i][3]
-        new_img = img[y:y + h, x:x + w]
 
+        # The crop is too tight, this adjusts with bigger border
+        x -= 200
+        y -= 80
+        w += 100
+        h += 80
+
+        # Cropping the original image
+        new_img = orginal_image[y:y + h, x:x + w]
         createSingleBlockInstance(idx, x, y, cropped_dir_path + str(idx) + '.png')
 
+        cv2.imwrite(cropped_dir_path + str(idx) + '.png', new_img)
+        # Display cropped image onto the matplot
         if Image_Debug: fig.add_subplot(rows, columns, idx)
         if Image_Debug: plt.imshow(new_img)
 
-        cv2.imwrite(cropped_dir_path + str(idx) + '.png', new_img)
-
     if Image_Debug: plt.show()
-    if Image_Debug: cv2.imshow('boxed', img)
+    # if Image_Debug: cv2.imshow('boxed', img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
 
-# call on an image with path and cropped output dir
-def demo():
-    # This path need to be refactored
-    img = 'User Upload/IMG_1536.JPG'
-    imageOutputFileDirectory = "cropped/"
-
-    # Delete images from previous session
-    files = glob.glob(imageOutputFileDirectory + "*")
+### !!!!!! Be mindful all the files under that dir will be deleted
+def clearImageDir(folder_path):
+    files = glob.glob(folder_path + "*")
     for f in files:
         os.remove(f)
+
+
+def image_Rescale(image_Path):
+    size = 3000, 2000
+    from PIL import Image
+    im = Image.open(image_Path)
+    im.thumbnail(size)
+    new_path = "User Upload/" + "_resized.jpg"
+    im.save(new_path)
+    return new_path
+
+def move_File_To_User_Upload(original, distnation):
+    current = original
+    newDistnation = distnation
+    os.rename(current, newDistnation)
+
+
+# file path must be in User Upload!
+def execute_Box_Detection(fileName_mustBeInUserUpload):
+
+    # file_name = "IMG_1450
+    # move_File_To_User_Upload(fileName_mustBeInUserUpload, "'User Upload/userUpload.jpg")
+
+    img = 'User Upload/' + fileName_mustBeInUserUpload
+    imageOutputFileDirectory = "cropped/"
+    # Delete images from previous session
+    clearImageDir(imageOutputFileDirectory)
+
+    img = image_Rescale(img)
+    line_Bolding(img)
+    box_extraction(img, "DebugImagesDir/houghlines5.jpg", imageOutputFileDirectory)
+    # box_extraction(img, imageOutputFileDirectory)
+
     if Console_Logger:
-        line_Bolding(img)
-        box_extraction("DebugImagesDir/houghlines5.jpg", imageOutputFileDirectory)
-        print()
-        print()
+        print("==================Image Cropping Create Single Blocks=====================")
         print(blocks)
 
         for i in blocks:
@@ -182,4 +227,9 @@ def demo():
             print("========================================================================")
 
 
-demo()
+execute_Box_Detection("IMG_1536.JPG")
+# To-do
+# [Done]  Reformat and resize the image to get consistent result and image crop
+# [Done]  Crop image with the x, y, w, h adjust.
+# [Done]  Save the crop of the source file instead of the bolded one
+# [] Image enhancer on the original Image
