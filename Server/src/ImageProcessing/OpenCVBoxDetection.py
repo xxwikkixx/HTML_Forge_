@@ -6,13 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from src.Blocks.Blocks import addBlock, getBlockByID, blocks
 
-# from PIL import Image, ImageEnhance
-# im = Image.open("User Upload/IMG_1450.JPG")
-# enhancer = ImageEnhance.Brightness(im)
-# temp = ImageEnhance.Sharpness(im)
-# enhanced_im = temp.enhance(10.0)
-# enhanced_im.save("enhanced_sample3.png")
-
 Image_Debug = True
 Console_Logger = True
 
@@ -20,6 +13,15 @@ Console_Logger = True
 fig = plt.figure(figsize=(8, 8))
 columns = 4
 rows = 4
+
+
+def enhanceImage(fileName):
+    from PIL import Image, ImageEnhance
+    im = Image.open("User Upload/" + fileName)
+    # enhancer = ImageEnhance.Brightness(im)
+    temp = ImageEnhance.Sharpness(im)
+    enhanced_im = temp.enhance(10.0)
+    enhanced_im.save("User Upload/" + fileName)
 
 
 def createSingleBlockInstance(id, x, y, sorcePath):
@@ -145,7 +147,6 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
                         exported_contours[i][3]):
                     exported_contours.pop(i)
 
-
     # Cropping image and create single block instances
     if Console_Logger: print(exported_contours)
     idx = 0
@@ -156,7 +157,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         w = exported_contours[i][2]
         h = exported_contours[i][3]
 
-        # The crop is too tight, this adjusts with bigger border
+        # The crop is right is too tight since it is right on the border, this adjusts with bigger border
         x -= 200
         y -= 80
         w += 100
@@ -193,6 +194,7 @@ def image_Rescale(image_Path):
     im.save(new_path)
     return new_path
 
+
 def move_File_To_User_Upload(original, distnation):
     current = original
     newDistnation = distnation
@@ -201,7 +203,6 @@ def move_File_To_User_Upload(original, distnation):
 
 # file path must be in User Upload!
 def execute_Box_Detection(fileName_mustBeInUserUpload):
-
     # file_name = "IMG_1450
     # move_File_To_User_Upload(fileName_mustBeInUserUpload, "'User Upload/userUpload.jpg")
 
@@ -232,4 +233,4 @@ execute_Box_Detection("IMG_1536.JPG")
 # [Done]  Reformat and resize the image to get consistent result and image crop
 # [Done]  Crop image with the x, y, w, h adjust.
 # [Done]  Save the crop of the source file instead of the bolded one
-# [] Image enhancer on the original Image
+# [In Progress] Image enhancer on the original Image
