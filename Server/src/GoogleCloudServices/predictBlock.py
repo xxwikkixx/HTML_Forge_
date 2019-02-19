@@ -52,6 +52,7 @@ def localize_objects(path):
         content = image_file.read()
     image = vision.types.Image(content=content)
 
+
     objects = client.object_localization(
         image=image).localized_object_annotations
 
