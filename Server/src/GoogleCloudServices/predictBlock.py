@@ -42,7 +42,6 @@ def detect_crop_hints(path):
 
 def localize_objects(path):
     """Localize objects in the local image.
-
     Args:
     path: The path to the local file.
     """

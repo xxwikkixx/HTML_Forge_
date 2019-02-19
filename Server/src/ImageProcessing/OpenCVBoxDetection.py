@@ -1,20 +1,27 @@
-import cv2
+from src.Blocks.Blocks import addBlock, getBlockByID, blocks
 from imutils.contours import sort_contours
+import cv2
 import os
 import glob
 import numpy as np
 import matplotlib.pyplot as plt
-from src.Blocks.Blocks import addBlock, getBlockByID, blocks
 import multiprocessing as mp
 import time
 
 Image_Debug = True
-Console_Logger = True
+Console_Logger = False
 
 # This is just for the py plotting results (debug purposes)
 fig = plt.figure(figsize=(8, 8))
-columns = 4
-rows = 4
+columns = 3
+rows = 3
+
+ITERATIONS = 1
+DUPLICATE_TARESHOLD = 80
+MIN_LINE_GAP = 150
+MAX_LINE_GAP = 30
+exported_contours = []
+
 
 # Not being used
 def enhanceImage(fileName):
@@ -25,6 +32,7 @@ def enhanceImage(fileName):
     enhanced_im = temp.enhance(10.0)
     enhanced_im.save("User Upload/" + fileName)
 
+
 # 3.5
 def createSingleBlockInstance(id, x, y, h, w, sorcePath):
     addBlock()
@@ -33,6 +41,7 @@ def createSingleBlockInstance(id, x, y, h, w, sorcePath):
     getBlockByID(id).set_Height(h)
     getBlockByID(id).set_Width(w)
     getBlockByID(id).setImagePath(sorcePath)
+
 
 # 2
 # line_Balding function
@@ -50,7 +59,8 @@ def line_Bolding(imgpath):
     # threshold: should not be adjusted co-relate to the Canny Function
     # minLineLength: Threshold how the shortest line
     # maxLineGap: Gap length that are allowed  between line to line inorder to consider it as a line
-    lines = cv2.HoughLinesP(edges, rho=1, theta=1 * np.pi / 180, threshold=20, minLineLength=150, maxLineGap=30)
+    lines = cv2.HoughLinesP(edges, rho=1, theta=1 * np.pi / 180, threshold=20, minLineLength=MIN_LINE_GAP,
+                            maxLineGap=MAX_LINE_GAP)
 
     if Console_Logger: print(len(lines))
 
@@ -63,6 +73,7 @@ def line_Bolding(imgpath):
 
     cv2.imwrite('DebugImagesDir/houghlines5.jpg', img)
     cv2.destroyAllWindows()
+
 
 # 3
 def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir_path):
@@ -93,7 +104,6 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))
     # Morphological operation to detect verticle lines from an image
 
-    ITERATIONS = 1
     # Morphological operation to detect vertical lines from an image
     img_temp1 = cv2.erode(img_bin, verticle_kernel, iterations=ITERATIONS)
     verticle_lines_img = cv2.dilate(img_temp1, verticle_kernel, iterations=ITERATIONS)
@@ -117,12 +127,20 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     (contours, boundingBoxes) = sort_contours(contours, method="top-to-bottom")
 
     if Console_Logger: print("============================")
-    if Console_Logger: print(hierarchy)
+    # if Console_Logger: print(hierarchy)
+    print(hierarchy)
     if Console_Logger: print("============================")
 
-    exported_contours = []
     idx = 0
+
+    contoursSize = len(contours)
+    print("The contours size", contoursSize)
+    tempCounter = 0
+
     for c in contours:
+
+        objectComplexity = 0
+
         # Returns the location and width,height for every contour
         x, y, w, h = cv2.boundingRect(c)
         # img = cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
@@ -133,19 +151,47 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         # If the box height is greater then 700 or width is >700, then only save it as a box in "cropped/" folder.
         if ((w > 700 and h > 30) or (h > 700 and w > 30)) and w != 3000 and h != 2000:
             if Console_Logger: print("image Crop!")
-            print(x, y, w, h)
+            if Console_Logger: print(x, y, w, h)
             exported_contours.append([x, y, w, h])
         else:
+
+
+
+
+
+
+            # WORK IN PROGRESS!!!!!
+            # Examine The children in each hierarchy
+            # Should be able to support the business attribute in each building blocks
+            # Which will be a useful attribute during the compiling process
+            for exp in exported_contours:
+                # 0:x
+                # 1:y
+                # 2:w
+                # 3:h
+                if x > exp[0] and x < exp[0] + exp[2] and y > exp[1] and y < exp[1] + exp[3]:
+                    print("innerObjectDetected!")
+                    tempCounter += 1
+
+
+
+
+
+
+
+
             if Console_Logger: print("log: element too small")
             if Console_Logger: print("===========================")
 
-    # Iterate through final canadians and remove repetitive blocks
+    print("recorded", tempCounter)
+
+    # Iterate through final candidates and remove repetitive blocks
     for i in range(len(exported_contours) - 1, 0, -1):
         for j in range(i):
             if Console_Logger: print(exported_contours[i][0])
             # Compare X axis and Y see if it is similar crop
-            if abs(exported_contours[i][0] - exported_contours[j][0]) <= 80 and abs(
-                    exported_contours[i][1] - exported_contours[j][1]) <= 80:
+            if abs(exported_contours[i][0] - exported_contours[j][0]) <= DUPLICATE_TARESHOLD and abs(
+                    exported_contours[i][1] - exported_contours[j][1]) <= DUPLICATE_TARESHOLD:
                 # Similar item choose bigger frame and save to the list.
                 if Console_Logger: print("First Condition")
 
@@ -154,7 +200,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
                         exported_contours[i][3]):
                     exported_contours.pop(i)
 
-    print("============")
+    if Console_Logger: print("============")
     # Cropping image and create single block instances
     if Console_Logger: print(exported_contours)
     idx = 0
@@ -171,7 +217,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         w += 100
         h += 80
 
-        print(x, y, w, h)
+        if Console_Logger: print(x, y, w, h)
         # Cropping the original image
         new_img = orginal_image[y:y + h, x:x + w]
 
@@ -199,6 +245,7 @@ def clearImageDir(folder_path):
     for f in files:
         os.remove(f)
 
+
 # 1
 def image_Rescale(image_Path):
     size = 3000, 2000
@@ -208,6 +255,7 @@ def image_Rescale(image_Path):
     new_path = "User Upload/" + "_resized.jpg"
     im.save(new_path)
     return new_path
+
 
 # Not being Used
 def move_File_To_User_Upload(original, distnation):
@@ -226,7 +274,6 @@ def execute_Box_Detection(fileName_mustBeInUserUpload):
     img = 'User Upload/' + fileName_mustBeInUserUpload
     imageOutputFileDirectory = "cropped/"
 
-
     # Delete images from previous session
     clearImageDir(imageOutputFileDirectory)
 
@@ -237,18 +284,17 @@ def execute_Box_Detection(fileName_mustBeInUserUpload):
     box_extraction(img, "DebugImagesDir/houghlines5.jpg", imageOutputFileDirectory)
     # box_extraction(img, imageOutputFileDirectory)
 
-
     if Console_Logger:
         print("==================Image Cropping Create Single Blocks=====================")
         print(blocks)
 
         for i in blocks:
             print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
-            print("Block ", i, "  X Location: :", getBlockByID(i).getX_Location())
-            print("Block ", i, "  Y Location: :", getBlockByID(i).getY_Location())
-            print("Block ", i, "  Width: :", getBlockByID(i).get_Width())
-            print("Block ", i, "  Height: :", getBlockByID(i).get_Height())
-            print("Block ", i, "  image path: :", getBlockByID(i).getImagePath())
+            print("Block ", i, " X Location: :", getBlockByID(i).getX_Location())
+            print("Block ", i, " Y Location: :", getBlockByID(i).getY_Location())
+            print("Block ", i, " Width: :", getBlockByID(i).get_Width())
+            print("Block ", i, " Height: :", getBlockByID(i).get_Height())
+            print("Block ", i, " image path: :", getBlockByID(i).getImagePath())
             print("========================================================================")
 
 
@@ -260,13 +306,16 @@ if __name__ == "__main__":
 
     execute_Box_Detection("IMG_1536.JPG")
 
-
     print("Done")
     end = time.time()
-    print("Seconds: ", end-start)
+    print("Seconds: ", end - start)
 
 # To-do
 # [Done]  Reformat and resize the image to get consistent result and image crop
 # [Done]  Crop image with the x, y, w, h adjust.
 # [Done]  Save the crop of the source file instead of the bolded one
 # [In Progress] Image enhancer on the original Image
+# [In Progress] Uses child relationship and hierarchy to know the objects within each block
+#               and eventually add it into single block attribute
+
+
