@@ -8,15 +8,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def mainPage():
-    return render_template('index.html')
+    return render_template('LandingPage.html')
 
-@app.route('/processingpage')
+@app.route('/apppage')
 def processingPage():
-    return render_template('processingPage.html')
-
-@app.route('/resultspage')
-def resultsPage():
-    return render_template('resultsPage.html')
+    return render_template('AppPage.html')
 
 @app.route('/uploadpage')
 def uploadPage():
@@ -28,7 +24,6 @@ def uploadPage():
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
 UPLOAD_FOLDER = 'uploads/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
