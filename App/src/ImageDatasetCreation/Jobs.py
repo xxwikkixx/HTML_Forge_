@@ -104,7 +104,44 @@ def structCenterImageBox():
 
         image_copy.save("Output/IMG_Top_Text_Bottom/" + str(i) + ".png")
 
+def plainImageGallary():
+    session = [dirFiles("OuterBox"), dirFiles("Image")]
+    que_List = list(itertools.product(*session))
+    # print(que_List)
+
+    for i in range(0, 200):
+        print(i)
+        rand = random.randint(1, len(que_List))
+
+        try:
+            OuterBox = Image.open(que_List[rand][0])
+            IMG = Image.open(que_List[rand][1])
+        except IOError:
+            print("Error")
+
+        # Initial the Outer Box
+        temp = ImageCons(OuterBox.size)
+        temp.setBase(OuterBox.size[0], OuterBox.size[1])
+        image_copy = OuterBox.copy()
+
+        # Process IMG
+        temp.setTarget(IMG.size[0], IMG.size[1])
+        IMG = checkAllRescale(IMG, temp)
+        image_copy.paste(IMG, findCenterXY(temp.TOP_LEFT, temp))
+        image_copy.paste(IMG, findCenterXY(temp.LEFT, temp))
+        image_copy.paste(IMG, findCenterXY(temp.BOTTOM_LEFT, temp))
+        image_copy.paste(IMG, findCenterXY(temp.CENTER_TOP, temp))
+        image_copy.paste(IMG, findCenterXY(temp.CENTER, temp))
+        image_copy.paste(IMG, findCenterXY(temp.CENTER_BOTTOM, temp))
+        image_copy.paste(IMG, findCenterXY(temp.TOP_RIGHT, temp))
+        image_copy.paste(IMG, findCenterXY(temp.RIGHT, temp))
+        image_copy.paste(IMG, findCenterXY(temp.BOTTOM_RIGHT, temp))
 
 
+
+
+        image_copy.save("Output/Plain_Image_Gallary/" + str(i) + ".png")
+
+plainImageGallary()
 # structCenterImageBox()
 # structLeftImageBox()
