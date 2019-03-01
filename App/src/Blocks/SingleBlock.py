@@ -1,4 +1,4 @@
-class SingleBlock():
+class SingleBlock:
     def __init__(self):
         self.blockID = 0
         self.blockType = 0
