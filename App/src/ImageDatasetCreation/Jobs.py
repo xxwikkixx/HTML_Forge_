@@ -264,10 +264,223 @@ def imageFlip():
 
 # List
 # Header
+# Image Flip with preview
+def header():
+    session = [dirFiles("AllBoarders"), dirFiles("Image"), dirFiles("ClickableImage"), dirFiles("MenuDropDown"),
+               dirFiles("SmallImage")]
+    que_List = list(itertools.product(*session))
+    # print(que_List)
+
+    for i in range(0, 200):
+        print(i)
+        rand = random.randint(1, len(que_List))
+
+        try:
+            BannerBorder = Image.open(que_List[rand][0])
+            IMG = Image.open(que_List[rand][1])
+
+            ClickableImage = Image.open(que_List[rand][2])
+            # ClickableImage.thumbnail((200, 200))
+
+            MenuDropDown = Image.open(que_List[rand][3])
+            MenuDropDown.thumbnail((100, 100))
+
+            SmallImage = Image.open(que_List[rand][4])
+            SmallImage.thumbnail((400, 400))
+
+        except IOError:
+            print("Error")
+
+        # Initial the Outer Box
+        temp = ImageCons(BannerBorder.size)
+        temp.setBase(BannerBorder.size[0], BannerBorder.size[1])
+        BannerLayer = BannerBorder.copy()
+
+        # Process IMG
+        temp.setTarget(IMG.size[0], IMG.size[1])
+        # IMG = scaleByRatio(IMG, temp, 0.6)
+        IMG = checkAllRescale(IMG, temp, 8)
+        BannerLayer.paste(IMG, findCenterXY(temp.LEFT, temp))
+
+
+        temp.setTarget(ClickableImage.size[0], ClickableImage.size[1])
+        ClickableImage = checkAllRescale(ClickableImage, temp)
+        # GallaryBottom = scaleByRatio(ClickableImage, temp, 1.3)
+        # BannerLayer.paste(ClickableImage, findCenterXY(temp.RIGHT, temp))
+        # BannerLayer.paste(ClickableImage, findCenterXY(temp.CENTER, temp))
+
+        temp.setTarget(MenuDropDown.size[0], MenuDropDown.size[1])
+        # MenuDropDown = checkAllRescale(MenuDropDown, temp)
+        # GallaryBottom = scaleByRatio(MenuDropDown, temp, 1.3)
+        BannerLayer.paste(MenuDropDown, findCenterXY(temp.RIGHT, temp))
+
+        temp.setTarget(SmallImage.size[0], SmallImage.size[1])
+        GallaryBottom = checkAllRescale(SmallImage, temp)
+        # GallaryBottom = scaleByRatio(SmallImage, temp, 1.4)
+        # BannerLayer.paste(SmallImage, findCenterXY(temp.CENTER, temp))
+
+        BannerLayer.save("Output/Header/" + str(i) + ".png")
+
+        # BannerLayer.close()
+        # IMG.close()
+        # ClickableImage.close()
+        # MenuDropDown.close()
+        # SmallImage.close()
+
+
+
+
+
 # Footer
+# List
+# Header
+# Image Flip with preview
+def Footer():
+    session = [dirFiles("AllBoarders"), dirFiles("Image"), dirFiles("Foot Menu"), dirFiles("CC"),
+               dirFiles("FootForm"), dirFiles("Social Media")]
+    que_List = list(itertools.product(*session))
+    # print(que_List)
+    for i in range(0, 50):
+        print(i)
+        rand = random.randint(1, len(que_List))
+        try:
+            BannerBorder = Image.open(que_List[rand][0])
+            IMG = Image.open(que_List[rand][1])
+
+            FoorMenu = Image.open(que_List[rand][2])
+            # FoorMenu.thumbnail((200, 200))
+
+            CC = Image.open(que_List[rand][3])
+            CC.thumbnail((200, 200))
+
+            FootForm = Image.open(que_List[rand][4])
+            FootForm.thumbnail((400, 400))
+
+            Social = Image.open(que_List[rand][5])
+            Social.thumbnail((500, 700))
+
+        except IOError:
+            print("Error")
+
+        # Initial the Outer Box
+        temp = ImageCons(BannerBorder.size)
+        temp.setBase(BannerBorder.size[0], BannerBorder.size[1])
+        BannerLayer = BannerBorder.copy()
+
+        # Process IMG
+        temp.setTarget(IMG.size[0], IMG.size[1])
+        # IMG = scaleByRatio(IMG, temp, 0.6)
+        IMG = checkAllRescale(IMG, temp, 8)
+        BannerLayer.paste(IMG, findCenterXY(temp.CENTER, temp))
+
+        # Social Media
+        temp.setTarget(Social.size[0], Social.size[1])
+        # IMG = scaleByRatio(Social, temp, 0.6)
+        # Social = checkAllRescale(Social, temp)
+        BannerLayer.paste(Social, findCenterXY(temp.RIGHT, temp))
+
+        # FoorMenu
+        temp.setTarget(FoorMenu.size[0], FoorMenu.size[1])
+        # FoorMenu = checkAllRescale(FoorMenu, temp)
+        # FoorMenu = scaleByRatio(FoorMenu, temp, 1.3)
+        # BannerLayer.paste(FoorMenu, findCenterXY(temp.RIGHT, temp))
+        BannerLayer.paste(FoorMenu, findCenterXY(temp.LEFT, temp))
+        # BannerLayer.paste(FoorMenu, findCenterXY(temp.CENTER, temp))
+        # BannerLayer.paste(FoorMenu, findCenterXY(temp.RIGHT, temp))
+
+
+        # CC
+        temp.setTarget(CC.size[0], CC.size[1])
+        # CC = checkAllRescale(CC, temp)
+        # CC = scaleByRatio(CC, temp, 1.3)
+        BannerLayer.paste(CC, findCenterXY(temp.BOTTOM_LEFT, temp))
+
+
+        # FootForm
+        temp.setTarget(FootForm.size[0], FootForm.size[1])
+        FootForm = checkAllRescale(FootForm, temp,2)
+        # FootForm = scaleByRatio(FootForm, temp, 1.4)
+        # BannerLayer.paste(SmallImage, findCenterXY(temp.CENTER, temp))
+
+        BannerLayer.save("Output/Footer/" + str(i) + ".png")
+
+
 # Text
 
-imageFlip()
+def Text():
+    session = [dirFiles("AllBoarders"), dirFiles("Image"), dirFiles("Foot Menu"), dirFiles("CC"),
+               dirFiles("FootForm"), dirFiles("Social Media")]
+    que_List = list(itertools.product(*session))
+    # print(que_List)
+    for i in range(0, 50):
+        print(i)
+        rand = random.randint(1, len(que_List))
+        try:
+            BannerBorder = Image.open(que_List[rand][0])
+            IMG = Image.open(que_List[rand][1])
+
+            FoorMenu = Image.open(que_List[rand][2])
+            # FoorMenu.thumbnail((200, 200))
+
+            CC = Image.open(que_List[rand][3])
+            CC.thumbnail((200, 200))
+
+            FootForm = Image.open(que_List[rand][4])
+            FootForm.thumbnail((400, 400))
+
+            Social = Image.open(que_List[rand][5])
+            Social.thumbnail((500, 700))
+
+        except IOError:
+            print("Error")
+
+        # Initial the Outer Box
+        temp = ImageCons(BannerBorder.size)
+        temp.setBase(BannerBorder.size[0], BannerBorder.size[1])
+        BannerLayer = BannerBorder.copy()
+
+        # Process IMG
+        temp.setTarget(IMG.size[0], IMG.size[1])
+        # IMG = scaleByRatio(IMG, temp, 0.6)
+        IMG = checkAllRescale(IMG, temp, 8)
+        BannerLayer.paste(IMG, findCenterXY(temp.CENTER, temp))
+
+        # Social Media
+        temp.setTarget(Social.size[0], Social.size[1])
+        # IMG = scaleByRatio(Social, temp, 0.6)
+        # Social = checkAllRescale(Social, temp)
+        BannerLayer.paste(Social, findCenterXY(temp.RIGHT, temp))
+
+        # FoorMenu
+        temp.setTarget(FoorMenu.size[0], FoorMenu.size[1])
+        # FoorMenu = checkAllRescale(FoorMenu, temp)
+        # FoorMenu = scaleByRatio(FoorMenu, temp, 1.3)
+        # BannerLayer.paste(FoorMenu, findCenterXY(temp.RIGHT, temp))
+        BannerLayer.paste(FoorMenu, findCenterXY(temp.LEFT, temp))
+        # BannerLayer.paste(FoorMenu, findCenterXY(temp.CENTER, temp))
+        # BannerLayer.paste(FoorMenu, findCenterXY(temp.RIGHT, temp))
+
+
+        # CC
+        temp.setTarget(CC.size[0], CC.size[1])
+        # CC = checkAllRescale(CC, temp)
+        # CC = scaleByRatio(CC, temp, 1.3)
+        BannerLayer.paste(CC, findCenterXY(temp.BOTTOM_LEFT, temp))
+
+
+        # FootForm
+        temp.setTarget(FootForm.size[0], FootForm.size[1])
+        FootForm = checkAllRescale(FootForm, temp,2)
+        # FootForm = scaleByRatio(FootForm, temp, 1.4)
+        # BannerLayer.paste(SmallImage, findCenterXY(temp.CENTER, temp))
+
+        BannerLayer.save("Output/Footer/" + str(i) + ".png")
+
+
+
+# Footer()
+# header()
+# imageFlip()
 # plainImageGallary()
 # structRightImageBox()
 # structLeftImageBox()

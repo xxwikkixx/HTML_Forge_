@@ -36,15 +36,17 @@ def findCenterXY(snapCorner, base):
     return int(snapCorner[0] - base.getT_W() / 2), int(snapCorner[1] - base.getT_H() / 2)
 
 
-def checkAllRescale(img, base):
-    width_thres = int(base.getB_W() / 6)
-    height_thres = int(base.getB_H() / 6)
+def checkAllRescale(img, base , scaleby=6):
+    width_thres = int(base.getB_W() / scaleby)
+    height_thres = int(base.getB_H() / scaleby)
     if img.size[0] > width_thres or img.size[1] > height_thres:
         wpercent = (width_thres / float(img.size[0]))
         hsize = int((float(img.size[1]) * float(wpercent)))
         img = img.resize((width_thres, hsize), Image.ANTIALIAS)
         base.setTarget(width_thres, hsize)
         return img
+
+
 
 
 def checkHeightRescale(img, base):
