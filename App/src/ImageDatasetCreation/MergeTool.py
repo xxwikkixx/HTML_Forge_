@@ -36,7 +36,7 @@ def findCenterXY(snapCorner, base):
     return int(snapCorner[0] - base.getT_W() / 2), int(snapCorner[1] - base.getT_H() / 2)
 
 
-def checkAllRescale(img, base , scaleby=6):
+def checkAllRescale(img, base, scaleby=6):
     width_thres = int(base.getB_W() / scaleby)
     height_thres = int(base.getB_H() / scaleby)
     if img.size[0] > width_thres or img.size[1] > height_thres:
@@ -47,11 +47,9 @@ def checkAllRescale(img, base , scaleby=6):
         return img
 
 
-
-
-def checkHeightRescale(img, base):
-    width_thres = int(base.getB_W() / 5)
-    height_thres = int(base.getB_H() / 5)
+def checkHeightRescale(img, base, scaleby = 4):
+    width_thres = int(base.getB_W() / scaleby)
+    height_thres = int(base.getB_H() / scaleby)
     if img.size[1] > height_thres:
         wpercent = (width_thres / float(img.size[0]))
         hsize = int((float(img.size[1]) * float(wpercent)))
@@ -72,8 +70,8 @@ def checkWidthRescale(img, base):
 
 
 def scaleByRatio(img, base, ratio):
-    img = img.resize((int(int(img.size[0]) * ratio), int(int(img.size[1]) * ratio)), Image.ANTIALIAS)
-    base.setTarget(int(int(img.size[0]) * ratio), int(int(img.size[1]) * ratio))
+    w_ratio = int(int(img.size[0]) * ratio)
+    h_ratio = int(int(img.size[1]) * ratio)
+    img = img.resize((w_ratio, h_ratio), Image.ANTIALIAS)
+    base.setTarget(w_ratio, h_ratio)
     return img
-
-

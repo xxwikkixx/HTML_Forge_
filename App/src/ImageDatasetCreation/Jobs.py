@@ -2,7 +2,7 @@ import itertools
 import random
 from PIL import Image
 
-from MergeTool import dirFiles, checkAllRescale, findCenterXY, scaleByRatio
+from MergeTool import dirFiles, checkAllRescale, findCenterXY, scaleByRatio, checkHeightRescale
 from ImageCons import ImageCons
 
 
@@ -302,7 +302,6 @@ def header():
         IMG = checkAllRescale(IMG, temp, 8)
         BannerLayer.paste(IMG, findCenterXY(temp.LEFT, temp))
 
-
         temp.setTarget(ClickableImage.size[0], ClickableImage.size[1])
         ClickableImage = checkAllRescale(ClickableImage, temp)
         # GallaryBottom = scaleByRatio(ClickableImage, temp, 1.3)
@@ -326,9 +325,6 @@ def header():
         # ClickableImage.close()
         # MenuDropDown.close()
         # SmallImage.close()
-
-
-
 
 
 # Footer
@@ -388,17 +384,15 @@ def Footer():
         # BannerLayer.paste(FoorMenu, findCenterXY(temp.CENTER, temp))
         # BannerLayer.paste(FoorMenu, findCenterXY(temp.RIGHT, temp))
 
-
         # CC
         temp.setTarget(CC.size[0], CC.size[1])
         # CC = checkAllRescale(CC, temp)
         # CC = scaleByRatio(CC, temp, 1.3)
         BannerLayer.paste(CC, findCenterXY(temp.BOTTOM_LEFT, temp))
 
-
         # FootForm
         temp.setTarget(FootForm.size[0], FootForm.size[1])
-        FootForm = checkAllRescale(FootForm, temp,2)
+        FootForm = checkAllRescale(FootForm, temp, 2)
         # FootForm = scaleByRatio(FootForm, temp, 1.4)
         # BannerLayer.paste(SmallImage, findCenterXY(temp.CENTER, temp))
 
@@ -407,30 +401,18 @@ def Footer():
 
 # Text
 
-def Text():
-    session = [dirFiles("AllBoarders"), dirFiles("Image"), dirFiles("Foot Menu"), dirFiles("CC"),
-               dirFiles("FootForm"), dirFiles("Social Media")]
+def Title():
+    session = [dirFiles("AllBoarders"), dirFiles("Title")]
     que_List = list(itertools.product(*session))
     # print(que_List)
-    for i in range(0, 50):
+    for i in range(0, 300):
+    # for i in range(0, len(que_List)):
         print(i)
         rand = random.randint(1, len(que_List))
         try:
             BannerBorder = Image.open(que_List[rand][0])
-            IMG = Image.open(que_List[rand][1])
-
-            FoorMenu = Image.open(que_List[rand][2])
-            # FoorMenu.thumbnail((200, 200))
-
-            CC = Image.open(que_List[rand][3])
-            CC.thumbnail((200, 200))
-
-            FootForm = Image.open(que_List[rand][4])
-            FootForm.thumbnail((400, 400))
-
-            Social = Image.open(que_List[rand][5])
-            Social.thumbnail((500, 700))
-
+            TEXT = Image.open(que_List[rand][1])
+            TEXT.thumbnail((600, 600))
         except IOError:
             print("Error")
 
@@ -439,45 +421,62 @@ def Text():
         temp.setBase(BannerBorder.size[0], BannerBorder.size[1])
         BannerLayer = BannerBorder.copy()
 
-        # Process IMG
-        temp.setTarget(IMG.size[0], IMG.size[1])
-        # IMG = scaleByRatio(IMG, temp, 0.6)
-        IMG = checkAllRescale(IMG, temp, 8)
-        BannerLayer.paste(IMG, findCenterXY(temp.CENTER, temp))
-
-        # Social Media
-        temp.setTarget(Social.size[0], Social.size[1])
-        # IMG = scaleByRatio(Social, temp, 0.6)
-        # Social = checkAllRescale(Social, temp)
-        BannerLayer.paste(Social, findCenterXY(temp.RIGHT, temp))
-
-        # FoorMenu
-        temp.setTarget(FoorMenu.size[0], FoorMenu.size[1])
-        # FoorMenu = checkAllRescale(FoorMenu, temp)
-        # FoorMenu = scaleByRatio(FoorMenu, temp, 1.3)
-        # BannerLayer.paste(FoorMenu, findCenterXY(temp.RIGHT, temp))
-        BannerLayer.paste(FoorMenu, findCenterXY(temp.LEFT, temp))
-        # BannerLayer.paste(FoorMenu, findCenterXY(temp.CENTER, temp))
-        # BannerLayer.paste(FoorMenu, findCenterXY(temp.RIGHT, temp))
-
-
-        # CC
-        temp.setTarget(CC.size[0], CC.size[1])
-        # CC = checkAllRescale(CC, temp)
-        # CC = scaleByRatio(CC, temp, 1.3)
-        BannerLayer.paste(CC, findCenterXY(temp.BOTTOM_LEFT, temp))
-
-
-        # FootForm
-        temp.setTarget(FootForm.size[0], FootForm.size[1])
-        FootForm = checkAllRescale(FootForm, temp,2)
-        # FootForm = scaleByRatio(FootForm, temp, 1.4)
-        # BannerLayer.paste(SmallImage, findCenterXY(temp.CENTER, temp))
-
-        BannerLayer.save("Output/Footer/" + str(i) + ".png")
+        # Process TEXT
+        temp.setTarget(TEXT.size[0], TEXT.size[1])
+        # TEXT = scaleByRatio(TEXT, temp)
+        # TEXT = checkHeightRescale(TEXT, temp, )
+        BannerLayer.paste(TEXT, findCenterXY(temp.RIGHT, temp))
+        BannerLayer.save("Output/Title/" + str(i) + ".png")
 
 
 
+# Text
+
+def Paragraph():
+    session = [dirFiles("AllBoarders"), dirFiles("Title"), dirFiles("Paragraph")]
+    que_List = list(itertools.product(*session))
+    # print(que_List)
+    for i in range(0, 300):
+    # for i in range(0, len(que_List)):
+        print(i)
+        rand = random.randint(1, len(que_List))
+        try:
+            BannerBorder = Image.open(que_List[rand][0])
+            TEXT = Image.open(que_List[rand][2])
+            TEXT.thumbnail((600, 600))
+            TITLE = Image.open(que_List[rand][1])
+            TITLE.thumbnail((600, 600))
+        except IOError:
+            print("Error")
+
+        # Initial the Outer Box
+        temp = ImageCons(BannerBorder.size)
+        temp.setBase(BannerBorder.size[0], BannerBorder.size[1])
+        BannerLayer = BannerBorder.copy()
+
+        # Process TEXT
+        temp.setTarget(TEXT.size[0], TEXT.size[1])
+        # TEXT = scaleByRatio(TEXT, temp)
+        TEXT = checkAllRescale(TEXT, temp)
+        TEXT = scaleByRatio(TEXT, temp, 1.8)
+        # TEXT = checkHeightRescale(TEXT, temp, )
+        BannerLayer.paste(TEXT, findCenterXY(temp.CENTER, temp))
+        BannerLayer.paste(TEXT, findCenterXY(temp.LEFT, temp))
+        BannerLayer.paste(TEXT, findCenterXY(temp.RIGHT, temp))
+
+        # Process Title
+        temp.setTarget(TITLE.size[0], TITLE.size[1])
+        # TEXT = scaleByRatio(TITLE, temp)
+
+        # TITLE = checkAllRescale(TITLE, temp)
+        # TEXT = checkHeightRescale(TITLE, temp, )
+        BannerLayer.paste(TITLE, findCenterXY(temp.TOP_LEFT, temp))
+
+
+        BannerLayer.save("Output/Paragraph/" + str(i) + ".png")
+
+# Paragraph()
+# Title()
 # Footer()
 # header()
 # imageFlip()
