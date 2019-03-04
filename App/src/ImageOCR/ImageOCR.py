@@ -6,6 +6,7 @@ from google.cloud.vision import types
 from PIL import Image, ImageDraw
 from enum import Enum
 from src.GoogleCloudServices import CloudServiceConfig as config
+from multiprocessing import Process
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= config.conf['service_API_Path']
 
@@ -84,13 +85,28 @@ def render_doc_text(filein, fileout):
 
 
 if __name__ == '__main__':
-  filein = 'IMG_1521.JPG'
-  # for i in range(0,10):
-  render_doc_text(filein, 'test.jpeg')
+    filein1 = "./image/IMG_1450_1.JPG"
+    filein2 = "./image/IMG_1521.JPG"
+    # for i in range(0,10):
+    # render_doc_text(filein1, 'test.jpeg')
+    # render_doc_text(filein2, 'test2.jpeg')
      # Average response time 7 sec
      # print("======================Request",i,"Done")
 
+    p1 = Process(target=render_doc_text(filein1, 'test.jpeg')).start()
+    p2 = Process(target=render_doc_text(filein2, 'test2.jpeg')).start()
 
+
+
+#tripples = [('a', 'b', 'c'), ('d', 'e', 'f'), ('g', 'h', 'i'), ('j', 'k', 'm')]
+# for tripple in tripples:
+#     print(myfunction(*tripple))
+#
+# Scan the directory for the images
+#   create a list of them
+# The amount of files scanned is the number of files being output
+# combine the two lists together into tuples
+#
 
 
 
