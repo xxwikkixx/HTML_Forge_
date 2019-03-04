@@ -1,6 +1,6 @@
 import os
 import io
-import json
+import time
 from google.cloud import vision
 from google.cloud.vision import types
 from PIL import Image, ImageDraw
@@ -42,7 +42,7 @@ def detectPropsUri(uri, feature):
     response = client.document_text_detection(image=image)
     document = response.full_text_annotation
 
-    print(document)
+    # print(document)
 
     for page in document.pages:
         for block in page.blocks:
@@ -113,18 +113,18 @@ if __name__ == '__main__':
     funcArgs = tuple(zip(filesInDir, numOfFiles))
     print(funcArgs)
 
+    start = time.time()
     for args in funcArgs:
         print(Process(target=render_doc_text(*args)).start())
+
+    end = time.time()
+    print(end-start)
 
     # for i in range(0,10):
     # render_doc_text(filein1, 'test.jpeg')
     # render_doc_text(filein2, 'test2.jpeg')
      # Average response time 7 sec
      # print("======================Request",i,"Done")
-
-
-
-
 
 
 

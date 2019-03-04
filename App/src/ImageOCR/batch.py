@@ -1,4 +1,5 @@
 import os
+import time
 from google.cloud import vision
 from google.cloud.vision import enums
 from google.cloud.vision import types
@@ -39,7 +40,7 @@ def detect_images(client, image_paths):
                 'content': content,
             },
             'features': [{
-                'type': enums.Feature.Type.LABEL_DETECTION,
+                'type': enums.Feature.Type.DOCUMENT_TEXT_DETECTION,
             }],
         })
     response = client.batch_annotate_images(requests)
@@ -49,16 +50,20 @@ def detect_images(client, image_paths):
 if __name__ == '__main__':
     client = vision.ImageAnnotatorClient()
 
-    files = []
-    dirListing = os.listdir("./image")
-    for item in dirListing:
-        if ".JPG" in item:
-            files.append(item)
-    print(files)
+    filesInDir = []
+    for root, dirs, files in os.walk(os.path.abspath("./image")):
+        for item in files:
+            if ".JPG" in item:
+                print(os.path.join(root, item))
+                filesInDir.append(os.path.join(root, item))
 
-    for path, labels, web in detect_images(client, files):
+
+    start = time.time()
+    for path, labels in detect_images(client, filesInDir):
         print(path)
         print('Labels:')
         print(labels)
-        print('Web')
-        print(web)
+
+    end = time.time()
+
+    print(end-start)
