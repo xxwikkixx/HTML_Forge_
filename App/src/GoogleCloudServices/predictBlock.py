@@ -14,6 +14,8 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = config.conf['service_API_Path']
 project_id = config.conf['project_id']
 compute_region = config.conf['compute_region']
 model_id = config.conf['model_id']
+
+
 # file_path = "/Users/edwardlai/Downloads/IMG_1532.JPG"
 
 
@@ -140,16 +142,12 @@ def predict(project_id, compute_region, model_id, file_path):
     return prediction
 
 
-
 # detect_document("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/User Upload/Sample_1.jpg")
 
 def imageOnReady():
-
     print("Ready for AI")
     os.chdir('..')
-    file_path_HEAD= "ImageProcessing/"
-
-
+    file_path_HEAD = "ImageProcessing/"
 
     for i in blocks:
         print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
@@ -160,7 +158,6 @@ def imageOnReady():
 
         ImgPath = file_path_HEAD + getBlockByID(i).getImagePath()
         getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
-
 
         print("Block ", i, " Prediction: :", getBlockByID(i).getPrediction())
         print("========================================================================")
