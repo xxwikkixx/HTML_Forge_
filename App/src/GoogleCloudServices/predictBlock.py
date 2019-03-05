@@ -17,6 +17,37 @@ model_id = config.conf['model_id']
 # file_path = "/Users/edwardlai/Downloads/IMG_1532.JPG"
 
 
+def detect_document(path):
+    """Detects document features in an image."""
+    from google.cloud import vision
+    client = vision.ImageAnnotatorClient()
+
+    with open(path, 'rb') as image_file:
+        content = image_file.read()
+
+    image = vision.types.Image(content=content)
+
+    response = client.document_text_detection(image=image)
+
+    for page in response.full_text_annotation.pages:
+        for block in page.blocks:
+            print('\nBlock confidence: {}\n'.format(block.confidence))
+
+            for paragraph in block.paragraphs:
+                print('Paragraph confidence: {}'.format(
+                    paragraph.confidence))
+
+                for word in paragraph.words:
+                    word_text = ''.join([
+                        symbol.text for symbol in word.symbols
+                    ])
+                    print('Word text: {} (confidence: {})'.format(
+                        word_text, word.confidence))
+
+                    for symbol in word.symbols:
+                        print('\tSymbol: {} (confidence: {})'.format(
+                            symbol.text, symbol.confidence))
+
 
 def detect_crop_hints(path):
     """Detects crop hints in an image."""
@@ -109,6 +140,9 @@ def predict(project_id, compute_region, model_id, file_path):
     return prediction
 
 
+
+# detect_document("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/User Upload/Sample_1.jpg")
+
 def imageOnReady():
 
     print("Ready for AI")
@@ -126,6 +160,7 @@ def imageOnReady():
 
         ImgPath = file_path_HEAD + getBlockByID(i).getImagePath()
         getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
+
 
         print("Block ", i, " Prediction: :", getBlockByID(i).getPrediction())
         print("========================================================================")
