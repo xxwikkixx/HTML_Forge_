@@ -1,4 +1,5 @@
-from src.Blocks.Blocks import addBlock, getBlockByID, blocks
+from Blocks.Blocks import blocks, addBlock, getBlockByID
+
 from imutils.contours import sort_contours
 import cv2
 import os
@@ -9,18 +10,52 @@ import multiprocessing as mp
 import time
 
 Image_Debug = True
-Console_Logger = False
+Console_Logger = True
 
 # This is just for the py plotting results (debug purposes)
 fig = plt.figure(figsize=(8, 8))
 columns = 3
 rows = 3
 
-ITERATIONS = 1
-DUPLICATE_TARESHOLD = 80
-MIN_LINE_GAP = 150
+ITERATIONS = 0
+TARESHOLD = 100
+MIN_LINE_LENG = 100
 MAX_LINE_GAP = 30
 exported_contours = []
+
+
+def cornerFit(imgPath):
+    # read the image
+    img = cv2.imread(imgPath)
+    # convert image to gray scale image
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # detect corners with the goodFeaturesToTrack function.
+    corners = cv2.goodFeaturesToTrack(gray, 27, 0.01, 10)
+    corners = np.int0(corners)
+
+    # we iterate through each corner,
+    # making a circle at each point that we think is a corner.
+    print("corners:", corners)
+    x_arr = []
+    y_arr = []
+    for i in corners:
+        x, y = i.ravel()
+        x_arr.append(x)
+        y_arr.append(y)
+
+        # cv2.circle(img, (x, y), 20, 255, -1)
+    # print(x_arr)
+    # print(y_arr)
+
+    X_MIN = min(x_arr)
+    X_MAX = max(x_arr)
+    Y_MIN = min(y_arr)
+    Y_MAX = max(y_arr)
+
+    crop_img = img[Y_MIN - 200: Y_MAX + 200, X_MIN - 200: X_MAX + 200]
+
+    # plt.imshow(crop_img), plt.show()
+    cv2.imwrite("User Upload/" + "precrop.jpg", crop_img)
 
 
 # Not being used
@@ -59,7 +94,7 @@ def line_Bolding(imgpath):
     # threshold: should not be adjusted co-relate to the Canny Function
     # minLineLength: Threshold how the shortest line
     # maxLineGap: Gap length that are allowed  between line to line inorder to consider it as a line
-    lines = cv2.HoughLinesP(edges, rho=1, theta=1 * np.pi / 180, threshold=20, minLineLength=MIN_LINE_GAP,
+    lines = cv2.HoughLinesP(edges, rho=1, theta=1 * np.pi / 180, threshold=TARESHOLD, minLineLength=MIN_LINE_LENG,
                             maxLineGap=MAX_LINE_GAP)
 
     if Console_Logger: print(len(lines))
@@ -69,7 +104,7 @@ def line_Bolding(imgpath):
         if Console_Logger: print(x1, y1, x2, y2)
 
         # Draw the thicker black line on to the image
-        cv2.line(img, (x1, y1), (x2, y2), (0, 0, 0), 8)
+        cv2.line(img, (x1, y1), (x2, y2), (0, 0, 0), 3)
 
     cv2.imwrite('DebugImagesDir/houghlines5.jpg', img)
     cv2.destroyAllWindows()
@@ -123,8 +158,10 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
 
     # Find contours for image, which will detect all the boxes
     contours, hierarchy = cv2.findContours(img_final_bin, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    # contours, hierarchy = cv2.findContours(img_final_bin, cv2.RETR_LIST, cv2.CHAIN_APPRO)
     # Sort all the contours by top to bottom.
     (contours, boundingBoxes) = sort_contours(contours, method="top-to-bottom")
+    # (contours, boundingBoxes) = sort_contours(contours, method="bottom-to-top")
 
     if Console_Logger: print("============================")
     # if Console_Logger: print(hierarchy)
@@ -143,42 +180,32 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
 
         # Returns the location and width,height for every contour
         x, y, w, h = cv2.boundingRect(c)
-        # img = cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
         if Console_Logger: print("the width: ", w)
         if Console_Logger: print("the height: ", h)
         if Console_Logger: print(w, " > the 3*h: ", 3 * h)
         if Console_Logger: print("========================")
         # If the box height is greater then 700 or width is >700, then only save it as a box in "cropped/" folder.
-        if ((w > 700 and h > 30) or (h > 700 and w > 30)) and w != 3000 and h != 2000:
+        if ((w > 700 and h > 30) or (h > 700 and w > 30)) and w != 3000 and h != 2000 and x > 100 and y > 100:
             if Console_Logger: print("image Crop!")
             if Console_Logger: print(x, y, w, h)
             exported_contours.append([x, y, w, h])
         else:
 
+            # # WORK IN PROGRESS!!!!!
+            # # Examine The children in each hierarchy
+            # # Should be able to support the business attribute in each building blocks
+            # # Which will be a useful attribute during the compiling process
+            # for exp in exported_contours:
+            #     # 0:x
+            #     # 1:y
+            #     # 2:w
+            #     # 3:h
+            #     if x > exp[0] and x < exp[0] + exp[2] and y > exp[1] and y < exp[1] + exp[3]:
+            #         print("innerObjectDetected!")
+            #         tempCounter += 1
+            #
 
-
-
-
-
-            # WORK IN PROGRESS!!!!!
-            # Examine The children in each hierarchy
-            # Should be able to support the business attribute in each building blocks
-            # Which will be a useful attribute during the compiling process
-            for exp in exported_contours:
-                # 0:x
-                # 1:y
-                # 2:w
-                # 3:h
-                if x > exp[0] and x < exp[0] + exp[2] and y > exp[1] and y < exp[1] + exp[3]:
-                    print("innerObjectDetected!")
-                    tempCounter += 1
-
-
-
-
-
-
-
+            print(exported_contours)
 
             if Console_Logger: print("log: element too small")
             if Console_Logger: print("===========================")
@@ -190,19 +217,25 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         for j in range(i):
             if Console_Logger: print(exported_contours[i][0])
             # Compare X axis and Y see if it is similar crop
+            DUPLICATE_TARESHOLD = 80
             if abs(exported_contours[i][0] - exported_contours[j][0]) <= DUPLICATE_TARESHOLD and abs(
                     exported_contours[i][1] - exported_contours[j][1]) <= DUPLICATE_TARESHOLD:
                 # Similar item choose bigger frame and save to the list.
+                # temp_1 = abs(sum(exported_contours[i]))
+                # temp_2 = abs(sum(exported_contours[j]))
+                # print(temp_1/ temp_2)
+                # if (temp_1 / temp_2 ) > 0.98 and (temp_1/temp_2) < 1.05:
                 if Console_Logger: print("First Condition")
 
                 # Choose the bigger crop and pop the smaller one
                 if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
                         exported_contours[i][3]):
-                    exported_contours.pop(i)
+                    exported_contours.pop(j)
 
     if Console_Logger: print("============")
     # Cropping image and create single block instances
     if Console_Logger: print(exported_contours)
+
     idx = 0
     for i in range(0, len(exported_contours)):
         idx += 1
@@ -212,22 +245,22 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         h = exported_contours[i][3]
 
         # The crop is right is too tight since it is right on the border, this adjusts with bigger border
-        x -= 200
-        y -= 80
-        w += 100
+        x -= 350
+        y -= 50
+        w += 80
         h += 80
 
         if Console_Logger: print(x, y, w, h)
         # Cropping the original image
         new_img = orginal_image[y:y + h, x:x + w]
 
-        try:
-            cv2.imwrite(cropped_dir_path + str(idx) + '.png', new_img)
-            createSingleBlockInstance(idx, x, y, h, w, cropped_dir_path + str(idx) + '.png')
-        except:
-            exported_contours.pop(i)
-            print("error")
-            continue
+        # try:
+        cv2.imwrite(cropped_dir_path + str(idx) + '.png', new_img)
+        createSingleBlockInstance(idx, x, y, h, w, cropped_dir_path + str(idx) + '.png')
+        # except:
+        #     exported_contours.pop(i)
+        #     print("error")
+        #     continue
 
         # Display cropped image onto the matplot
         if Image_Debug: fig.add_subplot(rows, columns, idx)
@@ -304,7 +337,9 @@ if __name__ == "__main__":
     # pool = mp.Pool()
     # pool.map_async(execute_Box_Detection, ["IMG_1536.JPG"])
 
-    execute_Box_Detection("IMG_1536.JPG")
+    cornerFit("User Upload/Sample_2.jpg")
+    # cornerFit("User Upload/testimg.jpg")
+    execute_Box_Detection("precrop.jpg")
 
     print("Done")
     end = time.time()
@@ -314,8 +349,7 @@ if __name__ == "__main__":
 # [Done]  Reformat and resize the image to get consistent result and image crop
 # [Done]  Crop image with the x, y, w, h adjust.
 # [Done]  Save the crop of the source file instead of the bolded one
+# [Done] Remove similar crops
 # [In Progress] Image enhancer on the original Image
 # [In Progress] Uses child relationship and hierarchy to know the objects within each block
 #               and eventually add it into single block attribute
-
-
