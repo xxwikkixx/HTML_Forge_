@@ -1,11 +1,12 @@
 import os
 import io
-import json
+import time
 from google.cloud import vision
 from google.cloud.vision import types
 from PIL import Image, ImageDraw
 from enum import Enum
 from src.GoogleCloudServices import CloudServiceConfig as config
+from multiprocessing import Process
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= config.conf['service_API_Path']
 
@@ -41,7 +42,7 @@ def detectPropsUri(uri, feature):
     response = client.document_text_detection(image=image)
     document = response.full_text_annotation
 
-    print(document)
+    # print(document)
 
     for page in document.pages:
         for block in page.blocks:
@@ -84,14 +85,46 @@ def render_doc_text(filein, fileout):
 
 
 if __name__ == '__main__':
-  filein = 'IMG_1521.JPG'
-  # for i in range(0,10):
-  render_doc_text(filein, 'test.jpeg')
+
+    # Scan the directory for the images
+    #   create a list of them
+    # The amount of files scanned is the number of files being output
+    # combine the two lists together into tuples
+
+    filesInDir = []
+    numOfFiles = []
+
+    # dirListing = os.listdir("./image")
+    # for item in dirListing:
+    #     if ".JPG" in item:
+    #         filesInDir.append(item)
+
+    for root, dirs, files in os.walk(os.path.abspath("./image")):
+        for item in files:
+            if ".JPG" in item:
+                print(os.path.join(root, item))
+                filesInDir.append(os.path.join(root, item))
+    print(files)
+
+    for index, things in enumerate(filesInDir):
+        numOfFiles.append(str(index) + ".JPG")
+    print(numOfFiles)
+
+    funcArgs = tuple(zip(filesInDir, numOfFiles))
+    print(funcArgs)
+
+    start = time.time()
+    for args in funcArgs:
+        print(Process(target=render_doc_text(*args)).start())
+
+    end = time.time()
+    print(end-start)
+
+    # for i in range(0,10):
+    # render_doc_text(filein1, 'test.jpeg')
+    # render_doc_text(filein2, 'test2.jpeg')
      # Average response time 7 sec
      # print("======================Request",i,"Done")
-
-
-
 
 
 
