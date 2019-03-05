@@ -1,5 +1,7 @@
 from Blocks.Blocks import blocks, addBlock, getBlockByID
 from imutils.contours import sort_contours
+from skimage.filters import threshold_local
+from GoogleCloudServices.predictBlock import imageOnReady
 import cv2
 import os
 import glob
@@ -7,9 +9,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-from GoogleCloudServices.predictBlock import imageOnReady
 
-Image_Debug = False
+Image_Debug = True
 Console_Logger = True
 
 # This is just for the py plotting results (debug purposes)
@@ -36,7 +37,20 @@ def image_Rescale(image_Path):
     return new_path
 
 
+
+def applyGaussian(path):
+    # read the image
+    img = cv2.imread(path)
+    # convert image to gray scale image
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    T = threshold_local(gray, 21, offset=80, method="gaussian")
+    gray = (gray > T).astype("uint8") * 255
+    cv2.imwrite("User Upload/" + "gaussian.jpg", gray)
+
 def cornerFit(imgPath):
+    # applyGaussian(imgPath)
+    # imgPath = "User Upload/gaussian.jpg"
     # read the image
     img = cv2.imread(imgPath)
     # convert image to gray scale image
