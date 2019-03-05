@@ -19,6 +19,16 @@ class SingleBlock:
 
         self.image_path = ""
 
+        self.prediction = []
+        # self.predictionScore = []
+
+    def setPrediction(self, prediction):
+        self.prediction = prediction
+        # self.predictionScore = score
+
+    def getPrediction(self):
+        return self.prediction
+
     def setBlockID(self, assignID: int):
         self.blockID = assignID
 
@@ -75,15 +85,14 @@ class SingleBlock:
     def getY_Location(self):
         return self.y_Location
 
-
     def set_Width(self, wVal: int):
         self.width = wVal
 
     def get_Width(self):
         return self.width
 
-    def set_Height(self, hVal:int):
-        self.height= hVal
+    def set_Height(self, hVal: int):
+        self.height = hVal
 
     def get_Height(self):
         return self.height
@@ -98,6 +107,7 @@ class SingleBlock:
 blocks = {}
 
 IDAssignCount = 1
+
 
 # Function will return individual block as an SingleBlock Object
 def getBlockByID(blockID: int):
@@ -133,6 +143,5 @@ def runExample():
     getBlockByID(2).setSingleBlock_InHTML("This is a Button")
     getBlockByID(2).setSingleBlock_HTMLCode("<button>" + getBlockByID(2).getSingleBlock_InHTML() + "</button>")
     print("block 2 HTML code: ", getBlockByID(2).getSingleBlock_HTMLCode())
-
 
 # runExample()

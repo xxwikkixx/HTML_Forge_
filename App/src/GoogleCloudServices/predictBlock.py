@@ -11,7 +11,6 @@ from multiprocessing import Pool
 from Blocks.Blocks import blocks, getBlockByID
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = config.conf['service_API_Path']
-
 project_id = config.conf['project_id']
 compute_region = config.conf['compute_region']
 model_id = config.conf['model_id']
@@ -68,7 +67,7 @@ def localize_objects(path):
 
 def predict(project_id, compute_region, model_id, file_path):
     multilabel = True  # for multilabel or False for multiclass
-    score_threshold = "0.5"
+    score_threshold = "0"
     client = vision.ImageAnnotatorClient()
     automl_client = automl.AutoMlClient()
 
@@ -97,27 +96,36 @@ def predict(project_id, compute_region, model_id, file_path):
         image=image).localized_object_annotations
 
     response = prediction_client.predict(model_full_id, payload, params)
-    print("Prediction results:")
+    # print("Prediction results:")
+
+    prediction = []
+
     for result in response.payload:
-        print("Predicted class name: {}".format(result.display_name))
-        print("Predicted class score: {}".format(result.classification.score))
+        # print("Predicted class name: {}".format(result.display_name))
+        # print("Predicted class score: {}".format(result.classification.score))
+        temp = [result.display_name, result.classification.score]
+        prediction.append(temp)
 
-
-
+    return prediction
 
 
 def imageOnReady():
 
     print("Ready for AI")
     os.chdir('..')
-    file_path = "ImageProcessing/cropped/2.png"
+    file_path_HEAD= "ImageProcessing/"
 
-    predict(project_id, compute_region, model_id, file_path)
+
+
     for i in blocks:
         print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
         print("Block ", i, " X Location: :", getBlockByID(i).getX_Location())
         print("Block ", i, " Y Location: :", getBlockByID(i).getY_Location())
         print("Block ", i, " Width: :", getBlockByID(i).get_Width())
         print("Block ", i, " Height: :", getBlockByID(i).get_Height())
-        print("Block ", i, " image path: :", getBlockByID(i).getImagePath())
+
+        ImgPath = file_path_HEAD + getBlockByID(i).getImagePath()
+        getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
+
+        print("Block ", i, " Prediction: :", getBlockByID(i).getPrediction())
         print("========================================================================")
