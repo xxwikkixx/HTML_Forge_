@@ -1,13 +1,13 @@
 from Blocks.Blocks import blocks, addBlock, getBlockByID
-
 from imutils.contours import sort_contours
 import cv2
 import os
 import glob
 import numpy as np
 import matplotlib.pyplot as plt
-import multiprocessing as mp
 import time
+
+from GoogleCloudServices.predictBlock import imageOnReady
 
 Image_Debug = True
 Console_Logger = True
@@ -35,7 +35,7 @@ def cornerFit(imgPath):
 
     # we iterate through each corner,
     # making a circle at each point that we think is a corner.
-    print("corners:", corners)
+    # print("corners:", corners)
     x_arr = []
     y_arr = []
     for i in corners:
@@ -215,22 +215,23 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     # Iterate through final candidates and remove repetitive blocks
     for i in range(len(exported_contours) - 1, 0, -1):
         for j in range(i):
-            if Console_Logger: print(exported_contours[i][0])
+            if Console_Logger:
+                print(exported_contours[i][0])
             # Compare X axis and Y see if it is similar crop
             DUPLICATE_TARESHOLD = 80
-            if abs(exported_contours[i][0] - exported_contours[j][0]) <= DUPLICATE_TARESHOLD and abs(
-                    exported_contours[i][1] - exported_contours[j][1]) <= DUPLICATE_TARESHOLD:
-                # Similar item choose bigger frame and save to the list.
-                # temp_1 = abs(sum(exported_contours[i]))
-                # temp_2 = abs(sum(exported_contours[j]))
-                # print(temp_1/ temp_2)
-                # if (temp_1 / temp_2 ) > 0.98 and (temp_1/temp_2) < 1.05:
+            # if abs(exported_contours[i][0] - exported_contours[j][0]) <= DUPLICATE_TARESHOLD and abs(
+            #         exported_contours[i][1] - exported_contours[j][1]) <= DUPLICATE_TARESHOLD:
+            # Similar item choose bigger frame and save to the list.
+            temp_1 = abs(sum(exported_contours[i]))
+            temp_2 = abs(sum(exported_contours[j]))
+            # print(temp_1/ temp_2)
+            if (temp_1 / temp_2) > 0.98 and (temp_1 / temp_2) < 1.05:
                 if Console_Logger: print("First Condition")
 
                 # Choose the bigger crop and pop the smaller one
-                if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
-                        exported_contours[i][3]):
-                    exported_contours.pop(j)
+                # if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
+                #         exported_contours[i][3]):
+                exported_contours.pop(j)
 
     if Console_Logger: print("============")
     # Cropping image and create single block instances
@@ -302,8 +303,6 @@ def execute_Box_Detection(fileName_mustBeInUserUpload):
     # file_name = "IMG_1450
     # move_File_To_User_Upload(fileName_mustBeInUserUpload, "'User Upload/userUpload.jpg")
 
-    pool = mp.Pool()
-
     img = 'User Upload/' + fileName_mustBeInUserUpload
     imageOutputFileDirectory = "cropped/"
 
@@ -321,14 +320,15 @@ def execute_Box_Detection(fileName_mustBeInUserUpload):
         print("==================Image Cropping Create Single Blocks=====================")
         print(blocks)
 
-        for i in blocks:
-            print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
-            print("Block ", i, " X Location: :", getBlockByID(i).getX_Location())
-            print("Block ", i, " Y Location: :", getBlockByID(i).getY_Location())
-            print("Block ", i, " Width: :", getBlockByID(i).get_Width())
-            print("Block ", i, " Height: :", getBlockByID(i).get_Height())
-            print("Block ", i, " image path: :", getBlockByID(i).getImagePath())
-            print("========================================================================")
+        # for i in blocks:
+            # print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
+            # print("Block ", i, " X Location: :", getBlockByID(i).getX_Location())
+            # print("Block ", i, " Y Location: :", getBlockByID(i).getY_Location())
+            # print("Block ", i, " Width: :", getBlockByID(i).get_Width())
+            # print("Block ", i, " Height: :", getBlockByID(i).get_Height())
+            # print("Block ", i, " image path: :", getBlockByID(i).getImagePath())
+            # print("========================================================================")
+
 
 
 if __name__ == "__main__":
@@ -337,9 +337,11 @@ if __name__ == "__main__":
     # pool = mp.Pool()
     # pool.map_async(execute_Box_Detection, ["IMG_1536.JPG"])
 
-    cornerFit("User Upload/Sample_2.jpg")
+    cornerFit("User Upload/Sample_1.jpg")
     # cornerFit("User Upload/testimg.jpg")
     execute_Box_Detection("precrop.jpg")
+
+    imageOnReady()
 
     print("Done")
     end = time.time()

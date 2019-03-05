@@ -1,10 +1,14 @@
 # TODO(developer): Uncomment and set the following variables
 import asyncio
 import os
-from src.GoogleCloudServices import CloudServiceConfig as config
+from pathlib import Path
+
+from GoogleCloudServices import CloudServiceConfig as config
 from google.cloud import automl_v1beta1 as automl
 from google.cloud import vision
 from multiprocessing import Pool
+
+from Blocks.Blocks import blocks, getBlockByID
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = config.conf['service_API_Path']
 
@@ -12,7 +16,7 @@ project_id = config.conf['project_id']
 compute_region = config.conf['compute_region']
 model_id = config.conf['model_id']
 # file_path = "/Users/edwardlai/Downloads/IMG_1532.JPG"
-file_path = "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/Server/src/TensorFlowAI/dataset/sample temp/0bb2725b-88b4-4734-98f1-3d7d860434e9.png"
+
 
 
 def detect_crop_hints(path):
@@ -50,7 +54,6 @@ def localize_objects(path):
     with open(path, 'rb') as image_file:
         content = image_file.read()
     image = vision.types.Image(content=content)
-
 
     objects = client.object_localization(
         image=image).localized_object_annotations
@@ -100,4 +103,21 @@ def predict(project_id, compute_region, model_id, file_path):
         print("Predicted class score: {}".format(result.classification.score))
 
 
-predict(project_id, compute_region, model_id, file_path)
+
+
+
+def imageOnReady():
+
+    print("Ready for AI")
+    os.chdir('..')
+    file_path = "ImageProcessing/cropped/2.png"
+
+    predict(project_id, compute_region, model_id, file_path)
+    for i in blocks:
+        print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
+        print("Block ", i, " X Location: :", getBlockByID(i).getX_Location())
+        print("Block ", i, " Y Location: :", getBlockByID(i).getY_Location())
+        print("Block ", i, " Width: :", getBlockByID(i).get_Width())
+        print("Block ", i, " Height: :", getBlockByID(i).get_Height())
+        print("Block ", i, " image path: :", getBlockByID(i).getImagePath())
+        print("========================================================================")
