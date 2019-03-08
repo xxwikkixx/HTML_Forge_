@@ -31,7 +31,7 @@ class SingleBlock:
         # self.predictionScore = score
 
     def getPrediction(self):
-        return self.bestPrediction
+        return self.prediction
 
     def getBestPrediction(self):
         return self.bestPrediction

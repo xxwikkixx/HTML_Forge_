@@ -127,20 +127,17 @@ def predict(project_id, compute_region, model_id, file_path):
     if score_threshold:
         params = {"score_threshold": score_threshold}
 
-    objects = client.object_localization(
-        image=image).localized_object_annotations
-
     response = prediction_client.predict(model_full_id, payload, params)
-    # print("Prediction results:")
 
     prediction = []
 
     for result in response.payload:
-        # print("Predicted class name: {}".format(result.display_name))
-        # print("Predicted class score: {}".format(result.classification.score))
+        print("Predicted class name: {}".format(result.display_name))
+        print("Predicted class score: {}".format(result.classification.score))
         temp = [result.display_name, result.classification.score]
         prediction.append(temp)
 
+    print("=================")
     return prediction
 
 
@@ -150,13 +147,6 @@ def imageOnReady():
     print("Ready for AI")
     os.chdir('..')
     file_path_HEAD = "ImageProcessing/"
-
-    tempoutput = [['Footer', 2.251452679047361e-05], ['Header', 0.009589559398591518],
-                  ['Img_Gal_Parallax', 0.0008479126845486462], ['Img_Gal_Preview', 8.273751177512167e-07],
-                  ['Img_Gal_Simple', 3.273860826880082e-08], ['Img_Left_Text_Right', 7.843969918042148e-09],
-                  ['Img_Right_Text_Left', 3.035922091498833e-08], ['Img_Top_Text_Bottom', 1.1447070846770657e-08],
-                  ['Paragraph', 0.0001971698075067252], ['Title', 0.985164999961853],
-                  ['singleImage', 9.363590834254865e-06]]
 
     for i in blocks:
         ImgPath = file_path_HEAD + getBlockByID(i).getImagePath()
