@@ -1,4 +1,6 @@
 # TODO(developer): Uncomment and set the following variables
+from multiprocessing import Process
+
 import asyncio
 import os
 from pathlib import Path
@@ -134,8 +136,8 @@ def predict(project_id, compute_region, model_id, file_path):
     prediction = []
 
     for result in response.payload:
-        # print("Predicted class name: {}".format(result.display_name))
-        # print("Predicted class score: {}".format(result.classification.score))
+        print("Predicted class name: {}".format(result.display_name))
+        print("Predicted class score: {}".format(result.classification.score))
         temp = [result.display_name, result.classification.score]
         prediction.append(temp)
 
@@ -149,6 +151,10 @@ def imageOnReady():
     os.chdir('..')
     file_path_HEAD = "ImageProcessing/"
 
+    for i in range(1, 2):
+        ImgPath = file_path_HEAD + getBlockByID(i).getImagePath()
+        Process(target=getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))).start()
+
     for i in blocks:
         print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
         print("Block ", i, " X Location: :", getBlockByID(i).getX_Location())
@@ -156,8 +162,7 @@ def imageOnReady():
         print("Block ", i, " Width: :", getBlockByID(i).get_Width())
         print("Block ", i, " Height: :", getBlockByID(i).get_Height())
 
-        ImgPath = file_path_HEAD + getBlockByID(i).getImagePath()
-        getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
+        # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
 
         print("Block ", i, " Prediction: :", getBlockByID(i).getPrediction())
         print("========================================================================")
