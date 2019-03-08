@@ -29,7 +29,7 @@ exported_contours = []
 # 1
 #  This will rescale all in user image into 3:2 Image ratio
 def image_Rescale(image_Path):
-    size = 1000, 800
+    size = 1500, 1000
     from PIL import Image
     im = Image.open(image_Path)
     im.thumbnail(size)
@@ -318,7 +318,7 @@ if __name__ == "__main__":
 
     # All building block infos stored in blocks class
     # Call AI for further process
-    # imageOnReady()
+    imageOnReady()
 
     end = time.time()
     print("Seconds: ", end - start)
