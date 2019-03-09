@@ -1,14 +1,23 @@
-from flask import Flask, abort, render_template, request, redirect, url_for, jsonify, send_file, send_from_directory
 import os
-from werkzeug.utils import secure_filename
 import json
+from flask import Flask, abort, render_template, request, redirect, url_for, jsonify, send_file, send_from_directory, make_response, session
+from werkzeug.utils import secure_filename
+from flask_cors import CORS, cross_origin
+
 
 
 app = Flask(__name__)
+cors = CORS(app)
 
 
 @app.route('/')
 def mainPage():
+    # if not request.cookies.get(detectBrowser()):
+    #     res = make_response("Cookies")
+    #     res.set_cookie(detectBrowser(), os.urandom(16), max_age=60*60*24*365*2)
+    # else:
+    #     make_response(request.cookies.get(detectBrowser()))
+    #     print("cookies found")
     return "Server OK"
     # return render_template('LandingPage.html')
 
@@ -21,8 +30,14 @@ def mainPage():
 #     return render_template('uploadPage.html')
 #
 
+def detectBrowser():
+    browser = request.user_agent.browser
+    version = request.user_agent.version and int(request.user_agent.version.split('.')[0])
+    platform = request.user_agent.platform
+    uas = request.user_agent.string
+    return browser + platform + uas
 
-# https://github.com/ngoduykhanh/flask-file-uploader
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
