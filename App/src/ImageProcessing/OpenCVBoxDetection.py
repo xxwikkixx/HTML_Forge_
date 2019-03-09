@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image, ImageEnhance
 
 from Blocks.Blocks import blocks, addBlock, getBlockByID
 from imutils.contours import sort_contours
@@ -50,7 +50,7 @@ def applyGaussian(path):
 
     T = threshold_local(gray, 21, offset=80, method="gaussian")
     gray = (gray > T).astype("uint8") * 255
-    cv2.imwrite("User Upload/" + "gaussian.jpg", gray)
+    cv2.imwrite(path , gray)
 
 
 def fileConvert(imgPath, savePath):
@@ -93,13 +93,12 @@ def cornerFit(imgPath):
     cv2.imwrite(imgPath, crop_img)
 
 # Not being used
-def enhanceImage(fileName):
-    from PIL import Image, ImageEnhance
-    im = Image.open("User Upload/" + fileName)
+def enhanceImage(path):
+    im = Image.open(path)
     # enhancer = ImageEnhance.Brightness(im)
     temp = ImageEnhance.Sharpness(im)
     enhanced_im = temp.enhance(10.0)
-    enhanced_im.save("User Upload/" + "ENH_" + fileName)
+    enhanced_im.save(path)
 
 
 # 2
@@ -288,18 +287,17 @@ def move_File_To_User_Upload(original, distnation):
     os.rename(current, newDistnation)
 
 
-# file path must be in User Upload!
-def execute_Box_Detection(fileName_mustBeInUserUpload):
-    img = fileName_mustBeInUserUpload
+def execute_Box_Detection(path):
     imageOutputFileDirectory = newSession.getCropDir()
     # Delete images from previous session
     # clearImageDir(imageOutputFileDirectory)
     # rescale image size to have more unified image to work with
-    image_Rescale(img)
+    image_Rescale(path)
     # Analyze thin lines and enhance it
-    line_Bolding(img)
+    line_Bolding(path)
     # Execute the block detection feature
-    box_extraction(img, newSession.getDebugDir() + 'houghlines.jpg', newSession.getCropDir())
+    # @params:[original image path, enhancedImagePath, exportImageDir]
+    box_extraction(path, newSession.getDebugDir() + 'houghlines.jpg', newSession.getCropDir())
 
 
 # Main
@@ -307,24 +305,39 @@ if __name__ == "__main__":
     # Initialize timer for run time speed
     start = time.time()
 
+    # Create and initialize new Session
     newSession = ImageProcessSession()
-    newSession.userImageImport("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/User Upload/temp_1.png")
+    newSession.userImageImport("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/Sample Images/temp_1.png")
 
+
+    # Initialize a new session base on user's request
     imgName = newSession.getSessionID() + ".jpg"
     fileConvert(newSession.getpathToUserImage(), newSession.getSessionPath()+"/"+imgName)
 
-    # Image first got fed through corner detection for initial crop
-    # This will get more unify result
+    # Image first got fed through corner detection for initial crop [This will get more unify result]
     cornerFit(newSession.getSessionPath() + "/" + imgName)
 
 
     # Pass in the pre cropped image for building block detection
     execute_Box_Detection(newSession.getSessionPath() + "/" + imgName)
-    # execute_Box_Detection("fileconvert.jpg")
 
     # All building block infos stored in blocks class
     # Call AI for further process
     # imageOnReady()
+
+    for i in blocks:
+        print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
+        print("Block ", i, " X Location: :", getBlockByID(i).getX_Location())
+        print("Block ", i, " Y Location: :", getBlockByID(i).getY_Location())
+        print("Block ", i, " Width: :", getBlockByID(i).get_Width())
+        print("Block ", i, " Height: :", getBlockByID(i).get_Height())
+
+        # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
+        print("Block ", i, " Prediction: :", getBlockByID(i).getPrediction())
+        print("Block ", i, " BEST Prediction: :", getBlockByID(i).getBestPrediction())
+        print("Block ", i, " Image Path :", getBlockByID(i).getImagePath())
+        print("========================================================================")
+
 
     end = time.time()
     print("Seconds: ", end - start)
@@ -340,5 +353,6 @@ if __name__ == "__main__":
 
 # Need to fix
 # [Done] Array index contour removal out of range
+# [Done] Image Dir with sessions
 # [In Progress] Keeping original image size and algo rescale with it
-# [In progress] Image Dir with sessions
+

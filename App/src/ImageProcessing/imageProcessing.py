@@ -7,7 +7,7 @@ class ImageProcessing:
     def __init__(self):
         self.blockID = 0
         self.imageOutputFileDirectory = "Processed Images/"
-        self.imageSourceDirectory = "User Upload/userUpload.jpg"  # The source of the user image.
+        self.imageSourceDirectory = "Sample Images/userUpload.jpg"  # The source of the user image.
 
         self.leftBorder = 0
         self.upBorder = 0
@@ -33,7 +33,7 @@ class ImageProcessing:
 
     def userUpload(self, path):
         current = path
-        newDestnation = "User Upload/userUpload.jpg"
+        newDestnation = "Sample Images/userUpload.jpg"
         os.rename(current, newDestnation)
 
     def cropImg(self):

@@ -141,7 +141,6 @@ def predict(project_id, compute_region, model_id, file_path):
     return prediction
 
 
-# detect_document("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/User Upload/Sample_1.jpg")
 
 def imageOnReady():
     print("Ready for AI")
