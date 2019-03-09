@@ -1,4 +1,6 @@
 # TODO(developer): Uncomment and set the following variables
+from multiprocessing import Process
+
 import asyncio
 import os
 from pathlib import Path
@@ -125,20 +127,17 @@ def predict(project_id, compute_region, model_id, file_path):
     if score_threshold:
         params = {"score_threshold": score_threshold}
 
-    objects = client.object_localization(
-        image=image).localized_object_annotations
-
     response = prediction_client.predict(model_full_id, payload, params)
-    # print("Prediction results:")
 
     prediction = []
 
     for result in response.payload:
-        # print("Predicted class name: {}".format(result.display_name))
-        # print("Predicted class score: {}".format(result.classification.score))
+        print("Predicted class name: {}".format(result.display_name))
+        print("Predicted class score: {}".format(result.classification.score))
         temp = [result.display_name, result.classification.score]
         prediction.append(temp)
 
+    print("=================")
     return prediction
 
 
@@ -150,14 +149,17 @@ def imageOnReady():
     file_path_HEAD = "ImageProcessing/"
 
     for i in blocks:
+        ImgPath = file_path_HEAD + getBlockByID(i).getImagePath()
+        Process(target=getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))).start()
+
+    for i in blocks:
         print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
         print("Block ", i, " X Location: :", getBlockByID(i).getX_Location())
         print("Block ", i, " Y Location: :", getBlockByID(i).getY_Location())
         print("Block ", i, " Width: :", getBlockByID(i).get_Width())
         print("Block ", i, " Height: :", getBlockByID(i).get_Height())
 
-        ImgPath = file_path_HEAD + getBlockByID(i).getImagePath()
-        getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
-
+        # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
         print("Block ", i, " Prediction: :", getBlockByID(i).getPrediction())
+        print("Block ", i, " BEST Prediction: :", getBlockByID(i).getBestPrediction())
         print("========================================================================")

@@ -1,3 +1,5 @@
+from PIL import Image
+
 from Blocks.Blocks import blocks, addBlock, getBlockByID
 from imutils.contours import sort_contours
 from skimage.filters import threshold_local
@@ -9,7 +11,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-
 Image_Debug = True
 Console_Logger = True
 
@@ -18,24 +19,29 @@ fig = plt.figure(figsize=(8, 8))
 columns = 3
 rows = 3
 
+IMAGE_HEIGHT = 1000
+IMAGE_WIDTH = 1500
 ITERATIONS = 0
-TARESHOLD = 100
-MIN_LINE_LENG = 100
-MAX_LINE_GAP = 30
+TARESHOLD = 20
+MIN_LINE_LENG = 30
+MAX_LINE_GAP = 25
 exported_contours = []
 
 
 # 1
 #  This will rescale all in user image into 3:2 Image ratio
 def image_Rescale(image_Path):
-    size = 3000, 2000
+    size = IMAGE_HEIGHT, IMAGE_WIDTH
     from PIL import Image
     im = Image.open(image_Path)
     im.thumbnail(size)
-    new_path = "User Upload/" + "_resized.jpg"
-    im.save(new_path)
-    return new_path
+    newimg = im.resize(size)
 
+    # tn_image = im.thumbnail(maxsize, PIL.Image.ANTIALIAS)
+    new_path = "User Upload/" + "_resized.jpg"
+    newimg.save(new_path)
+    # im.save(new_path)
+    return new_path
 
 
 def applyGaussian(path):
@@ -48,10 +54,20 @@ def applyGaussian(path):
     gray = (gray > T).astype("uint8") * 255
     cv2.imwrite("User Upload/" + "gaussian.jpg", gray)
 
+
+def fileConvert(imgPath):
+    im = Image.open(imgPath)
+    # bg = Image.new("RGB", crop_img.size, (255, 255, 255))
+    rgb_im = im.convert('RGB')
+    rgb_im = rgb_im.convert('1')
+    rgb_im.save("User Upload/" + "fileconvert.jpg")
+
+
 def cornerFit(imgPath):
     # applyGaussian(imgPath)
     # imgPath = "User Upload/gaussian.jpg"
     # read the image
+
     img = cv2.imread(imgPath)
     # convert image to gray scale image
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -72,7 +88,11 @@ def cornerFit(imgPath):
     X_MAX = max(x_arr)
     Y_MIN = min(y_arr)
     Y_MAX = max(y_arr)
-    crop_img = img[Y_MIN - 200: Y_MAX + 200, X_MIN - 200: X_MAX + 200]
+    print(X_MIN, X_MAX, Y_MIN, Y_MAX)
+
+    crop_img = img[Y_MIN - 100: Y_MAX + 100, X_MIN - 100: X_MAX + 100]
+
+    # plt.imshow(img), plt.show()
     # plt.imshow(crop_img), plt.show()
     cv2.imwrite("User Upload/" + "precrop.jpg", crop_img)
 
@@ -108,7 +128,7 @@ def line_Bolding(imgpath):
     for i in range(0, len(lines)):
         x1, y1, x2, y2 = lines[i][0]
         # Draw the thicker black line on to the image
-        cv2.line(img, (x1, y1), (x2, y2), (0, 0, 0), 3)
+        cv2.line(img, (x1, y1), (x2, y2), (0, 0, 0), 1)
 
     cv2.imwrite('DebugImagesDir/houghlines5.jpg', img)
     cv2.destroyAllWindows()
@@ -124,7 +144,8 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     # cv2.imshow(img)
     (thresh, img_bin) = cv2.threshold(img, 128, 255,
                                       cv2.THRESH_BINARY | cv2.THRESH_OTSU)  # Threshold and contrast the image
-    img_bin = cv2.resize(img_bin, (3000, 2000))
+    # img_bin = cv2.resize(img_bin, (3000, 2000))
+    # img_bin = cv2.resize(img_bin, (1000, 800))
 
     try:
         img_bin = 255 - img_bin  # Invert the image
@@ -177,7 +198,9 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         # if Console_Logger: print("width: ", w, "\theight:", h)
         # if Console_Logger: print("========================")
         # If the box height is greater then 700 or width is >700, then only save it as a box in "cropped/" folder.
-        if ((w > 700 and h > 30) or (h > 700 and w > 30)) and w != 3000 and h != 2000 and x > 100 and y > 100:
+        # if ((w > 500 and h > 20) or (h > 500 and w > 20)) and w != 3000 and h != 2000 and x > 50 and y > 50:
+        if ((w > IMAGE_WIDTH * 0.25 and h > IMAGE_HEIGHT * 0.1) or (
+                h > 400 and w > 50)) and w != IMAGE_HEIGHT and h != IMAGE_WIDTH and x > 10 and y > 10:
             if Console_Logger: print("Crop Log: ", [x, y, w, h])
             exported_contours.append([x, y, w, h])
 
@@ -185,24 +208,32 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     for i in range(len(exported_contours) - 1, 0, -1):
         for j in range(i):
             # Compare X axis and Y see if it is similar crop
-            DUPLICATE_TARESHOLD = 80
-            # if abs(exported_contours[i][0] - exported_contours[j][0]) <= DUPLICATE_TARESHOLD and abs(
-            #         exported_contours[i][1] - exported_contours[j][1]) <= DUPLICATE_TARESHOLD:
-            # Similar item choose bigger frame and save to the list.
-            temp_1 = abs(sum(exported_contours[i]))
-            temp_2 = abs(sum(exported_contours[j]))
-            # print(temp_1/ temp_2)
-            if (temp_1 / temp_2) > 0.98 and (temp_1 / temp_2) < 1.05:
-                if Console_Logger: print("Delete Log: Image Similar contour removed")
-                # Choose the bigger contour and pop the smaller crop
-                if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
-                        exported_contours[i][3]):
-                    exported_contours.pop(j)
-                else:
-                    exported_contours.pop(i)
+            if i <= len(exported_contours) and j <= len(exported_contours):
+                temp_1 = abs(sum(exported_contours[i]))
+                temp_2 = abs(sum(exported_contours[j]))
+                # if two images are similar within the range
+                if 0.98 < (temp_1 / temp_2) < 1.05:
+                    if Console_Logger: print("Delete Log: Image Similar contour removed")
+                    # Choose the bigger contour and pop the smaller crop
+                    if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
+                            exported_contours[i][3]):
+                        if Console_Logger: print("  |----->", exported_contours[i])
+                        new_img = orginal_image[exported_contours[j][1]:exported_contours[j][1] + exported_contours[j][3], exported_contours[j][0]:exported_contours[j][0] + exported_contours[j][2]]
+                        cv2.imwrite(cropped_dir_path + "Deleted_" + str(j) + '.png', new_img)
+                        exported_contours.pop(j)
+                        j -= 1  # re-compare previous j element index since it is removed
+                    else:
+                        if Console_Logger: print("  |----->", exported_contours[i])
+                        new_img = orginal_image[exported_contours[i][1]:exported_contours[i][1] + exported_contours[i][3], exported_contours[i][0]:exported_contours[i][0] + exported_contours[i][2]]
+                        cv2.imwrite(cropped_dir_path + "Deleted_" + str(i) + '.png', new_img)
+                        exported_contours.pop(i)
+                        i -= 1  # re-compare previous i element index since it is removed
+            else:
+                raise IndexError("Array index excaption")
 
     if Console_Logger: print("============================")
-    # Cropping image and create single block instances
+
+    # Start cropping image and create single block instances
     if Console_Logger: print("Final Exported Contours: ", exported_contours)
 
     idx = 0
@@ -214,10 +245,10 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         h = exported_contours[i][3]
 
         # The crop is right is too tight since it is right on the border, this adjusts with bigger border
-        x -= 350
-        y -= 50
-        w += 80
-        h += 80
+        x -= 30
+        y -= 30
+        w += 50
+        h += 50
 
         # Cropping the original image
         new_img = orginal_image[y:y + h, x:x + w]
@@ -280,18 +311,22 @@ def execute_Box_Detection(fileName_mustBeInUserUpload):
 if __name__ == "__main__":
     # Initialize timer for run time speed
     start = time.time()
-
-    # enhanceImage("IMG_1554.JPG")
+    fileConvert(
+        "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/User Upload/S_1.jpg")
+    # enhanceImage("User Upload/S_1.png")
 
     # Image first got fed through corner detection for initial crop
     # This will get more unify result
-    cornerFit("User Upload/Sample_1.jpg")
+    cornerFit(
+        "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/User Upload/fileconvert.jpg")
+
     # cornerFit("User Upload/ENH_IMG_1554.JPG")
     # cornerFit("User Upload/testimg.jpg")
     # cornerFit("User Upload/IMG_1536.JPG")
 
     # Pass in the pre cropped image for building block detection
     execute_Box_Detection("precrop.jpg")
+    # execute_Box_Detection("fileconvert.jpg")
 
     # All building block infos stored in blocks class
     # Call AI for further process
@@ -304,7 +339,11 @@ if __name__ == "__main__":
 # [Done]  Reformat and resize the image to get consistent result and image crop
 # [Done]  Crop image with the x, y, w, h adjust.
 # [Done]  Save the crop of the source file instead of the bolded one
-# [Done] Remove similar crops
-# [IN Progress] Image enhancer on the original Image
-# [Done] Uses child relationship and hierarchy to know the objects within each block
+# [Done]  Remove similar crops
+# [Done]  Image enhancer on the original Image
+# [Done]  Uses child relationship and hierarchy to know the objects within each block
 #               and eventually add it into single block attribute
+
+# Need to fix
+# [Done] Array index contour removal out of range
+# [In Progress] Keeping original image size and algo rescale with it
