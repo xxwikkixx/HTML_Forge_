@@ -10,24 +10,6 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = config.conf['service_API_Path']
 # client = vision.ImageAnnotatorClient()
 
 # Sending batch request to google cloud vision api for multiple pictures.
-features = [
-    types.Feature(type=enums.Feature.Type.DOCUMENT_TEXT_DETECTION),
-]
-
-
-# requests = []
-# for filename in files:
-#     with open(filename, 'rb') as image_file:
-#         image = types.Image(
-#             contents = image_file.read())
-#     request = types.AnnotateImageRequest(
-#         image=image, features=features)
-#     requests.append(request)
-#
-# response = client.batch_annotate_images(requests)
-#
-# for annotation_response in response.responses:
-#    print(annotation_response)
 
 def detect_images(client, image_paths):
     requests = []
@@ -67,3 +49,7 @@ if __name__ == '__main__':
     end = time.time()
 
     print(end-start)
+
+
+
+# https://googleapis.github.io/google-cloud-python/latest/vision/gapic/v1/api.html
