@@ -4,12 +4,15 @@ from Blocks.Blocks import blocks, addBlock, getBlockByID
 from imutils.contours import sort_contours
 from skimage.filters import threshold_local
 from GoogleCloudServices.predictBlock import imageOnReady
+from ImageProcessing.ImgProcessSession import ImageProcessSession
+
 import cv2
 import os
 import glob
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+
 
 Image_Debug = True
 Console_Logger = True
@@ -36,12 +39,7 @@ def image_Rescale(image_Path):
     im = Image.open(image_Path)
     im.thumbnail(size)
     newimg = im.resize(size)
-
-    # tn_image = im.thumbnail(maxsize, PIL.Image.ANTIALIAS)
-    new_path = "User Upload/" + "_resized.jpg"
-    newimg.save(new_path)
-    # im.save(new_path)
-    return new_path
+    newimg.save(image_Path)
 
 
 def applyGaussian(path):
@@ -55,19 +53,17 @@ def applyGaussian(path):
     cv2.imwrite("User Upload/" + "gaussian.jpg", gray)
 
 
-def fileConvert(imgPath):
+def fileConvert(imgPath, savePath):
     im = Image.open(imgPath)
     # bg = Image.new("RGB", crop_img.size, (255, 255, 255))
     rgb_im = im.convert('RGB')
     rgb_im = rgb_im.convert('1')
-    rgb_im.save("User Upload/" + "fileconvert.jpg")
+    rgb_im.save(savePath)
 
 
 def cornerFit(imgPath):
     # applyGaussian(imgPath)
-    # imgPath = "User Upload/gaussian.jpg"
     # read the image
-
     img = cv2.imread(imgPath)
     # convert image to gray scale image
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -94,8 +90,7 @@ def cornerFit(imgPath):
 
     # plt.imshow(img), plt.show()
     # plt.imshow(crop_img), plt.show()
-    cv2.imwrite("User Upload/" + "precrop.jpg", crop_img)
-
+    cv2.imwrite(imgPath, crop_img)
 
 # Not being used
 def enhanceImage(fileName):
@@ -115,7 +110,7 @@ def line_Bolding(imgpath):
     img = cv2.imread(imgpath)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     edges = cv2.Canny(gray, 255, 255, apertureSize=3)
-    if Image_Debug: cv2.imwrite('DebugImagesDir/cann.jpg', edges)
+    if Image_Debug: cv2.imwrite(newSession.getDebugDir()+'cann.jpg', edges)
 
     # HoughLinesP()
     # pass in params (image*, rho, theta, threshold[, lines[, minLineLength[, maxLineGap]]])
@@ -130,7 +125,8 @@ def line_Bolding(imgpath):
         # Draw the thicker black line on to the image
         cv2.line(img, (x1, y1), (x2, y2), (0, 0, 0), 1)
 
-    cv2.imwrite('DebugImagesDir/houghlines5.jpg', img)
+    cv2.imwrite(newSession.getDebugDir() + 'houghlines.jpg', img) # For debug use
+    # cv2.imwrite(imgpath, img)
     cv2.destroyAllWindows()
 
 
@@ -152,7 +148,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     except:
         print("failed to invert")
 
-    if Image_Debug: cv2.imwrite("DebugImagesDir/Image_bin.jpg", img_bin)
+    if Image_Debug: cv2.imwrite(newSession.getDebugDir()+"Image_bin.jpg", img_bin)
 
     # Defining a kernel length
     kernel_length = np.array(img).shape[1] // 80
@@ -167,11 +163,11 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     # Morphological operation to detect vertical lines from an image
     img_temp1 = cv2.erode(img_bin, verticle_kernel, iterations=ITERATIONS)
     verticle_lines_img = cv2.dilate(img_temp1, verticle_kernel, iterations=ITERATIONS)
-    if Image_Debug: cv2.imwrite("DebugImagesDir/verticle_lines.jpg", verticle_lines_img)
+    if Image_Debug: cv2.imwrite(newSession.getDebugDir()+"verticle_lines.jpg", verticle_lines_img)
     # Morphological operation to detect horizontal lines from an image
     img_temp2 = cv2.erode(img_bin, hori_kernel, iterations=ITERATIONS)
     horizontal_lines_img = cv2.dilate(img_temp2, hori_kernel, iterations=ITERATIONS)
-    if Image_Debug: cv2.imwrite("DebugImagesDir/horizontal_lines.jpg", horizontal_lines_img)
+    if Image_Debug: cv2.imwrite(newSession.getDebugDir()+"horizontal_lines.jpg", horizontal_lines_img)
 
     # summation or two images
     alpha = 0.5
@@ -179,7 +175,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     img_final_bin = cv2.addWeighted(verticle_lines_img, alpha, horizontal_lines_img, beta, 0.0)
     img_final_bin = cv2.erode(~img_final_bin, kernel, iterations=ITERATIONS)
     (thresh, img_final_bin) = cv2.threshold(img_final_bin, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-    if Image_Debug: cv2.imwrite("DebugImagesDir/img_final_bin.jpg", img_final_bin)
+    if Image_Debug: cv2.imwrite(newSession.getDebugDir()+"img_final_bin.jpg", img_final_bin)
 
     # Find contours for image, which will detect all the boxes
     contours, hierarchy = cv2.findContours(img_final_bin, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -209,8 +205,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         for j in range(i):
             # Compare X axis and Y see if it is similar crop
             if i <= len(exported_contours) and j <= len(exported_contours):
-                temp_1 = abs(sum(exported_contours[i]))
-                temp_2 = abs(sum(exported_contours[j]))
+                temp_1, temp_2 = abs(sum(exported_contours[i])), abs(sum(exported_contours[j]))
                 # if two images are similar within the range
                 if 0.98 < (temp_1 / temp_2) < 1.05:
                     if Console_Logger: print("Delete Log: Image Similar contour removed")
@@ -295,37 +290,36 @@ def move_File_To_User_Upload(original, distnation):
 
 # file path must be in User Upload!
 def execute_Box_Detection(fileName_mustBeInUserUpload):
-    img = 'User Upload/' + fileName_mustBeInUserUpload
-    imageOutputFileDirectory = "cropped/"
+    img = fileName_mustBeInUserUpload
+    imageOutputFileDirectory = newSession.getCropDir()
     # Delete images from previous session
-    clearImageDir(imageOutputFileDirectory)
+    # clearImageDir(imageOutputFileDirectory)
     # rescale image size to have more unified image to work with
-    img = image_Rescale(img)
+    image_Rescale(img)
     # Analyze thin lines and enhance it
     line_Bolding(img)
     # Execute the block detection feature
-    box_extraction(img, "DebugImagesDir/houghlines5.jpg", imageOutputFileDirectory)
+    box_extraction(img, newSession.getDebugDir() + 'houghlines.jpg', newSession.getCropDir())
 
 
 # Main
 if __name__ == "__main__":
     # Initialize timer for run time speed
     start = time.time()
-    fileConvert(
-        "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/User Upload/S_1.jpg")
-    # enhanceImage("User Upload/S_1.png")
+
+    newSession = ImageProcessSession()
+    newSession.userImageImport("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/User Upload/temp_1.png")
+
+    imgName = newSession.getSessionID() + ".jpg"
+    fileConvert(newSession.getpathToUserImage(), newSession.getSessionPath()+"/"+imgName)
 
     # Image first got fed through corner detection for initial crop
     # This will get more unify result
-    cornerFit(
-        "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/User Upload/fileconvert.jpg")
+    cornerFit(newSession.getSessionPath() + "/" + imgName)
 
-    # cornerFit("User Upload/ENH_IMG_1554.JPG")
-    # cornerFit("User Upload/testimg.jpg")
-    # cornerFit("User Upload/IMG_1536.JPG")
 
     # Pass in the pre cropped image for building block detection
-    execute_Box_Detection("precrop.jpg")
+    execute_Box_Detection(newSession.getSessionPath() + "/" + imgName)
     # execute_Box_Detection("fileconvert.jpg")
 
     # All building block infos stored in blocks class
@@ -347,3 +341,4 @@ if __name__ == "__main__":
 # Need to fix
 # [Done] Array index contour removal out of range
 # [In Progress] Keeping original image size and algo rescale with it
+# [In progress] Image Dir with sessions
