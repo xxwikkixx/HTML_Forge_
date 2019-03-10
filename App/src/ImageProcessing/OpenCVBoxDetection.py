@@ -1,4 +1,7 @@
-from PIL import Image, ImageEnhance
+import random
+
+from PIL import Image, ImageEnhance, ImageDraw, ImageFont
+from PIL.ImageColor import getrgb
 from python_utils.converters import to_unicode
 
 from Blocks.Blocks import blocks, addBlock, getBlockByID, JSONFormat
@@ -301,15 +304,21 @@ def execute_Box_Detection(path):
     box_extraction(path, newSession.getDebugDir() + 'houghlines.jpg', newSession.getCropDir())
 
 
-def wait_for_events(events):
-    for event in events:
-        event.wait()
+# Once the AI is finished, draw the detected boxes on to the original image
+def labelDrawBox(src):
+    source_img = Image.open(src).convert("RGB")
+    draw = ImageDraw.Draw(source_img)
+    # font = ImageFont.load_default().font
+    font = ImageFont.truetype("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/arial.ttf", 28)
+    for i in blocks:
+        x = getBlockByID(i).getX_Location()
+        y = getBlockByID(i).getY_Location()
+        w = getBlockByID(i).get_Width()
+        h = getBlockByID(i).get_Height()
 
-
-def callback(event, error, response):
-    # handle response
-    event.set()
-    print("AI Done")
+        draw.rectangle(((x, y), (x + w, y + h)), outline="red", width=4)
+        draw.text((x, y), str(getBlockByID(i).getBestPrediction()), fill="red", font=font)
+    source_img.save(src, "JPEG")
 
 
 def startSession(path_to_image):
@@ -332,10 +341,8 @@ def startSession(path_to_image):
     # Call AI for further process
     imageOnReady()
 
+    labelDrawBox("ImageProcessing/" + newSession.getSessionPath() + imgName)
 
-
-def AIDone():
-    print("AI Done")
 
 # Main
 if __name__ == "__main__":
@@ -357,6 +364,8 @@ if __name__ == "__main__":
     #     print("Block ", i, " BEST Prediction: :", getBlockByID(i).getBestPrediction())
     #     print("Block ", i, " Image Path :", getBlockByID(i).getImagePath())
     #     print("========================================================================")
+
+    # JSON Format Export
     import json
 
     data = {}
@@ -370,15 +379,12 @@ if __name__ == "__main__":
                    'Best_Predictions': getBlockByID(i).getBestPrediction(),
                    'Image_Crop_Path': getBlockByID(i).getImagePath(),
                    'Block_Code': getBlockByID(i).getSingleBlock_HTMLCode()}
-    # data = json.dumps(data, sort_keys=False, indent=3)
 
-    with open("ImageProcessing/"+newSession.getSessionPath()+"/" + 'data.json', 'w') as outfile:
-        # json.dump(JSON, outfile, indent=3)
+    with open("ImageProcessing/" + newSession.getSessionPath() + "/" + 'data.json', 'w') as outfile:
         json.dump(data, outfile, indent=3)
 
-
     end = time.time()
-    print("Seconds: ", end - start)
+    print("Process Run Time: Seconds: ", end - start)
 
 # To-do
 # [Done]  Reformat and resize the image to get consistent result and image crop
@@ -388,6 +394,7 @@ if __name__ == "__main__":
 # [Done]  Image enhancer on the original Image
 # [Done]  Uses child relationship and hierarchy to know the objects within each block
 #               and eventually add it into single block attribute
+# [Done]  JSON File Formatter
 
 # Need to fix
 # [Done] Array index contour removal out of range
