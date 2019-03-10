@@ -14,8 +14,8 @@ import matplotlib.pyplot as plt
 import time
 
 
-Image_Debug = True
-Console_Logger = True
+Image_Debug = False
+Console_Logger = False
 
 # This is just for the py plotting results (debug purposes)
 fig = plt.figure(figsize=(8, 8))
@@ -80,11 +80,11 @@ def cornerFit(imgPath):
         x_arr.append(x)
         y_arr.append(y)
         # cv2.circle(img, (x, y), 20, 255, -1)
-    X_MIN = min(x_arr)
-    X_MAX = max(x_arr)
-    Y_MIN = min(y_arr)
-    Y_MAX = max(y_arr)
-    print(X_MIN, X_MAX, Y_MIN, Y_MAX)
+
+    X_MIN, X_MAX = min(x_arr), max(x_arr)
+    Y_MIN, Y_MAX = min(y_arr), max(y_arr)
+
+    # print(X_MIN, X_MAX, Y_MIN, Y_MAX)
 
     crop_img = img[Y_MIN - 100: Y_MAX + 100, X_MIN - 100: X_MAX + 100]
 
@@ -99,6 +99,7 @@ def enhanceImage(path):
     temp = ImageEnhance.Sharpness(im)
     enhanced_im = temp.enhance(10.0)
     enhanced_im.save(path)
+
 
 
 # 2
@@ -122,7 +123,7 @@ def line_Bolding(imgpath):
     for i in range(0, len(lines)):
         x1, y1, x2, y2 = lines[i][0]
         # Draw the thicker black line on to the image
-        cv2.line(img, (x1, y1), (x2, y2), (0, 0, 0), 1)
+        cv2.line(img, (x1, y1), (x2, y2), (0, 0, 0), 2)
 
     cv2.imwrite(newSession.getDebugDir() + 'houghlines.jpg', img) # For debug use
     # cv2.imwrite(imgpath, img)
@@ -135,12 +136,8 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     orginal_image = cv2.imread(original_image_path, 0)
 
     img = cv2.imread(img_for_box_extraction_path, 0)  # Read the image
-    # img = img_for_box_extraction_path
-    # cv2.imshow(img)
     (thresh, img_bin) = cv2.threshold(img, 128, 255,
                                       cv2.THRESH_BINARY | cv2.THRESH_OTSU)  # Threshold and contrast the image
-    # img_bin = cv2.resize(img_bin, (3000, 2000))
-    # img_bin = cv2.resize(img_bin, (1000, 800))
 
     try:
         img_bin = 255 - img_bin  # Invert the image
@@ -185,7 +182,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
 
     if Console_Logger: print("============ Hierarchy ================")
     if Console_Logger: print(hierarchy)
-    if Console_Logger: print("============================")
+    if Console_Logger: print("=======================================")
 
     for c in contours:
         # Returns the location and width,height for every contour
@@ -223,7 +220,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
                         exported_contours.pop(i)
                         i -= 1  # re-compare previous i element index since it is removed
             else:
-                raise IndexError("Array index excaption")
+                raise IndexError("Array pop index exception!!")
 
     if Console_Logger: print("============================")
 
@@ -233,10 +230,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     idx = 0
     for i in range(0, len(exported_contours)):
         idx += 1
-        x = exported_contours[i][0]
-        y = exported_contours[i][1]
-        w = exported_contours[i][2]
-        h = exported_contours[i][3]
+        x, y, w, h = exported_contours[i]
 
         # The crop is right is too tight since it is right on the border, this adjusts with bigger border
         x -= 30
@@ -292,31 +286,27 @@ def execute_Box_Detection(path):
     # Delete images from previous session
     # clearImageDir(imageOutputFileDirectory)
     # rescale image size to have more unified image to work with
-    image_Rescale(path)
+
+    # image_Rescale(path)
+
     # Analyze thin lines and enhance it
     line_Bolding(path)
     # Execute the block detection feature
     # @params:[original image path, enhancedImagePath, exportImageDir]
     box_extraction(path, newSession.getDebugDir() + 'houghlines.jpg', newSession.getCropDir())
 
-
-# Main
-if __name__ == "__main__":
-    # Initialize timer for run time speed
-    start = time.time()
-
+def startSession(path_to_image):
     # Create and initialize new Session
+    global newSession
     newSession = ImageProcessSession()
-    newSession.userImageImport("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/Sample Images/temp_1.png")
-
+    newSession.userImageImport(path_to_image)
 
     # Initialize a new session base on user's request
     imgName = newSession.getSessionID() + ".jpg"
-    fileConvert(newSession.getpathToUserImage(), newSession.getSessionPath()+"/"+imgName)
+    fileConvert(newSession.getpathToUserImage(), newSession.getSessionPath() + "/" + imgName)
 
     # Image first got fed through corner detection for initial crop [This will get more unify result]
     cornerFit(newSession.getSessionPath() + "/" + imgName)
-
 
     # Pass in the pre cropped image for building block detection
     execute_Box_Detection(newSession.getSessionPath() + "/" + imgName)
@@ -325,18 +315,26 @@ if __name__ == "__main__":
     # Call AI for further process
     # imageOnReady()
 
-    for i in blocks:
-        print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
-        print("Block ", i, " X Location: :", getBlockByID(i).getX_Location())
-        print("Block ", i, " Y Location: :", getBlockByID(i).getY_Location())
-        print("Block ", i, " Width: :", getBlockByID(i).get_Width())
-        print("Block ", i, " Height: :", getBlockByID(i).get_Height())
 
-        # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
-        print("Block ", i, " Prediction: :", getBlockByID(i).getPrediction())
-        print("Block ", i, " BEST Prediction: :", getBlockByID(i).getBestPrediction())
-        print("Block ", i, " Image Path :", getBlockByID(i).getImagePath())
-        print("========================================================================")
+# Main
+if __name__ == "__main__":
+    # Initialize timer for run time speed
+    start = time.time()
+    # clearImageDir("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/UserUpload/")
+    startSession("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/Sample Images/Sample_1.jpg")
+
+    # for i in blocks:
+    #     print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
+    #     print("Block ", i, " X Location: :", getBlockByID(i).getX_Location())
+    #     print("Block ", i, " Y Location: :", getBlockByID(i).getY_Location())
+    #     print("Block ", i, " Width: :", getBlockByID(i).get_Width())
+    #     print("Block ", i, " Height: :", getBlockByID(i).get_Height())
+    #
+    #     # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
+    #     print("Block ", i, " Prediction: :", getBlockByID(i).getPrediction())
+    #     print("Block ", i, " BEST Prediction: :", getBlockByID(i).getBestPrediction())
+    #     print("Block ", i, " Image Path :", getBlockByID(i).getImagePath())
+    #     print("========================================================================")
 
 
     end = time.time()

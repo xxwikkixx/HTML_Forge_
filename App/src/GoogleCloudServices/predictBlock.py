@@ -132,12 +132,11 @@ def predict(project_id, compute_region, model_id, file_path):
     prediction = []
 
     for result in response.payload:
-        print("Predicted class name: {}".format(result.display_name))
-        print("Predicted class score: {}".format(result.classification.score))
+        # print("Predicted class name: {}".format(result.display_name))
+        # print("Predicted class score: {}".format(result.classification.score))
         temp = [result.display_name, result.classification.score]
         prediction.append(temp)
-
-    print("=================")
+    # print("=================")
     return prediction
 
 
@@ -157,8 +156,10 @@ def imageOnReady():
         print("Block ", i, " Y Location: :", getBlockByID(i).getY_Location())
         print("Block ", i, " Width: :", getBlockByID(i).get_Width())
         print("Block ", i, " Height: :", getBlockByID(i).get_Height())
+        print("Block ", i, " Image Path :", getBlockByID(i).getImagePath())
 
         # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
         print("Block ", i, " Prediction: :", getBlockByID(i).getPrediction())
         print("Block ", i, " BEST Prediction: :", getBlockByID(i).getBestPrediction())
+
         print("========================================================================")

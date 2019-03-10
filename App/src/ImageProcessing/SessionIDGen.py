@@ -22,7 +22,7 @@ def generateID():
 
 def generateSessionID():
     x = datetime.datetime.now()
-    return str(x.strftime("%y_%m_%dd_%Hh_%Mm%f"))
+    return str(x.strftime("%yy_%mm_%dd_%Hh_%Mm%fns"))
     
 # def main():
 #     lisense = []

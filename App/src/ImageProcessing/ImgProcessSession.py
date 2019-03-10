@@ -1,6 +1,6 @@
 import os
 from shutil import copyfile
-from ImageProcessing.SessionIDGen import generateSessionID
+from ImageProcessing.SessionIDGen import generateSessionID, generateID
 
 
 class ImageProcessSession:
@@ -18,6 +18,7 @@ class ImageProcessSession:
 
     def __init__(self):
         self.sessionID = generateSessionID()
+        self.sessionID = generateID()
         self.sessionPath = ""
         self.cropDir = ""
         self.debugDir = ""
