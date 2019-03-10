@@ -1,18 +1,19 @@
 from PIL import Image, ImageEnhance
+from python_utils.converters import to_unicode
 
-from Blocks.Blocks import blocks, addBlock, getBlockByID
+from Blocks.Blocks import blocks, addBlock, getBlockByID, JSONFormat
 from imutils.contours import sort_contours
 from skimage.filters import threshold_local
 from GoogleCloudServices.predictBlock import imageOnReady
 from ImageProcessing.ImgProcessSession import ImageProcessSession
-
+import threading
+import functools
 import cv2
 import os
 import glob
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-
 
 Image_Debug = False
 Console_Logger = False
@@ -50,7 +51,7 @@ def applyGaussian(path):
 
     T = threshold_local(gray, 21, offset=80, method="gaussian")
     gray = (gray > T).astype("uint8") * 255
-    cv2.imwrite(path , gray)
+    cv2.imwrite(path, gray)
 
 
 def fileConvert(imgPath, savePath):
@@ -92,6 +93,7 @@ def cornerFit(imgPath):
     # plt.imshow(crop_img), plt.show()
     cv2.imwrite(imgPath, crop_img)
 
+
 # Not being used
 def enhanceImage(path):
     im = Image.open(path)
@@ -99,7 +101,6 @@ def enhanceImage(path):
     temp = ImageEnhance.Sharpness(im)
     enhanced_im = temp.enhance(10.0)
     enhanced_im.save(path)
-
 
 
 # 2
@@ -110,7 +111,7 @@ def line_Bolding(imgpath):
     img = cv2.imread(imgpath)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     edges = cv2.Canny(gray, 255, 255, apertureSize=3)
-    if Image_Debug: cv2.imwrite(newSession.getDebugDir()+'cann.jpg', edges)
+    if Image_Debug: cv2.imwrite(newSession.getDebugDir() + 'cann.jpg', edges)
 
     # HoughLinesP()
     # pass in params (image*, rho, theta, threshold[, lines[, minLineLength[, maxLineGap]]])
@@ -125,7 +126,7 @@ def line_Bolding(imgpath):
         # Draw the thicker black line on to the image
         cv2.line(img, (x1, y1), (x2, y2), (0, 0, 0), 2)
 
-    cv2.imwrite(newSession.getDebugDir() + 'houghlines.jpg', img) # For debug use
+    cv2.imwrite(newSession.getDebugDir() + 'houghlines.jpg', img)  # For debug use
     # cv2.imwrite(imgpath, img)
     cv2.destroyAllWindows()
 
@@ -144,7 +145,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     except:
         print("failed to invert")
 
-    if Image_Debug: cv2.imwrite(newSession.getDebugDir()+"Image_bin.jpg", img_bin)
+    if Image_Debug: cv2.imwrite(newSession.getDebugDir() + "Image_bin.jpg", img_bin)
 
     # Defining a kernel length
     kernel_length = np.array(img).shape[1] // 80
@@ -159,11 +160,11 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     # Morphological operation to detect vertical lines from an image
     img_temp1 = cv2.erode(img_bin, verticle_kernel, iterations=ITERATIONS)
     verticle_lines_img = cv2.dilate(img_temp1, verticle_kernel, iterations=ITERATIONS)
-    if Image_Debug: cv2.imwrite(newSession.getDebugDir()+"verticle_lines.jpg", verticle_lines_img)
+    if Image_Debug: cv2.imwrite(newSession.getDebugDir() + "verticle_lines.jpg", verticle_lines_img)
     # Morphological operation to detect horizontal lines from an image
     img_temp2 = cv2.erode(img_bin, hori_kernel, iterations=ITERATIONS)
     horizontal_lines_img = cv2.dilate(img_temp2, hori_kernel, iterations=ITERATIONS)
-    if Image_Debug: cv2.imwrite(newSession.getDebugDir()+"horizontal_lines.jpg", horizontal_lines_img)
+    if Image_Debug: cv2.imwrite(newSession.getDebugDir() + "horizontal_lines.jpg", horizontal_lines_img)
 
     # summation or two images
     alpha = 0.5
@@ -171,7 +172,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     img_final_bin = cv2.addWeighted(verticle_lines_img, alpha, horizontal_lines_img, beta, 0.0)
     img_final_bin = cv2.erode(~img_final_bin, kernel, iterations=ITERATIONS)
     (thresh, img_final_bin) = cv2.threshold(img_final_bin, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-    if Image_Debug: cv2.imwrite(newSession.getDebugDir()+"img_final_bin.jpg", img_final_bin)
+    if Image_Debug: cv2.imwrite(newSession.getDebugDir() + "img_final_bin.jpg", img_final_bin)
 
     # Find contours for image, which will detect all the boxes
     contours, hierarchy = cv2.findContours(img_final_bin, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -209,13 +210,17 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
                     if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
                             exported_contours[i][3]):
                         if Console_Logger: print("  |----->", exported_contours[i])
-                        new_img = orginal_image[exported_contours[j][1]:exported_contours[j][1] + exported_contours[j][3], exported_contours[j][0]:exported_contours[j][0] + exported_contours[j][2]]
+                        new_img = orginal_image[
+                                  exported_contours[j][1]:exported_contours[j][1] + exported_contours[j][3],
+                                  exported_contours[j][0]:exported_contours[j][0] + exported_contours[j][2]]
                         cv2.imwrite(cropped_dir_path + "Deleted_" + str(j) + '.png', new_img)
                         exported_contours.pop(j)
                         j -= 1  # re-compare previous j element index since it is removed
                     else:
                         if Console_Logger: print("  |----->", exported_contours[i])
-                        new_img = orginal_image[exported_contours[i][1]:exported_contours[i][1] + exported_contours[i][3], exported_contours[i][0]:exported_contours[i][0] + exported_contours[i][2]]
+                        new_img = orginal_image[
+                                  exported_contours[i][1]:exported_contours[i][1] + exported_contours[i][3],
+                                  exported_contours[i][0]:exported_contours[i][0] + exported_contours[i][2]]
                         cv2.imwrite(cropped_dir_path + "Deleted_" + str(i) + '.png', new_img)
                         exported_contours.pop(i)
                         i -= 1  # re-compare previous i element index since it is removed
@@ -295,6 +300,18 @@ def execute_Box_Detection(path):
     # @params:[original image path, enhancedImagePath, exportImageDir]
     box_extraction(path, newSession.getDebugDir() + 'houghlines.jpg', newSession.getCropDir())
 
+
+def wait_for_events(events):
+    for event in events:
+        event.wait()
+
+
+def callback(event, error, response):
+    # handle response
+    event.set()
+    print("AI Done")
+
+
 def startSession(path_to_image):
     # Create and initialize new Session
     global newSession
@@ -313,15 +330,20 @@ def startSession(path_to_image):
 
     # All building block infos stored in blocks class
     # Call AI for further process
-    # imageOnReady()
+    imageOnReady()
 
+
+
+def AIDone():
+    print("AI Done")
 
 # Main
 if __name__ == "__main__":
     # Initialize timer for run time speed
     start = time.time()
     # clearImageDir("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/UserUpload/")
-    startSession("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/Sample Images/Sample_1.jpg")
+    startSession(
+        "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/Sample Images/Sample_1.jpg")
 
     # for i in blocks:
     #     print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
@@ -335,6 +357,24 @@ if __name__ == "__main__":
     #     print("Block ", i, " BEST Prediction: :", getBlockByID(i).getBestPrediction())
     #     print("Block ", i, " Image Path :", getBlockByID(i).getImagePath())
     #     print("========================================================================")
+    import json
+
+    data = {}
+    for i in blocks:
+        data[i] = {'ID': getBlockByID(i).getBlockID(),
+                   'X_Axis': getBlockByID(i).getX_Location(),
+                   'Y_Axis': getBlockByID(i).getY_Location(),
+                   'Width': getBlockByID(i).get_Width(),
+                   'Height': getBlockByID(i).get_Height(),
+                   'Predictions': getBlockByID(i).getPrediction(),
+                   'Best_Predictions': getBlockByID(i).getBestPrediction(),
+                   'Image_Crop_Path': getBlockByID(i).getImagePath(),
+                   'Block_Code': getBlockByID(i).getSingleBlock_HTMLCode()}
+    # data = json.dumps(data, sort_keys=False, indent=3)
+
+    with open("ImageProcessing/"+newSession.getSessionPath()+"/" + 'data.json', 'w') as outfile:
+        # json.dump(JSON, outfile, indent=3)
+        json.dump(data, outfile, indent=3)
 
 
     end = time.time()
@@ -353,4 +393,3 @@ if __name__ == "__main__":
 # [Done] Array index contour removal out of range
 # [Done] Image Dir with sessions
 # [In Progress] Keeping original image size and algo rescale with it
-

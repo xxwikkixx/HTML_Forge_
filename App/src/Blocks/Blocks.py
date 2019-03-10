@@ -135,6 +135,29 @@ def addBlock():
     IDAssignCount += 1
 
 
+def JSONFormat():
+    import json
+    data = {}
+    for i in blocks:
+        data[i] = {'ID': getBlockByID(i).getBlockID(),
+                   'X_Axis': getBlockByID(i).getX_Location(),
+                   'Y_Axis': getBlockByID(i).getY_Location(),
+                   'Width': getBlockByID(i).get_Width(),
+                   'Height': getBlockByID(i).get_Height(),
+                   'Predictions': getBlockByID(i).getPrediction(),
+                   'Best_Predictions': getBlockByID(i).getBestPrediction(),
+                   'Image_Crop_Path': getBlockByID(i).getImagePath(),
+                   'Block_Code': getBlockByID(i).getSingleBlock_HTMLCode()}
+    JSON = json.dumps(data, sort_keys=False, indent=3)
+    with open(newSession.getSessionPath() + 'data.json', 'w') as outfile:
+        JSON = JSONFormat()
+        print(JSON)
+        json.dump(JSON, outfile)
+
+
+    return JSON
+
+
 # Example of how to use this
 def runExample():
     addBlock()  # Creates a new single block object and assigned with ID 1

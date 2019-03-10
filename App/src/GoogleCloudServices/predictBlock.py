@@ -1,14 +1,9 @@
 # TODO(developer): Uncomment and set the following variables
 from multiprocessing import Process
-
-import asyncio
 import os
-from pathlib import Path
-
 from GoogleCloudServices import CloudServiceConfig as config
 from google.cloud import automl_v1beta1 as automl
 from google.cloud import vision
-from multiprocessing import Pool
 
 from Blocks.Blocks import blocks, getBlockByID
 
@@ -140,7 +135,6 @@ def predict(project_id, compute_region, model_id, file_path):
     return prediction
 
 
-
 def imageOnReady():
     print("Ready for AI")
     os.chdir('..')
@@ -149,6 +143,7 @@ def imageOnReady():
     for i in blocks:
         ImgPath = file_path_HEAD + getBlockByID(i).getImagePath()
         Process(target=getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))).start()
+        # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
 
     for i in blocks:
         print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
