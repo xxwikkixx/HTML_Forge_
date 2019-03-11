@@ -5,7 +5,7 @@ from GoogleCloudServices import CloudServiceConfig as config
 from google.cloud import automl_v1beta1 as automl
 from google.cloud import vision
 
-from Blocks.Blocks import blocks, getBlockByID
+from Blocks.Blocks import Blocks
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = config.conf['service_API_Path']
 project_id = config.conf['project_id']
@@ -135,26 +135,26 @@ def predict(project_id, compute_region, model_id, file_path):
     return prediction
 
 
-def imageOnReady():
+def imageOnReady(blocks):
     print("Ready for AI")
     os.chdir('..')
     file_path_HEAD = "ImageProcessing/"
 
-    for i in blocks:
-        ImgPath = file_path_HEAD + getBlockByID(i).getImagePath()
-        Process(target=getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))).start()
+    for i in blocks.blocks:
+        ImgPath = file_path_HEAD + blocks.getBlockByID(i).getImagePath()
+        Process(target=blocks.getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))).start()
         # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
 
-    for i in blocks:
-        print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
-        print("Block ", i, " X Location: :", getBlockByID(i).getX_Location())
-        print("Block ", i, " Y Location: :", getBlockByID(i).getY_Location())
-        print("Block ", i, " Width: :", getBlockByID(i).get_Width())
-        print("Block ", i, " Height: :", getBlockByID(i).get_Height())
-        print("Block ", i, " Image Path :", getBlockByID(i).getImagePath())
+    for i in blocks.blocks:
+        print("Block ", i, " ID: :", blocks.getBlockByID(i).getBlockID())
+        print("Block ", i, " X Location: :", blocks.getBlockByID(i).getX_Location())
+        print("Block ", i, " Y Location: :", blocks.getBlockByID(i).getY_Location())
+        print("Block ", i, " Width: :", blocks.getBlockByID(i).get_Width())
+        print("Block ", i, " Height: :", blocks.getBlockByID(i).get_Height())
+        print("Block ", i, " Image Path :", blocks.getBlockByID(i).getImagePath())
 
         # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
-        print("Block ", i, " Prediction: :", getBlockByID(i).getPrediction())
-        print("Block ", i, " BEST Prediction: :", getBlockByID(i).getBestPrediction())
+        print("Block ", i, " Prediction: :", blocks.getBlockByID(i).getPrediction())
+        print("Block ", i, " BEST Prediction: :", blocks.getBlockByID(i).getBestPrediction())
 
         print("========================================================================")

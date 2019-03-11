@@ -1,8 +1,8 @@
 import itertools
 import random
 from PIL import Image
-
-from MergeTool import dirFiles, checkAllRescale, findCenterXY, scaleByRatio, checkHeightRescale
+import MergeTool
+# from MergeTool import dirFiles, checkAllRescale, findCenterXY, scaleByRatio, checkHeightRescale
 from ImageCons import ImageCons
 
 

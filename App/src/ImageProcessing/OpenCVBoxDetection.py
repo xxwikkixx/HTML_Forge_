@@ -4,7 +4,7 @@ from PIL import Image, ImageEnhance, ImageDraw, ImageFont
 from PIL.ImageColor import getrgb
 from python_utils.converters import to_unicode
 
-from Blocks.Blocks import blocks, addBlock, getBlockByID, JSONFormat
+from Blocks.Blocks import Blocks
 from imutils.contours import sort_contours
 from skimage.filters import threshold_local
 from GoogleCloudServices.predictBlock import imageOnReady
@@ -136,7 +136,7 @@ def line_Bolding(imgpath):
 
 # 3
 # Function for box detection
-def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir_path):
+def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir_path, blocks):
     orginal_image = cv2.imread(original_image_path, 0)
 
     img = cv2.imread(img_for_box_extraction_path, 0)  # Read the image
@@ -250,7 +250,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         new_img = orginal_image[y:y + h, x:x + w]
 
         cv2.imwrite(cropped_dir_path + str(idx) + '.png', new_img)
-        createSingleBlockInstance(idx, x, y, h, w, cropped_dir_path + str(idx) + '.png')
+        createSingleBlockInstance(blocks, idx, x, y, h, w, cropped_dir_path + str(idx) + '.png')
 
         # Display cropped image onto the mlplot
         if Image_Debug: fig.add_subplot(rows, columns, idx)
@@ -264,13 +264,13 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
 
 # 3.5
 # create all the detected blocks as single instance
-def createSingleBlockInstance(id, x, y, h, w, sorcePath):
-    addBlock()
-    getBlockByID(id).setX_Location(x)
-    getBlockByID(id).setY_Location(y)
-    getBlockByID(id).set_Height(h)
-    getBlockByID(id).set_Width(w)
-    getBlockByID(id).setImagePath(sorcePath)
+def createSingleBlockInstance(blocks, id, x, y, h, w, sorcePath):
+    blocks.addBlock()
+    blocks.getBlockByID(id).setX_Location(x)
+    blocks.getBlockByID(id).setY_Location(y)
+    blocks.getBlockByID(id).set_Height(h)
+    blocks.getBlockByID(id).set_Width(w)
+    blocks.getBlockByID(id).setImagePath(sorcePath)
 
 
 # ==================== Helper Function and Tools ========================
@@ -289,35 +289,35 @@ def move_File_To_User_Upload(original, distnation):
     os.rename(current, newDistnation)
 
 
-def execute_Box_Detection(path):
+def execute_Box_Detection(path, blocks):
     imageOutputFileDirectory = newSession.getCropDir()
     # Delete images from previous session
     # clearImageDir(imageOutputFileDirectory)
     # rescale image size to have more unified image to work with
-
-    # image_Rescale(path)
+    image_Rescale(path)
 
     # Analyze thin lines and enhance it
     line_Bolding(path)
     # Execute the block detection feature
     # @params:[original image path, enhancedImagePath, exportImageDir]
-    box_extraction(path, newSession.getDebugDir() + 'houghlines.jpg', newSession.getCropDir())
+    box_extraction(path, newSession.getDebugDir() + 'houghlines.jpg', newSession.getCropDir(), blocks)
 
 
 # Once the AI is finished, draw the detected boxes on to the original image
-def labelDrawBox(src):
+def labelDrawBox(blocks, src):
     source_img = Image.open(src).convert("RGB")
     draw = ImageDraw.Draw(source_img)
     # font = ImageFont.load_default().font
     font = ImageFont.truetype("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/arial.ttf", 28)
-    for i in blocks:
-        x = getBlockByID(i).getX_Location()
-        y = getBlockByID(i).getY_Location()
-        w = getBlockByID(i).get_Width()
-        h = getBlockByID(i).get_Height()
+    for i in blocks.blocks:
+        x = blocks.getBlockByID(i).getX_Location()
+        y = blocks.getBlockByID(i).getY_Location()
+        w = blocks.getBlockByID(i).get_Width()
+        h = blocks.getBlockByID(i).get_Height()
 
         draw.rectangle(((x, y), (x + w, y + h)), outline="red", width=4)
-        draw.text((x, y), str(getBlockByID(i).getBestPrediction()), fill="red", font=font)
+        draw.text((x+10, y), str(blocks.getBlockByID(i).getBestPrediction()), fill="red", font=font)
+    source_img.show()
     source_img.save(src, "JPEG")
 
 
@@ -334,14 +334,16 @@ def startSession(path_to_image):
     # Image first got fed through corner detection for initial crop [This will get more unify result]
     cornerFit(newSession.getSessionPath() + "/" + imgName)
 
+    blocksDB = Blocks()
     # Pass in the pre cropped image for building block detection
-    execute_Box_Detection(newSession.getSessionPath() + "/" + imgName)
+    execute_Box_Detection(newSession.getSessionPath() + "/" + imgName, blocksDB)
 
     # All building block infos stored in blocks class
     # Call AI for further process
-    imageOnReady()
+    imageOnReady(blocksDB)
 
-    labelDrawBox("ImageProcessing/" + newSession.getSessionPath() + imgName)
+    labelDrawBox(blocksDB,"ImageProcessing/" + newSession.getSessionPath() + imgName)
+    blocksDB.JSONFormat("ImageProcessing/" + newSession.getSessionPath() + "/" + "data.json")
 
 
 # Main
@@ -349,39 +351,10 @@ if __name__ == "__main__":
     # Initialize timer for run time speed
     start = time.time()
     # clearImageDir("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/UserUpload/")
+
     startSession(
-        "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/Sample Images/Sample_1.jpg")
+        "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/Sample Images/temp_2.JPG")
 
-    # for i in blocks:
-    #     print("Block ", i, " ID: :", getBlockByID(i).getBlockID())
-    #     print("Block ", i, " X Location: :", getBlockByID(i).getX_Location())
-    #     print("Block ", i, " Y Location: :", getBlockByID(i).getY_Location())
-    #     print("Block ", i, " Width: :", getBlockByID(i).get_Width())
-    #     print("Block ", i, " Height: :", getBlockByID(i).get_Height())
-    #
-    #     # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
-    #     print("Block ", i, " Prediction: :", getBlockByID(i).getPrediction())
-    #     print("Block ", i, " BEST Prediction: :", getBlockByID(i).getBestPrediction())
-    #     print("Block ", i, " Image Path :", getBlockByID(i).getImagePath())
-    #     print("========================================================================")
-
-    # JSON Format Export
-    import json
-
-    data = {}
-    for i in blocks:
-        data[i] = {'ID': getBlockByID(i).getBlockID(),
-                   'X_Axis': getBlockByID(i).getX_Location(),
-                   'Y_Axis': getBlockByID(i).getY_Location(),
-                   'Width': getBlockByID(i).get_Width(),
-                   'Height': getBlockByID(i).get_Height(),
-                   'Predictions': getBlockByID(i).getPrediction(),
-                   'Best_Predictions': getBlockByID(i).getBestPrediction(),
-                   'Image_Crop_Path': getBlockByID(i).getImagePath(),
-                   'Block_Code': getBlockByID(i).getSingleBlock_HTMLCode()}
-
-    with open("ImageProcessing/" + newSession.getSessionPath() + "/" + 'data.json', 'w') as outfile:
-        json.dump(data, outfile, indent=3)
 
     end = time.time()
     print("Process Run Time: Seconds: ", end - start)
@@ -395,6 +368,7 @@ if __name__ == "__main__":
 # [Done]  Uses child relationship and hierarchy to know the objects within each block
 #               and eventually add it into single block attribute
 # [Done]  JSON File Formatter
+# [Done]  Image Drawing, boxing out detected labels
 
 # Need to fix
 # [Done] Array index contour removal out of range
