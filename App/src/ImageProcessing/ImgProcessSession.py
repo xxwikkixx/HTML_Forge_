@@ -9,11 +9,11 @@ class ImageProcessSession:
         os.mkdir(self.sessionPath)
 
     def createCropDir(self):
-        self.cropDir = self.sessionPath + "/ImageCrops" + "/"
+        self.cropDir = self.sessionPath + "ImageCrops" + "/"
         os.mkdir(self.cropDir)
 
     def createDebugDir(self):
-        self.debugDir = self.sessionPath + "/Debug" + "/"
+        self.debugDir = self.sessionPath + "Debug" + "/"
         os.mkdir(self.debugDir)
 
     def __init__(self):

@@ -1,4 +1,5 @@
 import random
+from pathlib import Path
 
 from PIL import Image, ImageEnhance, ImageDraw, ImageFont
 from PIL.ImageColor import getrgb
@@ -33,6 +34,7 @@ TARESHOLD = 20
 MIN_LINE_LENG = 30
 MAX_LINE_GAP = 25
 exported_contours = []
+FULL_PATH_TO_THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
 
 
 # 1
@@ -250,7 +252,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         new_img = orginal_image[y:y + h, x:x + w]
 
         cv2.imwrite(cropped_dir_path + str(idx) + '.png', new_img)
-        createSingleBlockInstance(blocks, idx, x, y, h, w, cropped_dir_path + str(idx) + '.png')
+        createSingleBlockInstance(blocks, idx, x, y, h, w, FULL_PATH_TO_THIS_FOLDER+"/"+cropped_dir_path + str(idx) + '.png')
 
         # Display cropped image onto the mlplot
         if Image_Debug: fig.add_subplot(rows, columns, idx)
@@ -300,7 +302,8 @@ def execute_Box_Detection(path, blocks):
     line_Bolding(path)
     # Execute the block detection feature
     # @params:[original image path, enhancedImagePath, exportImageDir]
-    box_extraction(path, newSession.getDebugDir() + 'houghlines.jpg', newSession.getCropDir(), blocks)
+    cp_Dir = newSession.getCropDir()
+    box_extraction(path, newSession.getDebugDir() + 'houghlines.jpg', cp_Dir, blocks)
 
 
 # Once the AI is finished, draw the detected boxes on to the original image
@@ -308,7 +311,7 @@ def labelDrawBox(blocks, src):
     source_img = Image.open(src).convert("RGB")
     draw = ImageDraw.Draw(source_img)
     # font = ImageFont.load_default().font
-    font = ImageFont.truetype("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/arial.ttf", 28)
+    font = ImageFont.truetype(FULL_PATH_TO_THIS_FOLDER + "/arial.ttf", 28)
     for i in blocks.blocks:
         x = blocks.getBlockByID(i).getX_Location()
         y = blocks.getBlockByID(i).getY_Location()
@@ -342,8 +345,21 @@ def startSession(path_to_image):
     # Call AI for further process
     imageOnReady(blocksDB)
 
-    labelDrawBox(blocksDB,"ImageProcessing/" + newSession.getSessionPath() + imgName)
-    blocksDB.JSONFormat("ImageProcessing/" + newSession.getSessionPath() + "/" + "data.json")
+    labelDrawBox(blocksDB, FULL_PATH_TO_THIS_FOLDER + "/" + newSession.getSessionPath() + imgName)
+    blocksDB.JSONFormat(FULL_PATH_TO_THIS_FOLDER + "/" + newSession.getSessionPath() + "/" + "data.json")
+
+    # for i in blocksDB.blocks:
+    #     print("Block ", i, " ID: :", blocksDB.getBlockByID(i).getBlockID())
+    #     print("Block ", i, " X Location: :", blocksDB.getBlockByID(i).getX_Location())
+    #     print("Block ", i, " Y Location: :", blocksDB.getBlockByID(i).getY_Location())
+    #     print("Block ", i, " Width: :", blocksDB.getBlockByID(i).get_Width())
+    #     print("Block ", i, " Height: :", blocksDB.getBlockByID(i).get_Height())
+    #     print("Block ", i, " Image Path :", blocksDB.getBlockByID(i).getImagePath())
+    #
+    #     # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
+    #     print("Block ", i, " Prediction: :", blocksDB.getBlockByID(i).getPrediction())
+    #     print("Block ", i, " BEST Prediction: :", blocksDB.getBlockByID(i).getBestPrediction())
+    #     print("========================================================================")
 
 
 # Main
@@ -354,6 +370,7 @@ if __name__ == "__main__":
 
     startSession(
         "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/Sample Images/temp_2.JPG")
+
 
 
     end = time.time()
@@ -369,6 +386,7 @@ if __name__ == "__main__":
 #               and eventually add it into single block attribute
 # [Done]  JSON File Formatter
 # [Done]  Image Drawing, boxing out detected labels
+# [Done]  Full Image Path
 
 # Need to fix
 # [Done] Array index contour removal out of range
