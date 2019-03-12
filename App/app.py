@@ -32,9 +32,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/upload', methods = ['GET', 'POST', 'DELETE'])
 def upload_file():
+    file = request.files['file']
     filename = secure_filename(file.filename)
     if request.method == 'POST':
-        file = request.files['file']
         if file and allowed_file(file.filename):
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return jsonify(name=filename)
@@ -44,7 +44,7 @@ def upload_file():
     if request.method == 'DELETE':
         if os.path.exists(UPLOAD_FOLDER + filename):
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return "File Deleted"
+            return "File Delete"
     return 'ok'
 
 
