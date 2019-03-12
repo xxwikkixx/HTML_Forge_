@@ -12,7 +12,7 @@ cors = CORS(app)
 
 @app.route('/')
 def mainPage():
-    startSession('/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/Sample Images/S_1.jpg')
+    startSession('Sample Images/S_1.jpg')
     return "Server OK"
     # return render_template('LandingPage.html')
 
@@ -58,7 +58,7 @@ def ApiImageUploadedReturn():
     filesInDir = []
     for root, dirs, files in os.walk(os.path.abspath("static")):
         for item in files:
-            print(item)
+            # print(item)
             filesInDir.append(item)
 
     filesURL = {}
