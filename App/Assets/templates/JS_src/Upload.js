@@ -30,6 +30,7 @@ FilePond.setOptions({
           method: 'POST',
           onload: (response) => {
               console.log(response)
+              imageJSON()
               // window.location.href='http://google.com'
           }
       },
@@ -43,3 +44,14 @@ FilePond.setOptions({
       }
   }
 });
+
+
+function imageJSON(){
+    fetch('http://localhost:5000/api/imageuploaded')
+        .then(function (response) {
+            return response.json()
+        })
+        .then(data =>{
+            console.log(data)
+        })
+}
