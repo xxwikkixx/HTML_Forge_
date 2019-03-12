@@ -17,14 +17,16 @@ class SingleBlock:
         self.image_path = ""
 
         self.prediction = []
-
         self.bestPrediction = []
+        self.secondBestPrediction = []
 
         # self.predictionScore = []
 
     def setPrediction(self, prediction):
         self.prediction = prediction
         self.bestPrediction = max(prediction, key=lambda x: x[1])
+        arr = sorted(prediction, key=lambda x: x[1])
+        self.secondBestPrediction = arr[len(arr)-2]
         # self.predictionScore = score
 
     def getPrediction(self):
@@ -35,6 +37,9 @@ class SingleBlock:
 
     def setBestPrediction(self, lst):
         self.bestPrediction = lst
+
+    def getScondBest(self):
+        return self.secondBestPrediction
 
     def setBlockID(self, assignID):
         self.blockID = assignID

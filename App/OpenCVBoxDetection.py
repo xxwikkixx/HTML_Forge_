@@ -383,18 +383,19 @@ def startSession(path_to_image):
     labelDrawBox(blocksDB, newSession.getSessionPath() + imgName)
     blocksDB.JSONFormat(newSession.getSessionPath() + "/" + "data.json")
 
-    for i in blocksDB.blocks:
-        print("Block ", i, " ID: :", blocksDB.getBlockByID(i).getBlockID())
-        print("Block ", i, " X Location: :", blocksDB.getBlockByID(i).getX_Location())
-        print("Block ", i, " Y Location: :", blocksDB.getBlockByID(i).getY_Location())
-        print("Block ", i, " Width: :", blocksDB.getBlockByID(i).get_Width())
-        print("Block ", i, " Height: :", blocksDB.getBlockByID(i).get_Height())
-        print("Block ", i, " Image Path :", blocksDB.getBlockByID(i).getImagePath())
-
-        # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
-        print("Block ", i, " Prediction: :", blocksDB.getBlockByID(i).getPrediction())
-        print("Block ", i, " BEST Prediction: :", blocksDB.getBlockByID(i).getBestPrediction())
-        print("========================================================================")
+    # for i in blocksDB.blocks:
+    #     print("Block ", i, " ID: :", blocksDB.getBlockByID(i).getBlockID())
+    #     print("Block ", i, " X Location: :", blocksDB.getBlockByID(i).getX_Location())
+    #     print("Block ", i, " Y Location: :", blocksDB.getBlockByID(i).getY_Location())
+    #     print("Block ", i, " Width: :", blocksDB.getBlockByID(i).get_Width())
+    #     print("Block ", i, " Height: :", blocksDB.getBlockByID(i).get_Height())
+    #     print("Block ", i, " Image Path :", blocksDB.getBlockByID(i).getImagePath())
+    #
+    #     # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
+    #     print("Block ", i, " Prediction: :", blocksDB.getBlockByID(i).getPrediction())
+    #     print("Block ", i, " BEST Prediction: :", blocksDB.getBlockByID(i).getBestPrediction())
+    #     print("Block ", i, " Second BEST Prediction: :", blocksDB.getBlockByID(i).getScondBest())
+    #     print("========================================================================")
 
     return newSession.getSessionID(), newSession.getSessionPath()+"data.json"
 

@@ -29,6 +29,7 @@ class Blocks:
                        'Height': self.getBlockByID(i).get_Height(),
                        'Predictions': self.getBlockByID(i).getPrediction(),
                        'Best_Predictions': self.getBlockByID(i).getBestPrediction(),
+                       'Second_Best': self.getBlockByID(i).getScondBest(),
                        'Image_Crop_Path': self.getBlockByID(i).getImagePath(),
                        'Block_Code': self.getBlockByID(i).getSingleBlock_HTMLCode()}
 

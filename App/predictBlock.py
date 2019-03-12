@@ -155,5 +155,6 @@ def imageOnReady(blocks):
         # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
         print("Block ", i, " Prediction: :", blocks.getBlockByID(i).getPrediction())
         print("Block ", i, " BEST Prediction: :", blocks.getBlockByID(i).getBestPrediction())
+        print("Block ", i, " Second BEST Prediction: :", blocks.getBlockByID(i).getScondBest())
 
         print("========================================================================")
