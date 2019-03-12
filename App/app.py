@@ -6,6 +6,7 @@ from flask_cors import CORS, cross_origin
 
 
 app = Flask(__name__)
+app.debug = True
 cors = CORS(app)
 
 
@@ -22,6 +23,9 @@ def detectBrowser():
     uas = request.user_agent.string
     return browser + platform + uas
 
+def returnURL():
+
+
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -37,7 +41,7 @@ def upload_file():
     if request.method == 'POST':
         if file and allowed_file(file.filename):
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return jsonify(name=filename)
+            return jsonify(imageUpload = url_for('upload_file', filename=filename))
         else:
             return "File Extension not allowed"
 
