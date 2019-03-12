@@ -26,7 +26,9 @@ TARESHOLD = 20
 MIN_LINE_LENG = 30
 MAX_LINE_GAP = 25
 exported_contours = []
-FULL_PATH_TO_THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+FULL_PATH_TO_THIS_FOLDER = (os.getcwd())
+
+print ("Full", FULL_PATH_TO_THIS_FOLDER)
 
 
 # 1
@@ -254,7 +256,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
 
         cv2.imwrite(cropped_dir_path + str(idx) + '.png', new_img)
         createSingleBlockInstance(blocks, idx, x, y, h, w,
-                                  FULL_PATH_TO_THIS_FOLDER + "/" + cropped_dir_path + str(idx) + '.png')
+                                   cropped_dir_path + str(idx) + '.png')
 
         # Display cropped image onto the mlplot
         if Image_Debug: fig.add_subplot(rows, columns, idx)
@@ -347,8 +349,8 @@ def startSession(path_to_image):
     # Call AI for further process
     imageOnReady(blocksDB)
 
-    labelDrawBox(blocksDB, FULL_PATH_TO_THIS_FOLDER + "/" + newSession.getSessionPath() + imgName)
-    blocksDB.JSONFormat(FULL_PATH_TO_THIS_FOLDER + "/" + newSession.getSessionPath() + "/" + "data.json")
+    labelDrawBox(blocksDB, newSession.getSessionPath() + imgName)
+    blocksDB.JSONFormat(newSession.getSessionPath() + "/" + "data.json")
 
     # for i in blocksDB.blocks:
     #     print("Block ", i, " ID: :", blocksDB.getBlockByID(i).getBlockID())
@@ -372,7 +374,7 @@ if __name__ == "__main__":
 
     # passToken(newsession.getSessionID())
     startSession(
-        "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/Sample Images/Sample_1.jpg")
+        "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/Sample Images/Sample_1.jpg")
 
     end = time.time()
     print("Process Run Time: Seconds: ", end - start)

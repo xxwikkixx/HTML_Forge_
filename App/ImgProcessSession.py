@@ -5,7 +5,9 @@ from SessionIDGen import generateSessionID, generateID
 
 class ImageProcessSession:
     def createSessionDir(self):
-        self.sessionPath = "UserUpload/" + self.sessionID + "/"
+        cwd = os.getcwd()
+        print (cwd)
+        self.sessionPath = cwd+"/UserUpload/" + self.sessionID + "/"
         os.mkdir(self.sessionPath)
 
     def createCropDir(self):
@@ -45,13 +47,13 @@ class ImageProcessSession:
 
     def getpathToUserImage(self):
         folderPath = (os.getcwd())
-        return folderPath + "/" + self.sessionPath + "/" + self.fileName
+        return self.sessionPath + "/" + self.fileName
 
     def userImageImport(self, src):
         folderPath = (os.getcwd())
         baseName = os.path.basename(src)
         self.fileName = baseName
-        copyfile(src, folderPath + "/" + self.sessionPath + baseName)
+        copyfile(src, self.sessionPath + baseName)
 
 
 

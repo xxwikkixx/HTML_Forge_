@@ -136,10 +136,11 @@ def predict(project_id, compute_region, model_id, file_path):
 
 def imageOnReady(blocks):
     print("Ready for AI")
-    os.chdir('..')
+    # os.chdir('..')
 
     for i in blocks.blocks:
         ImgPath = blocks.getBlockByID(i).getImagePath()
+        print (ImgPath)
         Process(target=blocks.getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))).start()
         # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
 
