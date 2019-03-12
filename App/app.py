@@ -2,10 +2,8 @@ import os
 from flask import Flask, abort, render_template, request, redirect, url_for, jsonify, send_file, send_from_directory, make_response, session
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
-
 # Internal Classes
-# from src.ImageProcessing import OpenCVBoxDetection
-
+from OpenCVBoxDetection import startSession
 
 app = Flask(__name__)
 app.debug = True
@@ -14,7 +12,7 @@ cors = CORS(app)
 
 @app.route('/')
 def mainPage():
-    # OpenCVBoxDetection.startSession('Assets/Images/IMG_1536.JPG')
+    startSession('/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/Sample Images/S_1.jpg')
     return "Server OK"
     # return render_template('LandingPage.html')
 
