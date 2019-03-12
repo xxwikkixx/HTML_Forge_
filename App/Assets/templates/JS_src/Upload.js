@@ -16,20 +16,30 @@ FilePond.registerPlugin(
   FilePondPluginImagePreview
 );
 
+
 // Select the file input and use create() to turn it into a pond
 FilePond.create(
 	document.querySelector('input')
 );
 
 FilePond.setOptions({
-    server: {
-        url: 'http://localhost:5000',
-        process: {
-            url: '/upload',
-            onload: (response) => {
-                console.log(response)
-                // window.location.href='http://google.com'
-            }
-        }
-    }
+  server: {
+      url: 'http://localhost:5000',
+      process: {
+          url: '/upload',
+          method: 'POST',
+          onload: (response) => {
+              console.log(response)
+              // window.location.href='http://google.com'
+          }
+      },
+      revert:{
+          url: '/upload',
+          method: 'DELETE',
+          onload: (response) => {
+              console.log(response)
+              // window.location.href='http://google.com'
+          }
+      }
+  }
 });
