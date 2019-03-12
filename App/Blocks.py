@@ -33,4 +33,4 @@ class Blocks:
                        'Block_Code': self.getBlockByID(i).getSingleBlock_HTMLCode()}
 
         with open(path, 'w') as outfile:
-            json.dump(data, outfile, indent=3)
+            json.dump(data, outfile, indent=3, sort_keys=False)

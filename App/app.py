@@ -12,8 +12,9 @@ cors = CORS(app)
 
 @app.route('/')
 def mainPage():
-    startSession('Sample Images/S_1.jpg')
-    return "Server OK"
+    sessionID, JSON_Path = startSession('Sample Images/S_1.jpg')
+
+    return "Session ID : " + sessionID + "</br> JSON Path: " + JSON_Path
     # return render_template('LandingPage.html')
 
 

@@ -205,9 +205,10 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     #         if 0 < i < len(exported_contours) and 0 < j < len(exported_contours):
     #             if exported_contours[i] != exported_contours[j]:
     #                 print("IN Condition")
-    #                 temp_1, temp_2 = abs(sum(exported_contours[i])), abs(sum(exported_contours[j]))
+    #                 temp_1, temp_2 = float(abs(sum(exported_contours[i]))), float(abs(sum(exported_contours[j])))
     #                 # if two images are similar within the range
-    #                 if 0.98 < (temp_1 / temp_2) < 1.02:
+    #                 print("lalala",temp_2/temp_1)
+    #                 if 0.95 < temp_1 / temp_2 < 1.05:
     #                     if Console_Logger: print("Delete Log: Image Similar contour removed")
     #
     #                     # Choose the bigger contour and pop the smaller crop
@@ -228,8 +229,38 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     #                         cv2.imwrite(cropped_dir_path + "Deleted_" + str(i) + '.png', new_img)
     #                         exported_contours.pop(i)
     #                         i -= 1  # re-compare previous i element index since it is removed
+    #
+
+
             # else:
             #     raise IndexError("Array pop index exception!!")
+        # Iterate through final candidates and remove repetitive blocks
+    for i in range(len(exported_contours) - 1, 0, -1):
+        for j in range(i):
+            # Compare X axis and Y see if it is similar crop
+            if i <= len(exported_contours) and j <= len(exported_contours):
+                temp_1, temp_2 = float(abs(sum(exported_contours[i]))), float(abs(sum(exported_contours[j])))
+                # if two images are similar within the range
+                if 0.98 < (temp_1 / temp_2) < 1.05:
+                    if Console_Logger: print("Delete Log: Image Similar contour removed")
+                    # Choose the bigger contour and pop the smaller crop
+                    if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
+                            exported_contours[i][3]):
+                        if Console_Logger: print("  |----->", exported_contours[i])
+                        new_img = orginal_image[ exported_contours[j][1]:exported_contours[j][1] + exported_contours[j][3], exported_contours[j][0]:exported_contours[j][0] + exported_contours[j][2]]
+                        cv2.imwrite(cropped_dir_path + "Deleted_" + str(j) + '.png', new_img)
+                        exported_contours.pop(j)
+                        j -= 1  # re-compare previous j element index since it is removed
+                    else:
+                        if Console_Logger: print("  |----->", exported_contours[i])
+                        new_img = orginal_image[
+                                exported_contours[i][1]:exported_contours[i][1] + exported_contours[i][3],
+                                exported_contours[i][0]:exported_contours[i][0] + exported_contours[i][2]]
+                        cv2.imwrite(cropped_dir_path + "Deleted_" + str(i) + '.png', new_img)
+                        exported_contours.pop(i)
+                        i -= 1  # re-compare previous i element index since it is removed
+            else:
+                raise IndexError("Array pop index exception!!")
 
     # Iterate through final candidates and remove repetitive blocks
     # for i in range(len(exported_contours) - 1, 0, -1):
@@ -347,24 +378,25 @@ def startSession(path_to_image):
 
     # All building block infos stored in blocks class
     # Call AI for further process
-    imageOnReady(blocksDB)
+    # imageOnReady(blocksDB)
 
     labelDrawBox(blocksDB, newSession.getSessionPath() + imgName)
     blocksDB.JSONFormat(newSession.getSessionPath() + "/" + "data.json")
 
-    # for i in blocksDB.blocks:
-    #     print("Block ", i, " ID: :", blocksDB.getBlockByID(i).getBlockID())
-    #     print("Block ", i, " X Location: :", blocksDB.getBlockByID(i).getX_Location())
-    #     print("Block ", i, " Y Location: :", blocksDB.getBlockByID(i).getY_Location())
-    #     print("Block ", i, " Width: :", blocksDB.getBlockByID(i).get_Width())
-    #     print("Block ", i, " Height: :", blocksDB.getBlockByID(i).get_Height())
-    #     print("Block ", i, " Image Path :", blocksDB.getBlockByID(i).getImagePath())
-    #
-    #     # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
-    #     print("Block ", i, " Prediction: :", blocksDB.getBlockByID(i).getPrediction())
-    #     print("Block ", i, " BEST Prediction: :", blocksDB.getBlockByID(i).getBestPrediction())
-    #     print("========================================================================")
+    for i in blocksDB.blocks:
+        print("Block ", i, " ID: :", blocksDB.getBlockByID(i).getBlockID())
+        print("Block ", i, " X Location: :", blocksDB.getBlockByID(i).getX_Location())
+        print("Block ", i, " Y Location: :", blocksDB.getBlockByID(i).getY_Location())
+        print("Block ", i, " Width: :", blocksDB.getBlockByID(i).get_Width())
+        print("Block ", i, " Height: :", blocksDB.getBlockByID(i).get_Height())
+        print("Block ", i, " Image Path :", blocksDB.getBlockByID(i).getImagePath())
 
+        # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
+        print("Block ", i, " Prediction: :", blocksDB.getBlockByID(i).getPrediction())
+        print("Block ", i, " BEST Prediction: :", blocksDB.getBlockByID(i).getBestPrediction())
+        print("========================================================================")
+
+    return newSession.getSessionID(), newSession.getSessionPath()+"data.json"
 
 # Main
 if __name__ == "__main__":
@@ -373,8 +405,8 @@ if __name__ == "__main__":
     # clearImageDir("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/UserUpload/")
 
     # passToken(newsession.getSessionID())
-    startSession(
-        "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/Sample Images/Sample_1.jpg")
+    # startSession(
+    #     "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/Sample Images/Sample_1.jpg")
 
     end = time.time()
     print("Process Run Time: Seconds: ", end - start)
