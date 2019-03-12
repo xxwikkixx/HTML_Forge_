@@ -1,6 +1,6 @@
 import os
 from shutil import copyfile
-from ImageProcessing.SessionIDGen import generateSessionID, generateID
+from SessionIDGen import generateSessionID, generateID
 
 
 class ImageProcessSession:

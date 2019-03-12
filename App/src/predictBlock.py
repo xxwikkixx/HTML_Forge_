@@ -1,11 +1,10 @@
 # TODO(developer): Uncomment and set the following variables
 from multiprocessing import Process
 import os
-from GoogleCloudServices import CloudServiceConfig as config
+import CloudServiceConfig as config
 from google.cloud import automl_v1beta1 as automl
 from google.cloud import vision
-
-from Blocks.Blocks import Blocks
+import Blocks
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = config.conf['service_API_Path']
 project_id = config.conf['project_id']

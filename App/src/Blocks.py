@@ -1,5 +1,5 @@
-from Blocks.SingleBlock import SingleBlock
-
+from SingleBlock import SingleBlock
+import json
 
 class Blocks:
     def __init__(self):
@@ -7,7 +7,7 @@ class Blocks:
         self.IDAssignCount = 1
 
     # Function will return individual block as an SingleBlock Object
-    def getBlockByID(self, blockID: int):
+    def getBlockByID(self, blockID):
         return self.blocks[blockID]
 
     def getTotalBlocks(self):
@@ -20,7 +20,6 @@ class Blocks:
         self.IDAssignCount += 1
 
     def JSONFormat(self, path):
-        import json
         data = {}
         for i in self.blocks:
             data[i] = {'ID': self.getBlockByID(i).getBlockID(),

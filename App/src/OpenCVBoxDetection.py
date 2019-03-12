@@ -1,17 +1,8 @@
-import random
-from pathlib import Path
-
 from PIL import Image, ImageEnhance, ImageDraw, ImageFont
-from PIL.ImageColor import getrgb
-from python_utils.converters import to_unicode
-
-from Blocks.Blocks import Blocks
+from predictBlock import imageOnReady
+from ImgProcessSession import ImageProcessSession
+from Blocks import Blocks
 from imutils.contours import sort_contours
-from skimage.filters import threshold_local
-from GoogleCloudServices.predictBlock import imageOnReady
-from ImageProcessing.ImgProcessSession import ImageProcessSession
-import threading
-import functools
 import cv2
 import os
 import glob
@@ -51,7 +42,7 @@ def image_Rescale(image_Path):
 def applyGaussian(path):
     # read the image
     img = cv2.imread(path)
-    # convert image to gray scale image
+    # convert image to gray scale imag
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
     T = threshold_local(gray, 21, offset=80, method="gaussian")
@@ -202,35 +193,44 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
             if Console_Logger: print("Crop Log: ", [x, y, w, h])
             exported_contours.append([x, y, w, h])
 
+    print(exported_contours)
+
+    # for i in range(0, len(exported_contours)):
+    #     for j in range(0, len(exported_contours)):
+    #         print (i, j)
+    #         # Compare X axis and Y see if it is similar crop
+    #         if 0 < i < len(exported_contours) and 0 < j < len(exported_contours):
+    #             if exported_contours[i] != exported_contours[j]:
+    #                 print("IN Condition")
+    #                 temp_1, temp_2 = abs(sum(exported_contours[i])), abs(sum(exported_contours[j]))
+    #                 # if two images are similar within the range
+    #                 if 0.98 < (temp_1 / temp_2) < 1.02:
+    #                     if Console_Logger: print("Delete Log: Image Similar contour removed")
+    #
+    #                     # Choose the bigger contour and pop the smaller crop
+    #                     if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
+    #                             exported_contours[i][3]):
+    #                         if Console_Logger: print("  |----->", exported_contours[i])
+    #                         new_img = orginal_image[
+    #                                   exported_contours[j][1]:exported_contours[j][1] + exported_contours[j][3],
+    #                                   exported_contours[j][0]:exported_contours[j][0] + exported_contours[j][2]]
+    #                         cv2.imwrite(cropped_dir_path + "Deleted_" + str(j) + '.png', new_img)
+    #                         exported_contours.pop(j)
+    #                         j -= 1  # re-compare previous j element index since it is removed
+    #                     else:
+    #                         if Console_Logger: print("  |----->", exported_contours[i])
+    #                         new_img = orginal_image[
+    #                                   exported_contours[i][1]:exported_contours[i][1] + exported_contours[i][3],
+    #                                   exported_contours[i][0]:exported_contours[i][0] + exported_contours[i][2]]
+    #                         cv2.imwrite(cropped_dir_path + "Deleted_" + str(i) + '.png', new_img)
+    #                         exported_contours.pop(i)
+    #                         i -= 1  # re-compare previous i element index since it is removed
+            # else:
+            #     raise IndexError("Array pop index exception!!")
+
     # Iterate through final candidates and remove repetitive blocks
-    for i in range(len(exported_contours) - 1, 0, -1):
-        for j in range(i):
-            # Compare X axis and Y see if it is similar crop
-            if i <= len(exported_contours) and j <= len(exported_contours):
-                temp_1, temp_2 = abs(sum(exported_contours[i])), abs(sum(exported_contours[j]))
-                # if two images are similar within the range
-                if 0.98 < (temp_1 / temp_2) < 1.05:
-                    if Console_Logger: print("Delete Log: Image Similar contour removed")
-                    # Choose the bigger contour and pop the smaller crop
-                    if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
-                            exported_contours[i][3]):
-                        if Console_Logger: print("  |----->", exported_contours[i])
-                        new_img = orginal_image[
-                                  exported_contours[j][1]:exported_contours[j][1] + exported_contours[j][3],
-                                  exported_contours[j][0]:exported_contours[j][0] + exported_contours[j][2]]
-                        cv2.imwrite(cropped_dir_path + "Deleted_" + str(j) + '.png', new_img)
-                        exported_contours.pop(j)
-                        j -= 1  # re-compare previous j element index since it is removed
-                    else:
-                        if Console_Logger: print("  |----->", exported_contours[i])
-                        new_img = orginal_image[
-                                  exported_contours[i][1]:exported_contours[i][1] + exported_contours[i][3],
-                                  exported_contours[i][0]:exported_contours[i][0] + exported_contours[i][2]]
-                        cv2.imwrite(cropped_dir_path + "Deleted_" + str(i) + '.png', new_img)
-                        exported_contours.pop(i)
-                        i -= 1  # re-compare previous i element index since it is removed
-            else:
-                raise IndexError("Array pop index exception!!")
+    # for i in range(len(exported_contours) - 1, 0, -1):
+    #     for j in range(i):
 
     if Console_Logger: print("============================")
 
@@ -252,7 +252,8 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         new_img = orginal_image[y:y + h, x:x + w]
 
         cv2.imwrite(cropped_dir_path + str(idx) + '.png', new_img)
-        createSingleBlockInstance(blocks, idx, x, y, h, w, FULL_PATH_TO_THIS_FOLDER+"/"+cropped_dir_path + str(idx) + '.png')
+        createSingleBlockInstance(blocks, idx, x, y, h, w,
+                                  FULL_PATH_TO_THIS_FOLDER + "/" + cropped_dir_path + str(idx) + '.png')
 
         # Display cropped image onto the mlplot
         if Image_Debug: fig.add_subplot(rows, columns, idx)
@@ -319,7 +320,7 @@ def labelDrawBox(blocks, src):
         h = blocks.getBlockByID(i).get_Height()
 
         draw.rectangle(((x, y), (x + w, y + h)), outline="red", width=4)
-        draw.text((x+10, y), str(blocks.getBlockByID(i).getBestPrediction()), fill="red", font=font)
+        draw.text((x + 10, y), str(blocks.getBlockByID(i).getBestPrediction()), fill="red", font=font)
     source_img.show()
     source_img.save(src, "JPEG")
 
@@ -368,10 +369,9 @@ if __name__ == "__main__":
     start = time.time()
     # clearImageDir("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/UserUpload/")
 
+    # passToken(newsession.getSessionID())
     startSession(
-        "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/Sample Images/temp_2.JPG")
-
-
+        "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/Sample Images/Sample_1.jpg")
 
     end = time.time()
     print("Process Run Time: Seconds: ", end - start)

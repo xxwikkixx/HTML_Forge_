@@ -36,75 +36,75 @@ class SingleBlock:
     def setBestPrediction(self, lst):
         self.bestPrediction = lst
 
-    def setBlockID(self, assignID: int):
+    def setBlockID(self, assignID):
         self.blockID = assignID
 
     def getBlockID(self):
         return self.blockID
 
-    def setBlockType(self, blockType: int):
+    def setBlockType(self, blockType):
         self.blockType = blockType
 
     def getBlockType(self):
         return self.blockType
 
     # Attribute and Behavior Dictionary Getter and Setters
-    def appendAttribute(self, attributeTag: int, userSetProperty: str):
+    def appendAttribute(self, attributeTag, userSetProperty):
         self.attributesDict[attributeTag] = userSetProperty
 
-    def removeAttribute(self, attributeTag: int):
+    def removeAttribute(self, attributeTag):
         del self.attributesDict[attributeTag]
 
     def getBlockAttributes(self):
         return self.attributesDict
 
-    def appendBehavior(self, behaviorTag: int, userSetProperty: str):
+    def appendBehavior(self, behaviorTag, userSetProperty):
         self.behaviorsDict[behaviorTag] = userSetProperty
 
-    def removeBehavior(self, behaviorTag: int):
+    def removeBehavior(self, behaviorTag):
         del self.behaviorDict[behaviorTag]
 
     def getBlockBehavior(self):
         return self.behaviorsDict
 
     # HTML of each individual building Block Objects
-    def setSingleBlock_HTMLCode(self, HTMLcode: str):
+    def setSingleBlock_HTMLCode(self, HTMLcode):
         self.blockCode = HTMLcode
 
     def getSingleBlock_HTMLCode(self):
         return self.blockCode
 
-    def setSingleBlock_InHTML(self, userText: str):
+    def setSingleBlock_InHTML(self, userText):
         self.inHTML = userText
 
     def getSingleBlock_InHTML(self):
         return self.inHTML
 
-    def setX_Location(self, xVal: int):
+    def setX_Location(self, xVal):
         self.x_Location = xVal
 
     def getX_Location(self):
         return self.x_Location
 
-    def setY_Location(self, yVal: int):
+    def setY_Location(self, yVal):
         self.y_Location = yVal
 
     def getY_Location(self):
         return self.y_Location
 
-    def set_Width(self, wVal: int):
+    def set_Width(self, wVal):
         self.width = wVal
 
     def get_Width(self):
         return self.width
 
-    def set_Height(self, hVal: int):
+    def set_Height(self, hVal):
         self.height = hVal
 
     def get_Height(self):
         return self.height
 
-    def setImagePath(self, path: str):
+    def setImagePath(self, path):
         self.image_path = path
 
     def getImagePath(self):
