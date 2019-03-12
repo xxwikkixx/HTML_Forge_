@@ -1,0 +1,58 @@
+/**
+ * Upload Button : FilePond Custom Styles
+ For Documentation : https://pqina.nl/filepond/docs/patterns/api/style/
+ */
+
+ /* use a hand cursor intead of arrow for the action buttons */
+.filepond--file-action-button {
+  cursor: pointer;
+}
+
+ /* the text color of the drop label*/
+.filepond--drop-label {
+  color: #4c4e53;
+}
+
+/* underline color for "Browse" button */
+.filepond--label-action {
+  -webkit-text-decoration-color: #babdc0;
+          text-decoration-color: #babdc0;
+}
+
+/* the background color of the filepond drop area */
+/* the border radius of the drop area */
+.filepond--panel-root {
+  border-radius: 2em;
+  background-color: #edf0f4;
+  height: 1em;
+}
+
+/* the background color of the file and file panel (used when dropping an image) */
+.filepond--item-panel {
+  background-color: #595e68;
+}
+
+.filepond--drip-blob {
+  background-color: #7f8a9a;
+}
+
+/* Limit the height of the button */
+.filepond--root {
+  max-width: 50em;
+  max-height: 50em;
+}
+
+
+
+/**
+ * Page Styles
+ *
+html {
+  padding: 30vh 0 0;
+}
+
+body {
+  max-width: 50em;
+  margin: 0 auto;
+}
+**/
