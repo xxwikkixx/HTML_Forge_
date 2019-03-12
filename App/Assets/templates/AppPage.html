@@ -26,6 +26,15 @@
  
     <!-- Custom JS -->
     <script type="text/javascript" src="JS_src/AppPageScript.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+    <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'>
+    <link rel='stylesheet' href='https://unpkg.com/filepond/dist/filepond.min.css'>
+    <link rel="stylesheet" href="CSS_src/Upload.css">
     
     <!-- Fonts -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
@@ -125,6 +134,14 @@
             <!-- UPLOAD PAGE -->
             <div class="container-fluid" style="background: grey">
                 <h3 class="text-center">Upload goes here</h3>
+
+                    <!-- Upload Button-->
+                        <input type="file" 
+                            class="filepond" 
+                            name="file" 
+                            multiple 
+                            data-max-files="1"
+                            data-max-file-size="10MB" />
             </div>
 
 
@@ -152,6 +169,15 @@
 
     </div>
 
+
+        <!-- file upload itself is disabled in this pen -->
+        <script src='https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js'></script>
+        <script src='https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js'></script>
+        <script src='https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js'></script>
+        <script src='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js'></script>
+        <script src='https://unpkg.com/filepond/dist/filepond.min.js'></script>
+        <script src="JS_src/Upload.js"></script>
+        
     <!-- jQuery CDN - Slim version (=without AJAX) 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
 
