@@ -3,6 +3,8 @@ from flask import Flask, abort, render_template, request, redirect, url_for, jso
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 
+# Internal Classes
+# from src.ImageProcessing import OpenCVBoxDetection
 
 
 app = Flask(__name__)
@@ -12,6 +14,7 @@ cors = CORS(app)
 
 @app.route('/')
 def mainPage():
+    # OpenCVBoxDetection.startSession('Assets/Images/IMG_1536.JPG')
     return "Server OK"
     # return render_template('LandingPage.html')
 
@@ -23,15 +26,13 @@ def detectBrowser():
     uas = request.user_agent.string
     return browser + platform + uas
 
-def returnURL():
-
 
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
-UPLOAD_FOLDER = 'Assets/Images'
+UPLOAD_FOLDER = 'static'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/upload', methods = ['GET', 'POST', 'DELETE'])
@@ -52,19 +53,25 @@ def upload_file():
     return 'ok'
 
 
-@app.route('/api/imageuploaded', methods = ['GET'])
+@app.route('/api/imageuploaded')
 def ApiImageUploadedReturn():
 #     get the image path from the folder
 #     connect it with the URL to output the image
-    filesInDir= []
-    for root, dirs, files in os.walk(os.path.abspath("Assets/Images")):
+    filesInDir = []
+    for root, dirs, files in os.walk(os.path.abspath("static")):
         for item in files:
-            if ".JPG" in item:
-                print(os.path.join(root, item))
-                filesInDir.append(os.path.join(root, item))
-    # return url_for("Assets/Images/IMG_1536.JPG")
-    return jsonify(request.url_root + url_for("", filename='Assets/Images/IMG_1536.JPG'))
+            print(item)
+            filesInDir.append(item)
 
+    filesURL = {}
+    for i in filesInDir:
+        filesURL.update({i:'http://localhost:5000' + url_for("static", filename= i)})
+    return jsonify(ImageUpLoaded= filesURL)
+
+
+@app.route('/api/blocksdetected')
+def ApiBlocksetectedReturn():
+    return 'OK'
 
 if __name__ == '__main__':
     app.run(threaded=True)
