@@ -285,7 +285,9 @@ function BasicTemplate_ImagePara () {
     var codeBuffer = "";
     codeBuffer += '<section id="slider">';
     codeBuffer +=   '<a href="#">';
-    codeBuffer +=       '<img src="Blank-grey.gif" alt="" style="width: 960px; height: 360px;">';
+    codeBuffer +=       '<img src="Arrow_L.png" alt="" style="width: 130px; height: 360px;">';
+    codeBuffer +=       '<img src="Blank-grey.gif" alt="" style="width: 690px; height: 360px;">';
+    codeBuffer +=       '<img src="Arrow_R.png" alt="" style="width: 130px; height: 360px;">';
     codeBuffer +=   '</a>';
     codeBuffer += '</section>';
 
@@ -311,15 +313,29 @@ function BasicTemplate_ImagePrev () {
     codeBuffer +=       '<img src="Blank-grey.gif" alt="" style="width: 960px; height: 360px;">';
     codeBuffer +=   '</a>';
     codeBuffer += '</section>';
+    codeBuffer += '<section id="latest" class="last clear">';
+    
+    for (var i = 0; i < 3; i++){
+        codeBuffer += '<article class="one_quarter">';
+        codeBuffer +=   '<figure><img src="Blank-grey.gif" width="215" height="100" alt=""></figure>';
+        codeBuffer += '</article>';
+    }
+    
+    codeBuffer += '<article class="one_quarter lastbox">';
+    codeBuffer +=   '<figure><img src="Blank-grey.gif" width="215" height="100" alt=""></figure>';
+    codeBuffer += '</article>';
+
+    codeBuffer += '</section>';
+    
     return codeBuffer;
 }
 
 
 
 /**             LABEL 8: Image Simple
- * Generates HTML code for a simple image
+ * Generates HTML code for a simple image gallary
  * In:      Nothing
- * Out:     Returns code for a simple image
+ * Out:     Returns code for a simple image gallary
  * Status:  INCOMPLETE, improvements pending.
  * TO BE IMPLEMENTED: 
  * =>  INPUT text detected by OCR
@@ -327,11 +343,23 @@ function BasicTemplate_ImagePrev () {
 function BasicTemplate_ImageSimple () {
 
     var codeBuffer = "";
-    codeBuffer += '<section id="slider">';
-    codeBuffer +=   '<a href="#">';
-    codeBuffer +=       '<img src="Blank-grey.gif" alt="" style="width: 960px; height: 360px;">';
-    codeBuffer +=   '</a>';
-    codeBuffer += '</section>';
+
+    for(var x = 0; x < 3; x++){
+        codeBuffer += '<section id="latest" class="last clear">';
+        for(var i = 0; i < 4; i++){
+            if(i < 3) {codeBuffer += '<article class="one_quarter">';}
+            else      {codeBuffer += '<article class="one_quarter lastbox">';}
+            codeBuffer +=   '<figure><img src="Blank-grey.gif" width="215" height="100" alt="">';
+            codeBuffer +=      '<figcaption>';
+            codeBuffer +=           '<h2>' + GenerateTitle() + '</h2>';
+            codeBuffer +=           '<p>'  + GenerateParagraph(2) + '</p>';
+            codeBuffer +=      '</figcaption>';
+            codeBuffer +=   '</figure>';
+            codeBuffer += '</article>';
+        }
+        codeBuffer += '</section>';
+    }
+
     return codeBuffer;
 }
 
@@ -350,7 +378,7 @@ function BasicTemplate_ImgLeft_TxtRight () {
 
     var codeBuffer = "";
 
-    codeBuffer += '<section id="imgRTxtL" class="clear">';
+    codeBuffer += '<section id="imgLTxtR" class="clear">';
     codeBuffer +=   '<figure><img src="Blank-grey.gif" alt="">';
     codeBuffer +=       '<figcaption>';
     codeBuffer +=           '<h2>' + GenerateTitle() + '</h2>';
@@ -376,7 +404,7 @@ function BasicTemplate_ImgRight_TxtLeft () {
 
     var codeBuffer = "";
 
-    codeBuffer += '<section id="imgLTxtR" class="clear">';
+    codeBuffer += '<section id="imgRTxtL" class="clear">';
     codeBuffer +=   '<figure><img src="Blank-grey.gif" alt="">';
     codeBuffer +=       '<figcaption>';
     codeBuffer +=           '<h2>' + GenerateTitle() + '</h2>';
@@ -402,8 +430,14 @@ function BasicTemplate_ImgTop_TxtBottom () {
 
     var codeBuffer = "";
 
-    codeBuffer += BasicTemplate_ImageSimple() ;
-    codeBuffer += GenerateParagraph(8) ;
+    codeBuffer +=  '<section id="imgTTxtB" class="clear">';
+    codeBuffer +=    '<figure><img src="Blank-grey.gif" alt="">'; 
+    codeBuffer +=      '<figcaption>';
+    codeBuffer +=         '<h2>' + GenerateTitle() + '</h2>';
+    codeBuffer +=         '<p>'  + GenerateParagraph(7) + '</p>';
+    codeBuffer +=      '</figcaption>';
+    codeBuffer +=    '</figure>';
+    codeBuffer +=  '</section>';
 
     return codeBuffer;
 }
@@ -451,10 +485,17 @@ function BasicTemplate_ContainerBot () {
 function Populate_blocks () {
 
     // Requires API, for now the following functions will be place holders.
+    
     block_order.push('label_1');
-    block_order.push('label_5');
-    block_order.push('label_5');
-    block_order.push('label_4');
+    block_order.push('label_3');    // Paragraph
+    block_order.push('label_4');    // Title
+    block_order.push('label_5');    // One image
+    block_order.push('label_6');    // Image Banner (Slider)
+    block_order.push('label_7');    // Image Preview
+    block_order.push('label_8');    // Image Gallary
+    block_order.push('label_9');    // Text Right Image Left
+    block_order.push('label_10');   // Text Left Image RIght
+    block_order.push('label_11');   // Text Bot Image Top
     block_order.push('label_2');
 
 }
