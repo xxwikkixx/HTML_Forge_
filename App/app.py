@@ -22,14 +22,6 @@ imgPath = ''
 #     # return render_template('LandingPage.html')
 
 
-def detectBrowser():
-    browser = request.user_agent.browser
-    version = request.user_agent.version and int(request.user_agent.version.split('.')[0])
-    platform = request.user_agent.platform
-    uas = request.user_agent.string
-    return browser + platform + uas + version
-
-
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

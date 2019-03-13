@@ -31,7 +31,6 @@ FilePond.setOptions({
           onload: (response) => {
               console.log(response);
                 API_SESSION_ID = response;
-              imageJSON()
               // window.location.href='http://google.com'
           }
       },
