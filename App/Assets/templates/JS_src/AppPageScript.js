@@ -8,6 +8,7 @@ var API_UL_IMAGE = "http://localhost5000/api/imageuploaded";
 var API_BLOCK_REQ = "http://localhost:5000/api/blocksdetected/"; //Add user Session Id
 var API_SESSION_ID = "hhhhhh";
 
+var CURRENT_CARDS = [1, 2, 3];
 var BLOCK_QUEUE = [];
 var BLOCK_DATA;
 
@@ -31,7 +32,7 @@ function confirmUpload(){
     $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
     // $.getJSON("https://api.myjson.com/bins/12dmxq", function(data){
 
-        console.log("Yaaay");
+        //console.log("Yaaay");
         console.log(data);
         console.log(data.blocks)
        
@@ -98,6 +99,11 @@ function labelAdapter(){
 function makeCards(){
 
     // Empty existing Queue (MAY HAVE TO DELETE STUFF FROM HERE LATER - COULD BE A BUG FIX)
+    if(CURRENT_CARDS.length > 0) {
+        for(var i = 0; i < CURRENT_CARDS.length; i++){
+            CURRENT_CARDS.pop;
+        }
+    }
     BLOCK_QUEUE = [];
     id_Count = 0;
 
@@ -111,6 +117,7 @@ function makeCards(){
         
         BLOCK_QUEUE.push(BLOCK_DATA[i].Best_Predictions[0]);
     }
+
 
 }
 
@@ -136,13 +143,13 @@ function createCard(label, prob, image){
     $("#detected_box").append(elem);
 
     //***** BACK-END USE *****/
+    CURRENT_CARDS.push(id_Count);
     id_Count++;
-
-    // Add into array
+    
 }
 
 
-// Deletes a builidng-block card
+// Deletes a building-block card
 function deleteCard(id){
     
     /***** DEBUG *****/
@@ -153,11 +160,12 @@ function deleteCard(id){
     document.getElementById("detected_box").removeChild(child);
 
     /***** BACK-END USE *****/
-    // Remove from array
+    CURRENT_CARDS.splice(CURRENT_CARDS.indexOf(id));  // Remove from array
+    // ADD CODE TO REMOVE FROM BLOCK_QUEUE
 }
 
 
-// Deletes a builidng-block card
+// Edits a building-block card
 function editCard(id, action){
     
     /***** DEBUG *****/
@@ -168,4 +176,5 @@ function editCard(id, action){
 
     /***** BACK-END USE *****/
     // Remove from array
+    // ADD CODE TO EDIT FROM BLOCK_QUEUE
 }
