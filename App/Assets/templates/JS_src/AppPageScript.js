@@ -28,16 +28,19 @@ function resetUpload(){
 
 // Uplaod page -> Detection Page
 function confirmUpload(){
+    
     // Calls the 
-    $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
-    // $.getJSON("https://api.myjson.com/bins/12dmxq", function(data){
+    $.getJSON(API_BLOCK_CONVERT, function(data1){
+        $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
+        // $.getJSON("https://api.myjson.com/bins/12dmxq", function(data){
 
-        //console.log("Yaaay");
-        console.log(data);
-        console.log(data.blocks)
+            //console.log("Yaaay");
+            console.log(data);
+            console.log(data.blocks)
 
-        BLOCK_DATA = data.blocks;
-        makeCards();
+            BLOCK_DATA = data.blocks;
+            makeCards();
+        });
     });
 
     document.getElementById("upload_page").style.display = "none";      // Hides
