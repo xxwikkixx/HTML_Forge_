@@ -86,7 +86,7 @@ def ApiBlocksetectedReturn(usersession):
         for item in files:
             if item.endswith('.json'):
                 path = os.path.join(root, item)
-                jsonData = json.load(open(path, errors='ignore'))
+                jsonData = json.load(open(path))
                 return jsonify(jsonData)
     return 'ok'
 
