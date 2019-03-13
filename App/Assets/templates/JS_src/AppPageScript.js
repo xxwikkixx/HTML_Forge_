@@ -8,7 +8,7 @@ var API_UL_IMAGE = "http://localhost5000/api/imageuploaded";
 var API_BLOCK_REQ = "http://localhost:5000/api/blocksdetected/"; //Add user Session Id
 var API_SESSION_ID = "hhhhhh";
 
-var CURRENT_CARDS = [1, 2, 3];
+var CURRENT_CARDS = [];
 var BLOCK_QUEUE = [];
 var BLOCK_DATA;
 

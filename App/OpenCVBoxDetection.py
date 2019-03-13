@@ -435,6 +435,16 @@ def execute_Box_Detection(path, blocks):
     cp_Dir = newSession.getCropDir()
     box_extraction(path, newSession.getDebugDir() + 'houghlines.jpg', cp_Dir, blocks)
 
+def erosion(image_path):
+    img = cv2.imread(image_path, 0)
+    kernel = np.ones((5, 5), np.uint8)
+    img_erosion = cv2.erode(img, kernel, iterations=1)
+    img_dilation = cv2.dilate(img, kernel, iterations=1)
+
+    cv2.imshow('Input', img)
+    cv2.imshow('Erosion', img_erosion)
+    cv2.imshow('Dilation', img_dilation)
+
 
 # Once the AI is finished, draw the detected boxes on to the original image
 def labelDrawBox(blocks, src):
@@ -453,11 +463,19 @@ def labelDrawBox(blocks, src):
     source_img.show()
     source_img.save(src, "JPEG")
 
+def initializeSession():
+    global newSession
+    newSession = ImageProcessSession()
+
+    return newSession.getSessionID()
+
+
+
 
 def startSession(path_to_image):
     # Create and initialize new Session
-    global newSession
-    newSession = ImageProcessSession()
+    # global newSession
+    # newSession = ImageProcessSession()
     newSession.userImageImport(path_to_image)
 
     # Initialize a new session base on user's request
@@ -473,7 +491,7 @@ def startSession(path_to_image):
 
     # All building block infos stored in blocks class
     # Call AI for further process
-    imageOnReady(blocksDB)
+    # imageOnReady(blocksDB)
 
     labelDrawBox(blocksDB, newSession.getSessionPath() + imgName)
 
