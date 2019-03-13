@@ -110,7 +110,7 @@ class SingleBlock:
         return self.height
 
     def setImagePath(self, path):
-        self.image_path = path
+        self.image_path = str(path)
 
     def getImagePath(self):
         return self.image_path

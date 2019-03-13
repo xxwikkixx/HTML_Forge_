@@ -313,7 +313,6 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     # else:
     #     raise IndexError("Array pop index exception!!")
 
-
     # Iterate through final candidates and remove repetitive blocks
     for i in range(len(exported_contours) - 1, 0, -1):
         for j in range(i):
@@ -345,9 +344,8 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
                         exported_contours.pop(i)
                         # re-compare previous i element index since it is removed
                         i -= 1
-            else:
-                raise IndexError("Array pop index exception!!")
-
+            # else:
+            #     raise IndexError("Array pop index exception!!")
 
     if Console_Logger: print("============================")
 
@@ -414,7 +412,6 @@ def clearImageDir(folder_path):
         os.remove(f)
 
 
-
 def execute_Box_Detection(path, blocks):
     """
     Helper Function of steps processing the box detection
@@ -479,6 +476,13 @@ def startSession(path_to_image):
     imageOnReady(blocksDB)
 
     labelDrawBox(blocksDB, newSession.getSessionPath() + imgName)
+
+    # for i in range(0, len(blocksDB.blocks)):
+    #     blocksDB.blocks.getBlockByID(i).setImagePath(
+    #         "http://localhost:5000/UserUpload/" + newSession.getSessionPath() + "ImageCrops/" + i + ".png")
+
+    blocksDB.changePath(newSession.getSessionID())
+
     blocksDB.JSONFormat(newSession.getSessionPath() + "/" + "data.json")
 
     # for i in blocksDB.blocks:
