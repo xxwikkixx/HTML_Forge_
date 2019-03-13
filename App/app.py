@@ -47,7 +47,7 @@ def upload_file():
             imagePath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             sessionID, JSON_Path = startSession(imagePath)
             session = sessionID
-            return jsonify("Session ID : " + sessionID, "JSONPath" + JSON_Path)
+            return jsonify(sessionID, JSON_Path)
         else:
             return "File Extension not allowed"
     # DELETE doesnt work yet
