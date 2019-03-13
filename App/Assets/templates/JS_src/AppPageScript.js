@@ -5,7 +5,7 @@
 
 var id_Count = 0;
 var API_UL_IMAGE = "http://localhost5000/api/imageuploaded";
-var API_USER_REQ = "http://localhost:5000/api/blocksdetected/"; //Add user Session Id
+var API_BLOCK_REQ = "http://localhost:5000/api/blocksdetected/"; //Add user Session Id
 var API_SESSION_ID = "";
 var current_Blocks;
 
@@ -24,9 +24,13 @@ function resetUpload(){
 function confirmUpload(){
 
 
+    $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
 
+        user_Data = data;
+        //console.log(data);
 
-
+        });
+    
 
     document.getElementById("upload_page").style.display = "none";      // Hides
     document.getElementById("detection_page").style.display = "block";  // Shows
