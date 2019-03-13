@@ -59,8 +59,6 @@ def upload_file():
 
 @app.route('/api/imageuploaded')
 def ApiImageUploadedReturn():
-#     get the image path from the folder
-#     connect it with the URL to output the image
     filesInDir = []
     for root, dirs, files in os.walk(os.path.abspath("static")):
         for item in files:
@@ -79,9 +77,10 @@ def ApiBlocksetectedReturn(usersession):
     dirc = "UserUpload/" + usersession + "/"
     for root, dirs, files in os.walk(dirc):
         for item in files:
-            path = os.path.join(root, item)
-            jsonData = json.load(open(path, errors='ignore'))
-            return jsonify(jsonData)
+            if item.endswith('.json'):
+                path = os.path.join(root, item)
+                jsonData = json.load(open(path, errors='ignore'))
+                return jsonify(jsonData)
     return 'ok'
 
 
