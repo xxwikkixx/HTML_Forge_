@@ -10,6 +10,7 @@ app.debug = True
 cors = CORS(app)
 
 session = ''
+imgPath = ''
 
 
 # @app.route('/')
@@ -38,16 +39,14 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/upload', methods = ['GET', 'POST', 'DELETE'])
 def upload_file():
-    global session
+    global imgPath
     file = request.files['file']
     filename = secure_filename(file.filename)
     if request.method == 'POST':
         if file and allowed_file(file.filename):
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            imagePath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            sessionID, JSON_Path = startSession(imagePath)
-            session = sessionID
-            return sessionID
+            imgPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            # return sessionID
         else:
             return "File Extension not allowed"
     # DELETE doesnt work yet
@@ -70,6 +69,13 @@ def ApiImageUploadedReturn():
     for i in filesInDir:
         filesURL.update({i:'http://localhost:5000' + url_for("static", filename= i)})
     return jsonify(ImageUpLoaded= filesURL)
+
+@app.route('/api/startconvert')
+def convertRequest():
+    global session
+    sessionID, JSON_Path = startSession(imgPath)
+    session = sessionID
+    return jsonify(sessionID)
 
 
 # accept the session ID into the URL to bring the data back for the specific user

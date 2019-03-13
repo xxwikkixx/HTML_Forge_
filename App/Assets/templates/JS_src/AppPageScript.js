@@ -7,6 +7,7 @@ var id_Count = 0;
 var API_UL_IMAGE = "http://localhost5000/api/imageuploaded";
 var API_BLOCK_REQ = "http://localhost:5000/api/blocksdetected/"; //Add user Session Id
 var API_SESSION_ID = "hhhhhh";
+var API_BLOCK_CONVERT = "http://localhost:5000/api/startconvert";
 
 var BLOCK_QUEUE = [];
 var BLOCK_DATA;
@@ -26,7 +27,6 @@ function resetUpload(){
 
 // Uplaod page -> Detection Page
 function confirmUpload(){
-
     // Calls the 
     $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
     // $.getJSON("https://api.myjson.com/bins/12dmxq", function(data){
@@ -34,7 +34,7 @@ function confirmUpload(){
         console.log("Yaaay");
         console.log(data);
         console.log(data.blocks)
-       
+
         BLOCK_DATA = data.blocks;
         makeCards();
     });
