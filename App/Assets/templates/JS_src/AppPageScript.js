@@ -9,7 +9,7 @@ var API_BLOCK_REQ = "http://localhost:5000/api/blocksdetected/"; //Add user Sess
 var API_SESSION_ID = "hhhhhh";
 var API_BLOCK_CONVERT = "http://localhost:5000/api/startconvert";
 
-var CURRENT_CARDS = [1, 2, 3];
+var CURRENT_CARDS = [];
 var BLOCK_QUEUE = [];
 var BLOCK_DATA;
 
