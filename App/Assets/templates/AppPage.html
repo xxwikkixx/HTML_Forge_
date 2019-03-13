@@ -92,6 +92,7 @@
         </nav>
 
 
+
         <!-- Page Content  -->
         <div id="content">
 
@@ -131,39 +132,68 @@
             </nav>
 
 
+
             <!-- UPLOAD PAGE -->
-            <div class="container-fluid" style="background: grey">
+            <div id="upload_page" class="container-fluid">
+            
                 <h3 class="text-center">Upload goes here</h3>
 
-                    <!-- Upload Button-->
-                        <input type="file" 
-                            class="filepond" 
-                            name="file" 
-                            multiple 
-                            data-max-files="1"
-                            data-max-file-size="10MB" />
+                 <!-- Upload Button-->
+                <div id="uploadButton" class="col-sm-12 center-block">
+                    <input type="file" 
+                        class="filepond" 
+                        name="file" 
+                        multiple 
+                        data-max-files="1"
+                        data-max-file-size="10MB" />
+                </div>
+
+                 <!-- Confirm Button-->
+                <div class="col-sm-12 text-center">
+                    <button type="button" class="btn btn-info" onclick="confirmUpload()">Convert This Image</button>
+                </div>
+
             </div>
 
 
+
             <!-- DETECTED BLOCKS PAGE -->
-            <div class="container-fluid" style="background: grey">
+            <div id="detection_page" class="container-fluid" style="display: none"> 
                 <h3 class="text-center">Conversion Happens Here</h3>
 
                 <a type="button" class="btn" href="#" onclick="createCard()">Add a card</a>
                 <a> This button is a temporary place holder until backend connects</a>
-                <div class="container-fluid row center" id="detected_box" style="background: rgb(189, 184, 184)">
+
+                <div class="container-fluid center-block text-center row" id="detected_box" style="background: rgb(189, 184, 184)">
                     
                 </div>
 
-                <a type="button" class="btn btn-amber" href="#">Re-upload</a>
-                <a type="button" class="btn btn-amber" href="#">Create Code</a>
+                <!-- Buttons -->
+                <div class="text-center">
+                    <button type="button" class="btn btn-info" onclick="resetUpload()">Upload Again</button>
+                    <button type="button" class="btn btn-info" onclick="GenerateHTML()">Generate HTML</button>
+                </div>
+
             </div>
+
 
 
             <!-- Results Page -->
-            <div class="container-fluid" style="background: grey">
-                <h3 class="text-center">Final Result Page</h3>
+            <div id="results_page" class="container-fluid" style= "display: none">
+                <h3 class="text-center">Here is your code!</h3>
+
+                <div id="pushed_Code"style="background: grey"> 
+                    PLACEHOLDER
+                </div>
+
+                <!-- Buttons -->
+                <div class="text-center">
+                    <button type="button" class="btn btn-info" onclick="resetUpload()">Upload Another Page</button>
+                </div>
+
             </div>
+
+
 
         </div>
 

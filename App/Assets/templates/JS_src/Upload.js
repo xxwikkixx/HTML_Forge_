@@ -52,6 +52,8 @@ function imageJSON(){
             return response.json()
         })
         .then(data =>{
+            // TODO HERE:
+            // Store Data into API_SESSION_ID in AppPageScript
             console.log(data)
         })
 }

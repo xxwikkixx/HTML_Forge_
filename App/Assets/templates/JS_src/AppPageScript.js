@@ -4,6 +4,56 @@
 
 
 var id_Count = 0;
+var API_UL_IMAGE = "http://localhost5000/api/imageuploaded";
+var API_USER_REQ = "http://localhost:5000/api/blocksdetected/"; //Add user Session Id
+var API_SESSION_ID = "";
+var current_Blocks;
+
+
+
+// All Pages -> Upload Page
+function resetUpload(){
+    document.getElementById("upload_page").style.display = "block";     // Shows
+    document.getElementById("detection_page").style.display = "none";   // Hides
+    document.getElementById("results_page").style.display = "none";     // Hides
+}
+
+
+
+// Uplaod page -> Detection Page
+function confirmUpload(){
+    document.getElementById("upload_page").style.display = "none";      // Hides
+    document.getElementById("detection_page").style.display = "block";  // Shows
+    document.getElementById("results_page").style.display = "none";     // Hides
+}
+
+
+
+// Detection Page -> Generation Page
+function GenerateHTML(){
+    document.getElementById("upload_page").style.display = "none";      // Hides
+    document.getElementById("detection_page").style.display = "none";   // Hides
+    document.getElementById("results_page").style.display = "block";    // Shows
+}
+
+
+// Create 
+function convertBlocks(){}
+
+
+
+/***********************     Creates users using API     ************************/
+function readBlocks(){
+    // Makes a call to create and store all users
+    $.getJSON(API_USER_REQ, function(data){
+
+    current_Blocks = data;
+    //console.log(data);
+
+    makePosts();
+    });
+}   
+
 
 // Creates building-block card 
 function createCard(){
