@@ -21,14 +21,18 @@ function resetUpload(){
     document.getElementById("confirm_button" ).style.display = "none";     // Hides
 }
 
-
-
 // Uplaod page -> Detection Page
 function confirmUpload(){
 
-    $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
+    //$.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
+    $.getJSON("https://api.myjson.com/bins/pr172", function(data){
 
        console.log(data);
+       //block_order = [];
+       
+    //    for(var i = 0; i < data.length; i++){
+
+    //    }
 
     });
 
@@ -37,6 +41,7 @@ function confirmUpload(){
     document.getElementById("detection_page").style.display = "block";  // Shows
     document.getElementById("results_page").style.display = "none";     // Hides
 }
+confirmUpload();
 
 
 
