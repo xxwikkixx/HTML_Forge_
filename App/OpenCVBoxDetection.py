@@ -466,7 +466,7 @@ def labelDrawBox(blocks, src):
 def initializeSession():
     global newSession
     newSession = ImageProcessSession()
-
+    # print(newSession.getSessionID())
     return newSession.getSessionID()
 
 

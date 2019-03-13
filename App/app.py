@@ -3,7 +3,7 @@ from flask import Flask, abort, render_template, request, redirect, url_for, jso
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 # Internal Classes
-from OpenCVBoxDetection import startSession
+from OpenCVBoxDetection import startSession, initializeSession
 
 app = Flask(__name__)
 app.debug = True
@@ -46,7 +46,9 @@ def upload_file():
         if file and allowed_file(file.filename):
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             imgPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            # return sessionID
+            sess = initializeSession()
+            # print(sess)
+            return jsonify(sess)
         else:
             return "File Extension not allowed"
     # DELETE doesnt work yet
