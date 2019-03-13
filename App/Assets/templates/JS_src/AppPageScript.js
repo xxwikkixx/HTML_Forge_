@@ -7,7 +7,10 @@ var id_Count = 0;
 var API_UL_IMAGE = "http://localhost5000/api/imageuploaded";
 var API_BLOCK_REQ = "http://localhost:5000/api/blocksdetected/"; //Add user Session Id
 var API_SESSION_ID = "hhhhhh";
-var current_Blocks;
+
+var BLOCK_QUEUE = [];
+var BLOCK_DATA;
+
 
 function test(){
     console.log(API_BLOCK_REQ+API_SESSION_ID);
@@ -24,24 +27,24 @@ function resetUpload(){
 // Uplaod page -> Detection Page
 function confirmUpload(){
 
-    //$.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
-    $.getJSON("https://api.myjson.com/bins/pr172", function(data){
+    // Calls the 
+    $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
+    // $.getJSON("https://api.myjson.com/bins/12dmxq", function(data){
 
-       console.log(data);
-       //block_order = [];
+        console.log("Yaaay");
+        console.log(data);
+        console.log(data.blocks)
        
-    //    for(var i = 0; i < data.length; i++){
-
-    //    }
-
+        BLOCK_DATA = data.blocks;
+        makeCards();
     });
-
 
     document.getElementById("upload_page").style.display = "none";      // Hides
     document.getElementById("detection_page").style.display = "block";  // Shows
     document.getElementById("results_page").style.display = "none";     // Hides
 }
-confirmUpload();
+
+//confirmUpload();
 
 
 
@@ -70,19 +73,57 @@ function convertBlocks(){}
 
 /***********************     Creates users using API     ************************/
 function readBlocks(){
-    // Makes a call to create and store all users
-    $.getJSON(API_USER_REQ, function(data){
+    block_order = [];           // Reset Blocks
 
-    current_Blocks = data;
-    //console.log(data);
+    // for(var i = 0; i < BLOCK_DATA.length; i++){
+    //     var
+    //     block_order.push(data[i].ID);
+    // }
 
-    makePosts();
-    });
+    // // console.log(data.blocks.length)
+    // console.log(data.blocks[0])                        // All block data
+    // console.log(data.blocks[0].Best_Predictions[0])    // Label
+    // console.log(data.blocks[0].Best_Predictions[0])    // Prediction %
+
+
+
+    // block_order.push('label_1');
+    // block_order.push('label_3');    // Paragraph
+    // block_order.push('label_4');    // Title
+    // block_order.push('label_5');    // One image
+    // block_order.push('label_6');    // Image Banner (Slider)
+    // block_order.push('label_7');    // Image Preview
+    // block_order.push('label_8');    // Image Gallary
+    // block_order.push('label_9');    // Text Right Image Left
+    // block_order.push('label_10');   // Text Left Image RIght
+    // block_order.push('label_11');   // Text Bot Image Top
+    // block_order.push('label_2');
+
+    console.log(block_order);
+
 }   
 
 
+// Creates all cards based on returned blocks from API
+function makeCards(){
+
+    // Empty existing Queue (MAY HAVE TO DELETE STUFF FROM HERE LATER - COULD BE A BUG FIX)
+    BLOCK_QUEUE = [];
+
+    // Create a Card for the front end
+    for(var i = 0; i < BLOCK_DATA.length; i++){
+        createCard(
+            BLOCK_DATA[i].Best_Predictions[0],
+            BLOCK_DATA[i].Best_Predictions[1],
+            BLOCK_DATA[i].Image_Crop_Path,
+            );
+    }
+
+}
+
+
 // Creates building-block card 
-function createCard(){
+function createCard(label, prob, image){
 
     /***** DEBUG *****/
     console.log("card" + id_Count + " Generated")
@@ -90,20 +131,22 @@ function createCard(){
     /***** FRONT-END USE *****/
     var elem = '<div class="col-md-4 col-sm-6" id="card' + id_Count + '">'
     + '<div class="card mb-4 text-white bg-dark">'
-    + '<img class="card-img-top" src="Assets/Images/ph350x350.png" alt="Card image cap">'
+    + '<img class="card-img-top" src="' + image + '" alt="Card image cap">'
     + '<div class="card-body center">'
-    + '<h5 class="card-title">Component</h5>'
-    + '<p class="card-text">Probability: XX.XX %</p>'
+    + '<h5 class="card-title">' + label + '</h5>'
+    + '<p class="card-text">' + prob + '% </p>'
     + '<ul class="list-unstyled list-inline font-small">'
     + '<li class="list-inline-item pr-2"><a class="btn btn-outline-light btn-sm right" id="card' + id_Count + '" onclick="editCard(this.id,1)">Edit Block</a></li>'
     + '<li class="list-inline-item pr-2"><a class="btn btn-outline-danger btn-sm right" id="card' + id_Count + '" onclick="deleteCard(this.id)">Delete</a></li>'
     + '</ul></div></div></div>';
 
     $("#detected_box").append(elem);
-    //document.getElementById("detected_box").append(elem);
 
     //***** BACK-END USE *****/
+    //BLOCK_QUEUE.push()
     id_Count++;
+
+
     // Add into array
 }
 
