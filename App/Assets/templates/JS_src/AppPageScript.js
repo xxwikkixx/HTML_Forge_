@@ -5,17 +5,20 @@
 
 var id_Count = 0;
 var API_UL_IMAGE = "http://localhost5000/api/imageuploaded";
-var API_USER_REQ = "http://localhost:5000/api/blocksdetected/"; //Add user Session Id
-var API_SESSION_ID = "";
+var API_BLOCK_REQ = "http://localhost:5000/api/blocksdetected/"; //Add user Session Id
+var API_SESSION_ID = "hhhhhh";
 var current_Blocks;
 
-
+function test(){
+    console.log(API_BLOCK_REQ+API_SESSION_ID);
+}
 
 // All Pages -> Upload Page
 function resetUpload(){
     document.getElementById("upload_page").style.display = "block";     // Shows
     document.getElementById("detection_page").style.display = "none";   // Hides
     document.getElementById("results_page").style.display = "none";     // Hides
+    document.getElementById("confirm_button" ).style.display = "none";     // Hides
 }
 
 
@@ -23,9 +26,11 @@ function resetUpload(){
 // Uplaod page -> Detection Page
 function confirmUpload(){
 
+    $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
 
+       console.log(data);
 
-
+    });
 
 
     document.getElementById("upload_page").style.display = "none";      // Hides

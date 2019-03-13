@@ -476,7 +476,7 @@ def startSession(path_to_image):
 
     # All building block infos stored in blocks class
     # Call AI for further process
-    # imageOnReady(blocksDB)
+    imageOnReady(blocksDB)
 
     labelDrawBox(blocksDB, newSession.getSessionPath() + imgName)
     blocksDB.JSONFormat(newSession.getSessionPath() + "/" + "data.json")

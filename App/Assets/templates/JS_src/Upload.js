@@ -29,7 +29,10 @@ FilePond.setOptions({
           url: '/upload',
           method: 'POST',
           onload: (response) => {
-              console.log(response)
+              //console.log(response);
+                API_SESSION_ID = response;
+                document.getElementById("confirm_button" ).style.display = "block";     // Shows
+                test(); //WORKS
               imageJSON()
               // window.location.href='http://google.com'
           }
@@ -38,7 +41,7 @@ FilePond.setOptions({
           url: '/upload',
           method: 'DELETE',
           onload: (response) => {
-              console.log(response)
+              // console.log(response)
               // window.location.href='http://google.com'
           }
       }
@@ -52,8 +55,7 @@ function imageJSON(){
             return response.json()
         })
         .then(data =>{
-            // TODO HERE:
-            // Store Data into API_SESSION_ID in AppPageScript
-            console.log(data)
+
+            console.log("Data"+data);
         })
 }
