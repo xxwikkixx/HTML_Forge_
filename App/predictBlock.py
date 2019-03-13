@@ -12,9 +12,6 @@ compute_region = config.conf['compute_region']
 model_id = config.conf['model_id']
 
 
-# file_path = "/Users/edwardlai/Downloads/IMG_1532.JPG"
-
-
 def detect_document(path):
     """Detects document features in an image."""
     from google.cloud import vision

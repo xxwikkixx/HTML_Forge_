@@ -1,8 +1,36 @@
+"""
+    This script is the first step of image processing. It takes in whatever image path and import for pre-processing.
+    Implementation steps
+        0. Move Image to local working environment and convert any images into JPEG extension
+        1. Image Cropping Unify - applying unify crop to user image to have consistent edge detection
+        2. Image enhancement - Apply gaussian and contrast to the image
+        3. Thin Line Repair - Algorithm to fix thin lines and breaking lines in the image
+        4. Image Edge Detection - Contour detection
+        5. Box Detection - Detecting most outer box shape and perform crop and remove redundancy crops
+        6. Add Detected Blocks - Append all detected blocks and related information to a new singleBlock class instance
+        7. Call AI - Pass the detected and cropped images to AI for process and image classification
+    ==========================================================================================
+     To-do
+         [Done]  Reformat and resize the image to get consistent result and image crop
+         [Done]  Crop image with the x, y, w, h adjust.
+         [Done]  Save the crop of the source file instead of the bolded one
+         [Done]  Remove similar crops
+         [Done]  Image enhancer on the original Image
+         [Done]  Uses child relationship and hierarchy to know the objects within each block and eventually add it into single block attribute
+         [Done]  JSON File Formatter
+         [Done]  Image Drawing, boxing out detected labels
+         [Done]  Full Image Path
+         [Done]  Array index contour removal out of range
+         [Done]  Image Dir with sessions
+         [In Progress] Keeping original image size and algo rescale with it
+"""
+
 from PIL import Image, ImageEnhance, ImageDraw, ImageFont
 from predictBlock import imageOnReady
 from ImgProcessSession import ImageProcessSession
 from Blocks import Blocks
 from imutils.contours import sort_contours
+from PIL import Image
 import cv2
 import os
 import glob
@@ -10,7 +38,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-
+# Set true if debugging
 Image_Debug = False
 Console_Logger = False
 
@@ -19,41 +47,57 @@ fig = plt.figure(figsize=(8, 8))
 columns = 3
 rows = 3
 
+# Unify crop and re-rescaling
 IMAGE_HEIGHT = 1000
 IMAGE_WIDTH = 1500
+
+# For line bolding
 ITERATIONS = 0
 TARESHOLD = 20
 MIN_LINE_LENG = 30
 MAX_LINE_GAP = 25
+
+# List to store detected block contours [x,y,w,h]
 exported_contours = []
+
+# Current script work environment
 FULL_PATH_TO_THIS_FOLDER = (os.getcwd())
 
-print ("Full", FULL_PATH_TO_THIS_FOLDER)
 
-
-# 1
-#  This will rescale all in user image into 3:2 Image ratio
 def image_Rescale(image_Path):
+    """
+    This will rescale all in user image into 3:2 Image ratio
+    Perform and save to the same image path
+
+    :param image_Path: string : Path to image
+    """
     size = IMAGE_HEIGHT, IMAGE_WIDTH
-    from PIL import Image
     im = Image.open(image_Path)
     im.thumbnail(size)
     newimg = im.resize(size)
     newimg.save(image_Path)
 
 
-def applyGaussian(path):
+def applyGaussian(image_Path):
+    """
+    Apply Gaussian Image enhancement and contrasting
+    Perform and save to the same image path
+    :param image_Path: string : Path to image
+    """
+
     # read the image
-    img = cv2.imread(path)
+    img = cv2.imread(image_Path)
     # convert image to gray scale imag
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-
+    # apply gaussian and threshold
     T = threshold_local(gray, 21, offset=80, method="gaussian")
     gray = (gray > T).astype("uint8") * 255
-    cv2.imwrite(path, gray)
+    # save image to the same image path
+    cv2.imwrite(image_Path, gray)
 
 
 def fileConvert(imgPath, savePath):
+
     im = Image.open(imgPath)
     # bg = Image.new("RGB", crop_img.size, (255, 255, 255))
     rgb_im = im.convert('RGB')
@@ -196,7 +240,6 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
             if Console_Logger: print("Crop Log: ", [x, y, w, h])
             exported_contours.append([x, y, w, h])
 
-    print(exported_contours)
 
     # for i in range(0, len(exported_contours)):
     #     for j in range(0, len(exported_contours)):
@@ -412,19 +455,5 @@ if __name__ == "__main__":
     end = time.time()
     print("Process Run Time: Seconds: ", end - start)
 
-# To-do
-# [Done]  Reformat and resize the image to get consistent result and image crop
-# [Done]  Crop image with the x, y, w, h adjust.
-# [Done]  Save the crop of the source file instead of the bolded one
-# [Done]  Remove similar crops
-# [Done]  Image enhancer on the original Image
-# [Done]  Uses child relationship and hierarchy to know the objects within each block
-#               and eventually add it into single block attribute
-# [Done]  JSON File Formatter
-# [Done]  Image Drawing, boxing out detected labels
-# [Done]  Full Image Path
 
-# Need to fix
-# [Done] Array index contour removal out of range
-# [Done] Image Dir with sessions
-# [In Progress] Keeping original image size and algo rescale with it
+
