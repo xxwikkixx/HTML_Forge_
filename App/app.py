@@ -11,13 +11,14 @@ cors = CORS(app)
 
 session = ''
 
-@app.route('/')
-def mainPage(img):
-    global session
-    sessionID, JSON_Path = startSession(img)
-    session = sessionID
-    return jsonify("Session ID : " + sessionID + "</br> JSON Path: " + JSON_Path)
-    # return render_template('LandingPage.html')
+
+# @app.route('/')
+# def mainPage(img):
+#     global session
+#     sessionID, JSON_Path = startSession(img)
+#     session = sessionID
+#     return jsonify("Session ID : " + sessionID + "</br> JSON Path: " + JSON_Path)
+#     # return render_template('LandingPage.html')
 
 
 def detectBrowser():
@@ -49,7 +50,7 @@ def upload_file():
             return jsonify("Session ID : " + sessionID, "JSONPath" + JSON_Path)
         else:
             return "File Extension not allowed"
-
+    # DELETE doesnt work yet
     if request.method == 'DELETE':
         if os.path.exists(UPLOAD_FOLDER + filename):
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
