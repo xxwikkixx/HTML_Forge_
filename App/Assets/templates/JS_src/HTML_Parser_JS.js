@@ -484,8 +484,7 @@ function BasicTemplate_ContainerBot () {
  * **/
 function Populate_blocks () {
 
-    // Traverse through block_order to push labels
-    
+    labelAdapter();
 
     // block_order.push('label_1');
     // block_order.push('label_3');    // Paragraph
@@ -532,6 +531,8 @@ function make_HTML_Basic (blocks) {
 
     // Loop through blocks and output code as necessary 
     for(var i = 1; i < blocks.length - 1; i++){
+      if (blocks[i] == 'label_1')   {code += BasicTemplate_Title();}
+      if (blocks[i] == 'label_2')   {code += BasicTemplate_Title();}
       if (blocks[i] == 'label_3')   {code += BasicTemplate_Para();}
       if (blocks[i] == 'label_4')   {code += BasicTemplate_Title();}
       if (blocks[i] == 'label_5')   {code += BasicTemplate_SingleImage();}

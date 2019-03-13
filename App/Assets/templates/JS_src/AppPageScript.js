@@ -44,8 +44,7 @@ function confirmUpload(){
     document.getElementById("results_page").style.display = "none";     // Hides
 }
 
-//confirmUpload();
-
+// confirmUpload();
 
 
 // Detection Page -> Generation Page
@@ -53,6 +52,7 @@ function GenerateHTML(){
 
     // Blocks found in detection page pushed into an array in order of detection
     Populate_blocks(); 
+
     // Array is read and translated into appropriate HTML Code
     var code_generated = make_HTML_Basic(block_order);
 
@@ -72,35 +72,25 @@ function convertBlocks(){}
 
 
 /***********************     Creates users using API     ************************/
-function readBlocks(){
+function labelAdapter(){
     block_order = [];           // Reset Blocks
 
-    // for(var i = 0; i < BLOCK_DATA.length; i++){
-    //     var
-    //     block_order.push(data[i].ID);
-    // }
+    for(var i = 0; i < BLOCK_QUEUE.length; i++){
+        if(BLOCK_QUEUE[i] == "Header")              {block_order.push('label_1');}  // Header
+        if(BLOCK_QUEUE[i] == "Footer")              {block_order.push('label_2');}  // Footer
+        if(BLOCK_QUEUE[i] == "Paragraph")           {block_order.push('label_3');}  // Paragraph
+        if(BLOCK_QUEUE[i] == "Title")               {block_order.push('label_4');}  // Title
+        if(BLOCK_QUEUE[i] == "singleImage")         {block_order.push('label_5');}  // Stand Alone Image
+        if(BLOCK_QUEUE[i] == "Img_Gal_Parallax")    {block_order.push('label_6');}  // Slider Gallary
+        if(BLOCK_QUEUE[i] == "Img_Gal_Preview")     {block_order.push('label_7');}  // Image Preview
+        if(BLOCK_QUEUE[i] == "Img_Gal_Simple")      {block_order.push('label_8');}  // Image Gallary Spread
+        if(BLOCK_QUEUE[i] == "Img_Left_Text_Right") {block_order.push('label_9');}  // Image-Left Text-Right 
+        if(BLOCK_QUEUE[i] == "Img_Right_Text_Left") {block_order.push('label_10');} // Image-Right Text-Left
+        if(BLOCK_QUEUE[i] == "Img_Top_Text_Bottom") {block_order.push('label_11');} // Image-Top Text_Bottom
 
-    // // console.log(data.blocks.length)
-    // console.log(data.blocks[0])                        // All block data
-    // console.log(data.blocks[0].Best_Predictions[0])    // Label
-    // console.log(data.blocks[0].Best_Predictions[0])    // Prediction %
-
-
-
-    // block_order.push('label_1');
-    // block_order.push('label_3');    // Paragraph
-    // block_order.push('label_4');    // Title
-    // block_order.push('label_5');    // One image
-    // block_order.push('label_6');    // Image Banner (Slider)
-    // block_order.push('label_7');    // Image Preview
-    // block_order.push('label_8');    // Image Gallary
-    // block_order.push('label_9');    // Text Right Image Left
-    // block_order.push('label_10');   // Text Left Image RIght
-    // block_order.push('label_11');   // Text Bot Image Top
-    // block_order.push('label_2');
+    }
 
     console.log(block_order);
-
 }   
 
 
@@ -109,6 +99,7 @@ function makeCards(){
 
     // Empty existing Queue (MAY HAVE TO DELETE STUFF FROM HERE LATER - COULD BE A BUG FIX)
     BLOCK_QUEUE = [];
+    id_Count = 0;
 
     // Create a Card for the front end
     for(var i = 0; i < BLOCK_DATA.length; i++){
@@ -117,6 +108,8 @@ function makeCards(){
             BLOCK_DATA[i].Best_Predictions[1],
             BLOCK_DATA[i].Image_Crop_Path,
             );
+        
+        BLOCK_QUEUE.push(BLOCK_DATA[i].Best_Predictions[0]);
     }
 
 }
@@ -143,9 +136,7 @@ function createCard(label, prob, image){
     $("#detected_box").append(elem);
 
     //***** BACK-END USE *****/
-    //BLOCK_QUEUE.push()
     id_Count++;
-
 
     // Add into array
 }

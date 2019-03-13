@@ -69,4 +69,4 @@ class Blocks:
         for i in range(1, len(self.blocks)):
             # self.getBlockByID(i).setImagePath(i + "png")
             # print(self.getBlockByID(i).getImagePath())
-            self.getBlockByID(i).setImagePath("http://localhost:5000/App/UserUpload/" + sessionID + "/ImageCrops/" + str(i) + ".png")
+            self.getBlockByID(i).setImagePath("http://localhost:63342/App/UserUpload/" + sessionID + "/ImageCrops/" + str(i) + ".png")

@@ -481,7 +481,7 @@ def startSession(path_to_image):
     #     blocksDB.blocks.getBlockByID(i).setImagePath(
     #         "http://localhost:5000/UserUpload/" + newSession.getSessionPath() + "ImageCrops/" + i + ".png")
 
-    blocksDB.changePath(newSession.getSessionID())
+    # blocksDB.changePath(newSession.getSessionID())
 
     blocksDB.JSONFormat(newSession.getSessionPath() + "/" + "data.json")
 
