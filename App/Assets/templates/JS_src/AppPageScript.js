@@ -22,6 +22,12 @@ function resetUpload(){
 
 // Uplaod page -> Detection Page
 function confirmUpload(){
+
+
+
+
+
+
     document.getElementById("upload_page").style.display = "none";      // Hides
     document.getElementById("detection_page").style.display = "block";  // Shows
     document.getElementById("results_page").style.display = "none";     // Hides
@@ -31,6 +37,16 @@ function confirmUpload(){
 
 // Detection Page -> Generation Page
 function GenerateHTML(){
+
+    // Blocks found in detection page pushed into an array in order of detection
+    Populate_blocks(); 
+    // Array is read and translated into appropriate HTML Code
+    var code_generated = make_HTML_Basic(block_order);
+
+    // Prints generated HTML into div "pushed_code"
+    console.log(code_generated);                                        // Debugging
+    document.getElementById("pushed_code").innerText = code_generated;
+
     document.getElementById("upload_page").style.display = "none";      // Hides
     document.getElementById("detection_page").style.display = "none";   // Hides
     document.getElementById("results_page").style.display = "block";    // Shows

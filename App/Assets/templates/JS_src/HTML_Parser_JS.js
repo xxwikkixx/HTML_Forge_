@@ -553,5 +553,5 @@ function make_HTML_Basic (blocks) {
 }
 
 
-Populate_blocks();
-console.log(make_HTML_Basic(block_order));
+// Populate_blocks();
+// console.log(make_HTML_Basic(block_order));
