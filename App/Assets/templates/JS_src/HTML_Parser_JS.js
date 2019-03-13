@@ -484,19 +484,20 @@ function BasicTemplate_ContainerBot () {
  * **/
 function Populate_blocks () {
 
-    // Requires API, for now the following functions will be place holders.
+    // Traverse through block_order to push labels
     
-    block_order.push('label_1');
-    block_order.push('label_3');    // Paragraph
-    block_order.push('label_4');    // Title
-    block_order.push('label_5');    // One image
-    block_order.push('label_6');    // Image Banner (Slider)
-    block_order.push('label_7');    // Image Preview
-    block_order.push('label_8');    // Image Gallary
-    block_order.push('label_9');    // Text Right Image Left
-    block_order.push('label_10');   // Text Left Image RIght
-    block_order.push('label_11');   // Text Bot Image Top
-    block_order.push('label_2');
+
+    // block_order.push('label_1');
+    // block_order.push('label_3');    // Paragraph
+    // block_order.push('label_4');    // Title
+    // block_order.push('label_5');    // One image
+    // block_order.push('label_6');    // Image Banner (Slider)
+    // block_order.push('label_7');    // Image Preview
+    // block_order.push('label_8');    // Image Gallary
+    // block_order.push('label_9');    // Text Right Image Left
+    // block_order.push('label_10');   // Text Left Image RIght
+    // block_order.push('label_11');   // Text Bot Image Top
+    // block_order.push('label_2');
 
 }
 
