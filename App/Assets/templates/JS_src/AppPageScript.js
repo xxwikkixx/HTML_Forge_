@@ -101,7 +101,7 @@ function makeCards(){
     // Empty existing Queue (MAY HAVE TO DELETE STUFF FROM HERE LATER - COULD BE A BUG FIX)
     if(CURRENT_CARDS.length > 0) {
         for(var i = 0; i < CURRENT_CARDS.length; i++){
-            CURRENT_CARDS.pop;
+            deleteCard(CURRENT_CARDS[i]);
         }
     }
     BLOCK_QUEUE = [];
