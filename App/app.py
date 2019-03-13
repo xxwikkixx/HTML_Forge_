@@ -1,5 +1,5 @@
 import os
-from flask import Flask, abort, render_template, request, redirect, url_for, jsonify, send_file, send_from_directory, make_response, session
+from flask import Flask, abort, render_template, request, redirect, url_for, jsonify, send_file, send_from_directory, make_response, session, json
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 # Internal Classes
@@ -9,12 +9,14 @@ app = Flask(__name__)
 app.debug = True
 cors = CORS(app)
 
+session = ''
 
 @app.route('/')
-def mainPage():
-    sessionID, JSON_Path = startSession('Sample Images/S_1.jpg')
-
-    return "Session ID : " + sessionID + "</br> JSON Path: " + JSON_Path
+def mainPage(img):
+    global session
+    sessionID, JSON_Path = startSession(img)
+    session = sessionID
+    return jsonify("Session ID : " + sessionID + "</br> JSON Path: " + JSON_Path)
     # return render_template('LandingPage.html')
 
 
@@ -23,8 +25,7 @@ def detectBrowser():
     version = request.user_agent.version and int(request.user_agent.version.split('.')[0])
     platform = request.user_agent.platform
     uas = request.user_agent.string
-    return browser + platform + uas
-
+    return browser + platform + uas + version
 
 
 def allowed_file(filename):
@@ -36,12 +37,16 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/upload', methods = ['GET', 'POST', 'DELETE'])
 def upload_file():
+    global session
     file = request.files['file']
     filename = secure_filename(file.filename)
     if request.method == 'POST':
         if file and allowed_file(file.filename):
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return jsonify(imageUpload = url_for('upload_file', filename=filename))
+            imagePath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            sessionID, JSON_Path = startSession(imagePath)
+            session = sessionID
+            return jsonify("Session ID : " + sessionID, "JSONPath" + JSON_Path)
         else:
             return "File Extension not allowed"
 
@@ -68,9 +73,17 @@ def ApiImageUploadedReturn():
     return jsonify(ImageUpLoaded= filesURL)
 
 
-@app.route('/api/blocksdetected')
-def ApiBlocksetectedReturn():
-    return 'OK'
+# accept the session ID into the URL to bring the data back for the specific user
+@app.route('/api/blocksdetected/<usersession>')
+def ApiBlocksetectedReturn(usersession):
+    dirc = "UserUpload/" + usersession + "/"
+    for root, dirs, files in os.walk(dirc):
+        for item in files:
+            path = os.path.join(root, item)
+            jsonData = json.load(open(path, errors='ignore'))
+            return jsonify(jsonData)
+    return 'ok'
+
 
 if __name__ == '__main__':
     app.run(threaded=True)
