@@ -67,8 +67,8 @@ function confirmUpload(){
         document.getElementById("results_page").style.display = "none";     // Hides
 
         // This call retrieves the JSON returned from Google's AI
-        $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
-        //$.getJSON("https://api.myjson.com/bins/12dmxq", function(data){  // This is used for debugging
+       $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
+//        $.getJSON("https://api.myjson.com/bins/12dmxq", function(data){  // This is used for debugging
 
             console.log(data);
             console.log(data.blocks)
@@ -235,3 +235,16 @@ function editCard(id, action){
     // Remove from array
     // ADD CODE TO EDIT FROM BLOCK_QUEUE
 }
+
+
+
+// Function that handles copying to clipboard (GENERIC)
+function copyToClipboard(element) {
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val($(element).text()).select();
+    document.execCommand("copy");
+    $temp.remove();
+    alert("Succesfully copied to Clipboard");
+  }
+  
