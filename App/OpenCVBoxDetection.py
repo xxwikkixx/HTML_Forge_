@@ -26,6 +26,7 @@
          [Done]  Array index contour removal out of range
          [Done]  Image Dir with sessions
          [In Progress] Keeping original image size and algo rescale with it
+         [In Progress] Initial crop out of bound on  tight images.
 """
 
 from PIL import Image, ImageEnhance, ImageDraw, ImageFont
@@ -54,14 +55,13 @@ rows = 3
 IMAGE_HEIGHT = 1000
 IMAGE_WIDTH = 1500
 
+# erode and dilate
+ITERATIONS = 1
+
 # For line bolding
-ITERATIONS = 0
 TARESHOLD = 20
 MIN_LINE_LENG = 30
 MAX_LINE_GAP = 25
-
-# List to store detected block contours [x,y,w,h]
-exported_contours = []
 
 # Current script work environment
 FULL_PATH_TO_THIS_FOLDER = (os.getcwd())
@@ -150,13 +150,21 @@ def cornerFit(imgPath):
     Y_MIN, Y_MAX = min(y_arr), max(y_arr)
 
     # cropping data [x0:x1:y0:y1]
-    crop_img = img[Y_MIN - 100: Y_MAX + 100, X_MIN - 100: X_MAX + 100]
+
+    if X_MIN - 100 >= 0 and Y_MIN - 100 >= 0:
+        print ("Initial Image Cropped")
+        crop_img = img[Y_MIN - 100: Y_MAX + 100, X_MIN - 100: X_MAX + 100]
+        cv2.imwrite(imgPath, crop_img)
+    else:
+        # User upload Image are too tight, do not perform crop and save the original one
+        print("Crop are too tight")
+        cv2.imwrite(imgPath, img)
 
     # plt.imshow(img), plt.show()
     # plt.imshow(crop_img), plt.show()
 
     # Save Crop
-    cv2.imwrite(imgPath, crop_img)
+
 
 
 # Not being used
@@ -210,7 +218,8 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     :param blocks: Object                           Block class instance to store all the detected information
     :return:
     """
-
+    # clear array
+    exported_contours = []
     # Read the original image
     orginal_image = cv2.imread(original_image_path, 0)
     # Read the enhanced image
@@ -240,55 +249,85 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     img_temp1 = cv2.erode(img_bin, verticle_kernel, iterations=ITERATIONS)
     verticle_lines_img = cv2.dilate(img_temp1, verticle_kernel, iterations=ITERATIONS)
     if Image_Debug: cv2.imwrite(newSession.getDebugDir() + "verticle_lines.jpg", verticle_lines_img)
+    cv2.imwrite(newSession.getDebugDir() + "verticle_lines.jpg", verticle_lines_img)
+
     # Morphological operation to detect horizontal lines from an image
     img_temp2 = cv2.erode(img_bin, hori_kernel, iterations=ITERATIONS)
     horizontal_lines_img = cv2.dilate(img_temp2, hori_kernel, iterations=ITERATIONS)
-    if Image_Debug: cv2.imwrite(newSession.getDebugDir() + "horizontal_lines.jpg", horizontal_lines_img)
-
+    # if Image_Debug: cv2.imwrite(newSession.getDebugDir() + "horizontal_lines.jpg", horizontal_lines_img)
+    cv2.imwrite(newSession.getDebugDir() + "horizontal_lines.jpg", horizontal_lines_img)
     # summation or two images
     alpha = 0.5
     beta = 1.0 - alpha
     img_final_bin = cv2.addWeighted(verticle_lines_img, alpha, horizontal_lines_img, beta, 0.0)
-    img_final_bin = cv2.erode(~img_final_bin, kernel, iterations=ITERATIONS)
+    img_final_bin = cv2.erode(~img_final_bin, kernel, iterations=2)
+    # img_final_bin = cv2.dilate(~img_final_bin, kernel, iterations=)
     (thresh, img_final_bin) = cv2.threshold(img_final_bin, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-    if Image_Debug: cv2.imwrite(newSession.getDebugDir() + "img_final_bin.jpg", img_final_bin)
-
+    # if Image_Debug: cv2.imwrite(newSession.getDebugDir() + "img_final_bin.jpg", img_final_bin)
+    cv2.imwrite(newSession.getDebugDir() + "img_final_bin.jpg", img_final_bin)
     # Find contours for image, which will detect all the boxes
     contours, hierarchy = cv2.findContours(img_final_bin, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     # contours, hierarchy = cv2.findContours(img_final_bin, cv2.RETR_LIST, cv2.CHAIN_APPRO)
     # Sort all the contours by top to bottom.
+
+
+
     (contours, boundingBoxes) = sort_contours(contours, method="top-to-bottom")
+
+    print ("=====>", hierarchy)
     # (contours, boundingBoxes) = sort_contours(contours, method="bottom-to-top")
 
     if Console_Logger: print("============ Hierarchy ================")
     if Console_Logger: print(hierarchy)
     if Console_Logger: print("=======================================")
 
+    # export = []
+    # img2 = img_final_bin.copy()
+    # for h in hierarchy[0]:
+    #     if h[0] == -1 and h[3] == -1:
+    #         export.append(h[2])
+    #
+    # print ("Exporting", export)
+    # for cnt in export:
+    #     if cnt > 0:
+    #         cv2.drawContours(img2, [contours[cnt]], 0, (0, 255, 0), 10)
+    #
+    # cv2.imwrite(newSession.getDebugDir() + "hrieky.jpg", img2)
+
+
     # Find the suitable crops
     for c in contours:
         # Returns the location and width,height for every contour
         x, y, w, h = cv2.boundingRect(c)
-        # if Console_Logger: print("width: ", w, "\theight:", h)
-        # if Console_Logger: print("========================")
-        # If the box height is greater then 700 or width is >700, then only save it as a box in "cropped/" folder.
-        # if ((w > 500 and h > 20) or (h > 500 and w > 20)) and w != 3000 and h != 2000 and x > 50 and y > 50:
         if ((w > IMAGE_WIDTH * 0.25 and h > IMAGE_HEIGHT * 0.1) or (
                 h > 400 and w > 50)) and w != IMAGE_HEIGHT and h != IMAGE_WIDTH and x > 10 and y > 10:
             if Console_Logger: print("Crop Log: ", [x, y, w, h])
             # Add all the suitable crops to a list
-            exported_contours.append([x, y, w, h])
+
+            if len(exported_contours) == 0:
+                exported_contours.append([x, y, w, h])
+            flag = True
+            for i in range(0, len(exported_contours)):
+                temp_1, temp_2 = float(abs(sum(exported_contours[i]))), float(abs(x+y+w+h))
+                if 0.93 < temp_1 / temp_2 < 1.08:
+                    flag = False
+
+            if flag:
+                exported_contours.append([x, y, w, h])
+
 
     # for i in range(0, len(exported_contours)):
     #     for j in range(0, len(exported_contours)):
-    #         print (i, j)
     #         # Compare X axis and Y see if it is similar crop
     #         if 0 < i < len(exported_contours) and 0 < j < len(exported_contours):
     #             if exported_contours[i] != exported_contours[j]:
-    #                 print("IN Condition")
     #                 temp_1, temp_2 = float(abs(sum(exported_contours[i]))), float(abs(sum(exported_contours[j])))
     #                 # if two images are similar within the range
-    #                 print("lalala",temp_2/temp_1)
-    #                 if 0.95 < temp_1 / temp_2 < 1.05:
+    #                 # if exported_contours[j][0] < exported_contours[i][0] and exported_contours[j][1] < exported_contours[i][1] and exported_contours[j][2] > exported_contours[i][2] and exported_contours[j][3] > exported_contours[i][3]:
+    #                 #     exported_contours.pop(i)
+    #                 #     i -= 1
+    #                 #     continue
+    #                 if 0.95 < temp_1 / temp_2 < 1.15:
     #                     if Console_Logger: print("Delete Log: Image Similar contour removed")
     #
     #                     # Choose the bigger contour and pop the smaller crop
@@ -300,7 +339,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     #                                   exported_contours[j][0]:exported_contours[j][0] + exported_contours[j][2]]
     #                         cv2.imwrite(cropped_dir_path + "Deleted_" + str(j) + '.png', new_img)
     #                         exported_contours.pop(j)
-    #                         j -= 1  # re-compare previous j element index since it is removed
+    #                         # j -= 1  # re-compare previous j element index since it is removed
     #                     else:
     #                         if Console_Logger: print("  |----->", exported_contours[i])
     #                         new_img = orginal_image[
@@ -308,42 +347,59 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     #                                   exported_contours[i][0]:exported_contours[i][0] + exported_contours[i][2]]
     #                         cv2.imwrite(cropped_dir_path + "Deleted_" + str(i) + '.png', new_img)
     #                         exported_contours.pop(i)
-    #                         i -= 1  # re-compare previous i element index since it is removed
+                            # i -= 1  # re-compare previous i element index since it is removed
     #
     # else:
     #     raise IndexError("Array pop index exception!!")
+    print (exported_contours)
+    # for i in range(0, len(exported_contours)):
+    #     for j in range(0, len(exported_contours)):
+    #         if 0 < i < len(exported_contours) and 0 < j < len(exported_contours):
+    #             if exported_contours[i] != exported_contours[j]:
+    #                 if exported_contours[j][0] > exported_contours[i][0] and exported_contours[j][1] > \
+    #                         exported_contours[i][1] and exported_contours[j][0] < exported_contours[i][0] + \
+    #                         exported_contours[i][2] and exported_contours[j][1] < exported_contours[i][1] + \
+    #                         exported_contours[i][3]:
+    #                     exported_contours.pop(j)
+    #                     j -= 1  # re-compare previous j element index since it is removed
 
+
+    # Works
     # Iterate through final candidates and remove repetitive blocks
-    for i in range(len(exported_contours) - 1, 0, -1):
-        for j in range(i):
-            # Compare X axis and Y see if it is similar crop
-            if i <= len(exported_contours) and j <= len(exported_contours):
-                temp_1, temp_2 = float(abs(sum(exported_contours[i]))), float(abs(sum(exported_contours[j])))
-                # if two images are 98% similar within the range
-                if 0.98 < (temp_1 / temp_2) < 1.05:
-                    if Console_Logger: print("Delete Log: Image Similar contour removed")
-                    # Choose the bigger contour and pop the smaller crop
-                    if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
-                            exported_contours[i][3]):
-                        if Console_Logger: print("  |----->", exported_contours[i])
-                        new_img = orginal_image[
-                                  exported_contours[j][1]:exported_contours[j][1] + exported_contours[j][3],
-                                  exported_contours[j][0]:exported_contours[j][0] + exported_contours[j][2]]
-                        cv2.imwrite(cropped_dir_path + "Deleted_" + str(j) + '.png', new_img)
-                        # remove the contour
-                        exported_contours.pop(j)
-                        # re-compare previous j element index since it is removed
-                        j -= 1
-                    else:
-                        if Console_Logger: print("  |----->", exported_contours[i])
-                        new_img = orginal_image[
-                                  exported_contours[i][1]:exported_contours[i][1] + exported_contours[i][3],
-                                  exported_contours[i][0]:exported_contours[i][0] + exported_contours[i][2]]
-                        cv2.imwrite(cropped_dir_path + "Deleted_" + str(i) + '.png', new_img)
-                        # remove the contour
-                        exported_contours.pop(i)
-                        # re-compare previous i element index since it is removed
-                        i -= 1
+    # for i in range(len(exported_contours) - 1, 0, -1):
+    #     for j in range(i):
+    #         if exported_contours[j][0] > exported_contours[i][0] and exported_contours[j][1] > exported_contours[i][1] and exported_contours[j][0] < exported_contours[i][0] + exported_contours[i][2] and exported_contours[j][1] < exported_contours[i][1] + exported_contours[i][3]:
+    #             exported_contours.pop(j)
+    #             j -= 1  # re-compare previous j element index since it is removed
+    #
+    #         # Compare X axis and Y see if it is similar crop
+    #         if i <= len(exported_contours) and j <= len(exported_contours):
+    #             temp_1, temp_2 = float(abs(sum(exported_contours[i]))), float(abs(sum(exported_contours[j])))
+    #             # if two images are 98% similar within the range
+    #             if 0.95 < (temp_1 / temp_2) < 1.05:
+    #                 if Console_Logger: print("Delete Log: Image Similar contour removed")
+    #                 # Choose the bigger contour and pop the smaller crop
+    #                 if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
+    #                         exported_contours[i][3]):
+    #                     if Console_Logger: print("  |----->", exported_contours[i])
+    #                     new_img = orginal_image[
+    #                               exported_contours[j][1]:exported_contours[j][1] + exported_contours[j][3],
+    #                               exported_contours[j][0]:exported_contours[j][0] + exported_contours[j][2]]
+    #                     cv2.imwrite(cropped_dir_path + "Deleted_" + str(j) + '.png', new_img)
+    #                     # remove the contour
+    #                     exported_contours.pop(j)
+    #                     # re-compare previous j element index since it is removed
+    #                     j -= 1
+    #                 else:
+    #                     if Console_Logger: print("  |----->", exported_contours[i])
+    #                     new_img = orginal_image[
+    #                               exported_contours[i][1]:exported_contours[i][1] + exported_contours[i][3],
+    #                               exported_contours[i][0]:exported_contours[i][0] + exported_contours[i][2]]
+    #                     cv2.imwrite(cropped_dir_path + "Deleted_" + str(i) + '.png', new_img)
+    #                     # remove the contour
+    #                     exported_contours.pop(i)
+    #                     # re-compare previous i element index since it is removed
+    #                     i -= 1
             # else:
             #     raise IndexError("Array pop index exception!!")
 
@@ -435,16 +491,6 @@ def execute_Box_Detection(path, blocks):
     cp_Dir = newSession.getCropDir()
     box_extraction(path, newSession.getDebugDir() + 'houghlines.jpg', cp_Dir, blocks)
 
-def erosion(image_path):
-    img = cv2.imread(image_path, 0)
-    kernel = np.ones((5, 5), np.uint8)
-    img_erosion = cv2.erode(img, kernel, iterations=1)
-    img_dilation = cv2.dilate(img, kernel, iterations=1)
-
-    cv2.imshow('Input', img)
-    cv2.imshow('Erosion', img_erosion)
-    cv2.imshow('Dilation', img_dilation)
-
 
 # Once the AI is finished, draw the detected boxes on to the original image
 def labelDrawBox(blocks, src):
@@ -463,13 +509,12 @@ def labelDrawBox(blocks, src):
     source_img.show()
     source_img.save(src, "JPEG")
 
+
 def initializeSession():
     global newSession
     newSession = ImageProcessSession()
     # print(newSession.getSessionID())
     return newSession.getSessionID()
-
-
 
 
 def startSession(path_to_image):
@@ -489,6 +534,10 @@ def startSession(path_to_image):
     # Pass in the pre cropped image for building block detection
     execute_Box_Detection(newSession.getSessionPath() + "/" + imgName, blocksDB)
 
+
+    # ===============================
+    #   AI PASS THROUGH
+    # ===============================
     # All building block infos stored in blocks class
     # Call AI for further process
     # imageOnReady(blocksDB)
