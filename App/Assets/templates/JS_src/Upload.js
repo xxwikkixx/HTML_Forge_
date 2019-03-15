@@ -31,7 +31,8 @@ FilePond.setOptions({
           onload: (response) => {
               //console.log(response);
               API_SESSION_ID = response;
-              document.getElementById("confirm_button" ).style.display = "block";     // Shows
+              //document.getElementById("confirm_button" ).style.display = "block";     // Shows
+              $('#confirm_button').prop('disabled', false);        // Allows button to be pressed
               imageJSON()
               // window.location.href='http://google.com'
           }

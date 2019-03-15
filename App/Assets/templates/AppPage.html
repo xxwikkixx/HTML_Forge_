@@ -135,23 +135,32 @@
 
 
             <!-- UPLOAD PAGE -->
-            <div id="upload_page" class="container-fluid" style="display: block">
+            <div id="upload_page" class="container-fluid row" style="display: block">
             
-                <h3 class="text-center">Upload goes here</h3>
+                <div class="col-sm-12">
+                    <h3 class="text-center">Upload goes here</h3>
+                </div>
 
                  <!-- Upload Button-->
-                <div id="uploadButton" class="col-sm-12 center-block" >
+                <div class="center-block col-sm-12">
+                    <div id="uploadButton" class="col-sm-12 center-block" >
                     <input type="file" 
                         class="filepond" 
                         name="file" 
                         multiple 
                         data-max-files="1"
                         data-max-file-size="10MB" />
+                    </div>
                 </div>
 
-                 <!-- Confirm Button-->
-                <div id="confirm_button" class="col-sm-12 text-center" style="display: none">
-                    <button type="button" class="btn btn-info" onclick="confirmUpload()">Convert This Image</button>
+                <!-- Confirm Button-->
+                <div class="col-sm-12 text-center">
+                    <button id="confirm_button" type="button" class="btn btn-info" onclick="confirmUpload()" disabled>Convert This Image</button>
+                </div>
+
+                <!-- Khalids FrontEnd Debugger-->
+                <div class="col-sm-12 text-center">
+                    <button type="button" class="btn btn-outline-danger" onclick="bypassUpload()">Bypass for DEBUG</button>
                 </div>
 
             </div>

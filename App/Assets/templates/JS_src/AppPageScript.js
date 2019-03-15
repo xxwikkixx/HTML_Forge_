@@ -44,7 +44,7 @@ function resetUpload(){
     document.getElementById("detection_page").style.display = "none";   // Hides
     document.getElementById("results_page").style.display = "none";     // Hides
     // Components
-    document.getElementById("confirm_button" ).style.display = "none";  // Hides
+    $('#confirm_button').prop('disabled', true);  // Blocks button from being pressed
 }
 
 
@@ -67,18 +67,32 @@ function confirmUpload(){
         document.getElementById("results_page").style.display = "none";     // Hides
 
         // This call retrieves the JSON returned from Google's AI
-       $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
-//        $.getJSON("https://api.myjson.com/bins/12dmxq", function(data){  // This is used for debugging
-
-            console.log(data);
-            console.log(data.blocks)
-
+        $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
             BLOCK_DATA = data.blocks;
             makeCards();
         });
     });
 }
 
+
+// FUnction similar to confirmUpload, but does not make any calls to googles real API
+// Instead, it uses a prefabricated JSON: THIS IS FOR TESTING/DEBUGGING PURPOSES ONLY
+function bypassUpload(){  
+
+    document.getElementById("upload_page").style.display = "none";      // Hides
+    document.getElementById("detection_page").style.display = "block";  // Shows
+    document.getElementById("results_page").style.display = "none";     // Hides
+
+    // This call retrieves a JSON SAMPLE COPY returned from Google's AI 
+    $.getJSON("https://api.myjson.com/bins/12dmxq", function(data){  // This is used for debugging
+
+        console.log(data);
+        console.log(data.blocks)
+        BLOCK_DATA = data.blocks;
+        makeCards();
+        
+    });
+}
 
 
 // Detection Page -> Generation Page
