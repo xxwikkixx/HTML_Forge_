@@ -24,6 +24,11 @@ var CURRENT_CARDS = [];     // Keeps track of all cards currently visible on the
 var BLOCK_QUEUE = [];       // A Queue which is populated with labels, in order of which they
                             // Are found
 var BLOCK_DATA;             // Stores JSON data returned by the Google AI
+
+
+/** Card Animations **/
+var onAppear = 'fadeIn';    // Animation from Animate.css used when a card is created
+var onDelete = 'fadeOut';   // Animation from Animate.css used when a card is deleted
 /** ------------------------------------------------------------------------------------- **/
 
 
@@ -34,9 +39,11 @@ var BLOCK_DATA;             // Stores JSON data returned by the Google AI
  *      RETURNS :   NONE
 */
 function resetUpload(){
+    // Pages
     document.getElementById("upload_page").style.display = "block";     // Shows
     document.getElementById("detection_page").style.display = "none";   // Hides
     document.getElementById("results_page").style.display = "none";     // Hides
+    // Components
     document.getElementById("confirm_button" ).style.display = "none";  // Hides
 }
 
@@ -46,10 +53,10 @@ function resetUpload(){
  *  Runs when 'Convert' Button is pressed and displays the detection page. 
  *  Calls API to run AI based on uploaded Image
  *  Calls API to return JSON 
+ *  Calls makeCards to generate cards based on returned JSON
  *      TAKES:      NONE
  *      RETURNS :   NONE
 */
-// Uplaod page -> Detection Page
 function confirmUpload(){
     
     // Calls an API that runs the AI function on google
@@ -61,9 +68,8 @@ function confirmUpload(){
 
         // This call retrieves the JSON returned from Google's AI
         $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
-        // $.getJSON("https://api.myjson.com/bins/12dmxq", function(data){
+        //$.getJSON("https://api.myjson.com/bins/12dmxq", function(data){  // This is used for debugging
 
-            //console.log("Yaaay");
             console.log(data);
             console.log(data.blocks)
 
@@ -73,7 +79,6 @@ function confirmUpload(){
     });
 }
 
-// confirmUpload();
 
 
 // Detection Page -> Generation Page
@@ -95,16 +100,13 @@ function GenerateHTML(){
 }
 
 
-// Create 
-function convertBlocks(){}
-
-
 
 /***********************          ************************/
 function labelAdapter(){
     block_order = [];           // Reset Blocks
 
     for(var i = 0; i < BLOCK_QUEUE.length; i++){
+        if(BLOCK_QUEUE[i] == "")                    {continue;}                     // Deleted By User
         if(BLOCK_QUEUE[i] == "Header")              {block_order.push('label_1');}  // Header
         if(BLOCK_QUEUE[i] == "Footer")              {block_order.push('label_2');}  // Footer
         if(BLOCK_QUEUE[i] == "Paragraph")           {block_order.push('label_3');}  // Paragraph
@@ -132,21 +134,25 @@ function makeCards(){
             deleteCard(CURRENT_CARDS[i]);
         }
     }
+
     BLOCK_QUEUE = [];
     id_Count = 0;
 
     // Create a Card for the front end
     for(var i = 0; i < BLOCK_DATA.length; i++){
-        createCard(
-            BLOCK_DATA[i].Best_Predictions[0],
-            BLOCK_DATA[i].Best_Predictions[1],
-            BLOCK_DATA[i].Image_Crop_Path,
-            );
+        
+      //  setTimeout(
+            createCard(
+                BLOCK_DATA[i].Best_Predictions[0],
+                parseFloat(Math.round(BLOCK_DATA[i].Best_Predictions[1] * 100000) / 1000).toFixed(2),
+                BLOCK_DATA[i].Image_Crop_Path);
+       // ,1000);
         
         BLOCK_QUEUE.push(BLOCK_DATA[i].Best_Predictions[0]);
     }
 
-
+    console.log("Current Block_queue: " + BLOCK_QUEUE);
+    console.log("Current Cards: "       + CURRENT_CARDS);
 }
 
 
@@ -154,18 +160,19 @@ function makeCards(){
 function createCard(label, prob, image){
 
     /***** DEBUG *****/
-    console.log("card" + id_Count + " Generated")
+    console.log(id_Count + "card Generated")
 
     /***** FRONT-END USE *****/
-    var elem = '<div class="col-md-4 col-sm-6" id="card' + id_Count + '">'
+    // BEFORE col-md-4 col-sm-6:
+    var elem = '<div class="animated ' + onAppear + ' col-md-6 col-lg-4" id="' + id_Count + 'card">'
     + '<div class="card mb-4 text-white bg-dark">'
-    + '<img class="card-img-top" src="' + image + '" alt="Card image cap">'
+    + '<img class="card-img-top" src="' + image + '" alt=" Image Not Found">'
     + '<div class="card-body center">'
     + '<h5 class="card-title">' + label + '</h5>'
-    + '<p class="card-text">' + prob + '% </p>'
+    + '<p class="card-text">Probability: ' + prob + ' % </p>'
     + '<ul class="list-unstyled list-inline font-small">'
-    + '<li class="list-inline-item pr-2"><a class="btn btn-outline-light btn-sm right" id="card' + id_Count + '" onclick="editCard(this.id,1)">Edit Block</a></li>'
-    + '<li class="list-inline-item pr-2"><a class="btn btn-outline-danger btn-sm right" id="card' + id_Count + '" onclick="deleteCard(this.id)">Delete</a></li>'
+    + '<li class="list-inline-item pr-2"><a class="btn btn-outline-light btn-sm right" id="' + id_Count + 'card" onclick="editCard(this.id,1)">Edit Block</a></li>'
+    + '<li class="list-inline-item pr-2"><a class="btn btn-outline-danger btn-sm right" id="' + id_Count + 'card" onclick="deleteCard(this.id)">Delete</a></li>'
     + '</ul></div></div></div>';
 
     $("#detected_box").append(elem);
@@ -181,16 +188,40 @@ function createCard(label, prob, image){
 function deleteCard(id){
     
     /***** DEBUG *****/
-    console.log(id + " Deleted")
+   
    
     /***** FRONT-END USE *****/
     var child = document.getElementById(id);
-    document.getElementById("detected_box").removeChild(child);
+
+    child.classList.remove('animated', onAppear);
+    child.classList.add('animated', onDelete, 'faster');
+
+    child.addEventListener('animationend', function() { 
+        console.log(id + " Deleted")
+        document.getElementById("detected_box").removeChild(child);
+    })
 
     /***** BACK-END USE *****/
-    CURRENT_CARDS.splice(CURRENT_CARDS.indexOf(id));  // Remove from array
-    // ADD CODE TO REMOVE FROM BLOCK_QUEUE
+    var index = parseFloat(id);
+    console.log(id);
+    console.log(index);
+    delete BLOCK_QUEUE[index];
+    //BLOCK_QUEUE = arrayRemove(BLOCK_QUEUE, '')
+    CURRENT_CARDS = arrayRemove(CURRENT_CARDS, index)
+
+    console.log("Current Block_queue: " + BLOCK_QUEUE);
+    console.log("Current Cards: "       + CURRENT_CARDS);
 }
+
+
+// Deleting from an array is not native in JS, 
+// 
+function arrayRemove(arr, value) {
+    return arr.filter(function(ele){
+        return ele != value;
+    });
+ }
+
 
 
 // Edits a building-block card
@@ -205,10 +236,4 @@ function editCard(id, action){
     /***** BACK-END USE *****/
     // Remove from array
     // ADD CODE TO EDIT FROM BLOCK_QUEUE
-}
-
-
-// Debugging Function
-function test(){
-    console.log(API_BLOCK_REQ+API_SESSION_ID);
 }

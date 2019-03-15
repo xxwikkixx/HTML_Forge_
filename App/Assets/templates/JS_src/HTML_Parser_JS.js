@@ -478,7 +478,7 @@ function BasicTemplate_ContainerBot () {
  * Populates blocks from API into block_order
  * In:      API Call
  * Out:     Nothing
- * Status:  WAITING ON API RETREIVAL 
+ * Status:  Complete. This code my be redundant, inspect upon refactor period
  * TO BE IMPLEMENTED: 
  * =>  
  * **/
@@ -503,25 +503,21 @@ function Populate_blocks () {
 
 
 /**       
- * Populates blocks from API into block_order
+ * Generates HTML for the Basic Template 
  * In:      Blocks
- * Out:     Nothing
- * Status:  
- * TO BE IMPLEMENTED: 
- * =>  
+ * Out:     HTML Code for all blocks passed, formatted into Basic Template
+ * Status:  COMPLETE.
  * **/
 function make_HTML_Basic (blocks) {
 
-    var code = "";
-    var head_found = false;
-    var foot_found = false;
-    var head_count = 0;
-    var foot_count = 0;
+    var code = "";              // Code will be appended to this through the process
+    var head_count = 0;         // Will keep count of headers found
+    var foot_count = 0;         // Will keep count of footers found
 
     // Scan for Headers and Footers, we will not allow duplicates by force.
     for(var i = 0; i < blocks.length; i++){
-        if(blocks[i] == 'label_1') {head_found = true; head_count++;}
-        if(blocks[i] == 'label_2') {foot_found = true; foot_count++;}
+        if(blocks[i] == 'label_1') {head_count++;}
+        if(blocks[i] == 'label_2') {foot_count++;}
     }
     
     // Initalizes HTML
@@ -529,11 +525,10 @@ function make_HTML_Basic (blocks) {
     
     // Header Exclusive, this forces a header to always be placed on top regardless
     // of the location it was found
-    if(head_found){code += BasicTemplate_Header(); head_count--;}
+    if(head_count > 0){code += BasicTemplate_Header(); head_count--;}
 
     // Container Open (Used only for the basic Template)
     code += BasicTemplate_ContainerTop();
-
 
     // Loop through blocks and output code as necessary 
     for(var i = 0; i < blocks.length; i++){
@@ -567,7 +562,7 @@ function make_HTML_Basic (blocks) {
     
     // Footer Exclusive, forces a detected footer to always place on the bottom 
     // regardless of the location it was found
-    if(foot_found){code += BasicTemplate_Footer();}
+    if(foot_count > 0){code += BasicTemplate_Footer();}
 
     // Closes initalized HTML
     code += BasicTemplate_init_End();
@@ -576,5 +571,7 @@ function make_HTML_Basic (blocks) {
 }
 
 
+
+/** DEBUG ZONE **/
 // Populate_blocks();
 // console.log(make_HTML_Basic(block_order));

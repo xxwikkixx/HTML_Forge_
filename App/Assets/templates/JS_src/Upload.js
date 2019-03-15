@@ -30,9 +30,8 @@ FilePond.setOptions({
           method: 'POST',
           onload: (response) => {
               //console.log(response);
-                API_SESSION_ID = response;
-                document.getElementById("confirm_button" ).style.display = "block";     // Shows
-                test(); //WORKS
+              API_SESSION_ID = response;
+              document.getElementById("confirm_button" ).style.display = "block";     // Shows
               imageJSON()
               // window.location.href='http://google.com'
           }
