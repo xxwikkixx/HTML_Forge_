@@ -515,24 +515,42 @@ function make_HTML_Basic (blocks) {
     var code = "";
     var head_found = false;
     var foot_found = false;
+    var head_count = 0;
+    var foot_count = 0;
 
     // Scan for Headers and Footers, we will not allow duplicates by force.
     for(var i = 0; i < blocks.length; i++){
-        if(blocks[i] == 'label_1') {head_found = true;}
-        if(blocks[i] == 'label_2') {foot_found = true;}
+        if(blocks[i] == 'label_1') {head_found = true; head_count++;}
+        if(blocks[i] == 'label_2') {foot_found = true; foot_count++;}
     }
     
+    // Initalizes HTML
     code += BasicTemplate_init ();
     
-    // Header Exclusive
-    if(head_found){code += BasicTemplate_Header();}
+    // Header Exclusive, this forces a header to always be placed on top regardless
+    // of the location it was found
+    if(head_found){code += BasicTemplate_Header(); head_count--;}
 
+    // Container Open (Used only for the basic Template)
     code += BasicTemplate_ContainerTop();
 
+
     // Loop through blocks and output code as necessary 
-    for(var i = 1; i < blocks.length - 1; i++){
-      if (blocks[i] == 'label_1')   {code += BasicTemplate_Title();}
-      if (blocks[i] == 'label_2')   {code += BasicTemplate_Title();}
+    for(var i = 0; i < blocks.length; i++){
+
+      if (blocks[i] == 'label_1')   {   // Special conditions for headers
+          if(head_count > 0) {          // ONLY pushes alternate code if header was used
+              code += BasicTemplate_Title();
+              head_count--;
+            }}     
+
+      if (blocks[i] == 'label_2')   {   // Special conditions for footers
+          if(foot_count > 1) {          // ONLY pushed alternate code if footer was detected
+              code += BasicTemplate_Title();
+              foot_count--;
+            }}
+
+      // All Other Labels
       if (blocks[i] == 'label_3')   {code += BasicTemplate_Para();}
       if (blocks[i] == 'label_4')   {code += BasicTemplate_Title();}
       if (blocks[i] == 'label_5')   {code += BasicTemplate_SingleImage();}
@@ -544,11 +562,14 @@ function make_HTML_Basic (blocks) {
       if (blocks[i] == 'label_11')  {code += BasicTemplate_ImgTop_TxtBottom();}
     }
 
+    // Container Close (Used only for the basic Template)
     code += BasicTemplate_ContainerBot ();
     
-    // Footer Exclusive
+    // Footer Exclusive, forces a detected footer to always place on the bottom 
+    // regardless of the location it was found
     if(foot_found){code += BasicTemplate_Footer();}
 
+    // Closes initalized HTML
     code += BasicTemplate_init_End();
 
     return code;

@@ -1,37 +1,65 @@
-/*
-
-*/ 
-
-
-var id_Count = 0;
-var API_UL_IMAGE = "http://localhost5000/api/imageuploaded";
-var API_BLOCK_REQ = "http://localhost:5000/api/blocksdetected/"; //Add user Session Id
-var API_SESSION_ID = "hhhhhh";
-var API_BLOCK_CONVERT = "http://localhost:5000/api/startconvert";
-
-var CURRENT_CARDS = [];
-var BLOCK_QUEUE = [];
-var BLOCK_DATA;
+/** AppPageScript ---------------------------------------------------------------------------
+ * - This JS file is responsible for handling all JS activity taking place on the AppPage
+ * - Dependencies: 
+ *      HTML_Parser_JS.js       // Handles HTML Parsing of all blocks detected
+ *      Upload.js               // Handles API activity and Animation behaviour       
+ *
+ * Written by: Khalid Qubbaj
+ * --------------------------------------------------------------------------------------- */ 
 
 
-function test(){
-    console.log(API_BLOCK_REQ+API_SESSION_ID);
-}
 
-// All Pages -> Upload Page
+/** ------------------------------------- API CALLS ------------------------------------- **/
+var API_UL_IMAGE = "http://localhost5000/api/imageuploaded";        // API to retrieve Image
+var API_BLOCK_CONVERT = "http://localhost:5000/api/startconvert";   // API that calls the AI
+var API_BLOCK_REQ = "http://localhost:5000/api/blocksdetected/";    // MUST ADD Session Id
+var API_SESSION_ID = "ERROR";          // This gets populated by the API call from Upload.js
+/** ------------------------------------------------------------------------------------- **/
+
+
+
+/** --------------------------------- GLOBAL VARIABLES ---------------------------------- **/
+var id_Count = 0;           // Counter to uniquely identify Cards(Blocks)
+var CURRENT_CARDS = [];     // Keeps track of all cards currently visible on the page
+var BLOCK_QUEUE = [];       // A Queue which is populated with labels, in order of which they
+                            // Are found
+var BLOCK_DATA;             // Stores JSON data returned by the Google AI
+/** ------------------------------------------------------------------------------------- **/
+
+
+
+/** ResetUpload:
+ *  Re-displays the Upload Div from any button that calls it, will hide other pages
+ *      TAKES:      NONE
+ *      RETURNS :   NONE
+*/
 function resetUpload(){
     document.getElementById("upload_page").style.display = "block";     // Shows
     document.getElementById("detection_page").style.display = "none";   // Hides
     document.getElementById("results_page").style.display = "none";     // Hides
-    document.getElementById("confirm_button" ).style.display = "none";     // Hides
+    document.getElementById("confirm_button" ).style.display = "none";  // Hides
 }
 
+
+
+/** confirmUpload:
+ *  Runs when 'Convert' Button is pressed and displays the detection page. 
+ *  Calls API to run AI based on uploaded Image
+ *  Calls API to return JSON 
+ *      TAKES:      NONE
+ *      RETURNS :   NONE
+*/
 // Uplaod page -> Detection Page
 function confirmUpload(){
     
-    // Calls the 
+    // Calls an API that runs the AI function on google
     $.getJSON(API_BLOCK_CONVERT, function(data1){
-        console.log(data1)
+
+        document.getElementById("upload_page").style.display = "none";      // Hides
+        document.getElementById("detection_page").style.display = "block";  // Shows
+        document.getElementById("results_page").style.display = "none";     // Hides
+
+        // This call retrieves the JSON returned from Google's AI
         $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
         // $.getJSON("https://api.myjson.com/bins/12dmxq", function(data){
 
@@ -43,10 +71,6 @@ function confirmUpload(){
             makeCards();
         });
     });
-
-    document.getElementById("upload_page").style.display = "none";      // Hides
-    document.getElementById("detection_page").style.display = "block";  // Shows
-    document.getElementById("results_page").style.display = "none";     // Hides
 }
 
 // confirmUpload();
@@ -76,7 +100,7 @@ function convertBlocks(){}
 
 
 
-/***********************     Creates users using API     ************************/
+/***********************          ************************/
 function labelAdapter(){
     block_order = [];           // Reset Blocks
 
@@ -181,4 +205,10 @@ function editCard(id, action){
     /***** BACK-END USE *****/
     // Remove from array
     // ADD CODE TO EDIT FROM BLOCK_QUEUE
+}
+
+
+// Debugging Function
+function test(){
+    console.log(API_BLOCK_REQ+API_SESSION_ID);
 }
