@@ -128,13 +128,11 @@ function labelAdapter(){
 // Creates all cards based on returned blocks from API
 function makeCards(){
 
-    // Empty existing Queue (MAY HAVE TO DELETE STUFF FROM HERE LATER - COULD BE A BUG FIX)
-    if(CURRENT_CARDS.length > 0) {
-        for(var i = 0; i < CURRENT_CARDS.length; i++){
-            deleteCard(CURRENT_CARDS[i]);
-        }
-    }
+    // Reset Front-End 
+    document.getElementById("detected_box").innerHTML = "";
 
+    // Reset Back-End
+    CURRENT_CARDS = [];
     BLOCK_QUEUE = [];
     id_Count = 0;
 
