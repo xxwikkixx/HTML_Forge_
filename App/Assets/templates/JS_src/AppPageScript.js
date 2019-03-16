@@ -175,17 +175,32 @@ function createCard(label, prob, image){
     console.log(id_Count + "card Generated")
 
     /***** FRONT-END USE *****/
+    //image = 'http://via.placeholder.com/350x150'
     // BEFORE col-md-4 col-sm-6:
-    var elem = '<div class="animated ' + onAppear + ' col-md-6 col-lg-4" id="' + id_Count + 'card">'
-    + '<div class="card mb-4 text-white bg-dark">'
-    + '<img class="card-img-top" src="' + image + '" alt=" Image Not Found">'
-    + '<div class="card-body center">'
-    + '<h5 class="card-title">' + label + '</h5>'
-    + '<p class="card-text">Probability: ' + prob + ' % </p>'
-    + '<ul class="list-unstyled list-inline font-small">'
+    var elem = 
+    '<div class="animated ' + onAppear + ' col-lg-6 col-xl-4 mt-3 mb-3" id="' + id_Count + 'card">'
+    +   '<div class="card text-white bg-dark">'
+    +       '<img class="card-img-top" src="' + image + '" alt=" Image Not Found" style="width: 100%; height: 150px; object-fit: fill;">'
+    +       '<div class="card-body center">'
+    +           '<h5 class="card-title m-0">' + label + '</h5>'
+    +           '<p class="card-text">Probability: ' + prob + ' % </p>'
+    +           '<ul class="list-unstyled list-inline font-small">'
     + '<li class="list-inline-item pr-2"><a class="btn btn-outline-light btn-sm right" id="' + id_Count + 'card" onclick="editCard(this.id,1)">Edit Block</a></li>'
     + '<li class="list-inline-item pr-2"><a class="btn btn-outline-danger btn-sm right" id="' + id_Count + 'card" onclick="deleteCard(this.id)">Delete</a></li>'
     + '</ul></div></div></div>';
+
+    // Alternate style
+    // var elem = 
+    //     '<div class= "col-lg-6 col-xl-4 mt-3">'
+    // +       '<div class="card text-center animated bg-dark text-white">'
+    // +           '<div class="card-header">' + label + '</div>'
+    // +           '<div class="card-body">'
+    // +               '<img class="card-img-mid" src="' + image + '" alt=" Image Not Found" style="width: 100%; height: 15vw; object-fit: cover;">'
+    // +           '</div>'
+    // +           '<div class="card-footer text-muted">Probability: ' + prob + ' %</div>'
+    // +       '</div>'
+    // +    '</div>';
+ 
 
     $("#detected_box").append(elem);
 

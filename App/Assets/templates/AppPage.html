@@ -142,8 +142,8 @@
                 </div>
 
                  <!-- Upload Button-->
-                <div class="center-block col-sm-12">
-                    <div id="uploadButton" class="col-sm-12 center-block" >
+                <div class="center-block col-sm-12" style="margin:auto; width:70%;">
+                    <div id="uploadButton">
                     <input type="file" 
                         class="filepond" 
                         name="file" 
@@ -168,7 +168,7 @@
 
 
             <!-- DETECTED BLOCKS PAGE -->
-            <div id="detection_page" class="container-fluid" style="display: none"> 
+            <div id="detection_page" class="container p-3" style="display: none; background: rgb(189, 184, 184)"> 
                 <h3 class="text-center">Conversion Happens Here</h3>
 
                 <a type="button" class="btn" href="#" onclick="createCard()">Add a card</a>
@@ -180,7 +180,7 @@
                 </div>
 
                 <!-- Cards Populated-->
-                <div class="container-fluid center-block text-center row" id="detected_box" style="background: rgb(189, 184, 184)">
+                <div class="center-block text-center row" id="detected_box">
                     
                 </div>
 
@@ -195,20 +195,22 @@
 
 
             <!-- Results Page -->
-            <div id="results_page" class="container-fluid" style= "display: none">
+            <div id="results_page" class="container p-3" style= "display: none; background: rgb(189, 184, 184)"">
                 <h3 class="text-center">Here is your code!</h3>
 
-                <div id="pushed_code"style="background: grey"> 
-                    PLACEHOLDER
+                <div class = "p-3" style="background: white"> 
+                    <p id="pushed_code" class="text-grey"></p>
                 </div>
 
                 <!-- Buttons -->
-                <div class="text-center">
-                    <button type="button" class="btn btn-info" onclick="resetUpload()">Upload Another Page</button>
-                </div>
-                <div class="text-center">
-                    <button type="button" class="btn btn-info" onclick="copyToClipboard('#pushed_code')">Copy to Clipboard</button>
-                </div>
+                <ul class="list-unstyled list-inline font-small pt-3">
+                    <li class="list-inline-item pr-2 text-left">
+                        <button type="button" class= "btn btn-info" onclick="resetUpload()">Upload Another Page</button>
+                    </li>
+                    <li class="list-inline-item pr-2 text-right">
+                        <button type="button" class=" btn btn-info" onclick="copyToClipboard('#pushed_code')">Copy to Clipboard</button>
+                    </li>
+                </ul>
             </div>
 
 
