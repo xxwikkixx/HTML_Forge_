@@ -40,6 +40,11 @@
     <!-- Fonts -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+
+    <!-- Code Prettify -->
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?lang=html&amp;skin=desert"></script>
+    <scrip src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js"></scrip>
 </head>
 
 
@@ -198,8 +203,10 @@
             <div id="results_page" class="container p-3" style= "display: none; background: rgb(189, 184, 184)"">
                 <h3 class="text-center">Here is your code!</h3>
 
-                <div class = "p-3" style="background: white"> 
-                    <p id="pushed_code" class="text-grey"></p>
+                <div class = "p-3" style="background: white">
+                    <pre class="prettyprint">
+                        <code id="pushed_code" class="language-html"></code>
+                    </pre>
                 </div>
 
                 <!-- Buttons -->

@@ -38,6 +38,7 @@ def upload_file():
         if file and allowed_file(file.filename):
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             imgPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            print(imgPath)
             sess = initializeSession()
             # print(sess)
             return sess
