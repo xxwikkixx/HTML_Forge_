@@ -8,6 +8,7 @@
         1. Image Cropping Unify - applying unify crop to user image to have consistent edge detection
         2. Image enhancement    - Apply gaussian and contrast to the image
         3. Thin Line Repair     - Algorithm to fix thin lines and breaking lines in the image
+        5. Erode and Dilate     - Algorithm to merge corners and disjointed drawings
         4. Image Edge Detection - Contour detection
         5. Box Detection        - Detecting most outer box shape and perform crop and remove redundancy crops
         6. Add Detected Blocks  - Append all detected blocks and related information to a new singleBlock class instance
@@ -19,15 +20,16 @@
          [Done]  Save the crop of the source file instead of the bolded one
          [Done]  Remove similar crops
          [Done]  Image enhancer on the original Image
-         [Done]  Uses child relationship and hierarchy to know the objects within each block and eventually add it into single block attribute
+         [Done]  Uses child relationship and hierarchy to know the objects within each block and eventually add it into
+                single block attribute
          [Done]  JSON File Formatter
          [Done]  Image Drawing, boxing out detected labels
          [Done]  Full Image Path
          [Done]  Array index contour removal out of range
          [Done]  Image Dir with sessions
          [Done]  OpenCV Dilation and Erosion
-         [In Progress] Keeping original image size and algo rescale with it
-         [In Progress] Initial crop out of bound on tight images.
+         [Done]  Keeping original image size and algo rescale with it
+         [Done]  Initial crop out of bound on tight images.
 """
 
 from PIL import Image, ImageEnhance, ImageDraw, ImageFont
@@ -53,8 +55,11 @@ columns = 3
 rows = 3
 
 # Unify crop and re-rescaling
-IMAGE_HEIGHT = 1000
-IMAGE_WIDTH = 1500
+# IMAGE_HEIGHT = 1000
+# IMAGE_WIDTH = 1500
+
+IMAGE_HEIGHT = 2000
+IMAGE_WIDTH = 3000
 
 # erode and dilate
 ITERATIONS = 1
@@ -112,7 +117,8 @@ def fileConvert(imgPath, savePath):
     # rgb_im = im.convert('RGB')
 
     # Convert to monochrome
-    im = im.convert('1')
+    # im = im.convert('1')
+
     im.save(savePath)
 
 
@@ -131,7 +137,8 @@ def cornerFit(imgPath):
     # convert image to gray scale image
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # detect corners with the goodFeaturesToTrack function.
-    corners = cv2.goodFeaturesToTrack(gray, 100, 0.01, 10)
+    # gray = cv2.GaussianBlur(gray, (15, 15), 20)
+    corners = cv2.goodFeaturesToTrack(gray, 1000, 0.01, 15)
     corners = np.int0(corners)
 
     # we iterate through each corner,
@@ -165,7 +172,6 @@ def cornerFit(imgPath):
     # plt.imshow(crop_img), plt.show()
 
     # Save Crop
-
 
 
 # Not being used
@@ -271,8 +277,6 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     # contours, hierarchy = cv2.findContours(img_final_bin, cv2.RETR_LIST, cv2.CHAIN_APPRO)
     # Sort all the contours by top to bottom.
 
-
-
     (contours, boundingBoxes) = sort_contours(contours, method="top-to-bottom")
 
     print ("=====>", hierarchy)
@@ -286,8 +290,8 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     for c in contours:
         # Returns the location and width,height for every contour
         x, y, w, h = cv2.boundingRect(c)
-        if ((w > IMAGE_WIDTH * 0.25 and h > IMAGE_HEIGHT * 0.1) or (
-                h > 400 and w > 50)) and w != IMAGE_HEIGHT and h != IMAGE_WIDTH and x > 10 and y > 10:
+        if ((w > IMAGE_WIDTH * 0.24 and h > IMAGE_HEIGHT * 0.1) or (
+                h > IMAGE_HEIGHT * 0.24 and w > IMAGE_HEIGHT * 0.1)) and w != IMAGE_HEIGHT and h != IMAGE_WIDTH and x > 10 and y > 10:
             if Console_Logger: print("Crop Log: ", [x, y, w, h])
             # Add all the suitable crops to a list
 
@@ -295,7 +299,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
                 exported_contours.append([x, y, w, h])
             flag = True
             for i in range(0, len(exported_contours)):
-                temp_1, temp_2 = float(abs(sum(exported_contours[i]))), float(abs(x+y+w+h))
+                temp_1, temp_2 = float(abs(sum(exported_contours[i]))), float(abs(x + y + w + h))
                 if 0.93 < temp_1 / temp_2 < 1.08:
                     flag = False
 
@@ -312,10 +316,10 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         x, y, w, h = exported_contours[i]
 
         # The crop is right is too tight, since it is right on the border, this adjusts with bigger border
-        x -= 30
-        y -= 30
-        w += 50
-        h += 50
+        x -= 50
+        y -= 50
+        w += 80
+        h += 80
 
         # Cropping the original image
         new_img = orginal_image[y:y + h, x:x + w]
@@ -393,10 +397,17 @@ def execute_Box_Detection(path, blocks):
 
 # Once the AI is finished, draw the detected boxes on to the original image
 def labelDrawBox(blocks, src):
-    source_img = Image.open(src).convert("RGB")
+    """
+    Draw layering boxes on to the original image. The output image gives a good over look of what is detected and what is not
+
+    :param blocks: Object BlockDB Class instance
+    :param src: String Image destination
+    :return: N/A
+    """
+    source_img = Image.open(src)
     draw = ImageDraw.Draw(source_img)
     # font = ImageFont.load_default().font
-    font = ImageFont.truetype(FULL_PATH_TO_THIS_FOLDER + "/arial.ttf", 28)
+    font = ImageFont.truetype(FULL_PATH_TO_THIS_FOLDER + "/arial.ttf", 42)
     for i in blocks.blocks:
         x = blocks.getBlockByID(i).getX_Location()
         y = blocks.getBlockByID(i).getY_Location()
@@ -404,18 +415,32 @@ def labelDrawBox(blocks, src):
         h = blocks.getBlockByID(i).get_Height()
 
         draw.rectangle(((x, y), (x + w, y + h)), outline="red", width=4)
+
         draw.text((x + 10, y), str(blocks.getBlockByID(i).getBestPrediction()), fill="red", font=font)
     source_img.show()
     source_img.save(src, "JPEG")
 
 
 def initializeSession():
+    """
+    Scrip to start a new session instance.
+    In each session from user it creates a folder in local database for storing crop img codes, and original images
+    :return: String Session ID of the newly created session
+    """
+
     global newSession
     newSession = ImageProcessSession()
     return newSession.getSessionID()
 
 
 def startSession(path_to_image):
+    """
+    The main script/steps for running the object detection
+
+    :param path_to_image: String Path to the userInput image.
+    :return: SessionID, and path to the JSON file. JSON
+            file contains all the information we have regard each building blocks
+    """
     newSession.userImageImport(path_to_image)
 
     # Initialize a new session base on user's request
@@ -435,7 +460,7 @@ def startSession(path_to_image):
     # ===============================
     # All building block infos stored in blocks class
     # Call AI for further process
-    imageOnReady(blocksDB)
+    # imageOnReady(blocksDB)
 
     labelDrawBox(blocksDB, newSession.getSessionPath() + imgName)
 
@@ -464,15 +489,9 @@ def startSession(path_to_image):
 
     return newSession.getSessionID(), newSession.getSessionPath() + "data.json"
 
-
 # Main
-if __name__ == "__main__":
-    # Initialize timer for run time speed
-    start = time.time()
-    # clearImageDir("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/UserUpload/")
-
-    # startSession(
-    #     "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/Sample Images/Sample_1.jpg")
-
-    end = time.time()
-    print("Process Run Time: Seconds: ", end - start)
+# if __name__ == "__main__":
+# Initialize timer for run time speed
+# start = time.time()
+# end = time.time()
+# print("Process Run Time: Seconds: ", end - start)
