@@ -83,6 +83,10 @@ def ApiBlocksetectedReturn(usersession):
                 path = os.path.join(root, item)
                 jsonData = json.load(open(path))
                 return jsonify(jsonData)
+        for item in files:
+            if (usersession+'.jpg') in item:
+                path = os.path.join(root, item)
+                return jsonify(debugImage=path)
     return 'ok'
 
 
