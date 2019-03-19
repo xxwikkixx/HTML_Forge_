@@ -18,10 +18,6 @@ itsdangerous
 Jinja2
 MarkupSafe
 Pillow
-protobuf
-pyasn1
-pyasn1-modules
-pytz
 requests
 rsa
 six

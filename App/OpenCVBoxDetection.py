@@ -25,8 +25,9 @@
          [Done]  Full Image Path
          [Done]  Array index contour removal out of range
          [Done]  Image Dir with sessions
+         [Done]  OpenCV Dilation and Erosion
          [In Progress] Keeping original image size and algo rescale with it
-         [In Progress] Initial crop out of bound on  tight images.
+         [In Progress] Initial crop out of bound on tight images.
 """
 
 from PIL import Image, ImageEnhance, ImageDraw, ImageFont
@@ -281,20 +282,6 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     if Console_Logger: print(hierarchy)
     if Console_Logger: print("=======================================")
 
-    # export = []
-    # img2 = img_final_bin.copy()
-    # for h in hierarchy[0]:
-    #     if h[0] == -1 and h[3] == -1:
-    #         export.append(h[2])
-    #
-    # print ("Exporting", export)
-    # for cnt in export:
-    #     if cnt > 0:
-    #         cv2.drawContours(img2, [contours[cnt]], 0, (0, 255, 0), 10)
-    #
-    # cv2.imwrite(newSession.getDebugDir() + "hrieky.jpg", img2)
-
-
     # Find the suitable crops
     for c in contours:
         # Returns the location and width,height for every contour
@@ -314,94 +301,6 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
 
             if flag:
                 exported_contours.append([x, y, w, h])
-
-
-    # for i in range(0, len(exported_contours)):
-    #     for j in range(0, len(exported_contours)):
-    #         # Compare X axis and Y see if it is similar crop
-    #         if 0 < i < len(exported_contours) and 0 < j < len(exported_contours):
-    #             if exported_contours[i] != exported_contours[j]:
-    #                 temp_1, temp_2 = float(abs(sum(exported_contours[i]))), float(abs(sum(exported_contours[j])))
-    #                 # if two images are similar within the range
-    #                 # if exported_contours[j][0] < exported_contours[i][0] and exported_contours[j][1] < exported_contours[i][1] and exported_contours[j][2] > exported_contours[i][2] and exported_contours[j][3] > exported_contours[i][3]:
-    #                 #     exported_contours.pop(i)
-    #                 #     i -= 1
-    #                 #     continue
-    #                 if 0.95 < temp_1 / temp_2 < 1.15:
-    #                     if Console_Logger: print("Delete Log: Image Similar contour removed")
-    #
-    #                     # Choose the bigger contour and pop the smaller crop
-    #                     if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
-    #                             exported_contours[i][3]):
-    #                         if Console_Logger: print("  |----->", exported_contours[i])
-    #                         new_img = orginal_image[
-    #                                   exported_contours[j][1]:exported_contours[j][1] + exported_contours[j][3],
-    #                                   exported_contours[j][0]:exported_contours[j][0] + exported_contours[j][2]]
-    #                         cv2.imwrite(cropped_dir_path + "Deleted_" + str(j) + '.png', new_img)
-    #                         exported_contours.pop(j)
-    #                         # j -= 1  # re-compare previous j element index since it is removed
-    #                     else:
-    #                         if Console_Logger: print("  |----->", exported_contours[i])
-    #                         new_img = orginal_image[
-    #                                   exported_contours[i][1]:exported_contours[i][1] + exported_contours[i][3],
-    #                                   exported_contours[i][0]:exported_contours[i][0] + exported_contours[i][2]]
-    #                         cv2.imwrite(cropped_dir_path + "Deleted_" + str(i) + '.png', new_img)
-    #                         exported_contours.pop(i)
-                            # i -= 1  # re-compare previous i element index since it is removed
-    #
-    # else:
-    #     raise IndexError("Array pop index exception!!")
-    print (exported_contours)
-    # for i in range(0, len(exported_contours)):
-    #     for j in range(0, len(exported_contours)):
-    #         if 0 < i < len(exported_contours) and 0 < j < len(exported_contours):
-    #             if exported_contours[i] != exported_contours[j]:
-    #                 if exported_contours[j][0] > exported_contours[i][0] and exported_contours[j][1] > \
-    #                         exported_contours[i][1] and exported_contours[j][0] < exported_contours[i][0] + \
-    #                         exported_contours[i][2] and exported_contours[j][1] < exported_contours[i][1] + \
-    #                         exported_contours[i][3]:
-    #                     exported_contours.pop(j)
-    #                     j -= 1  # re-compare previous j element index since it is removed
-
-
-    # Works
-    # Iterate through final candidates and remove repetitive blocks
-    # for i in range(len(exported_contours) - 1, 0, -1):
-    #     for j in range(i):
-    #         if exported_contours[j][0] > exported_contours[i][0] and exported_contours[j][1] > exported_contours[i][1] and exported_contours[j][0] < exported_contours[i][0] + exported_contours[i][2] and exported_contours[j][1] < exported_contours[i][1] + exported_contours[i][3]:
-    #             exported_contours.pop(j)
-    #             j -= 1  # re-compare previous j element index since it is removed
-    #
-    #         # Compare X axis and Y see if it is similar crop
-    #         if i <= len(exported_contours) and j <= len(exported_contours):
-    #             temp_1, temp_2 = float(abs(sum(exported_contours[i]))), float(abs(sum(exported_contours[j])))
-    #             # if two images are 98% similar within the range
-    #             if 0.95 < (temp_1 / temp_2) < 1.05:
-    #                 if Console_Logger: print("Delete Log: Image Similar contour removed")
-    #                 # Choose the bigger contour and pop the smaller crop
-    #                 if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
-    #                         exported_contours[i][3]):
-    #                     if Console_Logger: print("  |----->", exported_contours[i])
-    #                     new_img = orginal_image[
-    #                               exported_contours[j][1]:exported_contours[j][1] + exported_contours[j][3],
-    #                               exported_contours[j][0]:exported_contours[j][0] + exported_contours[j][2]]
-    #                     cv2.imwrite(cropped_dir_path + "Deleted_" + str(j) + '.png', new_img)
-    #                     # remove the contour
-    #                     exported_contours.pop(j)
-    #                     # re-compare previous j element index since it is removed
-    #                     j -= 1
-    #                 else:
-    #                     if Console_Logger: print("  |----->", exported_contours[i])
-    #                     new_img = orginal_image[
-    #                               exported_contours[i][1]:exported_contours[i][1] + exported_contours[i][3],
-    #                               exported_contours[i][0]:exported_contours[i][0] + exported_contours[i][2]]
-    #                     cv2.imwrite(cropped_dir_path + "Deleted_" + str(i) + '.png', new_img)
-    #                     # remove the contour
-    #                     exported_contours.pop(i)
-    #                     # re-compare previous i element index since it is removed
-    #                     i -= 1
-            # else:
-            #     raise IndexError("Array pop index exception!!")
 
     if Console_Logger: print("============================")
 
@@ -513,14 +412,10 @@ def labelDrawBox(blocks, src):
 def initializeSession():
     global newSession
     newSession = ImageProcessSession()
-    # print(newSession.getSessionID())
     return newSession.getSessionID()
 
 
 def startSession(path_to_image):
-    # Create and initialize new Session
-    # global newSession
-    # newSession = ImageProcessSession()
     newSession.userImageImport(path_to_image)
 
     # Initialize a new session base on user's request
@@ -531,19 +426,20 @@ def startSession(path_to_image):
     cornerFit(newSession.getSessionPath() + "/" + imgName)
 
     blocksDB = Blocks()
+
     # Pass in the pre cropped image for building block detection
     execute_Box_Detection(newSession.getSessionPath() + "/" + imgName, blocksDB)
-
 
     # ===============================
     #   AI PASS THROUGH
     # ===============================
     # All building block infos stored in blocks class
     # Call AI for further process
-    # imageOnReady(blocksDB)
+    imageOnReady(blocksDB)
 
     labelDrawBox(blocksDB, newSession.getSessionPath() + imgName)
 
+    # Image re-route
     # for i in range(0, len(blocksDB.blocks)):
     #     blocksDB.blocks.getBlockByID(i).setImagePath(
     #         "http://localhost:5000/UserUpload/" + newSession.getSessionPath() + "ImageCrops/" + i + ".png")
@@ -575,7 +471,6 @@ if __name__ == "__main__":
     start = time.time()
     # clearImageDir("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/UserUpload/")
 
-    # passToken(newsession.getSessionID())
     # startSession(
     #     "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/Sample Images/Sample_1.jpg")
 
