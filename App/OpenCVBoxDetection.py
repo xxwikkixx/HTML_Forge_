@@ -48,6 +48,7 @@ import time
 # Set true if debugging
 Image_Debug = False
 Console_Logger = False
+Disable_AI = True
 
 # This is just for the py plotting results (debug purposes)
 fig = plt.figure(figsize=(8, 8))
@@ -471,7 +472,8 @@ def startSession(path_to_image):
     # ===============================
     # All building block infos stored in blocks class
     # Call AI for further process
-    imageOnReady(blocksDB)
+    if not Disable_AI:
+        imageOnReady(blocksDB)
 
     labelDrawBox(blocksDB, newSession.getSessionPath() + imgName)
 
