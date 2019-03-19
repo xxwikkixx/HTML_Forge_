@@ -23,6 +23,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="CSS_src/sidebar.css">
     <link rel="stylesheet" href="CSS_src/Upload.css">
+    <link rel="stylesheet" href="CSS_src/loader.css">
 
     <!-- Libraries JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
@@ -50,10 +51,10 @@
 
 <body>
 
-    <!-- Wrap all content to make sidebar work -->
-    <div class="wrapper">
+    <!-- Wrap all content to make sidebar work
+    <div class="wrapper"> -->
         
-        <!-- Sidebar  -->
+        <!-- Sidebar 
         <nav id="sidebar">
             <div class="sidebar-header">
                 <h3>LOGO PLACEHOLDER</h3>
@@ -67,7 +68,7 @@
                 <li> <a href="#">Add another page</a></li>
                 <li> <a href="#">Need Help?</a></li>
                 
-                <!-- Some prewritten code incase we need a dropdown
+                 Some prewritten code incase we need a dropdown
                 <li>
                     <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
                     <ul class="collapse list-unstyled" id="pageSubmenu">
@@ -83,7 +84,7 @@
                     </ul>
                 </li>
             -->
-
+        <!--
      
             </ul>
 
@@ -95,7 +96,7 @@
                     <a href="" class="article">Open in Editor</a>
                 </li>
             </ul>
-        </nav>
+        </nav> -->
 
 
 
@@ -172,6 +173,20 @@
 
 
 
+            <!-- LOADING PAGE -->
+            <div id="loading_page" class="container cs-loader center-block text-center" style="display: none">
+                <div class="cs-loader-inner center-block text-center">
+                    <label>	{ </label>
+                    <label>	H</label>
+                    <label>	T </label>
+                    <label>	M</label>
+                    <label>	L</label>
+                    <label>	}</label>
+                </div>
+            </div>
+
+
+
             <!-- DETECTED BLOCKS PAGE -->
             <div id="detection_page" class="container p-3" style="display: none;"> 
                 <h3 class="text-center">Conversion Happens Here</h3>
@@ -233,7 +248,7 @@
 
 
 
-        </div>
+        <!-- </div> -->
 
     </div>
 

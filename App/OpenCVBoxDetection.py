@@ -111,8 +111,8 @@ def applyGaussian(image_Path):
     # convert image to gray scale imag
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # apply gaussian and threshold
-    T = threshold_adaptive(warped, 11, offset=10, method="gaussian")
-    gray = (gray > T).astype("uint8") * 255
+    # T = threshold_adaptive(warped, 11, offset=10, method="gaussian")
+    # gray = (gray > T).astype("uint8") * 255
     # save image to the same image path
     cv2.imwrite(image_Path, gray)
 
@@ -472,7 +472,7 @@ def startSession(path_to_image):
     # ===============================
     # All building block infos stored in blocks class
     # Call AI for further process
-    imageOnReady(blocksDB)
+    # imageOnReady(blocksDB)
 
     labelDrawBox(blocksDB, newSession.getSessionPath() + imgName)
 

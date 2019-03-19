@@ -38,7 +38,7 @@
 
 /* Limit the height of the button */
 .filepond--root {
-  max-width: 50em;
+  max-width: 75em;
   max-height: 50em;
 }
 

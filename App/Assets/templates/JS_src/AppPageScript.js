@@ -59,15 +59,21 @@ function resetUpload(){
 */
 function confirmUpload(){
     
+    // Show loading screen
+    document.getElementById("upload_page").style.display = "none";      // Hides
+    document.getElementById("loading_page").style.display = "block";    // Shows
+    document.getElementById("detection_page").style.display = "none";   // Hides
+    document.getElementById("results_page").style.display = "none";     // Hides
+
     // Calls an API that runs the AI function on google
     $.getJSON(API_BLOCK_CONVERT, function(data1){
 
-        document.getElementById("upload_page").style.display = "none";      // Hides
-        document.getElementById("detection_page").style.display = "block";  // Shows
-        document.getElementById("results_page").style.display = "none";     // Hides
-
         // This call retrieves the JSON returned from Google's AI
         $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
+
+            document.getElementById("loading_page").style.display = "none";      // Hides
+            document.getElementById("detection_page").style.display = "block";   // Shows
+
             BLOCK_DATA = data.blocks;
             makeCards();
         });
