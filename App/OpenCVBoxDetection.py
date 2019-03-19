@@ -129,8 +129,7 @@ def fileConvert(imgPath, savePath):
     # rgb_im = im.convert('RGB')
 
     # Convert to monochrome
-    # im = im.convert('1')
-
+    im = im.convert('RGB')
     im.save(savePath)
 
 
