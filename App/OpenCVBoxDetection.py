@@ -8,6 +8,7 @@
         1. Image Cropping Unify - applying unify crop to user image to have consistent edge detection
         2. Image enhancement    - Apply gaussian and contrast to the image
         3. Thin Line Repair     - Algorithm to fix thin lines and breaking lines in the image
+        5. Erode and Dilate     - Algorithm to merge corners and disjointed drawings
         4. Image Edge Detection - Contour detection
         5. Box Detection        - Detecting most outer box shape and perform crop and remove redundancy crops
         6. Add Detected Blocks  - Append all detected blocks and related information to a new singleBlock class instance
@@ -19,17 +20,19 @@
          [Done]  Save the crop of the source file instead of the bolded one
          [Done]  Remove similar crops
          [Done]  Image enhancer on the original Image
-         [Done]  Uses child relationship and hierarchy to know the objects within each block and eventually add it into single block attribute
+         [Done]  Uses child relationship and hierarchy to know the objects within each block and eventually add it into
+                single block attribute
          [Done]  JSON File Formatter
          [Done]  Image Drawing, boxing out detected labels
          [Done]  Full Image Path
          [Done]  Array index contour removal out of range
          [Done]  Image Dir with sessions
-         [In Progress] Keeping original image size and algo rescale with it
-         [In Progress] Initial crop out of bound on  tight images.
+         [Done]  OpenCV Dilation and Erosion
+         [Done]  Keeping original image size and algo rescale with it
+         [Done]  Initial crop out of bound on tight images.
 """
 
-from PIL import Image, ImageEnhance, ImageDraw, ImageFont
+from PIL import Image, ImageEnhance, ImageDraw, ImageFont, ImageStat
 from predictBlock import imageOnReady
 from ImgProcessSession import ImageProcessSession
 from Blocks import Blocks
@@ -52,8 +55,11 @@ columns = 3
 rows = 3
 
 # Unify crop and re-rescaling
-IMAGE_HEIGHT = 1000
-IMAGE_WIDTH = 1500
+# IMAGE_HEIGHT = 1000
+# IMAGE_WIDTH = 1500
+
+IMAGE_HEIGHT = 2000
+IMAGE_WIDTH = 3000
 
 # erode and dilate
 ITERATIONS = 1
@@ -78,7 +84,19 @@ def image_Rescale(image_Path):
     im = Image.open(image_Path)
     im.thumbnail(size)
     newimg = im.resize(size)
+
+    # newimg = newimg.point(lambda p: p * 1.5)
+    # If the image if too dark
+    if brightness(image_Path) < 205:
+        newimg = newimg.point(lambda p: p * 1.4)
+
     newimg.save(image_Path)
+
+
+def brightness(im_file):
+    im = Image.open(im_file).convert('L')
+    stat = ImageStat.Stat(im)
+    return stat.mean[0]
 
 
 def applyGaussian(image_Path):
@@ -93,7 +111,7 @@ def applyGaussian(image_Path):
     # convert image to gray scale imag
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # apply gaussian and threshold
-    T = threshold_local(gray, 21, offset=80, method="gaussian")
+    T = threshold_adaptive(warped, 11, offset=10, method="gaussian")
     gray = (gray > T).astype("uint8") * 255
     # save image to the same image path
     cv2.imwrite(image_Path, gray)
@@ -111,7 +129,7 @@ def fileConvert(imgPath, savePath):
     # rgb_im = im.convert('RGB')
 
     # Convert to monochrome
-    im = im.convert('1')
+    im = im.convert('RGB')
     im.save(savePath)
 
 
@@ -130,7 +148,8 @@ def cornerFit(imgPath):
     # convert image to gray scale image
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # detect corners with the goodFeaturesToTrack function.
-    corners = cv2.goodFeaturesToTrack(gray, 100, 0.01, 10)
+    # gray = cv2.GaussianBlur(gray, (15, 15), 20)
+    corners = cv2.goodFeaturesToTrack(gray, 1000, 0.01, 15)
     corners = np.int0(corners)
 
     # we iterate through each corner,
@@ -164,7 +183,6 @@ def cornerFit(imgPath):
     # plt.imshow(crop_img), plt.show()
 
     # Save Crop
-
 
 
 # Not being used
@@ -270,8 +288,6 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     # contours, hierarchy = cv2.findContours(img_final_bin, cv2.RETR_LIST, cv2.CHAIN_APPRO)
     # Sort all the contours by top to bottom.
 
-
-
     (contours, boundingBoxes) = sort_contours(contours, method="top-to-bottom")
 
     print ("=====>", hierarchy)
@@ -281,26 +297,12 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     if Console_Logger: print(hierarchy)
     if Console_Logger: print("=======================================")
 
-    # export = []
-    # img2 = img_final_bin.copy()
-    # for h in hierarchy[0]:
-    #     if h[0] == -1 and h[3] == -1:
-    #         export.append(h[2])
-    #
-    # print ("Exporting", export)
-    # for cnt in export:
-    #     if cnt > 0:
-    #         cv2.drawContours(img2, [contours[cnt]], 0, (0, 255, 0), 10)
-    #
-    # cv2.imwrite(newSession.getDebugDir() + "hrieky.jpg", img2)
-
-
     # Find the suitable crops
     for c in contours:
         # Returns the location and width,height for every contour
         x, y, w, h = cv2.boundingRect(c)
-        if ((w > IMAGE_WIDTH * 0.25 and h > IMAGE_HEIGHT * 0.1) or (
-                h > 400 and w > 50)) and w != IMAGE_HEIGHT and h != IMAGE_WIDTH and x > 10 and y > 10:
+        if ((w > IMAGE_WIDTH * 0.24 and h > IMAGE_HEIGHT * 0.1) or (
+                h > IMAGE_HEIGHT * 0.24 and w > IMAGE_HEIGHT * 0.1)) and w != IMAGE_HEIGHT and h != IMAGE_WIDTH and x > 10 and y > 10:
             if Console_Logger: print("Crop Log: ", [x, y, w, h])
             # Add all the suitable crops to a list
 
@@ -308,100 +310,12 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
                 exported_contours.append([x, y, w, h])
             flag = True
             for i in range(0, len(exported_contours)):
-                temp_1, temp_2 = float(abs(sum(exported_contours[i]))), float(abs(x+y+w+h))
+                temp_1, temp_2 = float(abs(sum(exported_contours[i]))), float(abs(x + y + w + h))
                 if 0.93 < temp_1 / temp_2 < 1.08:
                     flag = False
 
             if flag:
                 exported_contours.append([x, y, w, h])
-
-
-    # for i in range(0, len(exported_contours)):
-    #     for j in range(0, len(exported_contours)):
-    #         # Compare X axis and Y see if it is similar crop
-    #         if 0 < i < len(exported_contours) and 0 < j < len(exported_contours):
-    #             if exported_contours[i] != exported_contours[j]:
-    #                 temp_1, temp_2 = float(abs(sum(exported_contours[i]))), float(abs(sum(exported_contours[j])))
-    #                 # if two images are similar within the range
-    #                 # if exported_contours[j][0] < exported_contours[i][0] and exported_contours[j][1] < exported_contours[i][1] and exported_contours[j][2] > exported_contours[i][2] and exported_contours[j][3] > exported_contours[i][3]:
-    #                 #     exported_contours.pop(i)
-    #                 #     i -= 1
-    #                 #     continue
-    #                 if 0.95 < temp_1 / temp_2 < 1.15:
-    #                     if Console_Logger: print("Delete Log: Image Similar contour removed")
-    #
-    #                     # Choose the bigger contour and pop the smaller crop
-    #                     if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
-    #                             exported_contours[i][3]):
-    #                         if Console_Logger: print("  |----->", exported_contours[i])
-    #                         new_img = orginal_image[
-    #                                   exported_contours[j][1]:exported_contours[j][1] + exported_contours[j][3],
-    #                                   exported_contours[j][0]:exported_contours[j][0] + exported_contours[j][2]]
-    #                         cv2.imwrite(cropped_dir_path + "Deleted_" + str(j) + '.png', new_img)
-    #                         exported_contours.pop(j)
-    #                         # j -= 1  # re-compare previous j element index since it is removed
-    #                     else:
-    #                         if Console_Logger: print("  |----->", exported_contours[i])
-    #                         new_img = orginal_image[
-    #                                   exported_contours[i][1]:exported_contours[i][1] + exported_contours[i][3],
-    #                                   exported_contours[i][0]:exported_contours[i][0] + exported_contours[i][2]]
-    #                         cv2.imwrite(cropped_dir_path + "Deleted_" + str(i) + '.png', new_img)
-    #                         exported_contours.pop(i)
-                            # i -= 1  # re-compare previous i element index since it is removed
-    #
-    # else:
-    #     raise IndexError("Array pop index exception!!")
-    print (exported_contours)
-    # for i in range(0, len(exported_contours)):
-    #     for j in range(0, len(exported_contours)):
-    #         if 0 < i < len(exported_contours) and 0 < j < len(exported_contours):
-    #             if exported_contours[i] != exported_contours[j]:
-    #                 if exported_contours[j][0] > exported_contours[i][0] and exported_contours[j][1] > \
-    #                         exported_contours[i][1] and exported_contours[j][0] < exported_contours[i][0] + \
-    #                         exported_contours[i][2] and exported_contours[j][1] < exported_contours[i][1] + \
-    #                         exported_contours[i][3]:
-    #                     exported_contours.pop(j)
-    #                     j -= 1  # re-compare previous j element index since it is removed
-
-
-    # Works
-    # Iterate through final candidates and remove repetitive blocks
-    # for i in range(len(exported_contours) - 1, 0, -1):
-    #     for j in range(i):
-    #         if exported_contours[j][0] > exported_contours[i][0] and exported_contours[j][1] > exported_contours[i][1] and exported_contours[j][0] < exported_contours[i][0] + exported_contours[i][2] and exported_contours[j][1] < exported_contours[i][1] + exported_contours[i][3]:
-    #             exported_contours.pop(j)
-    #             j -= 1  # re-compare previous j element index since it is removed
-    #
-    #         # Compare X axis and Y see if it is similar crop
-    #         if i <= len(exported_contours) and j <= len(exported_contours):
-    #             temp_1, temp_2 = float(abs(sum(exported_contours[i]))), float(abs(sum(exported_contours[j])))
-    #             # if two images are 98% similar within the range
-    #             if 0.95 < (temp_1 / temp_2) < 1.05:
-    #                 if Console_Logger: print("Delete Log: Image Similar contour removed")
-    #                 # Choose the bigger contour and pop the smaller crop
-    #                 if ((exported_contours[j][2] + exported_contours[j][3]) > exported_contours[i][2] +
-    #                         exported_contours[i][3]):
-    #                     if Console_Logger: print("  |----->", exported_contours[i])
-    #                     new_img = orginal_image[
-    #                               exported_contours[j][1]:exported_contours[j][1] + exported_contours[j][3],
-    #                               exported_contours[j][0]:exported_contours[j][0] + exported_contours[j][2]]
-    #                     cv2.imwrite(cropped_dir_path + "Deleted_" + str(j) + '.png', new_img)
-    #                     # remove the contour
-    #                     exported_contours.pop(j)
-    #                     # re-compare previous j element index since it is removed
-    #                     j -= 1
-    #                 else:
-    #                     if Console_Logger: print("  |----->", exported_contours[i])
-    #                     new_img = orginal_image[
-    #                               exported_contours[i][1]:exported_contours[i][1] + exported_contours[i][3],
-    #                               exported_contours[i][0]:exported_contours[i][0] + exported_contours[i][2]]
-    #                     cv2.imwrite(cropped_dir_path + "Deleted_" + str(i) + '.png', new_img)
-    #                     # remove the contour
-    #                     exported_contours.pop(i)
-    #                     # re-compare previous i element index since it is removed
-    #                     i -= 1
-            # else:
-            #     raise IndexError("Array pop index exception!!")
 
     if Console_Logger: print("============================")
 
@@ -413,10 +327,10 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         x, y, w, h = exported_contours[i]
 
         # The crop is right is too tight, since it is right on the border, this adjusts with bigger border
-        x -= 30
-        y -= 30
-        w += 50
-        h += 50
+        x -= 50
+        y -= 50
+        w += 80
+        h += 80
 
         # Cropping the original image
         new_img = orginal_image[y:y + h, x:x + w]
@@ -494,10 +408,17 @@ def execute_Box_Detection(path, blocks):
 
 # Once the AI is finished, draw the detected boxes on to the original image
 def labelDrawBox(blocks, src):
-    source_img = Image.open(src).convert("RGB")
+    """
+    Draw layering boxes on to the original image. The output image gives a good over look of what is detected and what is not
+
+    :param blocks: Object BlockDB Class instance
+    :param src: String Image destination
+    :return: N/A
+    """
+    source_img = Image.open(src)
     draw = ImageDraw.Draw(source_img)
     # font = ImageFont.load_default().font
-    font = ImageFont.truetype(FULL_PATH_TO_THIS_FOLDER + "/arial.ttf", 28)
+    font = ImageFont.truetype(FULL_PATH_TO_THIS_FOLDER + "/arial.ttf", 42)
     for i in blocks.blocks:
         x = blocks.getBlockByID(i).getX_Location()
         y = blocks.getBlockByID(i).getY_Location()
@@ -505,22 +426,32 @@ def labelDrawBox(blocks, src):
         h = blocks.getBlockByID(i).get_Height()
 
         draw.rectangle(((x, y), (x + w, y + h)), outline="red", width=4)
+
         draw.text((x + 10, y), str(blocks.getBlockByID(i).getBestPrediction()), fill="red", font=font)
     source_img.show()
     source_img.save(src, "JPEG")
 
 
 def initializeSession():
+    """
+    Scrip to start a new session instance.
+    In each session from user it creates a folder in local database for storing crop img codes, and original images
+    :return: String Session ID of the newly created session
+    """
+
     global newSession
     newSession = ImageProcessSession()
-    # print(newSession.getSessionID())
     return newSession.getSessionID()
 
 
 def startSession(path_to_image):
-    # Create and initialize new Session
-    # global newSession
-    # newSession = ImageProcessSession()
+    """
+    The main script/steps for running the object detection
+
+    :param path_to_image: String Path to the userInput image.
+    :return: SessionID, and path to the JSON file. JSON
+            file contains all the information we have regard each building blocks
+    """
     newSession.userImageImport(path_to_image)
 
     # Initialize a new session base on user's request
@@ -531,19 +462,20 @@ def startSession(path_to_image):
     cornerFit(newSession.getSessionPath() + "/" + imgName)
 
     blocksDB = Blocks()
+
     # Pass in the pre cropped image for building block detection
     execute_Box_Detection(newSession.getSessionPath() + "/" + imgName, blocksDB)
-
 
     # ===============================
     #   AI PASS THROUGH
     # ===============================
     # All building block infos stored in blocks class
     # Call AI for further process
-    # imageOnReady(blocksDB)
+    imageOnReady(blocksDB)
 
     labelDrawBox(blocksDB, newSession.getSessionPath() + imgName)
 
+    # Image re-route
     # for i in range(0, len(blocksDB.blocks)):
     #     blocksDB.blocks.getBlockByID(i).setImagePath(
     #         "http://localhost:5000/UserUpload/" + newSession.getSessionPath() + "ImageCrops/" + i + ".png")
@@ -568,16 +500,9 @@ def startSession(path_to_image):
 
     return newSession.getSessionID(), newSession.getSessionPath() + "data.json"
 
-
 # Main
-if __name__ == "__main__":
-    # Initialize timer for run time speed
-    start = time.time()
-    # clearImageDir("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/src/ImageProcessing/UserUpload/")
-
-    # passToken(newsession.getSessionID())
-    # startSession(
-    #     "/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/Sample Images/Sample_1.jpg")
-
-    end = time.time()
-    print("Process Run Time: Seconds: ", end - start)
+# if __name__ == "__main__":
+# Initialize timer for run time speed
+# start = time.time()
+# end = time.time()
+# print("Process Run Time: Seconds: ", end - start)
