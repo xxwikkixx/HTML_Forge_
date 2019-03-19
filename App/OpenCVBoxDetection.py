@@ -32,7 +32,7 @@
          [Done]  Initial crop out of bound on tight images.
 """
 
-from PIL import Image, ImageEnhance, ImageDraw, ImageFont
+from PIL import Image, ImageEnhance, ImageDraw, ImageFont, ImageStat
 from predictBlock import imageOnReady
 from ImgProcessSession import ImageProcessSession
 from Blocks import Blocks
@@ -84,7 +84,19 @@ def image_Rescale(image_Path):
     im = Image.open(image_Path)
     im.thumbnail(size)
     newimg = im.resize(size)
+
+    # newimg = newimg.point(lambda p: p * 1.5)
+    # If the image if too dark
+    if brightness(image_Path) < 205:
+        newimg = newimg.point(lambda p: p * 1.4)
+
     newimg.save(image_Path)
+
+
+def brightness(im_file):
+    im = Image.open(im_file).convert('L')
+    stat = ImageStat.Stat(im)
+    return stat.mean[0]
 
 
 def applyGaussian(image_Path):
@@ -99,7 +111,7 @@ def applyGaussian(image_Path):
     # convert image to gray scale imag
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # apply gaussian and threshold
-    T = threshold_local(gray, 21, offset=80, method="gaussian")
+    T = threshold_adaptive(warped, 11, offset=10, method="gaussian")
     gray = (gray > T).astype("uint8") * 255
     # save image to the same image path
     cv2.imwrite(image_Path, gray)
@@ -460,7 +472,7 @@ def startSession(path_to_image):
     # ===============================
     # All building block infos stored in blocks class
     # Call AI for further process
-    # imageOnReady(blocksDB)
+    imageOnReady(blocksDB)
 
     labelDrawBox(blocksDB, newSession.getSessionPath() + imgName)
 
