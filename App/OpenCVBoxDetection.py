@@ -48,6 +48,7 @@ import time
 # Set true if debugging
 Image_Debug = False
 Console_Logger = False
+Disable_AI = True
 
 # This is just for the py plotting results (debug purposes)
 fig = plt.figure(figsize=(8, 8))
@@ -111,8 +112,8 @@ def applyGaussian(image_Path):
     # convert image to gray scale imag
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     # apply gaussian and threshold
-    # T = threshold_adaptive(warped, 11, offset=10, method="gaussian")
-    # gray = (gray > T).astype("uint8") * 255
+    T = threshold_adaptive(warped, 11, offset=10, method="gaussian")
+    gray = (gray > T).astype("uint8") * 255
     # save image to the same image path
     cv2.imwrite(image_Path, gray)
 
@@ -129,8 +130,7 @@ def fileConvert(imgPath, savePath):
     # rgb_im = im.convert('RGB')
 
     # Convert to monochrome
-    # im = im.convert('1')
-
+    im = im.convert('RGB')
     im.save(savePath)
 
 
@@ -472,7 +472,8 @@ def startSession(path_to_image):
     # ===============================
     # All building block infos stored in blocks class
     # Call AI for further process
-    # imageOnReady(blocksDB)
+    if not Disable_AI:
+        imageOnReady(blocksDB)
 
     labelDrawBox(blocksDB, newSession.getSessionPath() + imgName)
 
