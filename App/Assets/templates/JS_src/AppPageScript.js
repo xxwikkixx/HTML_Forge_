@@ -179,7 +179,7 @@ function createCard(label, prob, image){
     // BEFORE col-md-4 col-sm-6:
     var elem = 
     '<div class="animated ' + onAppear + ' col-lg-6 col-xl-4 mt-3 mb-3" id="' + id_Count + 'card">'
-    +   '<div class="card text-white bg-dark">'
+    +   '<div class="card text-white bg-dark shadow-lg">'
     +       '<img class="card-img-top" src="' + image + '" alt=" Image Not Found" style="width: 100%; height: 150px; object-fit: fill;">'
     +       '<div class="card-body center">'
     +           '<h5 class="card-title m-0">' + label + '</h5>'
