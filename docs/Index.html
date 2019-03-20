@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <!-- App Info -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="HTML Forge Application">
+    <meta name="author" content="Khalid Qubbaj">
+    <title>HTML Forge App</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" >
+   
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    
+    <!-- Animation CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="CSS_src/sidebar.css">
+    <link rel="stylesheet" href="CSS_src/Upload.css">
+    <link rel="stylesheet" href="CSS_src/loader.css">
+    <link rel="stylesheet" href="CSS_src/cards.css">
+
+    <!-- Libraries JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+ 
+    <!-- Custom JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+    <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'>
+    <link rel='stylesheet' href='https://unpkg.com/filepond/dist/filepond.min.css'>
+    
+    <!-- Fonts -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+
+    <!-- Code Prettify -->
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js?lang=html&amp;skin=desert"></script>
+    <scrip src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/ace.js"></scrip>
+</head>
+
+
+<body>
+
+    <!-- Wrap all content to make sidebar work
+    <div class="wrapper"> -->
+        
+        <!-- Sidebar 
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>LOGO PLACEHOLDER</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <p>Your Webpages</p>
+               
+                <li> <a href="#">Page 1</a>              
+                <li> <a href="#">Page 2</a>
+                <li> <a href="#">Add another page</a></li>
+                <li> <a href="#">Need Help?</a></li>
+                
+                 Some prewritten code incase we need a dropdown
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="#">Page 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 3</a>
+                        </li>
+                    </ul>
+                </li>
+            -->
+        <!--
+     
+            </ul>
+
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="" class="download">Download source</a>
+                </li>
+                <li>
+                    <a href="" class="article">Open in Editor</a>
+                </li>
+            </ul>
+        </nav> -->
+
+
+
+        <!-- Page Content  -->
+        <div id="content">
+
+            <nav class="navbar fixed-top navbar-expand-lg navbar-dark " style="background-color: #1B1A26;">
+                <div class="container-fluid">
+
+                    <!-- Sidemenu button, appears when bar collapses on medium seized devices-->
+                    <button type="button" id="sidebarCollapse" class="btn btn-dark d-md-none" style="background-color:#F47521">
+                        <i class="fas fa-align-left"></i>
+                        <span>Toggle Sidebar</span>
+                    </button>
+
+                    <span class = "navbar-text center">HTML FORGE </span>
+
+                    <!-- Collapsing right-handside button -->
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto " style="background-color:#FFDD00" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">Feature 1</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Feature 2</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Feature 3</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Feature 4</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+
+
+            <!-- UPLOAD PAGE -->
+            <div id="upload_page" class="container-fluid row" style="display: block">
+            
+                <div class="col-sm-12">
+                    <h3 class="text-center">Upload goes here</h3>
+                </div>
+
+                 <!-- Upload Button-->
+                <div class="center-block col-sm-12" style="margin:auto; width:70%;">
+                    <div id="uploadButton">
+                    <input type="file" 
+                        class="filepond" 
+                        name="file" 
+                        multiple 
+                        data-max-files="1"
+                        data-max-file-size="10MB" />
+                    </div>
+                </div>
+
+                <!-- Confirm Button-->
+                <div class="col-sm-12 text-center">
+                    <button id="confirm_button" type="button" class="btn btn-info" onclick="confirmUpload()" disabled>Convert This Image</button>
+                </div>
+
+                <!-- Khalids FrontEnd Debugger-->
+                <div class="col-sm-12 text-center">
+                    <button type="button" class="btn btn-outline-danger" onclick="bypassUpload()">Bypass for DEBUG</button>
+                </div>
+
+            </div>
+
+
+
+            <!-- LOADING PAGE -->
+            <div id="loading_page" class="container cs-loader center-block text-center" style="display: none">
+                <div class="cs-loader-inner center-block text-center">
+                    <label>	{ </label>
+                    <label>	H</label>
+                    <label>	T </label>
+                    <label>	M</label>
+                    <label>	L</label>
+                    <label>	}</label>
+                </div>
+            </div>
+
+
+
+            <!-- DETECTED BLOCKS PAGE -->
+            <div id="detection_page" class="container p-3" style="display: none;"> 
+                <h3 class="text-center">Conversion Happens Here</h3>
+
+                <!-- Cards Populated-->
+                <div id="returned_img" class="container-fluid text-center center-block">
+                    IMAGE GOES HERE
+                </div>
+
+                <!-- Cards Populated-->
+                <div class="center-block text-center row" id="detected_box">
+                    
+                </div>
+
+                <!-- Buttons -->
+                <div class="row">
+                    <div class="col-md-12 col-lg-4 pl-3 pt-2">
+                        <button type="button" class="btn btn-info btn-block" onclick="resetUpload()">Upload Again</button>
+                    </div>
+                    <div class="col-md-12 col-lg-4 pt-2">
+                        <button type="button" class="btn btn-outline-danger btn-block" href="#" onclick="createCard()">DEBUG: Add Card</a>
+                    </div>
+                    <div class="col-md-12 col-lg-4 pr-3 pt-2">
+                        <button type="button" class="btn btn-info btn-block" onclick="GenerateHTML()">Generate HTML</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+            <!-- Results Page -->
+            <div id="results_page" class="container p-3" style= "display: none; background: rgb(189, 184, 184)"">
+                
+                <!-- Header Space-->
+                <h3 class="text-center">Here is your code!</h3>
+
+                <!-- Code Space-->
+                <div class = "p-3" style="background: white">
+                    <!-- <pre class="prettyprint"> -->
+                        <code id="pushed_code" class="language-html"></code>
+                    <!-- </pre> -->
+                </div>
+
+                <!-- Buttons -->
+                <div class="row">
+                    <div class ="col-md-12 col-lg-4 pl-3 pt-2">
+                        <button type="button" class= "btn btn-info btn-block" onclick="resetUpload()">Upload Another Page</button>
+                    </div>
+                    <div class ="col-md-12 col-lg-4 pt-2">
+                        <button type="button" class=" btn btn-info btn-block" onclick="copyToClipboard('#pushed_code')">Copy to Clipboard</button>
+                    </div>
+                    <div class ="col-md-12 col-lg-4 pr-3 pt-2">
+                        <button type="button" class= "btn btn-info btn-block" disabled>Download as Zip</button>
+                    </div>
+                </div>
+
+            </div>
+
+        <!-- </div> -->
+
+    </div>
+
+
+        <!-- file upload itself is disabled in this pen -->
+        <script src='https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js'></script>
+        <script src='https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js'></script>
+        <script src='https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js'></script>
+        <script src='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js'></script>
+        <script src='https://unpkg.com/filepond/dist/filepond.min.js'></script>
+       
+        <script type="text/javascript" src="JS_src/Upload.js"></script>
+        <script type="text/javascript" src="JS_src/HTML_Parser_JS.js"></script>
+        <script type="text/javascript" src="JS_src/AppPageScript.js"></script>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+  <!-- jQuery Custom Scroller CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+</body>
+
+</html>
