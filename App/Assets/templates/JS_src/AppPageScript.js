@@ -113,7 +113,6 @@ function GenerateHTML(){
     // Prints generated HTML into div "pushed_code"
     console.log(code_generated);                                        // Debugging
     document.getElementById("pushed_code").innerText = code_generated;
-
     document.getElementById("upload_page").style.display = "none";      // Hides
     document.getElementById("detection_page").style.display = "none";   // Hides
     document.getElementById("results_page").style.display = "block";    // Shows
@@ -121,23 +120,42 @@ function GenerateHTML(){
 
 
 
-/***********************          ************************/
+/** --------------------------------  Labels & Cards  ----------------------------------- **/
+
+
+
+var labels = [
+    "",                     // index: 0   Empty
+    "Header",               // index: 1   Header
+    "Footer",               // index: 2   Footer
+    "Paragraph",            // index: 3   Paragraph
+    "Title",                // index: 4   Title
+    "singleImage",          // index: 5   Stand alone image
+    "Img_Gal_Parallax",     // index: 6   Slider Gallary
+    "Img_Gal_Preview",      // index: 7   Image Preview
+    "Img_Gal_Simple",       // index: 8   Image Gallary Spread
+    "Img_Left_Text_Right",  // index: 9   Image-L Text-R
+    "Img_Right_Text_Left",  // index: 10  Image-R Text-L
+    "Img_Top_Text_Bottom"   // index: 11  Image-T Text-B
+];
+
+
 function labelAdapter(){
     block_order = [];           // Reset Blocks
 
     for(var i = 0; i < BLOCK_QUEUE.length; i++){
-        if(BLOCK_QUEUE[i] == "")                    {continue;}                     // Deleted By User
-        if(BLOCK_QUEUE[i] == "Header")              {block_order.push('label_1');}  // Header
-        if(BLOCK_QUEUE[i] == "Footer")              {block_order.push('label_2');}  // Footer
-        if(BLOCK_QUEUE[i] == "Paragraph")           {block_order.push('label_3');}  // Paragraph
-        if(BLOCK_QUEUE[i] == "Title")               {block_order.push('label_4');}  // Title
-        if(BLOCK_QUEUE[i] == "singleImage")         {block_order.push('label_5');}  // Stand Alone Image
-        if(BLOCK_QUEUE[i] == "Img_Gal_Parallax")    {block_order.push('label_6');}  // Slider Gallary
-        if(BLOCK_QUEUE[i] == "Img_Gal_Preview")     {block_order.push('label_7');}  // Image Preview
-        if(BLOCK_QUEUE[i] == "Img_Gal_Simple")      {block_order.push('label_8');}  // Image Gallary Spread
-        if(BLOCK_QUEUE[i] == "Img_Left_Text_Right") {block_order.push('label_9');}  // Image-Left Text-Right 
-        if(BLOCK_QUEUE[i] == "Img_Right_Text_Left") {block_order.push('label_10');} // Image-Right Text-Left
-        if(BLOCK_QUEUE[i] == "Img_Top_Text_Bottom") {block_order.push('label_11');} // Image-Top Text_Bottom
+        if(BLOCK_QUEUE[i] == labels[0])     {continue;}                     // Deleted By User
+        if(BLOCK_QUEUE[i] == labels[1])     {block_order.push('label_1');}  // Header
+        if(BLOCK_QUEUE[i] == labels[2])     {block_order.push('label_2');}  // Footer
+        if(BLOCK_QUEUE[i] == labels[3])     {block_order.push('label_3');}  // Paragraph
+        if(BLOCK_QUEUE[i] == labels[4])     {block_order.push('label_4');}  // Title
+        if(BLOCK_QUEUE[i] == labels[5])     {block_order.push('label_5');}  // Stand Alone Image
+        if(BLOCK_QUEUE[i] == labels[6])     {block_order.push('label_6');}  // Slider Gallary
+        if(BLOCK_QUEUE[i] == labels[7])     {block_order.push('label_7');}  // Image Preview
+        if(BLOCK_QUEUE[i] == labels[8])     {block_order.push('label_8');}  // Image Gallary Spread
+        if(BLOCK_QUEUE[i] == labels[9])     {block_order.push('label_9');}  // Image-Left Text-Right 
+        if(BLOCK_QUEUE[i] == labels[10])    {block_order.push('label_10');} // Image-Right Text-Left
+        if(BLOCK_QUEUE[i] == labels[11])    {block_order.push('label_11');} // Image-Top Text_Bottom
 
     }
 
@@ -188,12 +206,28 @@ function createCard(label, prob, image){
     +   '<div class="card text-white bg-dark shadow-lg">'
     +       '<img class="card-img-top" src="' + image + '" alt=" Image Not Found" style="width: 100%; height: 150px; object-fit: fill;">'
     +       '<div class="card-body center">'
-    +           '<h5 class="card-title m-0">' + label + '</h5>'
-    +           '<p class="card-text">Probability: ' + prob + ' % </p>'
-    +           '<ul class="list-unstyled list-inline font-small">'
-    + '<li class="list-inline-item pr-2"><a class="btn btn-outline-light btn-sm right" id="' + id_Count + 'card" onclick="editCard(this.id,1)">Edit Block</a></li>'
-    + '<li class="list-inline-item pr-2"><a class="btn btn-outline-danger btn-sm right" id="' + id_Count + 'card" onclick="deleteCard(this.id)">Delete</a></li>'
-    + '</ul></div></div></div>';
+    +           '<h5 id="'+ id_Count +'card_title" class="card-title m-0">' + label + '</h5>'
+    +           '<p  id="'+ id_Count +'card_prob" class="card-text">Probability: ' + prob + ' % </p>'
+    +                   '<div class="btn-group dropup">'
+    +                       '<button type="button" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Edit Block </button>'
+    +                       '<div class="dropdown-menu">'
+    +                           '<a class="dropdown-item" id="' + id_Count + 'card" onclick="editCard(this.id, 1)">Header</a>'
+    +                           '<a class="dropdown-item" id="' + id_Count + 'card" onclick="editCard(this.id, 2)">Footer</a>'
+    +                           '<a class="dropdown-item" id="' + id_Count + 'card" onclick="editCard(this.id, 3)">Paragraph</a>'
+    +                           '<a class="dropdown-item" id="' + id_Count + 'card" onclick="editCard(this.id, 4)">Title</a>'
+    +                           '<a class="dropdown-item" id="' + id_Count + 'card" onclick="editCard(this.id, 5)">Single Image</a>'
+    +                           '<a class="dropdown-item" id="' + id_Count + 'card" onclick="editCard(this.id, 6)">Slider Gallary</a>'
+    +                           '<a class="dropdown-item" id="' + id_Count + 'card" onclick="editCard(this.id, 7)">Image Preview</a>'
+    +                           '<a class="dropdown-item" id="' + id_Count + 'card" onclick="editCard(this.id, 8)">Gallary</a>'
+    +                           '<a class="dropdown-item" id="' + id_Count + 'card" onclick="editCard(this.id, 9)">Text-L Image-R</a>'
+    +                           '<a class="dropdown-item" id="' + id_Count + 'card" onclick="editCard(this.id, 10)">Text-R Image-L</a>'
+    +                           '<a class="dropdown-item" id="' + id_Count + 'card" onclick="editCard(this.id, 11)">Text-B Image-T</a>'           
+    +                       '</div>'
+    +                   '</div>'
+    +                   '<button class="btn btn-sm btn-outline-danger right" id="' + id_Count + 'card" onclick="deleteCard(this.id)">Delete</button>'
+    + '</div></div></div>';
+
+
 
     // Alternate style
     // var elem = 
@@ -239,7 +273,6 @@ function deleteCard(id){
     console.log(id);
     console.log(index);
     delete BLOCK_QUEUE[index];
-    //BLOCK_QUEUE = arrayRemove(BLOCK_QUEUE, '')
     CURRENT_CARDS = arrayRemove(CURRENT_CARDS, index)
 
     console.log("Current Block_queue: " + BLOCK_QUEUE);
@@ -262,13 +295,20 @@ function editCard(id, action){
     
     /***** DEBUG *****/
     console.log(id + " edit invoked with action " + action);
-   
-    /***** FRONT-END USE *****/
 
+    /***** FRONT-END USE *****/
+    var title = id + '_title';
+    var para = id + '_prob';
+    document.getElementById(title).innerHTML = labels[action];
+    document.getElementById(para).innerHTML = "Altered by user";
 
     /***** BACK-END USE *****/
-    // Remove from array
-    // ADD CODE TO EDIT FROM BLOCK_QUEUE
+    var index = parseFloat(id);
+    console.log(index);
+    BLOCK_QUEUE[index] = labels[action];
+
+    console.log("Current Block_queue: " + BLOCK_QUEUE);
+    console.log("Current Cards: "       + CURRENT_CARDS);
 }
 
 
