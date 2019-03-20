@@ -62,7 +62,7 @@ class Blocks:
                          'Block_Code': self.getBlockByID(i).getSingleBlock_HTMLCode()})
         # /api/blocksdetected/<usersession>/CropImage/<filename>
         # /api/blocksdetected/getDebugImage/<usersession>
-        data["debugImage"] = HOST_PATH + "api/blocksdetected/getDebugImage" + str(sessionID)
+        data["debugImage"] = HOST_PATH + "api/blocksdetected/getDebugImage/" + str(sessionID)
         data["blocks"] = temp
         # print(data)
         with open(path, 'w') as outfile:
