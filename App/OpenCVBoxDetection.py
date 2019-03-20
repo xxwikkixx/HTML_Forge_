@@ -48,7 +48,7 @@ import time
 # Set true if debugging
 Image_Debug = False
 Console_Logger = False
-Disable_AI = True
+Disable_AI = False
 
 # This is just for the py plotting results (debug purposes)
 fig = plt.figure(figsize=(8, 8))

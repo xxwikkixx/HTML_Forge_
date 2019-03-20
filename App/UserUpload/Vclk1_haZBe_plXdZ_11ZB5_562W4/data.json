@@ -1,0 +1,320 @@
+{
+   "debugImage": "localhost:5000/api/blocksdetected/getDebugImage/Vclk1_haZBe_plXdZ_11ZB5_562W4",
+   "blocks": [
+      {
+         "ID": 1,
+         "X_Axis": 83,
+         "Y_Axis": 171,
+         "Width": 1706,
+         "Height": 474,
+         "Predictions": [
+            [
+               "Footer",
+               0.0012036688858643174
+            ],
+            [
+               "Header",
+               0.8460466265678406
+            ],
+            [
+               "Img_Gal_Parallax",
+               2.8570802896865644e-05
+            ],
+            [
+               "Img_Gal_Preview",
+               0.1661411076784134
+            ],
+            [
+               "Img_Gal_Simple",
+               0.0002352748706471175
+            ],
+            [
+               "Img_Left_Text_Right",
+               0.00012432312360033393
+            ],
+            [
+               "Img_Right_Text_Left",
+               0.008505442179739475
+            ],
+            [
+               "Img_Top_Text_Bottom",
+               2.916579205702874e-06
+            ],
+            [
+               "Paragraph",
+               4.669659119826974e-06
+            ],
+            [
+               "Title",
+               0.000704843841958791
+            ],
+            [
+               "singleImage",
+               0.0005581454606726766
+            ]
+         ],
+         "Best_Predictions": [
+            "Header",
+            0.8460466265678406
+         ],
+         "Second_Best": [
+            "Img_Gal_Preview",
+            0.1661411076784134
+         ],
+         "Image_Crop_Path": "http://localhost:5000/api/blocksdetected/Vclk1_haZBe_plXdZ_11ZB5_562W4/CropImage/1",
+         "Block_Code": ""
+      },
+      {
+         "ID": 2,
+         "X_Axis": 79,
+         "Y_Axis": 647,
+         "Width": 1744,
+         "Height": 338,
+         "Predictions": [
+            [
+               "Footer",
+               0.04172120243310928
+            ],
+            [
+               "Header",
+               0.0028119883500039577
+            ],
+            [
+               "Img_Gal_Parallax",
+               6.4766977629915345e-06
+            ],
+            [
+               "Img_Gal_Preview",
+               2.4139830202329904e-05
+            ],
+            [
+               "Img_Gal_Simple",
+               0.00023337938182521611
+            ],
+            [
+               "Img_Left_Text_Right",
+               0.0002801874652504921
+            ],
+            [
+               "Img_Right_Text_Left",
+               4.798503141500987e-05
+            ],
+            [
+               "Img_Top_Text_Bottom",
+               5.327333383320365e-06
+            ],
+            [
+               "Paragraph",
+               0.001914973952807486
+            ],
+            [
+               "Title",
+               0.3797680139541626
+            ],
+            [
+               "singleImage",
+               0.002590709365904331
+            ]
+         ],
+         "Best_Predictions": [
+            "Title",
+            0.3797680139541626
+         ],
+         "Second_Best": [
+            "Footer",
+            0.04172120243310928
+         ],
+         "Image_Crop_Path": "http://localhost:5000/api/blocksdetected/Vclk1_haZBe_plXdZ_11ZB5_562W4/CropImage/2",
+         "Block_Code": ""
+      },
+      {
+         "ID": 3,
+         "X_Axis": 51,
+         "Y_Axis": 1010,
+         "Width": 1783,
+         "Height": 702,
+         "Predictions": [
+            [
+               "Footer",
+               1.032698946801247e-06
+            ],
+            [
+               "Header",
+               0.0010839372407644987
+            ],
+            [
+               "Img_Gal_Parallax",
+               0.0004927188856527209
+            ],
+            [
+               "Img_Gal_Preview",
+               0.0041578090749681
+            ],
+            [
+               "Img_Gal_Simple",
+               0.003353751264512539
+            ],
+            [
+               "Img_Left_Text_Right",
+               0.0055495696142315865
+            ],
+            [
+               "Img_Right_Text_Left",
+               0.007980705238878727
+            ],
+            [
+               "Img_Top_Text_Bottom",
+               0.08486770838499069
+            ],
+            [
+               "Paragraph",
+               6.3192433117365e-06
+            ],
+            [
+               "Title",
+               1.1707016710715834e-05
+            ],
+            [
+               "singleImage",
+               0.04532447084784508
+            ]
+         ],
+         "Best_Predictions": [
+            "Img_Top_Text_Bottom",
+            0.08486770838499069
+         ],
+         "Second_Best": [
+            "singleImage",
+            0.04532447084784508
+         ],
+         "Image_Crop_Path": "http://localhost:5000/api/blocksdetected/Vclk1_haZBe_plXdZ_11ZB5_562W4/CropImage/3",
+         "Block_Code": ""
+      },
+      {
+         "ID": 4,
+         "X_Axis": 45,
+         "Y_Axis": 1680,
+         "Width": 1819,
+         "Height": 598,
+         "Predictions": [
+            [
+               "Footer",
+               0.22138093411922455
+            ],
+            [
+               "Header",
+               8.804696699371561e-05
+            ],
+            [
+               "Img_Gal_Parallax",
+               0.0001440447522327304
+            ],
+            [
+               "Img_Gal_Preview",
+               1.314833207288757e-05
+            ],
+            [
+               "Img_Gal_Simple",
+               0.00039155027479864657
+            ],
+            [
+               "Img_Left_Text_Right",
+               0.03391943499445915
+            ],
+            [
+               "Img_Right_Text_Left",
+               0.0005778730264864862
+            ],
+            [
+               "Img_Top_Text_Bottom",
+               0.0007941875956021249
+            ],
+            [
+               "Paragraph",
+               0.1659119874238968
+            ],
+            [
+               "Title",
+               0.07712297141551971
+            ],
+            [
+               "singleImage",
+               0.0032694796100258827
+            ]
+         ],
+         "Best_Predictions": [
+            "Footer",
+            0.22138093411922455
+         ],
+         "Second_Best": [
+            "Paragraph",
+            0.1659119874238968
+         ],
+         "Image_Crop_Path": "http://localhost:5000/api/blocksdetected/Vclk1_haZBe_plXdZ_11ZB5_562W4/CropImage/4",
+         "Block_Code": ""
+      },
+      {
+         "ID": 5,
+         "X_Axis": 19,
+         "Y_Axis": 2327,
+         "Width": 1941,
+         "Height": 631,
+         "Predictions": [
+            [
+               "Footer",
+               0.9784301519393921
+            ],
+            [
+               "Header",
+               8.094509394140914e-05
+            ],
+            [
+               "Img_Gal_Parallax",
+               0.00012035616236971691
+            ],
+            [
+               "Img_Gal_Preview",
+               3.453946192166768e-06
+            ],
+            [
+               "Img_Gal_Simple",
+               0.0010825012577697635
+            ],
+            [
+               "Img_Left_Text_Right",
+               0.03281954675912857
+            ],
+            [
+               "Img_Right_Text_Left",
+               0.0007398545858450234
+            ],
+            [
+               "Img_Top_Text_Bottom",
+               3.3483790957689052e-06
+            ],
+            [
+               "Paragraph",
+               0.008250880055129528
+            ],
+            [
+               "Title",
+               4.789259401150048e-05
+            ],
+            [
+               "singleImage",
+               0.0002499941037967801
+            ]
+         ],
+         "Best_Predictions": [
+            "Footer",
+            0.9784301519393921
+         ],
+         "Second_Best": [
+            "Img_Left_Text_Right",
+            0.03281954675912857
+         ],
+         "Image_Crop_Path": "http://localhost:5000/api/blocksdetected/Vclk1_haZBe_plXdZ_11ZB5_562W4/CropImage/5",
+         "Block_Code": ""
+      }
+   ]
+}
