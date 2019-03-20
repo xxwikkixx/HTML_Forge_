@@ -14,12 +14,9 @@ imgPath = ''
 
 
 # @app.route('/')
-# def mainPage(img):
-#     global session
-#     sessionID, JSON_Path = startSession(img)
-#     session = sessionID
-#     return jsonify("Session ID : " + sessionID + "</br> JSON Path: " + JSON_Path)
-#     # return render_template('LandingPage.html')
+# def mainPage():
+#     root = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Assets/templates")
+#     return send_from_directory(root, 'AppPage.html')
 
 
 def allowed_file(filename):
@@ -62,7 +59,8 @@ def ApiImageUploadedReturn():
 
     filesURL = {}
     for i in filesInDir:
-        filesURL.update({i:'http://localhost:5000' + url_for("static", filename= i)})
+        filesURL.update({i:'http://localhost:5000' + url_for('static', filename= i)})
+        print(url_for('static', filename= i))
     return jsonify(ImageUpLoaded= filesURL)
 
 @app.route('/api/startconvert')
@@ -83,11 +81,23 @@ def ApiBlocksetectedReturn(usersession):
                 path = os.path.join(root, item)
                 jsonData = json.load(open(path))
                 return jsonify(jsonData)
-        for item in files:
-            if (usersession+'.jpg') in item:
-                path = os.path.join(root, item)
-                return jsonify(debugImage=path)
     return 'ok'
+
+
+def moifyJson():
+    dirc = os.path.dirname(os.path.realpath(__file__))
+    userUploadPath = os.path.join(dirc, "UserUpload")
+    jsonPath = os.path.join(userUploadPath, usersession)
+    dict = []
+    with open(os.path.join(jsonPath, 'data.json'), 'r') as f:
+        jsonData = json.load(f)
+        jsData = jsonData["blocks"]
+        for i in jsData:
+            resp = i["Image_Crop_Path"]
+            for pths in resp:
+                print(resp)
+
+
 
 
 if __name__ == '__main__':
