@@ -110,5 +110,18 @@ def ApiBlocksetectedReturn(usersession):
     return 'ok'
 
 
+def moifyJson(usersession):
+    dirc = os.path.dirname(os.path.realpath(__file__))
+    userUploadPath = os.path.join(dirc, "UserUpload")
+    jsonPath = os.path.join(userUploadPath, usersession)
+    dict = []
+    with open(os.path.join(jsonPath, 'data.json'), 'r') as f:
+        jsonData = json.load(f)
+        jsData = jsonData["blocks"]
+        for i in jsData:
+            resp = i["Image_Crop_Path"]
+            for pths in resp:
+                print(resp)
+
 if __name__ == '__main__':
     app.run(threaded=True)
