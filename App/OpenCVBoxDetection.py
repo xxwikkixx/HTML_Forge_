@@ -302,8 +302,8 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     for c in contours:
         # Returns the location and width,height for every contour
         x, y, w, h = cv2.boundingRect(c)
-        if ((w > IMAGE_WIDTH * 0.24 and h > IMAGE_HEIGHT * 0.1) or (
-                h > IMAGE_HEIGHT * 0.24 and w > IMAGE_HEIGHT * 0.1)) and w != IMAGE_HEIGHT and h != IMAGE_WIDTH and x > 10 and y > 10:
+        if ((w > IMAGE_WIDTH * 0.24 and h > IMAGE_HEIGHT * 0.07) or (
+                h > IMAGE_HEIGHT * 0.24 and w > IMAGE_HEIGHT * 0.07)) and w != IMAGE_HEIGHT and h != IMAGE_WIDTH and x > 10 and y > 10:
             if Console_Logger: print("Crop Log: ", [x, y, w, h])
             # Add all the suitable crops to a list
 
@@ -484,7 +484,7 @@ def startSession(path_to_image):
 
     # blocksDB.changePath(newSession.getSessionID())
 
-    blocksDB.JSONFormat(newSession.getSessionPath() + "/" + "data.json")
+    blocksDB.JSONFormat(newSession.getSessionPath() + "/" + "data.json", newSession.getSessionID())
 
     # for i in blocksDB.blocks:
     #     print("Block ", i, " ID: :", blocksDB.getBlockByID(i).getBlockID())
