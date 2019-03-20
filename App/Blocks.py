@@ -41,11 +41,12 @@ class Blocks:
         self.getBlockByID(self.IDAssignCount).setBlockID(self.IDAssignCount)
         self.IDAssignCount += 1
 
-    def JSONFormat(self, path):
+    def JSONFormat(self, path, sessionID):
         """
         Generate json format file with given export path.
         :param path: string  Path to exporting JSON file
         """
+        HOST_PATH = "localhost:5000/"
         data = {}
         temp = []
         for i in self.blocks:
@@ -57,9 +58,11 @@ class Blocks:
                          'Predictions': self.getBlockByID(i).getPrediction(),
                          'Best_Predictions': self.getBlockByID(i).getBestPrediction(),
                          'Second_Best': self.getBlockByID(i).getScondBest(),
-                         'Image_Crop_Path': self.getBlockByID(i).getImagePath(),
+                         'Image_Crop_Path': HOST_PATH + "api/blocksdetected/"+sessionID+"/CropImage/"+str(self.getBlockByID(i).getBlockID()),
                          'Block_Code': self.getBlockByID(i).getSingleBlock_HTMLCode()})
-
+        # /api/blocksdetected/<usersession>/CropImage/<filename>
+        # /api/blocksdetected/getDebugImage/<usersession>
+        data["debugImage"] = HOST_PATH + "api/blocksdetected/getDebugImage" + str(sessionID)
         data["blocks"] = temp
         # print(data)
         with open(path, 'w') as outfile:

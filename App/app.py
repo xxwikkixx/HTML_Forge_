@@ -1,5 +1,9 @@
 import os
-from flask import Flask, abort, render_template, request, redirect, url_for, jsonify, send_file, send_from_directory, make_response, session, json
+
+import cv2
+from flask import Flask, abort, render_template, request, redirect, url_for, jsonify, send_file, send_from_directory, \
+    make_response, session, json
+from sphinx.util import requests
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 # Internal Classes
@@ -25,11 +29,14 @@ imgPath = ''
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg', 'png'])
 UPLOAD_FOLDER = 'static'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-@app.route('/upload', methods = ['GET', 'POST', 'DELETE'])
+
+@app.route('/upload', methods=['GET', 'POST', 'DELETE'])
 def upload_file():
     global imgPath
     file = request.files['file']
@@ -62,8 +69,9 @@ def ApiImageUploadedReturn():
 
     filesURL = {}
     for i in filesInDir:
-        filesURL.update({i:'http://localhost:5000' + url_for("static", filename= i)})
-    return jsonify(ImageUpLoaded= filesURL)
+        filesURL.update({i: 'http://localhost:5000' + url_for("static", filename=i)})
+    return jsonify(ImageUpLoaded=filesURL)
+
 
 @app.route('/api/startconvert')
 def convertRequest():
@@ -71,6 +79,18 @@ def convertRequest():
     sessionID, JSON_Path = startSession(imgPath)
     session = sessionID
     return jsonify(sessionID)
+
+
+@app.route('/api/blocksdetected/getDebugImage/<usersession>')
+def getDebugImage(usersession):
+    pid = 'UserUpload/' + usersession + "/" + usersession + ".jpg"
+    return send_file(pid, mimetype='image/gif')
+
+
+@app.route('/api/blocksdetected/<usersession>/CropImage/<filename>')
+def getCroppedImgage(usersession, filename):
+    pid = 'UserUpload/' + usersession + "/ImageCrops/" + filename + ".png"
+    return send_file(pid, mimetype='image/gif')
 
 
 # accept the session ID into the URL to bring the data back for the specific user
@@ -84,7 +104,7 @@ def ApiBlocksetectedReturn(usersession):
                 jsonData = json.load(open(path))
                 return jsonify(jsonData)
         for item in files:
-            if (usersession+'.jpg') in item:
+            if (usersession + '.jpg') in item:
                 path = os.path.join(root, item)
                 return jsonify(debugImage=path)
     return 'ok'
@@ -92,4 +112,3 @@ def ApiBlocksetectedReturn(usersession):
 
 if __name__ == '__main__':
     app.run(threaded=True)
-
