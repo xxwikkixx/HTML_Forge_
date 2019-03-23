@@ -7,6 +7,7 @@ from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 # Internal Classes
 from OpenCVBoxDetection import startSession, initializeSession
+from codeBeautifier import codeBeautifier
 
 app = Flask(__name__)
 app.debug = True
@@ -90,6 +91,12 @@ def getDebugImage(usersession):
 def getCroppedImgage(usersession, filename):
     pid = 'UserUpload/' + usersession + "/ImageCrops/" + filename + ".png"
     return send_file(pid, mimetype='image/gif')
+
+
+# Request for getting HTML Pretty Print
+# @app.route('/api/HTMLPrettyPrint/<HTMLString>/process')
+# def HTMLPrettyPrint(HTMLString):
+#     return codeBeautifier().prettyHTML(HTMLString)
 
 
 # accept the session ID into the URL to bring the data back for the specific user

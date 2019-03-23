@@ -93,7 +93,7 @@ def localize_objects(path):
 
 def predict(project_id, compute_region, model_id, file_path):
     multilabel = True  # for multilabel or False for multiclass
-    score_threshold = "0"
+    score_threshold = "0.35"
     client = vision.ImageAnnotatorClient()
     automl_client = automl.AutoMlClient()
 

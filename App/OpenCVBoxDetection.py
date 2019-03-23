@@ -67,7 +67,7 @@ ITERATIONS = 1
 
 # For line bolding
 TARESHOLD = 20
-MIN_LINE_LENG = 30
+MIN_LINE_LENG = 15
 MAX_LINE_GAP = 25
 
 # Current script work environment
@@ -88,8 +88,14 @@ def image_Rescale(image_Path):
 
     # newimg = newimg.point(lambda p: p * 1.5)
     # If the image if too dark
+
+    if brightness(image_Path) < 100:
+        newimg = newimg.point(lambda p: p * 2)
     if brightness(image_Path) < 205:
-        newimg = newimg.point(lambda p: p * 1.4)
+        newimg = newimg.point(lambda p: p * 1.2)
+    if brightness(image_Path) < 235:
+        newimg = newimg.point(lambda p: p * 1.1)
+
 
     newimg.save(image_Path)
 
@@ -279,7 +285,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     alpha = 0.5
     beta = 1.0 - alpha
     img_final_bin = cv2.addWeighted(verticle_lines_img, alpha, horizontal_lines_img, beta, 0.0)
-    img_final_bin = cv2.erode(~img_final_bin, kernel, iterations=2)
+    img_final_bin = cv2.erode(~img_final_bin, kernel, iterations=1)
     # img_final_bin = cv2.dilate(~img_final_bin, kernel, iterations=)
     (thresh, img_final_bin) = cv2.threshold(img_final_bin, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
     # if Image_Debug: cv2.imwrite(newSession.getDebugDir() + "img_final_bin.jpg", img_final_bin)
@@ -328,11 +334,12 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         x, y, w, h = exported_contours[i]
 
         # The crop is right is too tight, since it is right on the border, this adjusts with bigger border
-        x -= 50
-        y -= 50
-        w += 80
-        h += 80
-
+        # And ensure the crop is within the page size
+        if x-50 > 0 and y-50 > 0 and y+w+80 < IMAGE_WIDTH and x+h+80 < IMAGE_HEIGHT:
+            x -= 80
+            y -= 80
+            w += 110
+            h += 110
         # Cropping the original image
         new_img = orginal_image[y:y + h, x:x + w]
 
@@ -476,29 +483,7 @@ def startSession(path_to_image):
         imageOnReady(blocksDB)
 
     labelDrawBox(blocksDB, newSession.getSessionPath() + imgName)
-
-    # Image re-route
-    # for i in range(0, len(blocksDB.blocks)):
-    #     blocksDB.blocks.getBlockByID(i).setImagePath(
-    #         "http://localhost:5000/UserUpload/" + newSession.getSessionPath() + "ImageCrops/" + i + ".png")
-
-    # blocksDB.changePath(newSession.getSessionID())
-
     blocksDB.JSONFormat(newSession.getSessionPath() + "/" + "data.json", newSession.getSessionID())
-
-    # for i in blocksDB.blocks:
-    #     print("Block ", i, " ID: :", blocksDB.getBlockByID(i).getBlockID())
-    #     print("Block ", i, " X Location: :", blocksDB.getBlockByID(i).getX_Location())
-    #     print("Block ", i, " Y Location: :", blocksDB.getBlockByID(i).getY_Location())
-    #     print("Block ", i, " Width: :", blocksDB.getBlockByID(i).get_Width())
-    #     print("Block ", i, " Height: :", blocksDB.getBlockByID(i).get_Height())
-    #     print("Block ", i, " Image Path :", blocksDB.getBlockByID(i).getImagePath())
-    #
-    #     # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
-    #     print("Block ", i, " Prediction: :", blocksDB.getBlockByID(i).getPrediction())
-    #     print("Block ", i, " BEST Prediction: :", blocksDB.getBlockByID(i).getBestPrediction())
-    #     print("Block ", i, " Second BEST Prediction: :", blocksDB.getBlockByID(i).getScondBest())
-    #     print("========================================================================")
 
     return newSession.getSessionID(), newSession.getSessionPath() + "data.json"
 
