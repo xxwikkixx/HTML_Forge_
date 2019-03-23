@@ -59,7 +59,7 @@ class Blocks:
                          'Best_Predictions': self.getBlockByID(i).getBestPrediction(),
                          'Second_Best': self.getBlockByID(i).getScondBest(),
                          'Image_Crop_Path': "http://" + HOST_PATH + "api/blocksdetected/"+sessionID+"/CropImage/"+str(self.getBlockByID(i).getBlockID()),
-                         # 'Image_Crop_Path':self.getBlockByID().getImagePath(),
+                         'Server_Local_Image_Path': self.getBlockByID(i).getImagePath(),
                          'Block_Code': self.getBlockByID(i).getSingleBlock_HTMLCode()})
         # /api/blocksdetected/<usersession>/CropImage/<filename>
         # /api/blocksdetected/getDebugImage/<usersession>
