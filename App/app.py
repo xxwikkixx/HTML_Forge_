@@ -3,7 +3,6 @@ import os
 import cv2
 from flask import Flask, abort, render_template, request, redirect, url_for, jsonify, send_file, send_from_directory, \
     make_response, session, json
-from sphinx.util import requests
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 # Internal Classes
