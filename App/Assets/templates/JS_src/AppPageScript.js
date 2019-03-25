@@ -110,7 +110,7 @@ function GenerateHTML(){
     Populate_blocks(); 
 
     // Array is read and translated into appropriate HTML Code
-    var code_generated = make_HTML_Basic(block_order);
+    var code_generated = T1_MakeHTML(block_order);
 
     // Prints generated HTML into div "pushed_code"
     console.log(code_generated);                                        // Debugging
@@ -120,49 +120,6 @@ function GenerateHTML(){
     document.getElementById("results_page").style.display = "block";    // Shows
 }
 
-
-
-/** --------------------------------  Labels & Cards  ----------------------------------- **/
-
-
-
-var labels = [
-    "",                     // index: 0   Empty
-    "Header",               // index: 1   Header
-    "Footer",               // index: 2   Footer
-    "Paragraph",            // index: 3   Paragraph
-    "Title",                // index: 4   Title
-    "singleImage",          // index: 5   Stand alone image
-    "Img_Gal_Parallax",     // index: 6   Slider Gallary
-    "Img_Gal_Preview",      // index: 7   Image Preview
-    "Img_Gal_Simple",       // index: 8   Image Gallary Spread
-    "Img_Left_Text_Right",  // index: 9   Image-L Text-R
-    "Img_Right_Text_Left",  // index: 10  Image-R Text-L
-    "Img_Top_Text_Bottom"   // index: 11  Image-T Text-B
-];
-
-
-function labelAdapter(){
-    block_order = [];           // Reset Blocks
-
-    for(var i = 0; i < BLOCK_QUEUE.length; i++){
-        if(BLOCK_QUEUE[i] == labels[0])     {continue;}                     // Deleted By User
-        if(BLOCK_QUEUE[i] == labels[1])     {block_order.push('label_1');}  // Header
-        if(BLOCK_QUEUE[i] == labels[2])     {block_order.push('label_2');}  // Footer
-        if(BLOCK_QUEUE[i] == labels[3])     {block_order.push('label_3');}  // Paragraph
-        if(BLOCK_QUEUE[i] == labels[4])     {block_order.push('label_4');}  // Title
-        if(BLOCK_QUEUE[i] == labels[5])     {block_order.push('label_5');}  // Stand Alone Image
-        if(BLOCK_QUEUE[i] == labels[6])     {block_order.push('label_6');}  // Slider Gallary
-        if(BLOCK_QUEUE[i] == labels[7])     {block_order.push('label_7');}  // Image Preview
-        if(BLOCK_QUEUE[i] == labels[8])     {block_order.push('label_8');}  // Image Gallary Spread
-        if(BLOCK_QUEUE[i] == labels[9])     {block_order.push('label_9');}  // Image-Left Text-Right 
-        if(BLOCK_QUEUE[i] == labels[10])    {block_order.push('label_10');} // Image-Right Text-Left
-        if(BLOCK_QUEUE[i] == labels[11])    {block_order.push('label_11');} // Image-Top Text_Bottom
-
-    }
-
-    console.log(block_order);
-}   
 
 
 // Creates all cards based on returned blocks from API
