@@ -62,11 +62,14 @@ def upload_file():
 @app.route('/api/imageuploaded')
 def ApiImageUploadedReturn():
     filesInDir = []
+    # dirc = os.path.dirname(os.path.realpath(__file__))
+    # # print(dirc) # prints 'C:\Users\wikki\Desktop\COLLEGE\COLLEGE 2019 14th Spring Penn State\CS 488 Capstone\HTML_Forge\App'
+    # userUploadPath = os.path.join(dirc, "static")
+    # # print(userUploadPath) # prints "C:\Users\wikki\Desktop\COLLEGE\COLLEGE 2019 14th Spring Penn State\CS 488 Capstone\HTML_Forge\App\static''
     for root, dirs, files in os.walk(os.path.abspath("static")):
         for item in files:
             # print(item)
             filesInDir.append(item)
-
     filesURL = {}
     for i in filesInDir:
         filesURL.update({i: 'http://localhost:5000' + url_for("static", filename=i)})
