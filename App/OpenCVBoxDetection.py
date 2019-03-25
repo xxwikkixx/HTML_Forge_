@@ -48,7 +48,7 @@ import time
 # Set true if debugging
 Image_Debug = False
 Console_Logger = False
-Disable_AI = True
+Disable_AI = False
 
 # This is just for the py plotting results (debug purposes)
 fig = plt.figure(figsize=(8, 8))
@@ -308,8 +308,8 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     for c in contours:
         # Returns the location and width,height for every contour
         x, y, w, h = cv2.boundingRect(c)
-        if ((w > IMAGE_WIDTH * 0.24 and h > IMAGE_HEIGHT * 0.07) or (
-                h > IMAGE_HEIGHT * 0.24 and w > IMAGE_HEIGHT * 0.07)) and w != IMAGE_HEIGHT and h != IMAGE_WIDTH and x > 10 and y > 10:
+        if ((w > IMAGE_WIDTH * 0.2 and h > IMAGE_HEIGHT * 0.07) or (
+                h > IMAGE_HEIGHT * 0.2 and w > IMAGE_WIDTH * 0.07)) and w != IMAGE_HEIGHT and h != IMAGE_WIDTH and x > 10 and y > 10:
             if Console_Logger: print("Crop Log: ", [x, y, w, h])
             # Add all the suitable crops to a list
 

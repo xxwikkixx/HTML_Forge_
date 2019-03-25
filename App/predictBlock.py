@@ -114,9 +114,9 @@ def predict(project_id, compute_region, model_id, file_path):
     # params is additional domain-specific parameters.
     # score_threshold is used to filter the result
     # Initialize params
-    params = {}
-    if thresh:
-        params = {"score_threshold": thresh}
+    # params = {}
+    # if thresh:
+    params = {"score_threshold": thresh}
 
     response = prediction_client.predict(model_full_id, payload, params)
 

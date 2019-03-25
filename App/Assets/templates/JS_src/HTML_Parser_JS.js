@@ -567,6 +567,8 @@ function make_HTML_Basic (blocks) {
     // Closes initalized HTML
     code += BasicTemplate_init_End();
 
+    code = formatFactory(code);
+
     return code;
 }
 

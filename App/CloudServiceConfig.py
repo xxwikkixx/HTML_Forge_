@@ -12,5 +12,6 @@ conf = {
     # "service_API_Path": "/home/wikki/Downloads/clientTempAPIKey_htmlforge-d8f980d8c5e9.json"
     # "service_API_Path": r"C:\Users\wikki\Downloads\htmlforge-c3682ab4ffcb.json"
 
-    "thresh": "0.25"
+    "thresh": "0.3"
+
 }
