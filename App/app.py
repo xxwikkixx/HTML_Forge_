@@ -116,7 +116,7 @@ def ApiBlocksetectedReturn(usersession):
     return 'ok'
 
 
-# def moifyJson(usersession):
+# def modifyJson(usersession):
 #     dirc = os.path.dirname(os.path.realpath(__file__))
 #     userUploadPath = os.path.join(dirc, "UserUpload")
 #     jsonPath = os.path.join(userUploadPath, usersession)
