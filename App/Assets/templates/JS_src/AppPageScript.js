@@ -24,7 +24,7 @@ var CURRENT_CARDS = [];     // Keeps track of all cards currently visible on the
 var BLOCK_QUEUE = [];       // A Queue which is populated with labels, in order of which they
                             // Are found
 var BLOCK_DATA;             // Stores JSON data returned by the Google AI
-
+var DEBUG_IMG;              // Stores Debugged image path returned by OpenCV with Google AI
 
 /** Card Animations **/
 var onAppear = 'fadeIn';    // Animation from Animate.css used when a card is created
@@ -74,7 +74,9 @@ function confirmUpload(){
             document.getElementById("loading_page").style.display = "none";      // Hides
             document.getElementById("detection_page").style.display = "block";   // Shows
 
+            console.log(data);
             BLOCK_DATA = data.blocks;
+            DEBUG_IMG = data.debugImage;
             makeCards();
         });
     });
@@ -90,8 +92,8 @@ function bypassUpload(){
     document.getElementById("results_page").style.display = "none";     // Hides
 
     // This call retrieves a JSON SAMPLE COPY returned from Google's AI 
-    $.getJSON("https://api.myjson.com/bins/12dmxq", function(data){  // This is used for debugging
-
+    //$.getJSON("https://api.myjson.com/bins/12dmxq", function(data){  // This is used for debugging
+    $.getJSON("https://api.myjson.com/bins/12d9wa", function(data){
         console.log(data);
         console.log(data.blocks)
         BLOCK_DATA = data.blocks;
@@ -202,7 +204,7 @@ function createCard(label, prob, image){
     //image = 'http://via.placeholder.com/350x150'
     // BEFORE col-md-4 col-sm-6:
     var elem = 
-    '<div class="animated ' + onAppear + ' col-lg-6 col-xl-4 mt-3 mb-3" id="' + id_Count + 'card">'
+    '<div class="animated ' + onAppear + ' col-lg-12 mt-3 mb-3" id="' + id_Count + 'card">'
     +   '<div class="card text-white bg-dark shadow-lg">'
     +       '<img class="card-img-top" src="' + image + '" alt=" Image Not Found" style="width: 100%; height: 150px; object-fit: fill;">'
     +       '<div class="card-body center">'
