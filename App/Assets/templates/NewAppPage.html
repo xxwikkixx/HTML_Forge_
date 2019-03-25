@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- App Info -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="HTML Forge Application">
+    <meta name="author" content="Khalid Qubbaj">
+    <title>HTML Forge App</title>
+
+    <!-- Compiled and minified Materialize CSS & JS-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="CSS_src/AppPage.css">
+    <link rel="stylesheet" href="CSS_src/BGCircles.css">
+    <link rel="stylesheet" href="CSS_src/Upload.css">
+
+    <!-- Animation CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+    <!-- File Pond CSS & JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+    <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'>
+    <link rel='stylesheet' href='https://unpkg.com/filepond/dist/filepond.min.css'>
+</head>
+
+
+<body >
+
+<!-- Generate Objects for Back-ground animation -->
+    <div class="area" >
+            <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            </ul>
+    
+
+<!-- All content will be wrapped in this container-->
+<div class="appContainer animated fadeIn">
+
+    <!-- Header -->
+    <div class="p-1">  
+        <h5> { HTML FORGE } </h5> 
+    </div>
+
+    <!-- Inner Container -->
+    <div class="appInnerContainer shadowInsetTop">
+
+        <!-- Progress Bar -->
+        <div class="p-2" style="background-color: powderblue">
+             Progress Bar Goes here 
+        </div>
+
+        <!-- -------------------------------------------------------------------------------------->
+        <!--                                      UPLOAD PAGE                                    -->
+        <!-- -------------------------------------------------------------------------------------->
+        <div id="upload_page" class="row animated fadeIn" style="display: block">
+            
+
+            <!-- Image Picker Option -->
+            <div class="halfSegment m-2 col s12">
+                <div class="carousel" style="height: 80%;" >
+                    <a class="carousel-item hoverable" href="#one!">    <img src="Images/Samples/Samp1.jpg"></a>
+                    <a class="carousel-item hoverable" href="#two!">    <img src="Images/Samples/Samp2.jpg"></a>
+                    <a class="carousel-item hoverable" href="#three!">  <img src="Images/Samples/Samp3.jpg"></a>
+                    <a class="carousel-item hoverable" href="#four!">   <img src="Images/Samples/Samp4.jpg"></a>
+                    <a class="carousel-item hoverable" href="#five!">   <img src="Images/Samples/Samp5.jpg"></a>
+                </div>
+
+                <!-- Confirm Button-->
+                <div class="text-center">
+                    <a class="waves-effect waves-light btn blue m-2" id="confirm_button" disabled>Use This Image</a>
+                </div>
+            </div>
+
+
+            <div class="divider m-2 col s12"></div>
+
+
+            <!-- Upload Option -->
+            <div class="halfSegment m-2 row col s12">
+
+                <!-- Upload -->
+                <div class="col s12"> 
+                    <div id="uploadButton" >
+                        <input type="file" 
+                            class="filepond" 
+                            name="file" 
+                            multiple 
+                            data-max-files="1"
+                            data-max-file-size="10MB" 
+                            style="height: 80%"/>
+                        </div>
+                </div>
+
+                <!-- Confirm Button-->
+                <div class="col s12 center-align">
+                    <a class="waves-effect waves-light btn blue m-1" id="confirm_button" onclick="confirmUpload()" disabled>Convert This Image</a>
+                </div>
+
+                <!-- Khalids FrontEnd Debugger-->
+                <div class="col s12 center-align">
+                    <a class="waves-effect waves-light btn red m-1" onclick="bypassUpload()">Bypass for DEBUG</a>
+                </div>
+            </div>
+
+
+        </div> <!-- End of Upload Page -->
+
+
+
+        <!-- -------------------------------------------------------------------------------------->
+        <!--                                     LOADING PAGE                                    -->
+        <!-- -------------------------------------------------------------------------------------->
+        <div id="loading_page" class="centerDiv row" style="display: none;">
+            
+            <!-- Google's Loading Spinner-->
+            <div class="preloader-wrapper big active m-2" >
+                    <div class="spinner-layer spinner-blue">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                    </div>
+            
+                    <div class="spinner-layer spinner-red">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                    </div>
+            
+                    <div class="spinner-layer spinner-yellow">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                    </div>
+            
+                    <div class="spinner-layer spinner-green">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div><div class="gap-patch">
+                        <div class="circle"></div>
+                    </div><div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- End of Loading Page -->
+
+
+
+        <!-- -------------------------------------------------------------------------------------->
+        <!--                                   DETECTION PAGE                                    -->
+        <!-- -------------------------------------------------------------------------------------->
+        <!-- DETECTED BLOCKS PAGE -->
+        <div id="detection_page" class="" style="display: none;"> 
+            
+            <h6 class="text-center">Conversion Happens Here</h6>
+
+    
+            <div class="row" style="background-color: grey">
+                <!-- Cards Populated -->
+                <div class="col s6" id="detected_box" style="background-color: white"> </div>
+
+                <!-- Image Uploaded -->
+                <div class="col s6 p-3" id="returned_img" style="background-color: blue">
+                    '<img id="uploaded_img" src="" alt=" Image Not Found" style="width: 100%; height: 100%; object-fit: fill;">'
+                </div>
+            </div>
+      
+
+            <!-- Buttons -->
+            <div class="row" style="background-color: brown">
+                <div class="col-md-12 col-lg-4 pl-3 pt-2">
+                    <button type="button" class="btn btn-info btn-block" onclick="resetUpload()">Upload Again</button>
+                </div>
+                <div class="col-md-12 col-lg-4 pt-2">
+                    <button type="button" class="btn btn-outline-danger btn-block" href="#" onclick="createCard()">DEBUG: Add Card</a> 
+                </div>
+                <div class="col-md-12 col-lg-4 pr-3 pt-2">
+                    <button type="button" class="btn btn-info btn-block" onclick="GenerateHTML()">Generate HTML</button>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+        <!-- -------------------------------------------------------------------------------------->
+        <!--                                    RESULTS PAGE                                     -->
+        <!-- -------------------------------------------------------------------------------------->
+        <div id="results_page" class="" style= "display: none; background: rgb(189, 184, 184)">
+                
+                <!-- Header Space-->
+                <h3 class="text-center">Here is your code!</h3>
+
+                <!-- Code Space-->
+                <div class = "p-3" style="background: white">
+                    <!-- <pre class="prettyprint"> -->
+                        <code id="pushed_code" class="language-html"></code>
+                    <!-- </pre> -->
+                </div>
+
+                <!-- Buttons -->
+                <div class="row">
+                    <div class ="col-md-12 col-lg-4 pl-3 pt-2">
+                        <button type="button" class= "btn btn-info btn-block" onclick="resetUpload()">Upload Another Page</button>
+                    </div>
+                    <div class ="col-md-12 col-lg-4 pt-2">
+                        <button type="button" class=" btn btn-info btn-block" onclick="copyToClipboard('#pushed_code')">Copy to Clipboard</button>
+                    </div>
+                    <div class ="col-md-12 col-lg-4 pr-3 pt-2">
+                        <button type="button" class= "btn btn-info btn-block" disabled>Download as Zip</button>
+                    </div>
+                </div>
+
+            </div>
+
+    </div> <!-- End of appInnerContainer-->
+</div> <!-- End of appContainer-->
+</div>
+    <!-- file upload itself is disabled in this pen -->
+    <script src='https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js'></script>
+    <script src='https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js'></script>
+    <script src='https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js'></script>
+    <script src='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js'></script>
+    <script src='https://unpkg.com/filepond/dist/filepond.min.js'></script>
+       
+    <script type="text/javascript" src="JS_src/Upload.js"></script>
+    <script type="text/javascript" src="JS_src/HTML_Parser_JS.js"></script>
+    <script type="text/javascript" src="JS_src/AppPageScript.js"></script>
+
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        // Initialize Materialize JS
+        M.AutoInit();
+
+        // Initialize: Carousel on Upload Page
+        $(document).ready(function(){
+            $('.carousel').carousel();
+        });
+
+        // Initialize: Image Enlargement 
+        $(document).ready(function(){
+            $('.materialboxed').materialbox();
+        });
+
+
+    </script>
+
+
+    
+</body>
+
+</html>
