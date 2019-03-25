@@ -1,0 +1,206 @@
+body {
+	width: 100wh;
+	height: 80vh;
+    color: #fff;
+
+    font-family: 'poppins', sans-serif;
+    -webkit-Font-smoothing: antialiased;
+    text-align: center;
+
+    /** Background colors **/
+	background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+    background-size: 400% 400%;
+    
+    /** Background Animation **/
+	-webkit-animation:  Gradient 15s ease infinite;
+	-moz-animation:     Gradient 15s ease infinite;
+	animation:          Gradient 15s ease infinite;
+}
+
+.appContainer {
+    background-color: white;
+    color: black;
+    /* padding: 1vmin; */
+    
+    height: 115%;
+    /* min-width: 1000px; */
+    
+    /* Default margin sizes */
+    margin-left: 10vmin;
+    margin-right: 10vmin;
+    margin-top: 5vmin;
+    margin-bottom: 5vmin;
+
+    animation-duration: 3s;
+    /* animation-delay: 1s; */
+
+    border-radius: 1%;
+    /* Custom downward shadow */
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 
+                0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.appInnerContainer{
+
+    background-color: white;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right:0px;
+    margin-bottom: 1%;
+    height: auto;
+    width: auto;
+
+}
+
+.halfSegment{
+    height: 33vh;
+}
+
+.centerDiv {
+    margin: 0px;
+	padding:0px;
+	float: left;
+	width:100%;
+	position:absolute;
+	top: 50%;
+	transform: translateY(-50%) translateX(-50%);
+	left:50%;
+
+}
+
+
+#uploadButton {
+    /* Used to center the upload button */
+    margin-left:13vw; 
+    margin-right:13vw;
+}
+
+/*********************************************************************************/
+/**              Background Animation movement (Browser Optimized)              **/
+
+/** Animated Background support for Safari / Chrome **/
+@-webkit-keyframes Gradient {
+	0%      { background-position: 0% 50% }
+	50%     { background-position: 100% 50% }
+	100%    { background-position: 0% 50% }
+}
+
+/** Animated Background support for Firefox **/
+@-moz-keyframes Gradient {
+	0%      { background-position: 0% 50% }
+	50%     { background-position: 100% 50% }
+	100%    { background-position: 0% 50% }
+}
+
+/** Animated Background support for most stable versions of browsers **/
+@keyframes Gradient {
+	0%      { background-position: 0% 50% }
+	50%     { background-position: 100% 50% }
+	100%    { background-position: 0% 50% }
+}
+/*********************************************************************************/
+
+
+
+/*********************************************************************************/
+/**           Modification of App container size based on screen-size           **/
+
+@media screen and (min-width: 2000px) {  /* start of large tablet styles */
+    /* .appContainer{
+        margin-left: 15vmin;
+        margin-right: 15vmin;
+        margin-top: 7vmin;
+        margin-bottom: 7vmin;
+    } */
+}
+    
+
+@media screen and (max-width: 991px) { /* start of large tablet styles */
+
+}
+    
+@media screen and (max-width: 767px) {  /* start of medium tablet styles */
+   
+}
+    
+@media screen and (max-width: 479px) {  /* start of phone styles */
+    
+}
+/*********************************************************************************/
+
+
+.shadowInsetTop {
+    -moz-box-shadow:    inset 0 7px 9px -7px rgba(0,0,0,0.19);
+    -webkit-box-shadow: inset 0 7px 9px -7px rgba(0,0,0,0.19);
+    box-shadow:         inset 0 7px 9px -7px rgba(0,0,0,0.19);
+ }
+
+ .ltBlue {
+    background-color: powderblue;
+ }
+
+
+ /** Custom Padding Classes **/
+
+ .p-1 { padding: 0.25rem;}
+ .p-2 { padding: 0.94rem;}
+ .p-3 { padding: 1.63rem;}
+ .p-4 { padding: 2.32rem;}
+ .p-5 { padding: 3.00rem;}
+
+ .pt-1 { padding-top: 0.25rem;}
+ .pt-2 { padding-top: 0.94rem;}
+ .pt-3 { padding-top: 1.63rem;}
+ .pt-4 { padding-top: 2.32rem;}
+ .pt-5 { padding-top: 3.00rem;}
+
+ .pb-1 { padding-bottom: 0.25rem;}
+ .pb-2 { padding-bottom: 0.94rem;}
+ .pb-3 { padding-bottom: 1.63rem;}
+ .pb-4 { padding-bottom: 2.32rem;}
+ .pb-5 { padding-bottom: 3.00rem;}
+
+ .pl-1 { padding-left: 0.25rem;}
+ .pl-2 { padding-left: 0.94rem;}
+ .pl-3 { padding-left: 1.63rem;}
+ .pl-4 { padding-left: 2.32rem;}
+ .pl-5 { padding-left: 3.00rem;}
+
+ .pr-1 { padding-right: 0.25rem;}
+ .pr-2 { padding-right: 0.94rem;}
+ .pr-3 { padding-right: 1.63rem;}
+ .pr-4 { padding-right: 2.32rem;}
+ .pr-5 { padding-right: 3.00rem;}
+
+
+ /** Custom Margin Classes **/
+
+ .m-1 { margin: 0.25rem;}
+ .m-2 { margin: 0.94rem;}
+ .m-3 { margin: 1.63rem;}
+ .m-4 { margin: 2.32rem;}
+ .m-5 { margin: 3.00rem;}
+
+ .mt-1 { margin-top: 0.25rem;}
+ .mt-2 { margin-top: 0.94rem;}
+ .mt-3 { margin-top: 1.63rem;}
+ .mt-4 { margin-top: 2.32rem;}
+ .mt-5 { margin-top: 3.00rem;}
+
+ .mb-1 { margin-bottom: 0.25rem;}
+ .mb-2 { margin-bottom: 0.94rem;}
+ .mb-3 { margin-bottom: 1.63rem;}
+ .mb-4 { margin-bottom: 2.32rem;}
+ .mb-5 { margin-bottom: 3.00rem;}
+
+ .ml-1 { margin-left: 0.25rem;}
+ .ml-2 { margin-left: 0.94rem;}
+ .ml-3 { margin-left: 1.63rem;}
+ .ml-4 { margin-left: 2.32rem;}
+ .ml-5 { margin-left: 3.00rem;}
+
+ .mr-1 { margin-right: 0.25rem;}
+ .mr-2 { margin-right: 0.94rem;}
+ .mr-3 { margin-right: 1.63rem;}
+ .mr-4 { margin-right: 2.32rem;}
+ .mr-5 { margin-right: 3.00rem;}

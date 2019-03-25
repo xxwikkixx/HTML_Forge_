@@ -3,11 +3,11 @@ import os
 import cv2
 from flask import Flask, abort, render_template, request, redirect, url_for, jsonify, send_file, send_from_directory, \
     make_response, session, json
+from sphinx.util import requests
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 # Internal Classes
 from OpenCVBoxDetection import startSession, initializeSession
-from codeBeautifier import codeBeautifier
 
 app = Flask(__name__)
 app.debug = True
@@ -96,12 +96,6 @@ def getCroppedImgage(usersession, filename):
     return send_file(pid, mimetype='image/gif')
 
 
-# Request for getting HTML Pretty Print
-# @app.route('/api/HTMLPrettyPrint/<HTMLString>/process')
-# def HTMLPrettyPrint(HTMLString):
-#     return codeBeautifier().prettyHTML(HTMLString)
-
-
 # accept the session ID into the URL to bring the data back for the specific user
 @app.route('/api/blocksdetected/<usersession>')
 def ApiBlocksetectedReturn(usersession):
@@ -119,19 +113,18 @@ def ApiBlocksetectedReturn(usersession):
     return 'ok'
 
 
-# def modifyJson(usersession):
-#     dirc = os.path.dirname(os.path.realpath(__file__))
-#     userUploadPath = os.path.join(dirc, "UserUpload")
-#     jsonPath = os.path.join(userUploadPath, usersession)
-#     dict = []
-#     with open(os.path.join(jsonPath, 'data.json'), 'r') as f:
-#         jsonData = json.load(f)
-#         jsData = jsonData["blocks"]
-#         for i in jsData:
-#             resp = i["Image_Crop_Path"]
-#             for pths in resp:
-#                 print(resp)
-
+def moifyJson(usersession):
+    dirc = os.path.dirname(os.path.realpath(__file__))
+    userUploadPath = os.path.join(dirc, "UserUpload")
+    jsonPath = os.path.join(userUploadPath, usersession)
+    dict = []
+    with open(os.path.join(jsonPath, 'data.json'), 'r') as f:
+        jsonData = json.load(f)
+        jsData = jsonData["blocks"]
+        for i in jsData:
+            resp = i["Image_Crop_Path"]
+            for pths in resp:
+                print(resp)
 
 if __name__ == '__main__':
     app.run(threaded=True)

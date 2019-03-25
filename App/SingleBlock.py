@@ -24,15 +24,9 @@ class SingleBlock:
 
     def setPrediction(self, prediction):
         self.prediction = prediction
-
-        if len(prediction) != 0:
-            self.bestPrediction = max(prediction, key=lambda x: x[1])
-        else:
-            self.bestPrediction = ["!!Not Recognize!! ", 0.000]
-
-        if len(prediction) >= 2:
-            arr = sorted(prediction, key=lambda x: x[1])
-            self.secondBestPrediction = arr[len(arr)-2]
+        self.bestPrediction = max(prediction, key=lambda x: x[1])
+        arr = sorted(prediction, key=lambda x: x[1])
+        self.secondBestPrediction = arr[len(arr)-2]
         # self.predictionScore = score
 
     def getPrediction(self):

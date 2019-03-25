@@ -1,6 +1,6 @@
 numpy
 matplotlib
-opencv-python
+cv2
 imutils
 google
 cachetools
@@ -8,11 +8,9 @@ certifi
 chardet
 Click
 Flask
-google
 google-api-core
 google-auth
 google-cloud-vision
-google-cloud-automl
 googleapis-common-protos
 grpcio
 idna
