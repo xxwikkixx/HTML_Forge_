@@ -48,7 +48,7 @@ import time
 # Set true if debugging
 Image_Debug = False
 Console_Logger = False
-Disable_AI = False
+Disable_AI = True
 
 # This is just for the py plotting results (debug purposes)
 fig = plt.figure(figsize=(8, 8))
@@ -67,7 +67,7 @@ ITERATIONS = 1
 
 # For line bolding
 TARESHOLD = 20
-MIN_LINE_LENG = 30
+MIN_LINE_LENG = 15
 MAX_LINE_GAP = 25
 
 # Current script work environment
@@ -88,8 +88,16 @@ def image_Rescale(image_Path):
 
     # newimg = newimg.point(lambda p: p * 1.5)
     # If the image if too dark
+
+    if brightness(image_Path) < 100:
+        print ("Level 1 Enhance ---> Apply Min")
+        newimg = newimg.point(lambda p: p * 1.8)
     if brightness(image_Path) < 205:
+        print ("Level 2 Enhance ---> Apply Mid")
         newimg = newimg.point(lambda p: p * 1.4)
+    if brightness(image_Path) < 235:
+        print ("Level 3 Enhance ---> Apply Strong")
+        newimg = newimg.point(lambda p: p * 1.1)
 
     newimg.save(image_Path)
 
@@ -130,7 +138,7 @@ def fileConvert(imgPath, savePath):
     # rgb_im = im.convert('RGB')
 
     # Convert to monochrome
-    im = im.convert('RGB')
+    im = im.convert('L')
     im.save(savePath)
 
 
@@ -172,18 +180,15 @@ def cornerFit(imgPath):
     # cropping data [x0:x1:y0:y1]
 
     if X_MIN - 100 >= 0 and Y_MIN - 100 >= 0:
-        print ("Initial Image Cropped")
-        crop_img = img[Y_MIN - 100: Y_MAX + 100, X_MIN - 100: X_MAX + 100]
-        cv2.imwrite(imgPath, crop_img)
+        print ("Log: Initial Image Cropped")
+        cv2.imwrite(imgPath, img[Y_MIN - 100: Y_MAX + 100, X_MIN - 100: X_MAX + 100])
     else:
         # User upload Image are too tight, do not perform crop and save the original one
-        print("Crop are too tight")
+        print("Warning: Edge are tight, rescale crop can not be performmed")
         cv2.imwrite(imgPath, img)
 
     # plt.imshow(img), plt.show()
     # plt.imshow(crop_img), plt.show()
-
-    # Save Crop
 
 
 # Not being used
@@ -280,6 +285,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
     beta = 1.0 - alpha
     img_final_bin = cv2.addWeighted(verticle_lines_img, alpha, horizontal_lines_img, beta, 0.0)
     img_final_bin = cv2.erode(~img_final_bin, kernel, iterations=2)
+    img_final_bin = cv2.dilate(~img_final_bin, kernel, iterations=2)
     # img_final_bin = cv2.dilate(~img_final_bin, kernel, iterations=)
     (thresh, img_final_bin) = cv2.threshold(img_final_bin, 128, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
     # if Image_Debug: cv2.imwrite(newSession.getDebugDir() + "img_final_bin.jpg", img_final_bin)
@@ -291,12 +297,12 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
 
     (contours, boundingBoxes) = sort_contours(contours, method="top-to-bottom")
 
-    print ("=====>", hierarchy)
+    # print ("=====>", hierarchy)
     # (contours, boundingBoxes) = sort_contours(contours, method="bottom-to-top")
 
-    if Console_Logger: print("============ Hierarchy ================")
-    if Console_Logger: print(hierarchy)
-    if Console_Logger: print("=======================================")
+    # if Console_Logger: print("============ Hierarchy ================")
+    # if Console_Logger: print(hierarchy)
+    # if Console_Logger: print("=======================================")
 
     # Find the suitable crops
     for c in contours:
@@ -309,18 +315,40 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
 
             if len(exported_contours) == 0:
                 exported_contours.append([x, y, w, h])
+
             flag = True
             for i in range(0, len(exported_contours)):
+                x1, y1, w1, h1 = exported_contours[i]
+                x2, y2, w2, h2 = x, y, w, h
+
+                # Checks most instant sized similar crop
                 temp_1, temp_2 = float(abs(sum(exported_contours[i]))), float(abs(x + y + w + h))
                 if 0.93 < temp_1 / temp_2 < 1.08:
-                    flag = False
+                    flag = False  # Dont include to the final contour
 
-            if flag:
-                exported_contours.append([x, y, w, h])
+                # This removes the inner children, and leaves with the most outer crop
+                if x2 > x1 and y2 > y1:  #Top left corner check
+                    if x1 + w1 > x2 + w2:   #Top right corner check
+                        if y1 + h1 > y2 + h2:   #Bottom Left corner check
+                            # At this point (x2,y2) contour is inside (x1, y1) contour
+                            flag = False
+
+                # Lay over Area
+                Box_1 = x1 * y1
+                Box_2 = x2 * y2
+
+                # if 1 > abs(Box_1 / Box_2) > 0.5:
+                #     print (abs(Box_1/Box_2))
+
+
+
+
+            # If passing all the above cases we can now add it to the crop queue
+            if flag: exported_contours.append([x, y, w, h])
 
     if Console_Logger: print("============================")
-
     # Start cropping image and create single block instances
+    print (str(len(exported_contours)) + " Objects Detected: ", exported_contours)
     if Console_Logger: print("Final Exported Contours: ", exported_contours)
     idx = 0
     for i in range(0, len(exported_contours)):
@@ -328,11 +356,12 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         x, y, w, h = exported_contours[i]
 
         # The crop is right is too tight, since it is right on the border, this adjusts with bigger border
-        x -= 50
-        y -= 50
-        w += 80
-        h += 80
-
+        # And ensure the crop is within the page size
+        if x - 80 > 0 and y - 80 > 0 and y + h + 110 < IMAGE_HEIGHT and x + w + 110 < IMAGE_WIDTH:
+            x -= 80
+            y -= 80
+            w += 110
+            h += 110
         # Cropping the original image
         new_img = orginal_image[y:y + h, x:x + w]
 
@@ -476,29 +505,7 @@ def startSession(path_to_image):
         imageOnReady(blocksDB)
 
     labelDrawBox(blocksDB, newSession.getSessionPath() + imgName)
-
-    # Image re-route
-    # for i in range(0, len(blocksDB.blocks)):
-    #     blocksDB.blocks.getBlockByID(i).setImagePath(
-    #         "http://localhost:5000/UserUpload/" + newSession.getSessionPath() + "ImageCrops/" + i + ".png")
-
-    # blocksDB.changePath(newSession.getSessionID())
-
     blocksDB.JSONFormat(newSession.getSessionPath() + "/" + "data.json", newSession.getSessionID())
-
-    # for i in blocksDB.blocks:
-    #     print("Block ", i, " ID: :", blocksDB.getBlockByID(i).getBlockID())
-    #     print("Block ", i, " X Location: :", blocksDB.getBlockByID(i).getX_Location())
-    #     print("Block ", i, " Y Location: :", blocksDB.getBlockByID(i).getY_Location())
-    #     print("Block ", i, " Width: :", blocksDB.getBlockByID(i).get_Width())
-    #     print("Block ", i, " Height: :", blocksDB.getBlockByID(i).get_Height())
-    #     print("Block ", i, " Image Path :", blocksDB.getBlockByID(i).getImagePath())
-    #
-    #     # getBlockByID(i).setPrediction(predict(project_id, compute_region, model_id, ImgPath))
-    #     print("Block ", i, " Prediction: :", blocksDB.getBlockByID(i).getPrediction())
-    #     print("Block ", i, " BEST Prediction: :", blocksDB.getBlockByID(i).getBestPrediction())
-    #     print("Block ", i, " Second BEST Prediction: :", blocksDB.getBlockByID(i).getScondBest())
-    #     print("========================================================================")
 
     return newSession.getSessionID(), newSession.getSessionPath() + "data.json"
 
