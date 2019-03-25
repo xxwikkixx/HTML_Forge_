@@ -41,13 +41,15 @@ def upload_file():
     file = request.files['file']
     filename = secure_filename(file.filename)
     if request.method == 'POST':
-        if file and allowed_file(file.filename):
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            imgPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            print(imgPath)
-            sess = initializeSession()
-            # print(sess)
-            return sess
+        if not os.path.exists(os.path.join('static')): # check if the folder exists
+            os.makedirs(os.path.join('static')) # make the static folder if it doesnt exist
+            if file and allowed_file(file.filename):
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                imgPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                print(imgPath)
+                sess = initializeSession()
+                # print(sess)
+                return sess
         else:
             return "File Extension not allowed"
     # DELETE doesnt work yet
@@ -77,10 +79,12 @@ def ApiImageUploadedReturn():
 
 @app.route('/api/startconvert')
 def convertRequest():
-    global session
-    sessionID, JSON_Path = startSession(imgPath)
-    session = sessionID
-    return jsonify(sessionID)
+    if not os.path.exists(os.path.join('UserUpload')):
+        os.makedirs(os.path.join('UserUpload'))
+        global session
+        sessionID, JSON_Path = startSession(imgPath)
+        session = sessionID
+        return jsonify(sessionID)
 
 
 @app.route('/api/blocksdetected/getDebugImage/<usersession>')
@@ -112,18 +116,18 @@ def ApiBlocksetectedReturn(usersession):
     return 'ok'
 
 
-def moifyJson(usersession):
-    dirc = os.path.dirname(os.path.realpath(__file__))
-    userUploadPath = os.path.join(dirc, "UserUpload")
-    jsonPath = os.path.join(userUploadPath, usersession)
-    dict = []
-    with open(os.path.join(jsonPath, 'data.json'), 'r') as f:
-        jsonData = json.load(f)
-        jsData = jsonData["blocks"]
-        for i in jsData:
-            resp = i["Image_Crop_Path"]
-            for pths in resp:
-                print(resp)
+# def modifyJson(usersession):
+#     dirc = os.path.dirname(os.path.realpath(__file__))
+#     userUploadPath = os.path.join(dirc, "UserUpload")
+#     jsonPath = os.path.join(userUploadPath, usersession)
+#     dict = []
+#     with open(os.path.join(jsonPath, 'data.json'), 'r') as f:
+#         jsonData = json.load(f)
+#         jsData = jsonData["blocks"]
+#         for i in jsData:
+#             resp = i["Image_Crop_Path"]
+#             for pths in resp:
+#                 print(resp)
 
 if __name__ == '__main__':
     app.run(threaded=True)
