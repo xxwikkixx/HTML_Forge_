@@ -229,9 +229,9 @@
 
                 <!-- Code Space-->
                 <div class = "p-3" style="background: white">
-                    <!-- <pre class="prettyprint"> -->
-                        <code id="pushed_code" class="language-html"></code>
-                    <!-- </pre> -->
+                     <pre>
+                        <code id="pushed_code" style="tab-size: 12px" class="language-html"></code>
+                     </pre>
                 </div>
 
                 <!-- Buttons -->
@@ -243,7 +243,7 @@
                         <button type="button" class=" btn btn-info btn-block" onclick="copyToClipboard('#pushed_code')">Copy to Clipboard</button>
                     </div>
                     <div class ="col-md-12 col-lg-4 pr-3 pt-2">
-                        <button type="button" class= "btn btn-info btn-block" onclick="getZip()">Download as Zip</button>
+                        <button type="button" class= "btn btn-info btn-block" onclick="getZip(document.getElementById('pushed_code').innerText)">Download as Zip</button>
                     </div>
                 </div>
 
@@ -267,6 +267,7 @@
         <script type="text/javascript" src="JS_src/Template_1.js"></script>
         <script type="text/javascript" src="JS_src/jszip.min.js"></script>
         <script type="text/javascript" src="JS_src/FileSaver.min.js"></script>
+        <script type="text/javascript" src="JS_src/codePrettyPrint.js"></script>
 
     <!-- jQuery CDN - Slim version (=without AJAX) 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->

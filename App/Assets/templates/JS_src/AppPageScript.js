@@ -287,12 +287,15 @@ function copyToClipboard(element) {
   }
 
 
-  function getZip() {
+  function getZip(code) {
     // Creates a new instance
     var zip = new JSZip();
 
     // Create a file
-    zip.file("index.html", document.getElementById("pushed_code").value );
+    //   var html = document.getElementById("pushed_code").value();
+      console.log(code);
+    // zip.file("index.html", document.getElementById("pushed_code").value());
+    zip.file("index.html", code);
     zip.file("layout.css", "AWH YEAH!");
 
     // Add images

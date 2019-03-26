@@ -447,5 +447,6 @@ function T1_MakeHTML (blocks) {
     // Closes initalized HTML
     code += T1_init_End();
 
+    code = formatFactory(code);
     return code;
 }
