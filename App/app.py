@@ -25,6 +25,10 @@ imgPath = ''
 #     return jsonify("Session ID : " + sessionID + "</br> JSON Path: " + JSON_Path)
 #     # return render_template('LandingPage.html')
 
+# @app.route('/')
+# def mainPage():
+#     return render_template("App/Assets/templates/NewAppPage.html")
+
 
 def allowed_file(filename):
     return '.' in filename and \
