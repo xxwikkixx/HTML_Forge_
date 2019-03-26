@@ -47,13 +47,13 @@ def upload_file():
     if request.method == 'POST':
         if not os.path.exists(os.path.join('static')): # check if the folder exists
             os.makedirs(os.path.join('static')) # make the static folder if it doesnt exist
-            if file and allowed_file(file.filename):
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                imgPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                print(imgPath)
-                sess = initializeSession()
-                # print(sess)
-                return sess
+        if file and allowed_file(file.filename):
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            imgPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            print(imgPath)
+            sess = initializeSession()
+            # print(sess)
+            return sess
         else:
             return "File Extension not allowed"
     # DELETE doesnt work yet
@@ -84,11 +84,12 @@ def ApiImageUploadedReturn():
 @app.route('/api/startconvert')
 def convertRequest():
     global session
-    if not os.path.exists(os.path.join('UserUpload')):
-        os.makedirs(os.path.join('UserUpload'))
-        sessionID, JSON_Path = startSession(imgPath)
-        session = sessionID
-        return jsonify(sessionID)
+    # if not os.path.exists(os.path.join('UserUpload')):
+    #     os.makedirs(os.path.join('UserUpload'))
+    print (imgPath)
+    sessionID, JSON_Path = startSession(imgPath)
+    session = sessionID
+    return jsonify(sessionID)
 
 
 @app.route('/api/blocksdetected/getDebugImage/<usersession>')
