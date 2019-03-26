@@ -103,6 +103,7 @@ function bypassUpload(){
 }
 
 
+template_choice = 0;
 // Detection Page -> Generation Page
 function GenerateHTML(){
 
@@ -110,7 +111,7 @@ function GenerateHTML(){
     Populate_blocks(); 
 
     // Array is read and translated into appropriate HTML Code
-    var code_generated = T1_MakeHTML(block_order);
+    var code_generated = get_HTML(template_choice , block_order);
 
     // Prints generated HTML into div "pushed_code"
     console.log(code_generated);                                        // Debugging
@@ -274,11 +275,42 @@ function editCard(id, action){
 
 // Function that handles copying to clipboard (GENERIC)
 function copyToClipboard(element) {
+    // Copy 
     var $temp = $("<input>");
     $("body").append($temp);
     $temp.val($(element).text()).select();
     document.execCommand("copy");
     $temp.remove();
+
+    // Alert
     alert("Succesfully copied to Clipboard");
+  }
+
+
+  function getZip() {
+    // Creates a new instance
+    var zip = new JSZip();
+
+    // Create a file
+    zip.file("index.html", document.getElementById("pushed_code").value );
+    zip.file("layout.css", "AWH YEAH!");
+
+    // Add images
+    // zip.file("index.html", "AWH YEAH!");
+    // zip.file("index.html", "AWH YEAH!");
+    // zip.file("index.html", "AWH YEAH!");
+ 
+
+    // create a file and a folder
+    // zip.file("nested/hello.txt", "Hello World\n");
+
+    // var img = zip.folder("images");
+    // img.file("smile.gif", imgData, {base64: true});
+    
+    zip.generateAsync({type:"blob"})
+        .then(function(content) {
+            // see FileSaver.js
+            saveAs(content, "example.zip");
+    });
   }
   
