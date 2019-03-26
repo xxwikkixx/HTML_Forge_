@@ -11,6 +11,7 @@ Flask
 google-api-core
 google-auth
 google-cloud-vision
+google-cloud-automl
 googleapis-common-protos
 grpcio
 idna
@@ -23,4 +24,5 @@ rsa
 six
 urllib3
 Werkzeug
-
+flask-cors
+gunicorn
