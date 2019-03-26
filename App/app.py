@@ -1,5 +1,4 @@
 import os
-
 import cv2
 from flask import Flask, abort, render_template, request, redirect, url_for, jsonify, send_file, send_from_directory, \
     make_response, session, json
@@ -16,8 +15,9 @@ session = ''
 imgPath = ''
 
 
-# @app.route('/')
-# def mainPage(img):
+@app.route('/')
+def mainPage(img):
+    return "Server is up and running"
 #     global session
 #     sessionID, JSON_Path = startSession(img)
 #     session = sessionID
@@ -54,7 +54,7 @@ def upload_file():
             return "File Extension not allowed"
     # DELETE doesnt work yet
     if request.method == 'DELETE':
-        if os.path.exists(UPLOAD_FOLDER + filename):
+        if os.path.exists(app.config['UPLOAD_FOLDER'] + filename):
             os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return "File Delete"
     return 'ok'
@@ -79,9 +79,9 @@ def ApiImageUploadedReturn():
 
 @app.route('/api/startconvert')
 def convertRequest():
+    global session
     if not os.path.exists(os.path.join('UserUpload')):
         os.makedirs(os.path.join('UserUpload'))
-        global session
         sessionID, JSON_Path = startSession(imgPath)
         session = sessionID
         return jsonify(sessionID)
