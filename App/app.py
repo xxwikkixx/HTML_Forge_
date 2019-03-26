@@ -16,7 +16,7 @@ imgPath = ''
 
 
 @app.route('/')
-def mainPage(img):
+def mainPage():
     return "Server is up and running"
 #     global session
 #     sessionID, JSON_Path = startSession(img)
