@@ -42,8 +42,8 @@ import cv2
 import os
 import glob
 import numpy as np
-import matplotlib.pyplot as plt
-import time
+# import matplotlib.pyplot as plt
+# import time
 
 # Set true if debugging
 Image_Debug = False

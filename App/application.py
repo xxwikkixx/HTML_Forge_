@@ -80,7 +80,7 @@ def ApiImageUploadedReturn():
     filesURL = {}
     for i in filesInDir:
         # filesURL.update({i: 'http://localhost:5000' + url_for("static", filename=i)})
-        filesURL.update({i: 'htmlforgewebapp.sbkina5r2e.us-east-2.elasticbeanstalk.com' + url_for("static", filename=i)})
+        filesURL.update({i: 'http://htmlforge-dev4.us-east-1.elasticbeanstalk.com/' + url_for("static", filename=i)})
     return jsonify(ImageUpLoaded=filesURL)
 
 
