@@ -60,7 +60,10 @@ body {
     margin-bottom: 1%;
     height: auto;
     width: auto;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
+/*********************************************************************************/
 
 
 
@@ -98,9 +101,31 @@ body {
     border-bottom-right-radius: 5px;
 }
 .uploadCard-btn:hover { background-position: right center; }
+/*********************************************************************************/
 
+#loading_page {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding-top: 75px;
+    padding-bottom: 75px;
+}
 
-
+.loading-div {
+    zoom: 1.5;
+    -moz-transform: scale(1.5);
+    background: white;
+    width: 220px;
+    height: 200px;
+    padding: 1em;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    margin-top: 20p;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
 
 .centerDiv {
     margin: 0px;

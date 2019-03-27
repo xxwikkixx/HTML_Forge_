@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="CSS_src/AppPage.css">
     <link rel="stylesheet" href="CSS_src/BGCircles.css">
     <link rel="stylesheet" href="CSS_src/Upload.css">
+    <link rel="stylesheet" href="CSS_src/loader.css">
 
     <!-- Animation CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
@@ -92,8 +93,7 @@
                     </div>
                     <!-- Button -->
                     <button class="uploadCard-btn waves-effect waves-light" id="confirm_button">Use This Image!</button>
-                </div>
-                
+                </div>               
             </div>
 
 
@@ -126,6 +126,7 @@
             <!-- Khalids FrontEnd Debugger-->
             <div class="col s12 center-align">
                 <a class="waves-effect waves-light btn red m-1" onclick="bypassUpload()">Bypass for DEBUG</a>
+                <a class="waves-effect waves-light btn red m-1" onclick="showLoading()">Show Load</a>
             </div>
             
 
@@ -136,50 +137,94 @@
         <!-- -------------------------------------------------------------------------------------->
         <!--                                     LOADING PAGE                                    -->
         <!-- -------------------------------------------------------------------------------------->
-        <div id="loading_page" class="centerDiv row" style="display: none;">
-            
-            <!-- Google's Loading Spinner-->
-            <div class="preloader-wrapper big active m-2" >
-                    <div class="spinner-layer spinner-blue">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div><div class="gap-patch">
-                        <div class="circle"></div>
-                    </div><div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
-                    </div>
-            
-                    <div class="spinner-layer spinner-red">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div><div class="gap-patch">
-                        <div class="circle"></div>
-                    </div><div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
-                    </div>
-            
-                    <div class="spinner-layer spinner-yellow">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div><div class="gap-patch">
-                        <div class="circle"></div>
-                    </div><div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
-                    </div>
-            
-                    <div class="spinner-layer spinner-green">
-                    <div class="circle-clipper left">
-                        <div class="circle"></div>
-                    </div><div class="gap-patch">
-                        <div class="circle"></div>
-                    </div><div class="circle-clipper right">
-                        <div class="circle"></div>
-                    </div>
+        <div id="loading_page" class="text-center" style="display: none;">
+
+            <!-- Load Container-->
+            <div class="loading-div z-depth-1">
+
+                <!-- Text -->
+                <div class="container">
+                    <div class="loadText-wrapper">
+                        <div class="loadText">
+                            <!-- <div class="text1">Something is Wrong</div>
+                            <div class="text1">If only the Devs did their job properly...</div>
+                            <div class="text1">This loading is Suspicious</div>
+                            <div class="text1">You're still here!</div>
+                            <div class="text2">:(-</div>
+                            <div class="text1">Dont leave</div>
+                            <div class="text2">No Wait-</div>
+                            <div class="text1">Getting Bored?</div>
+                            <div class="text2">Still Loading...</div>
+                             -->
+                            <div class="text1">Please Wait</div>
+                            <div class="text2">Its Super Effective!</div>
+                            <div class="text3">AI uses Magic!</div>
+                            <div class="text4">Sprinkling Magic Dust</div>
+                            <div class="text5">Preparing Cauldron</div>
+                            <div class="text6">Taking a while, huh?</div>
+                            <div class="text7">Please Wait</div>
+                            <div class="text8">Retrieving Data</div>
+                            <div class="text9">Making Predictions</div>
+                            <div class="text10">Detecting Blocks</div>
+                            <div class="text11">To the Cloud!</div>
+                        </div> 
+                    </div> 
                 </div>
-            </div>
+             
+                <!-- Google's Loading Spinner-->
+                <div class="preloader-wrapper big active m-4">
+
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                
+                    <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                
+                    <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                
+                    <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+
+                </div>
+            
+            </div> <!-- End Container -->
 
         </div> <!-- End of Loading Page -->
 

@@ -60,10 +60,7 @@ function resetUpload(){
 function confirmUpload(){
     
     // Show loading screen
-    document.getElementById("upload_page").style.display = "none";      // Hides
-    document.getElementById("loading_page").style.display = "block";    // Shows
-    document.getElementById("detection_page").style.display = "none";   // Hides
-    document.getElementById("results_page").style.display = "none";     // Hides
+    showLoading();
 
     // Calls an API that runs the AI function on google
     $.getJSON(API_BLOCK_CONVERT, function(data1){
@@ -81,6 +78,22 @@ function confirmUpload(){
         });
     });
 }
+
+
+
+/** showLoading:
+ *  Shows loading page
+ *      TAKES:      NONE
+ *      RETURNS :   Shows Loading Page
+*/
+function showLoading(){
+    // Show loading screen
+    document.getElementById("upload_page").style.display = "none";      // Hides
+    document.getElementById("loading_page").style.display = "block";    // Shows
+    document.getElementById("detection_page").style.display = "none";   // Hides
+    document.getElementById("results_page").style.display = "none";     // Hides
+}
+
 
 
 // FUnction similar to confirmUpload, but does not make any calls to googles real API
