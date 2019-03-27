@@ -51,9 +51,9 @@ Console_Logger = False
 Disable_AI = False
 
 # This is just for the py plotting results (debug purposes)
-fig = plt.figure(figsize=(8, 8))
-columns = 3
-rows = 3
+# fig = plt.figure(figsize=(8, 8))
+# columns = 3
+# rows = 3
 
 # Unify crop and re-rescaling
 # IMAGE_HEIGHT = 1000
@@ -372,8 +372,8 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         createSingleBlockInstance(blocks, idx, x, y, h, w, cropped_dir_path + str(idx) + '.png')
 
         # Display cropped image onto the mlplot
-        if Image_Debug: fig.add_subplot(rows, columns, idx)
-        if Image_Debug: plt.imshow(new_img)
+        # if Image_Debug: fig.add_subplot(rows, columns, idx)
+        # if Image_Debug: plt.imshow(new_img)
 
     if Image_Debug: plt.show()
     cv2.waitKey(0)
@@ -458,7 +458,7 @@ def labelDrawBox(blocks, src):
         draw.rectangle(((x, y), (x + w, y + h)), outline="red", width=4)
 
         draw.text((x + 10, y), str(blocks.getBlockByID(i).getBestPrediction()), fill="red", font=font)
-    source_img.show()
+    # source_img.show()
     source_img.save(src, "JPEG")
 
 
