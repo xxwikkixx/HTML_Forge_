@@ -155,13 +155,18 @@ function makeCards(){
 // Creates building-block card 
 function createCard(label, prob, image){
 
+    var cardVersion = 2;  // 1 for new UI, 2 for new UI
+
     /***** DEBUG *****/
     console.log(id_Count + "card Generated")
 
     /***** FRONT-END USE *****/
+    var elem = "";
+
     //image = 'http://via.placeholder.com/350x150'
     // BEFORE col-md-4 col-sm-6:
-    var elem = 
+    if (cardVersion = 1){
+    elem = 
     '<div class="animated ' + onAppear + ' col-lg-12 mt-3 mb-3" id="' + id_Count + 'card">'
     +   '<div class="card text-white bg-dark shadow-lg">'
     +       '<img class="card-img-top" src="' + image + '" alt=" Image Not Found" style="width: 100%; height: 150px; object-fit: fill;">'
@@ -186,23 +191,42 @@ function createCard(label, prob, image){
     +                   '</div>'
     +                   '<button class="btn btn-sm btn-outline-danger right" id="' + id_Count + 'card" onclick="deleteCard(this.id)">Delete</button>'
     + '</div></div></div>';
+    }
 
 
-
-    // Alternate style
-    // var elem = 
-    //     '<div class= "col-lg-6 col-xl-4 mt-3">'
-    // +       '<div class="card text-center animated bg-dark text-white">'
-    // +           '<div class="card-header">' + label + '</div>'
-    // +           '<div class="card-body">'
-    // +               '<img class="card-img-mid" src="' + image + '" alt=" Image Not Found" style="width: 100%; height: 15vw; object-fit: cover;">'
-    // +           '</div>'
-    // +           '<div class="card-footer text-muted">Probability: ' + prob + ' %</div>'
-    // +       '</div>'
-    // +    '</div>';
+    if(cardVersion = 2){
+        elem = 
+        '<div class="blockCard z-depth-1 hoverable row col s12 mb-2 animated ' + onAppear + '" id="' + id_Count + 'card"">'
+        +    '<div class="cardContent col s4">'
+        +        '<h5 id="'+ id_Count +'card_title" class="card-title m-0">' + label + '</h5>'
+        +        '<p  id="'+ id_Count +'card_prob"  class="card-text">Probability: ' + prob + ' % </p>'
+        +    '</div>'
+        +    '<div class="cardImage col s7">'
+        +        '<img class="materialboxed" src="' + image + '">'
+        +    '</div>'
+        +    '<div class="cardButtons col s1">'
+        +        '<button class="editButton waves-effect waves-light dropdown-trigger" href="#" data-target="dropdown'+ id_Count +'"><i class="material-icons">edit</i></button>'
+        +        '<button class="delButton waves-effect waves-light" id="' + id_Count + 'card" onclick="deleteCard(this.id)"><i class="material-icons">delete</i></button>'
+        +          '<ul id="dropdown'+ id_Count +'" class="dropdown-content">'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 1)">Header</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 2)">Footer</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 3)">Paragraph</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 4)">Title</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 5)">Single Image</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 6)">Slider Gallary</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 7)">Image Preview</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 8)">Gallary</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 9)" >Image-L Text-R</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 10)">Image-R Text-L</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 11)">Image-T Text-B</a>  </li>'
+        +          '</ul>'
+        +    '</div>'
+        +'</div>';
+    }
  
-
+    // Adds new card to the box
     $("#detected_box").append(elem);
+    if(cardVersion = 2) {M.AutoInit();} //For Edit Functionality when using Materialize
 
     //***** BACK-END USE *****/
     CURRENT_CARDS.push(id_Count);

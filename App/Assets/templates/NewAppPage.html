@@ -10,9 +10,11 @@
     <meta name="author" content="Khalid Qubbaj">
     <title>HTML Forge App</title>
 
-    <!-- Compiled and minified Materialize CSS & JS-->
+    <!-- Compiled and minified Materialize CSS , icons , JS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>    
+   
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="CSS_src/AppPage.css">
@@ -36,34 +38,34 @@
 <body >
 
 <!-- Generate Objects for Back-ground animation -->
-    <div class="area" >
-            <ul class="circles">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-            </ul>
+<div class="area" >
+    <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
     
 
 <!-- All content will be wrapped in this container-->
 <div class="appContainer animated fadeIn">
 
     <!-- Header -->
-    <div class="p-1">  
+    <div class="appContainerHeader p-1">  
         <h5> { HTML FORGE } </h5> 
     </div>
 
     <!-- Inner Container -->
-    <div class="appInnerContainer shadowInsetTop">
+    <div class="appInnerContainer">
 
         <!-- Progress Bar -->
-        <div class="p-2" style="background-color: powderblue">
+        <div class="p-3 shadowInsetTop" style="background-color: powderblue">
              Progress Bar Goes here 
         </div>
 
@@ -74,9 +76,7 @@
             
 
             <!-- Image Picker Option -->
-
             <div class="halfSegment m-2 col s12">
-                <label size="25px" style="color: #0d0d0d">Try with our sample images</label>
                 <div class="carousel" style="height: 80%;" >
                     <a class="carousel-item hoverable" href="#one!">    <img src="Images/Samples/Samp1.jpg"></a>
                     <a class="carousel-item hoverable" href="#two!">    <img src="Images/Samples/Samp2.jpg"></a>
@@ -84,6 +84,7 @@
                     <a class="carousel-item hoverable" href="#four!">   <img src="Images/Samples/Samp4.jpg"></a>
                     <a class="carousel-item hoverable" href="#five!">   <img src="Images/Samples/Samp5.jpg"></a>
                 </div>
+
                 <!-- Confirm Button-->
                 <div class="text-center">
                     <a class="waves-effect waves-light btn blue m-2" id="confirm_button" disabled>Use This Image</a>
@@ -96,7 +97,7 @@
 
             <!-- Upload Option -->
             <div class="halfSegment m-2 row col s12">
-                <label size="17px">Upload your own sketch</label>
+
                 <!-- Upload -->
                 <div class="col s12"> 
                     <div id="uploadButton" >
@@ -108,7 +109,6 @@
                             data-max-file-size="10MB" 
                             style="height: 80%"/>
                         </div>
-                    <label size="15px">*** Only accepts JPG, JPEG, PNG files, and file size smaller then 35MB***</label>
                 </div>
 
                 <!-- Confirm Button-->
@@ -121,7 +121,6 @@
                     <a class="waves-effect waves-light btn red m-1" onclick="bypassUpload()">Bypass for DEBUG</a>
                 </div>
             </div>
-
 
         </div> <!-- End of Upload Page -->
 
@@ -187,14 +186,14 @@
             
             <h6 class="text-center">Conversion Happens Here</h6>
 
-    
             <div class="row" style="background-color: grey">
+                
                 <!-- Cards Populated -->
                 <div class="col s6" id="detected_box" style="background-color: white"> </div>
 
                 <!-- Image Uploaded -->
-                <div class="col s6 p-3" id="returned_img" style="background-color: blue">
-                    '<img id="uploaded_img" src="" alt=" Image Not Found" style="width: 100%; height: 100%; object-fit: fill;">'
+                <div class="col s6" id="returned_img" style="background-color: blue">
+                    <img id="uploaded_img" class="p-3" src="" alt=" Image Not Found" style="width: 100%; height: 100%; object-fit: fill;">
                 </div>
             </div>
       
@@ -212,8 +211,7 @@
                 </div>
             </div>
 
-        </div>
-
+        </div> <!-- End of Detected Page-->
 
 
 
@@ -222,31 +220,33 @@
         <!-- -------------------------------------------------------------------------------------->
         <div id="results_page" class="" style= "display: none; background: rgb(189, 184, 184)">
                 
-                <!-- Header Space-->
-                <h3 class="text-center">Here is your code!</h3>
+            <!-- Header Space-->
+            <h3 class="text-center">Here is your code!</h3>
 
-                <!-- Code Space-->
-                <div class = "p-3" style="background: white">
-                    <!-- <pre class="prettyprint"> -->
-                        <code id="pushed_code" class="language-html"></code>
-                    <!-- </pre> -->
-                </div>
-
-                <!-- Buttons -->
-                <div class="row">
-                    <div class ="col-md-12 col-lg-4 pl-3 pt-2">
-                        <button type="button" class= "btn btn-info btn-block" onclick="resetUpload()">Upload Another Page</button>
-                    </div>
-                    <div class ="col-md-12 col-lg-4 pt-2">
-                        <button type="button" class=" btn btn-info btn-block" onclick="copyToClipboard('#pushed_code')">Copy to Clipboard</button>
-                    </div>
-                    <div class ="col-md-12 col-lg-4 pr-3 pt-2">
-                        <button type="button" class= "btn btn-info btn-block" disabled>Download as Zip</button>
-                    </div>
-                </div>
-
+            <!-- Code Space-->
+            <div class = "p-3" style="background: white">
+                <pre>
+                    <code id="pushed_code" class="language-html"></code>
+                </pre>
             </div>
 
+            <!-- Buttons -->
+            <div class="row">
+                <div class ="col-md-12 col-lg-4 pl-3 pt-2">
+                    <button type="button" class= "btn btn-info btn-block" onclick="resetUpload()">Upload Another Page</button>
+                </div>
+                <div class ="col-md-12 col-lg-4 pt-2">
+                    <button type="button" class=" btn btn-info btn-block" onclick="copyToClipboard('#pushed_code')">Copy to Clipboard</button>
+                </div>
+                <div class ="col-md-12 col-lg-4 pr-3 pt-2">
+                    <button type="button" class= "btn btn-info btn-block" disabled>Download as Zip</button>
+                </div>
+            </div>
+
+        </div> <!-- End of Results Page-->
+
+
+        
     </div> <!-- End of appInnerContainer-->
 </div> <!-- End of appContainer-->
 </div>
@@ -263,6 +263,7 @@
     <script type="text/javascript" src="JS_src/Template_1.js"></script>
     <script type="text/javascript" src="JS_src/jszip.min.js"></script>
     <script type="text/javascript" src="JS_src/FileSaver.min.js"></script>
+    <script type="text/javascript" src="JS_src/codePrettyPrint.js"></script>
 
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
@@ -271,16 +272,11 @@
         // Initialize Materialize JS
         M.AutoInit();
 
-        // Initialize: Carousel on Upload Page
-        $(document).ready(function(){
-            $('.carousel').carousel();
-        });
-
-        // Initialize: Image Enlargement 
-        $(document).ready(function(){
-            $('.materialboxed').materialbox();
-        });
-
+        // $(document).ready(function(){
+        //     $('.carousel').carousel();                // Initialize: Carousel on Upload Page
+        //     $('.materialboxed').materialbox();        // Initialize: Image Enlargement 
+        //     $('.dropdown-trigger').dropdown();        // Initialize: Drop down 
+        // });
 
     </script>
 
