@@ -77,7 +77,8 @@ def ApiImageUploadedReturn():
             filesInDir.append(item)
     filesURL = {}
     for i in filesInDir:
-        filesURL.update({i: 'http://localhost:5000' + url_for("static", filename=i)})
+        # filesURL.update({i: 'http://localhost:5000' + url_for("static", filename=i)})
+        filesURL.update({i: 'http://127.0.0.1:5000/' + url_for("static", filename=i)})
     return jsonify(ImageUpLoaded=filesURL)
 
 
