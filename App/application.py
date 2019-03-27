@@ -8,7 +8,8 @@ from OpenCVBoxDetection import startSession, initializeSession
 
 application = Flask(__name__)
 application.debug = True
-cors = CORS(application)
+CORS(application, resources={r"/*": {"origins": "*"}})
+
 
 session = ''
 imgPath = ''
@@ -17,6 +18,7 @@ imgPath = ''
 # print(sys.version)
 
 @application.route('/')
+@cross_origin(origin='*')
 def mainPage():
     return "Server is up and running"
 
@@ -42,6 +44,7 @@ application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @application.route('/upload', methods=['GET', 'POST', 'DELETE'])
+@cross_origin(origin='*')
 def upload_file():
     global imgPath
     file = request.files['file']
@@ -67,6 +70,7 @@ def upload_file():
 
 
 @application.route('/api/imageuploaded')
+@cross_origin(origin='*')
 def ApiImageUploadedReturn():
     filesInDir = []
     # dirc = os.path.dirname(os.path.realpath(__file__))
@@ -80,7 +84,7 @@ def ApiImageUploadedReturn():
     filesURL = {}
     for i in filesInDir:
         # filesURL.update({i: 'http://localhost:5000' + url_for("static", filename=i)})
-        filesURL.update({i: 'http://htmlforge-dev4.us-east-1.elasticbeanstalk.com/' + url_for("static", filename=i)})
+        filesURL.update({i: 'http://htmlforge-dev.us-east-1.elasticbeanstalk.com/' + url_for("static", filename=i)})
     return jsonify(ImageUpLoaded=filesURL)
 
 
@@ -139,6 +143,3 @@ def ApiBlocksetectedReturn(usersession):
 
 if __name__ == '__main__':
     application.run()
-    # application.run(host='0.0.0.0')
-
-

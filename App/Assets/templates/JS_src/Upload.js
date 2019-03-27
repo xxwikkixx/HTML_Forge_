@@ -24,7 +24,8 @@ FilePond.create(
 
 FilePond.setOptions({
   server: {
-      url: 'http://localhost:5000',
+      url: 'http://htmlforge-dev.us-east-1.elasticbeanstalk.com',
+      // url: 'http://localhost:5000',
       process: {
           url: '/upload',
           method: 'POST',
@@ -50,7 +51,7 @@ FilePond.setOptions({
 
 
 function imageJSON(){
-    fetch('http://localhost:5000/api/imageuploaded')
+    fetch('http://htmlforge-dev.us-east-1.elasticbeanstalk.com/')
         .then(function (response) {
             return response.json()
         })
