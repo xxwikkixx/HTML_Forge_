@@ -32,6 +32,15 @@ var onDelete = 'fadeOut';   // Animation from Animate.css used when a card is de
 /** ------------------------------------------------------------------------------------- **/
 
 
+var settings = {
+    'dataType': "jsonp",
+    "crossDomain": true,
+    "headers": {
+              "accept": "application/json",
+              "Access-Control-Allow-Origin":"*"
+          }
+};
+
 
 /** ResetUpload:
  *  Re-displays the Upload Div from any button that calls it, will hide other pages
@@ -62,21 +71,58 @@ function confirmUpload(){
     // Show loading screen
     showLoading();
 
-    // Calls an API that runs the AI function on google
-    $.getJSON(API_BLOCK_CONVERT, function(data1){
+    $.ajax({
+        url: API_BLOCK_CONVERT,
+        dataType: "json",
+        crossDomain: true,
+        headers: {
+              "accept": "application/json",
+              "Access-Control-Allow-Origin":"*"
+          },
+        success: function (data1) {
+            $.ajax({
+                url: API_BLOCK_REQ + API_SESSION_ID,
+                dataType: "json",
+                crossDomain: true,
+                headers: {
+                      "accept": "application/json",
+                      "Access-Control-Allow-Origin":"*"
+                  },
+                success: function (data) {
+                    document.getElementById("loading_page").style.display = "none";      // Hides
+                    document.getElementById("detection_page").style.display = "block";   // Shows
 
-        // This call retrieves the JSON returned from Google's AI
-        $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
+                    console.log(data);
+                    BLOCK_DATA = data.blocks;
+                    DEBUG_IMG = data.debugImage;
+                    makeCards();
+                },
+                error: function (xhr, status) {
+                    alert("error");
+                }
+            });
 
-            document.getElementById("loading_page").style.display = "none";      // Hides
-            document.getElementById("detection_page").style.display = "block";   // Shows
-
-            console.log(data);
-            BLOCK_DATA = data.blocks;
-            DEBUG_IMG = data.debugImage;
-            makeCards();
-        });
+        },
+        error: function (xhr, status) {
+            alert("error");
+        }
     });
+
+    // Calls an API that runs the AI function on google
+    // $.getJSON(API_BLOCK_CONVERT, function(data1){
+    //
+    //     // This call retrieves the JSON returned from Google's AI
+    //     $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
+    //
+    //         document.getElementById("loading_page").style.display = "none";      // Hides
+    //         document.getElementById("detection_page").style.display = "block";   // Shows
+    //
+    //         console.log(data);
+    //         BLOCK_DATA = data.blocks;
+    //         DEBUG_IMG = data.debugImage;
+    //         makeCards();
+    //     });
+    // });
 }
 
 

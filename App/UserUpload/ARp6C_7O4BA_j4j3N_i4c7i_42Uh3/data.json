@@ -1,0 +1,68 @@
+{
+   "debugImage": "htmlforgewebapp.sbkina5r2e.us-east-2.elasticbeanstalk.comapi/blocksdetected/getDebugImage/ARp6C_7O4BA_j4j3N_i4c7i_42Uh3",
+   "blocks": [
+      {
+         "ID": 1,
+         "X_Axis": 42,
+         "Y_Axis": 163,
+         "Width": 1876,
+         "Height": 1003,
+         "Predictions": [
+            [
+               "Img_Gal_Parallax",
+               0.4764575660228729
+            ]
+         ],
+         "Best_Predictions": [
+            "Img_Gal_Parallax",
+            0.4764575660228729
+         ],
+         "Second_Best": [],
+         "Image_Crop_Path": "http://htmlforgewebapp.sbkina5r2e.us-east-2.elasticbeanstalk.comapi/blocksdetected/ARp6C_7O4BA_j4j3N_i4c7i_42Uh3/CropImage/1",
+         "Server_Local_Image_Path": "C:\\Users\\wikki\\Desktop\\COLLEGE\\COLLEGE 2019 14th Spring Penn State\\CS 488 Capstone\\HTML_Forge\\App/UserUpload/ARp6C_7O4BA_j4j3N_i4c7i_42Uh3/ImageCrops/1.png",
+         "Block_Code": ""
+      },
+      {
+         "ID": 2,
+         "X_Axis": 122,
+         "Y_Axis": 1352,
+         "Width": 1766,
+         "Height": 776,
+         "Predictions": [
+            [
+               "Header",
+               0.9540490508079529
+            ]
+         ],
+         "Best_Predictions": [
+            "Header",
+            0.9540490508079529
+         ],
+         "Second_Best": [],
+         "Image_Crop_Path": "http://htmlforgewebapp.sbkina5r2e.us-east-2.elasticbeanstalk.comapi/blocksdetected/ARp6C_7O4BA_j4j3N_i4c7i_42Uh3/CropImage/2",
+         "Server_Local_Image_Path": "C:\\Users\\wikki\\Desktop\\COLLEGE\\COLLEGE 2019 14th Spring Penn State\\CS 488 Capstone\\HTML_Forge\\App/UserUpload/ARp6C_7O4BA_j4j3N_i4c7i_42Uh3/ImageCrops/2.png",
+         "Block_Code": ""
+      },
+      {
+         "ID": 3,
+         "X_Axis": 122,
+         "Y_Axis": 2346,
+         "Width": 1766,
+         "Height": 400,
+         "Predictions": [
+            [
+               "Title",
+               0.9601892828941345
+            ]
+         ],
+         "Best_Predictions": [
+            "Title",
+            0.9601892828941345
+         ],
+         "Second_Best": [],
+         "Image_Crop_Path": "http://htmlforgewebapp.sbkina5r2e.us-east-2.elasticbeanstalk.comapi/blocksdetected/ARp6C_7O4BA_j4j3N_i4c7i_42Uh3/CropImage/3",
+         "Server_Local_Image_Path": "C:\\Users\\wikki\\Desktop\\COLLEGE\\COLLEGE 2019 14th Spring Penn State\\CS 488 Capstone\\HTML_Forge\\App/UserUpload/ARp6C_7O4BA_j4j3N_i4c7i_42Uh3/ImageCrops/3.png",
+         "Block_Code": ""
+      }
+   ]
+}
