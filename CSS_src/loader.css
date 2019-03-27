@@ -95,3 +95,77 @@
     -webkit-animation: lol 3s 500ms infinite ease-in-out;
     animation: lol 3s 500ms infinite ease-in-out;
   }
+
+
+
+
+
+  
+  .loadText-wrapper {
+    font-size: 15px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .loadText {
+    height: 50px;
+    overflow: hidden;
+    padding: 0 10px;
+  }
+  
+  .loadText > div {
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.7);
+    height: 50px;
+    margin-bottom: 50px;
+    padding-top: 12px;
+    text-align: center;
+    
+  }
+  
+  .text1 {
+    animation: slide 30s linear ;
+  }
+  
+  @keyframes slide {
+    0% { margin-top:  -1000px; }
+    5% { margin-top:  -1000px; }
+    10% { margin-top: -900px; }
+    15% { margin-top: -900px; }
+    20% { margin-top: -800px; }
+    25% { margin-top: -800px; }
+    30% { margin-top: -700px; }
+    35% { margin-top: -700px; }
+    40% { margin-top: -600px; }
+    45% { margin-top: -600px; }
+    50% { margin-top: -500px; }
+    55% { margin-top: -500px; }
+    60% { margin-top: -400px; }
+    65% { margin-top: -400px; }
+    70% { margin-top: -300px; }
+    75% { margin-top: -300px; }
+    80% { margin-top: -200px; }
+    85% { margin-top: -200px; }
+    90% { margin-top: -100px; }
+    95% { margin-top: -100px; }
+    100% { margin-top: -25px; }
+
+
+
+    /* 0% { margin-top: -300px; }
+    5% { margin-top: -200px; }
+    33% { margin-top: -200px; }
+    38% { margin-top: -100px; }
+    66% { margin-top: -100px; }
+    72% { margin-top: -0; }
+    100% { margin-top: 0; } */
+  }
+
+
+
+
+
+
+

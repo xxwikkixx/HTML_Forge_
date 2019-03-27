@@ -24,7 +24,7 @@ var CURRENT_CARDS = [];     // Keeps track of all cards currently visible on the
 var BLOCK_QUEUE = [];       // A Queue which is populated with labels, in order of which they
                             // Are found
 var BLOCK_DATA;             // Stores JSON data returned by the Google AI
-
+var DEBUG_IMG;              // Stores Debugged image path returned by OpenCV with Google AI
 
 /** Card Animations **/
 var onAppear = 'fadeIn';    // Animation from Animate.css used when a card is created
@@ -60,10 +60,7 @@ function resetUpload(){
 function confirmUpload(){
     
     // Show loading screen
-    document.getElementById("upload_page").style.display = "none";      // Hides
-    document.getElementById("loading_page").style.display = "block";    // Shows
-    document.getElementById("detection_page").style.display = "none";   // Hides
-    document.getElementById("results_page").style.display = "none";     // Hides
+    showLoading();
 
     // Calls an API that runs the AI function on google
     $.getJSON(API_BLOCK_CONVERT, function(data1){
@@ -74,11 +71,29 @@ function confirmUpload(){
             document.getElementById("loading_page").style.display = "none";      // Hides
             document.getElementById("detection_page").style.display = "block";   // Shows
 
+            console.log(data);
             BLOCK_DATA = data.blocks;
+            DEBUG_IMG = data.debugImage;
             makeCards();
         });
     });
 }
+
+
+
+/** showLoading:
+ *  Shows loading page
+ *      TAKES:      NONE
+ *      RETURNS :   Shows Loading Page
+*/
+function showLoading(){
+    // Show loading screen
+    document.getElementById("upload_page").style.display = "none";      // Hides
+    document.getElementById("loading_page").style.display = "block";    // Shows
+    document.getElementById("detection_page").style.display = "none";   // Hides
+    document.getElementById("results_page").style.display = "none";     // Hides
+}
+
 
 
 // FUnction similar to confirmUpload, but does not make any calls to googles real API
@@ -90,8 +105,8 @@ function bypassUpload(){
     document.getElementById("results_page").style.display = "none";     // Hides
 
     // This call retrieves a JSON SAMPLE COPY returned from Google's AI 
-    $.getJSON("https://api.myjson.com/bins/12dmxq", function(data){  // This is used for debugging
-
+    //$.getJSON("https://api.myjson.com/bins/12dmxq", function(data){  // This is used for debugging
+    $.getJSON("https://api.myjson.com/bins/12d9wa", function(data){
         console.log(data);
         console.log(data.blocks)
         BLOCK_DATA = data.blocks;
@@ -101,6 +116,7 @@ function bypassUpload(){
 }
 
 
+template_choice = 0;
 // Detection Page -> Generation Page
 function GenerateHTML(){
 
@@ -108,7 +124,7 @@ function GenerateHTML(){
     Populate_blocks(); 
 
     // Array is read and translated into appropriate HTML Code
-    var code_generated = make_HTML_Basic(block_order);
+    var code_generated = get_HTML(template_choice , block_order);
 
     // Prints generated HTML into div "pushed_code"
     console.log(code_generated);                                        // Debugging
@@ -118,49 +134,6 @@ function GenerateHTML(){
     document.getElementById("results_page").style.display = "block";    // Shows
 }
 
-
-
-/** --------------------------------  Labels & Cards  ----------------------------------- **/
-
-
-
-var labels = [
-    "",                     // index: 0   Empty
-    "Header",               // index: 1   Header
-    "Footer",               // index: 2   Footer
-    "Paragraph",            // index: 3   Paragraph
-    "Title",                // index: 4   Title
-    "singleImage",          // index: 5   Stand alone image
-    "Img_Gal_Parallax",     // index: 6   Slider Gallary
-    "Img_Gal_Preview",      // index: 7   Image Preview
-    "Img_Gal_Simple",       // index: 8   Image Gallary Spread
-    "Img_Left_Text_Right",  // index: 9   Image-L Text-R
-    "Img_Right_Text_Left",  // index: 10  Image-R Text-L
-    "Img_Top_Text_Bottom"   // index: 11  Image-T Text-B
-];
-
-
-function labelAdapter(){
-    block_order = [];           // Reset Blocks
-
-    for(var i = 0; i < BLOCK_QUEUE.length; i++){
-        if(BLOCK_QUEUE[i] == labels[0])     {continue;}                     // Deleted By User
-        if(BLOCK_QUEUE[i] == labels[1])     {block_order.push('label_1');}  // Header
-        if(BLOCK_QUEUE[i] == labels[2])     {block_order.push('label_2');}  // Footer
-        if(BLOCK_QUEUE[i] == labels[3])     {block_order.push('label_3');}  // Paragraph
-        if(BLOCK_QUEUE[i] == labels[4])     {block_order.push('label_4');}  // Title
-        if(BLOCK_QUEUE[i] == labels[5])     {block_order.push('label_5');}  // Stand Alone Image
-        if(BLOCK_QUEUE[i] == labels[6])     {block_order.push('label_6');}  // Slider Gallary
-        if(BLOCK_QUEUE[i] == labels[7])     {block_order.push('label_7');}  // Image Preview
-        if(BLOCK_QUEUE[i] == labels[8])     {block_order.push('label_8');}  // Image Gallary Spread
-        if(BLOCK_QUEUE[i] == labels[9])     {block_order.push('label_9');}  // Image-Left Text-Right 
-        if(BLOCK_QUEUE[i] == labels[10])    {block_order.push('label_10');} // Image-Right Text-Left
-        if(BLOCK_QUEUE[i] == labels[11])    {block_order.push('label_11');} // Image-Top Text_Bottom
-
-    }
-
-    console.log(block_order);
-}   
 
 
 // Creates all cards based on returned blocks from API
@@ -195,14 +168,19 @@ function makeCards(){
 // Creates building-block card 
 function createCard(label, prob, image){
 
+    var cardVersion = 2;  // 1 for new UI, 2 for new UI
+
     /***** DEBUG *****/
     console.log(id_Count + "card Generated")
 
     /***** FRONT-END USE *****/
+    var elem = "";
+
     //image = 'http://via.placeholder.com/350x150'
     // BEFORE col-md-4 col-sm-6:
-    var elem = 
-    '<div class="animated ' + onAppear + ' col-lg-6 col-xl-4 mt-3 mb-3" id="' + id_Count + 'card">'
+    if (cardVersion = 1){
+    elem = 
+    '<div class="animated ' + onAppear + ' col-lg-12 mt-3 mb-3" id="' + id_Count + 'card">'
     +   '<div class="card text-white bg-dark shadow-lg">'
     +       '<img class="card-img-top" src="' + image + '" alt=" Image Not Found" style="width: 100%; height: 150px; object-fit: fill;">'
     +       '<div class="card-body center">'
@@ -226,23 +204,42 @@ function createCard(label, prob, image){
     +                   '</div>'
     +                   '<button class="btn btn-sm btn-outline-danger right" id="' + id_Count + 'card" onclick="deleteCard(this.id)">Delete</button>'
     + '</div></div></div>';
+    }
 
 
-
-    // Alternate style
-    // var elem = 
-    //     '<div class= "col-lg-6 col-xl-4 mt-3">'
-    // +       '<div class="card text-center animated bg-dark text-white">'
-    // +           '<div class="card-header">' + label + '</div>'
-    // +           '<div class="card-body">'
-    // +               '<img class="card-img-mid" src="' + image + '" alt=" Image Not Found" style="width: 100%; height: 15vw; object-fit: cover;">'
-    // +           '</div>'
-    // +           '<div class="card-footer text-muted">Probability: ' + prob + ' %</div>'
-    // +       '</div>'
-    // +    '</div>';
+    if(cardVersion = 2){
+        elem = 
+        '<div class="blockCard z-depth-1 hoverable row col s12 mb-2 animated ' + onAppear + '" id="' + id_Count + 'card"">'
+        +    '<div class="cardContent col s4">'
+        +        '<h5 id="'+ id_Count +'card_title" class="card-title m-0">' + label + '</h5>'
+        +        '<p  id="'+ id_Count +'card_prob"  class="card-text">Probability: ' + prob + ' % </p>'
+        +    '</div>'
+        +    '<div class="cardImage col s7">'
+        +        '<img class="materialboxed" src="' + image + '">'
+        +    '</div>'
+        +    '<div class="cardButtons col s1">'
+        +        '<button class="editButton waves-effect waves-light dropdown-trigger" href="#" data-target="dropdown'+ id_Count +'"><i class="material-icons">edit</i></button>'
+        +        '<button class="delButton waves-effect waves-light" id="' + id_Count + 'card" onclick="deleteCard(this.id)"><i class="material-icons">delete</i></button>'
+        +          '<ul id="dropdown'+ id_Count +'" class="dropdown-content">'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 1)">Header</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 2)">Footer</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 3)">Paragraph</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 4)">Title</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 5)">Single Image</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 6)">Slider Gallary</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 7)">Image Preview</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 8)">Gallary</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 9)" >Image-L Text-R</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 10)">Image-R Text-L</a> </li>'
+        +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 11)">Image-T Text-B</a>  </li>'
+        +          '</ul>'
+        +    '</div>'
+        +'</div>';
+    }
  
-
+    // Adds new card to the box
     $("#detected_box").append(elem);
+    if(cardVersion = 2) {M.AutoInit();} //For Edit Functionality when using Materialize
 
     //***** BACK-END USE *****/
     CURRENT_CARDS.push(id_Count);
@@ -315,11 +312,45 @@ function editCard(id, action){
 
 // Function that handles copying to clipboard (GENERIC)
 function copyToClipboard(element) {
+    // Copy 
     var $temp = $("<input>");
     $("body").append($temp);
     $temp.val($(element).text()).select();
     document.execCommand("copy");
     $temp.remove();
+
+    // Alert
     alert("Succesfully copied to Clipboard");
+  }
+
+
+  function getZip(code) {
+    // Creates a new instance
+    var zip = new JSZip();
+
+    // Create a file
+    //   var html = document.getElementById("pushed_code").value();
+      console.log(code);
+    // zip.file("index.html", document.getElementById("pushed_code").value());
+    zip.file("index.html", code);
+    zip.file("layout.css", "AWH YEAH!");
+
+    // Add images
+    // zip.file("index.html", "AWH YEAH!");
+    // zip.file("index.html", "AWH YEAH!");
+    // zip.file("index.html", "AWH YEAH!");
+ 
+
+    // create a file and a folder
+    // zip.file("nested/hello.txt", "Hello World\n");
+
+    // var img = zip.folder("images");
+    // img.file("smile.gif", imgData, {base64: true});
+    
+    zip.generateAsync({type:"blob"})
+        .then(function(content) {
+            // see FileSaver.js
+            saveAs(content, "example.zip");
+    });
   }
   
