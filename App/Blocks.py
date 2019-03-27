@@ -46,7 +46,7 @@ class Blocks:
         Generate json format file with given export path.
         :param path: string  Path to exporting JSON file
         """
-        HOST_PATH = "127.0.0.1:5000/"
+        HOST_PATH = "htmlforgewebapp.sbkina5r2e.us-east-2.elasticbeanstalk.com"
         data = {}
         temp = []
         for i in self.blocks:
