@@ -29,6 +29,10 @@ FilePond.setOptions({
       process: {
           url: '/upload',
           method: 'POST',
+          headers: {
+              "accept": "application/json",
+              "Access-Control-Allow-Origin":"*"
+          },
           onload: (response) => {
               //console.log(response);
               API_SESSION_ID = response;
@@ -51,7 +55,7 @@ FilePond.setOptions({
 
 
 function imageJSON(){
-    fetch('http://htmlforge-dev.us-east-1.elasticbeanstalk.com/')
+    fetch('http://htmlforge-dev.us-east-1.elasticbeanstalk.com/api/imageuploaded')
         .then(function (response) {
             return response.json()
         })

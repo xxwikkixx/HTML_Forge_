@@ -10,9 +10,9 @@
 
 
 /** ------------------------------------- API CALLS ------------------------------------- **/
-var API_UL_IMAGE = "http://localhost5000/api/imageuploaded";        // API to retrieve Image
-var API_BLOCK_CONVERT = "http://localhost:5000/api/startconvert";   // API that calls the AI
-var API_BLOCK_REQ = "http://localhost:5000/api/blocksdetected/";    // MUST ADD Session Id
+var API_UL_IMAGE = "http://htmlforge-dev.us-east-1.elasticbeanstalk.com/api/imageuploaded";        // API to retrieve Image
+var API_BLOCK_CONVERT = "http://htmlforge-dev.us-east-1.elasticbeanstalk.com/api/startconvert";   // API that calls the AI
+var API_BLOCK_REQ = "http://htmlforge-dev.us-east-1.elasticbeanstalk.com/api/blocksdetected/";    // MUST ADD Session Id
 var API_SESSION_ID = "ERROR";          // This gets populated by the API call from Upload.js
 /** ------------------------------------------------------------------------------------- **/
 

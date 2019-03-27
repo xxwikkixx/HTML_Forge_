@@ -89,6 +89,7 @@ def ApiImageUploadedReturn():
 
 
 @application.route('/api/startconvert')
+@cross_origin(origin='*')
 def convertRequest():
     global session
     # if not os.path.exists(os.path.join('UserUpload')):
@@ -100,12 +101,14 @@ def convertRequest():
 
 
 @application.route('/api/blocksdetected/getDebugImage/<usersession>')
+@cross_origin(origin='*')
 def getDebugImage(usersession):
     pid = 'UserUpload/' + usersession + "/" + usersession + ".jpg"
     return send_file(pid, mimetype='image/gif')
 
 
 @application.route('/api/blocksdetected/<usersession>/CropImage/<filename>')
+@cross_origin(origin='*')
 def getCroppedImgage(usersession, filename):
     pid = 'UserUpload/' + usersession + "/ImageCrops/" + filename + ".png"
     return send_file(pid, mimetype='image/gif')
@@ -113,6 +116,7 @@ def getCroppedImgage(usersession, filename):
 
 # accept the session ID into the URL to bring the data back for the specific user
 @application.route('/api/blocksdetected/<usersession>')
+@cross_origin(origin='*')
 def ApiBlocksetectedReturn(usersession):
     dirc = "UserUpload/" + usersession + "/"
     for root, dirs, files in os.walk(dirc):
