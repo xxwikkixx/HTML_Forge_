@@ -37,7 +37,6 @@ from predictBlock import imageOnReady
 from ImgProcessSession import ImageProcessSession
 from Blocks import Blocks
 from imutils.contours import sort_contours
-from PIL import Image
 import cv2
 import os
 import glob
@@ -375,7 +374,7 @@ def box_extraction(original_image_path, img_for_box_extraction_path, cropped_dir
         # if Image_Debug: fig.add_subplot(rows, columns, idx)
         # if Image_Debug: plt.imshow(new_img)
 
-    if Image_Debug: plt.show()
+    # if Image_Debug: plt.show()
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
