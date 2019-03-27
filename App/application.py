@@ -43,6 +43,7 @@ UPLOAD_FOLDER = 'static'
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
+
 @application.route('/upload', methods=['GET', 'POST', 'DELETE'])
 @cross_origin(origin='*')
 def upload_file():
