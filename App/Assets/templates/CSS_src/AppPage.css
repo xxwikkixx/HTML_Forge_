@@ -7,7 +7,8 @@ body {
     -webkit-Font-smoothing: antialiased;
 
     /** Background colors **/
-	background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+    background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+    background-repeat: no-repeat;
     background-size: 400% 400%;
     
     /** Background Animation **/
@@ -15,6 +16,10 @@ body {
 	-moz-animation:     Gradient 15s ease infinite;
 	animation:          Gradient 15s ease infinite;
 }
+
+
+/*********************************************************************************/
+/**                             App Container CSS                               **/
 
 .appContainerHeader {
     background-color: white; 
@@ -29,14 +34,14 @@ body {
     color: black;
     /* padding: 1vmin; */
     
-    height: 115%;
+    height: auto;
     /* min-width: 1000px; */
     
     /* Default margin sizes */
     margin-left: 10vmin;
     margin-right: 10vmin;
     margin-top: 5vmin;
-    margin-bottom: 5vmin;
+    /* margin-bottom: 5vmin; */
 
     animation-duration: 3s;
     /* animation-delay: 1s; */
@@ -48,7 +53,6 @@ body {
 }
 
 .appInnerContainer{
-
     background: rgba(255, 255, 255, 0.8);
     margin-top: 0px;
     margin-left: 0px;
@@ -56,12 +60,47 @@ body {
     margin-bottom: 1%;
     height: auto;
     width: auto;
+}
+
+
+
+/*********************************************************************************/
+/**                                 Upload Card                                 **/
+
+.uploadCard-head {
+    text-align: center;
+    vertical-align: auto;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: white;
+    padding: 1em;
+}
+
+.uploadCard-head h7 {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.uploadCard {
+    background:  rgba(0, 0, 0, 0.2);
+    border-radius: 5px; 
 
 }
 
-.halfSegment{
-    height: 33vh;
+.uploadCard-btn {
+    background-image: linear-gradient(to right, #3494E6 0%, #EC6EAD 100%);
+    background-size: 400% 400%;
+    height: 60px;
+    width: 100%;
+    border: none; 
+    color: white; 
+    cursor: pointer; 
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
+.uploadCard-btn:hover { background-position: right center; }
+
+
+
 
 .centerDiv {
     margin: 0px;
@@ -78,8 +117,10 @@ body {
 
 #uploadButton {
     /* Used to center the upload button */
-    margin-left:13vw; 
-    margin-right:13vw;
+    padding-top: 95px;
+    padding-left:2vw; 
+    padding-right:2vw;
+    min-height: 385px;
 }
 
 #pushed_code {

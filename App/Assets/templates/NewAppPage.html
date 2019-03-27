@@ -75,32 +75,40 @@
         <div id="upload_page" class="row animated fadeIn" style="display: block">
             
 
-            <!-- Image Picker Option -->
-            <div class="halfSegment m-2 col s12">
-                <div class="carousel" style="height: 80%;" >
-                    <a class="carousel-item hoverable" href="#one!">    <img src="Images/Samples/Samp1.jpg"></a>
-                    <a class="carousel-item hoverable" href="#two!">    <img src="Images/Samples/Samp2.jpg"></a>
-                    <a class="carousel-item hoverable" href="#three!">  <img src="Images/Samples/Samp3.jpg"></a>
-                    <a class="carousel-item hoverable" href="#four!">   <img src="Images/Samples/Samp4.jpg"></a>
-                    <a class="carousel-item hoverable" href="#five!">   <img src="Images/Samples/Samp5.jpg"></a>
+            <!-- OPTION 1: USER PICKS A PRE-FABRICATED IMAGE -->
+            <div class="col s12 l6">
+                <div class="uploadCard mt-3 ml-2 mr-2 mb-3 z-depth-1 hoverable">
+                     <!-- Header -->
+                    <div class="uploadCard-head">
+                        <h7> Don't have an Image? Pick one of ours! </h7>
+                    </div>
+                    <!-- Content (Carousel) -->
+                    <div class="carousel shadowInsetTop">
+                        <a class="carousel-item hoverable" href="#one!">    <img src="Images/Samples/Samp1.jpg"></a>
+                        <a class="carousel-item hoverable" href="#two!">    <img src="Images/Samples/Samp2.jpg"></a>
+                        <a class="carousel-item hoverable" href="#three!">  <img src="Images/Samples/Samp3.jpg"></a>
+                        <a class="carousel-item hoverable" href="#four!">   <img src="Images/Samples/Samp4.jpg"></a>
+                        <a class="carousel-item hoverable" href="#five!">   <img src="Images/Samples/Samp5.jpg"></a>
+                    </div>
+                    <!-- Button -->
+                    <button class="uploadCard-btn waves-effect waves-light" id="confirm_button">Use This Image!</button>
                 </div>
-
-                <!-- Confirm Button-->
-                <div class="text-center">
-                    <a class="waves-effect waves-light btn blue m-2" id="confirm_button" disabled>Use This Image</a>
-                </div>
+                
             </div>
 
 
-            <div class="divider m-2 col s12"></div>
+            <!-- <div class="divider m-2 col s12"></div> -->
 
 
-            <!-- Upload Option -->
-            <div class="halfSegment m-2 row col s12">
-
-                <!-- Upload -->
-                <div class="col s12"> 
-                    <div id="uploadButton" >
+            <!-- OPTION 2: USER UPLOADS THEIR OWN IMAGE -->
+            <div class="col s12 l6">
+                <div class="uploadCard mt-3 ml-2 mr-2 mb-3 z-depth-1 hoverable">
+                    <!-- Header -->
+                    <div class="uploadCard-head">
+                        <h7> Upload your own sketch </h7>
+                    </div>
+                    <!-- Content (Upload) -->
+                    <div id="uploadButton" class="shadowInsetTop">
                         <input type="file" 
                             class="filepond" 
                             name="file" 
@@ -108,19 +116,18 @@
                             data-max-files="1"
                             data-max-file-size="10MB" 
                             style="height: 80%"/>
-                        </div>
-                </div>
-
-                <!-- Confirm Button-->
-                <div class="col s12 center-align">
-                    <a class="waves-effect waves-light btn blue m-1" id="confirm_button" onclick="confirmUpload()" disabled>Convert This Image</a>
-                </div>
-
-                <!-- Khalids FrontEnd Debugger-->
-                <div class="col s12 center-align">
-                    <a class="waves-effect waves-light btn red m-1" onclick="bypassUpload()">Bypass for DEBUG</a>
+                    </div>
+                    <!-- Button --> <!-- onclick="confirmUpload()" -->
+                    <button class="uploadCard-btn waves-effect waves-light" id="confirm_button" disabled>Convert This Image</button>
                 </div>
             </div>
+
+
+            <!-- Khalids FrontEnd Debugger-->
+            <div class="col s12 center-align">
+                <a class="waves-effect waves-light btn red m-1" onclick="bypassUpload()">Bypass for DEBUG</a>
+            </div>
+            
 
         </div> <!-- End of Upload Page -->
 
@@ -239,7 +246,7 @@
                     <button type="button" class=" btn btn-info btn-block" onclick="copyToClipboard('#pushed_code')">Copy to Clipboard</button>
                 </div>
                 <div class ="col-md-12 col-lg-4 pr-3 pt-2">
-                    <button type="button" class= "btn btn-info btn-block" disabled>Download as Zip</button>
+                    <button type="button" class= "btn btn-info btn-block" onclick="getZip(document.getElementById('pushed_code').innerText)">Download as Zip</button>
                 </div>
             </div>
 
