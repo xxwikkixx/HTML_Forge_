@@ -95,7 +95,7 @@ def convertRequest():
     global session
     # if not os.path.exists(os.path.join('UserUpload')):
     #     os.makedirs(os.path.join('UserUpload'))
-    print (imgPath)
+    print(imgPath)
     sessionID, JSON_Path = startSession(imgPath)
     session = sessionID
     return jsonify(sessionID)

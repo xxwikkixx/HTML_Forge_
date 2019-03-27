@@ -29,7 +29,7 @@ FilePond.setOptions({
             url: '/upload',
             method: 'POST',
             headers: {
-                "accept": "application/json",
+                "Content-type": "application/json",
                 "Access-Control-Allow-Origin": "*"
             },
             onload: (response) => {
@@ -56,8 +56,9 @@ FilePond.setOptions({
 function imageJSON() {
     fetch('http://htmlforge-dev.us-east-1.elasticbeanstalk.com/api/imageuploaded', {
         dataType: "json",
+        crossDomain: true,
         headers: {
-            "accept": "application/json",
+            "Content-type": "application/json",
             "Access-Control-Allow-Origin": "*"
         },
     })

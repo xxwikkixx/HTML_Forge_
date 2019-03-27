@@ -32,16 +32,6 @@ var onDelete = 'fadeOut';   // Animation from Animate.css used when a card is de
 /** ------------------------------------------------------------------------------------- **/
 
 
-var settings = {
-    'dataType': "jsonp",
-    "crossDomain": true,
-    "headers": {
-              "accept": "application/json",
-              "Access-Control-Allow-Origin":"*"
-          }
-};
-
-
 /** ResetUpload:
  *  Re-displays the Upload Div from any button that calls it, will hide other pages
  *      TAKES:      NONE
@@ -76,7 +66,7 @@ function confirmUpload(){
         dataType: "json",
         crossDomain: true,
         headers: {
-              "accept": "application/json",
+              "Content-type": "application/json",
               "Access-Control-Allow-Origin":"*"
           },
         success: function (data1) {
@@ -85,7 +75,7 @@ function confirmUpload(){
                 dataType: "json",
                 crossDomain: true,
                 headers: {
-                      "accept": "application/json",
+                      "Content-type": "application/json",
                       "Access-Control-Allow-Origin":"*"
                   },
                 success: function (data) {
