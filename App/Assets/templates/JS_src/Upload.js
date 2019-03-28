@@ -29,7 +29,7 @@ FilePond.setOptions({
             url: '/upload',
             method: 'POST',
             headers: {
-                "Content-type": "application/json",
+                "accept": "application/json",
                 "Access-Control-Allow-Origin": "*"
             },
             onload: (response) => {
@@ -58,7 +58,7 @@ function imageJSON() {
         dataType: "json",
         crossDomain: true,
         headers: {
-            "Content-type": "application/json",
+            "accept": "application/json",
             "Access-Control-Allow-Origin": "*"
         },
     })

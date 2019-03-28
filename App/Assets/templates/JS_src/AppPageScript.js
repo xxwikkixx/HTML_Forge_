@@ -14,6 +14,7 @@ var API_UL_IMAGE = "http://htmlforge-dev.us-east-1.elasticbeanstalk.com/api/imag
 var API_BLOCK_CONVERT = "http://htmlforge-dev.us-east-1.elasticbeanstalk.com/api/startconvert";   // API that calls the AI
 var API_BLOCK_REQ = "http://htmlforge-dev.us-east-1.elasticbeanstalk.com/api/blocksdetected/";    // MUST ADD Session Id
 var API_SESSION_ID = "ERROR";          // This gets populated by the API call from Upload.js
+var API_URL = "http://htmlforge-dev.us-east-1.elasticbeanstalk.com/"
 /** ------------------------------------------------------------------------------------- **/
 
 
@@ -47,6 +48,21 @@ function resetUpload(){
 }
 
 
+// $.ajax({
+//     url: API_URL ,
+//                 crossDomain: true,
+//                 headers: {
+//                       "accept": "application/json",
+//                       "Access-Control-Allow-Origin":"*"
+//                   },
+//                 success: function (data) {
+//                     console.log("OK")
+//                 },
+//                 error: function (xhr, status) {
+//                     alert("error");
+//                 }
+//             });
+
 
 /** confirmUpload:
  *  Runs when 'Convert' Button is pressed and displays the detection page. 
@@ -66,7 +82,7 @@ function confirmUpload(){
         dataType: "json",
         crossDomain: true,
         headers: {
-              "Content-type": "application/json",
+              "accept": "application/json",
               "Access-Control-Allow-Origin":"*"
           },
         success: function (data1) {
@@ -75,7 +91,7 @@ function confirmUpload(){
                 dataType: "json",
                 crossDomain: true,
                 headers: {
-                      "Content-type": "application/json",
+                      "accept": "application/json",
                       "Access-Control-Allow-Origin":"*"
                   },
                 success: function (data) {

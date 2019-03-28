@@ -1,4 +1,5 @@
 import os
+import shutil
 from flask import Flask, abort, render_template, request, redirect, url_for, jsonify, send_file, send_from_directory, \
     make_response, session, json
 from werkzeug.utils import secure_filename
@@ -20,6 +21,9 @@ imgPath = ''
 @application.route('/')
 @cross_origin(origin='*')
 def mainPage():
+    # dirc = os.path.dirname(os.path.realpath(__file__))
+    # userUploadPath = os.path.join(dirc, "static")
+    # shutil.rmtree(userUploadPath, ignore_errors=True)
     return "Server is up and running"
 
 #     global session
