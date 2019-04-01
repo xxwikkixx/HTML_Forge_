@@ -229,6 +229,7 @@ function createCard(label, prob, image){
     var elem = "";
 
     //image = 'http://via.placeholder.com/350x150'
+    //image = 'https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80'
     // BEFORE col-md-4 col-sm-6:
     if (cardVersion = 1){
     elem = 
@@ -261,7 +262,7 @@ function createCard(label, prob, image){
 
     if(cardVersion = 2){
         elem = 
-        '<div class="blockCard z-depth-1 hoverable row col s12 mb-2 animated ' + onAppear + '" id="' + id_Count + 'card"">'
+        '<div class="blockCard z-depth-1 hoverable row mb-2 animated ' + onAppear + '" id="' + id_Count + 'card"">'
         +    '<div class="cardContent col s4">'
         +        '<h5 id="'+ id_Count +'card_title" class="card-title m-0">' + label + '</h5>'
         +        '<p  id="'+ id_Count +'card_prob"  class="card-text">Probability: ' + prob + ' % </p>'
