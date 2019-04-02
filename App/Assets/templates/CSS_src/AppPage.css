@@ -97,9 +97,18 @@ body {
     border: none; 
     color: white; 
     cursor: pointer; 
+}
+
+.curve-b {    
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+
+.curve-t {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
 .uploadCard-btn:hover { background-position: right center; }
 /*********************************************************************************/
 
@@ -163,15 +172,26 @@ body {
     height: 150px; 
     /* background: grey;  */
     border-radius: 5px;
-    background-color: grey;
+    background-color:  rgba(0, 0, 0, 0.2);
 }
 /* .blockCard p {} */
 /* .blockCard h5 {} */
 .blockCard .cardContent {margin: 0px; padding:1em; border:0px; height: 150px; text-align: left;
     /* background-image: url("Images/Cards/cardBG-1.jpg");*/
 }
-.blockCard .cardImage {margin: 0px; padding:0px; border:0px;}
-.blockCard .cardImage img {width:100% ; max-height:150px;}
+.blockCard .cardImage {
+    margin: 0px; 
+    padding:0px; 
+    border:0px;
+    height: 100%;
+}
+.blockCard .cardImage img {
+    width:100%; 
+    max-height:150px;
+    object-fit: contain;
+    /* object-fit: cover;
+    object-fit: fill; */
+}
 .blockCard .cardButtons {margin: 0px; padding:0px; border:0px;}
 .blockCard .cardButtons .editButton {
     background-color: DodgerBlue; 
@@ -195,6 +215,25 @@ body {
 .blockCard .cardButtons .delButton:hover {background-color: maroon;}
 .blockCard .cardButtons .dropdown-content {width: 160px !important;} 
 
+/* Container holding the image and the text */
+.contain-content {
+    position: relative;
+    text-align: center;
+  }
+  
+  /* Bottom left text */
+  .cc-bl {
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+  }
+  
+  /* Top left text */
+  .cc-tl {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+  }
 
 
 /* .blockCard .cardButtons:hover .overlay {

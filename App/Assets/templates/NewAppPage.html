@@ -109,7 +109,7 @@
                         <a class="carousel-item hoverable" href="#five!">   <img src="Images/Samples/Samp5.jpg"></a>
                     </div>
                     <!-- Button -->
-                    <button class="uploadCard-btn waves-effect waves-light" id="confirm_button">Use This Image!</button>
+                    <button class="uploadCard-btn curve-b waves-effect waves-light" id="confirm_button">Use This Image!</button>
                 </div>               
             </div>
 
@@ -132,7 +132,7 @@
                             style="height: 80%"/>
                     </div>
                     <!-- Button --> <!-- onclick="confirmUpload()" -->
-                    <button class="uploadCard-btn waves-effect waves-light" id="confirm_button" disabled>Convert This Image</button>
+                    <button class="uploadCard-btn curve-b waves-effect waves-light" id="confirm_button" disabled>Convert This Image</button>
                 </div>
             </div>
             
@@ -241,33 +241,39 @@
         <!--                                   DETECTION PAGE                                    -->
         <!-- -------------------------------------------------------------------------------------->
         <!-- DETECTED BLOCKS PAGE -->
-        <div id="detection_page" class="" style="display: none;"> 
-            
+        <div id="detection_page" class="pl-4 pr-4 pb-4" style="display: none;"> 
             <div class="row">
                 
-                <!-- Image Uploaded -->
-                <div class="col m12 l8" id="returned_img">
-                    <img id="uploaded_img" class="p-3" src="Images/Samples/Samp1.jpg" alt=" Image Not Found" style="width: 100%; object-fit: cover;">
-                </div>
 
                 <!-- Cards Populated -->
-                <div class="col m12 l4">
-                    <div class="m-3" id="detected_box"> </div>
+                <div class="col m12 l5">
+                    <div class="mt-1 ml-2 mr-2" id="detected_box"> </div>
                 </div>
+
+
+                <!-- Image Uploaded -->
+                <div id="returned_img" class="col m12 l7">
+                    <div class="uploadCard z-depth-1 m-1 mb-3">
+
+                         <!-- Header -->
+                        <div class="uploadCard-head">
+                            <h7> Your Uploaded Image </h7>
+                        </div>
+                       
+                        <!-- Image-->
+                        <img id="uploaded_img" class="pl-3 pr-3 pt-3 pb-2 curve-b curve-t" src="Images/Samples/Samp1.jpg" alt=" Image Not Found" style="width: 100%; object-fit: cover;">
+
+
+                        <!-- Buttons -->
+                        <div class="ml-3 mr-3">
+                            <button class="uploadCard-btn curve-b curve-t waves-effect waves-light mb-2" onclick="window.location.reload()">Upload Again</button>
+                            <button class="uploadCard-btn curve-b curve-t waves-effect waves-light mb-3" onclick="GenerateHTML()">GenerateHTML</button>
+                        </div>
+                    </div>               
+                </div>
+
 
             </div>
-      
-
-            <!-- Buttons -->
-            <div class="row">
-                <div class="col s6">
-                    <button class="uploadCard-btn waves-effect waves-light" onclick="window.location.reload()">Upload Again</button>
-                </div>
-                <div class="col s6">
-                    <button class="uploadCard-btn waves-effect waves-light" onclick="GenerateHTML()">GenerateHTML</button>
-                </div>
-            </div>
-
         </div> <!-- End of Detected Page-->
 
 

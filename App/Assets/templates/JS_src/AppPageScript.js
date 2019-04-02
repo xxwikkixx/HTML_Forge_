@@ -228,14 +228,14 @@ function createCard(label, prob, image){
     /***** FRONT-END USE *****/
     var elem = "";
 
-    //image = 'http://via.placeholder.com/350x150'
+    image = 'http://via.placeholder.com/350x150'
     //image = 'https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80'
     // BEFORE col-md-4 col-sm-6:
     if (cardVersion = 1){
     elem = 
     '<div class="animated ' + onAppear + ' col-lg-12 mt-3 mb-3" id="' + id_Count + 'card">'
     +   '<div class="card text-white bg-dark shadow-lg">'
-    +       '<img class="card-img-top" src="' + image + '" alt=" Image Not Found" style="width: 100%; height: 150px; object-fit: fill;">'
+    +       '<img class="card-img-top" src="' + image + '" alt=" Image Not Found" style="width:100%; height: 100%; object-fit: fit;">'
     +       '<div class="card-body center">'
     +           '<h5 id="'+ id_Count +'card_title" class="card-title m-0">' + label + '</h5>'
     +           '<p  id="'+ id_Count +'card_prob" class="card-text">Probability: ' + prob + ' % </p>'
@@ -263,14 +263,16 @@ function createCard(label, prob, image){
     if(cardVersion = 2){
         elem = 
         '<div class="blockCard z-depth-1 hoverable row mb-2 animated ' + onAppear + '" id="' + id_Count + 'card"">'
-        +    '<div class="cardContent col m4 s4">'
-        +        '<h5 id="'+ id_Count +'card_title" class="card-title m-0">' + label + '</h5>'
-        +        '<p  id="'+ id_Count +'card_prob"  class="card-text">Probability: ' + prob + ' % </p>'
+        // +    '<div class="cardContent col s4">'
+        // +        '<h5 id="'+ id_Count +'card_title" class="card-title m-0">' + label + '</h5>'
+        // +        '<p  id="'+ id_Count +'card_prob"  class="card-text">Probability: ' + prob + ' % </p>'
+        // +    '</div>'
+        +    '<div class="cardImage contain-content col s10">'
+        +        '<img class="materialboxed " src="' + image + '">'
+        +        '<h5 id="'+ id_Count +'card_title" class="cc-tl card-title m-0">' + label + '</h5>'
+        +        '<p  id="'+ id_Count +'card_prob"  class="cc-bl card-text">Probability: ' + prob + ' % </p>'
         +    '</div>'
-        +    '<div class="cardImage col m7 s6">'
-        +        '<img class="materialboxed" src="' + image + '">'
-        +    '</div>'
-        +    '<div class="cardButtons col m1 s2">'
+        +    '<div class="cardButtons col s2">'
         +        '<button class="editButton waves-effect waves-light dropdown-trigger" href="#" data-target="dropdown'+ id_Count +'"><i class="material-icons">edit</i></button>'
         +        '<button class="delButton waves-effect waves-light" id="' + id_Count + 'card" onclick="deleteCard(this.id)"><i class="material-icons">delete</i></button>'
         +          '<ul id="dropdown'+ id_Count +'" class="dropdown-content">'
