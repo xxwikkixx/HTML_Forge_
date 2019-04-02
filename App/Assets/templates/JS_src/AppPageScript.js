@@ -263,14 +263,14 @@ function createCard(label, prob, image){
     if(cardVersion = 2){
         elem = 
         '<div class="blockCard z-depth-1 hoverable row mb-2 animated ' + onAppear + '" id="' + id_Count + 'card"">'
-        +    '<div class="cardContent col s4">'
+        +    '<div class="cardContent col m4 s4">'
         +        '<h5 id="'+ id_Count +'card_title" class="card-title m-0">' + label + '</h5>'
         +        '<p  id="'+ id_Count +'card_prob"  class="card-text">Probability: ' + prob + ' % </p>'
         +    '</div>'
-        +    '<div class="cardImage col s7">'
+        +    '<div class="cardImage col m7 s6">'
         +        '<img class="materialboxed" src="' + image + '">'
         +    '</div>'
-        +    '<div class="cardButtons col s1">'
+        +    '<div class="cardButtons col m1 s2">'
         +        '<button class="editButton waves-effect waves-light dropdown-trigger" href="#" data-target="dropdown'+ id_Count +'"><i class="material-icons">edit</i></button>'
         +        '<button class="delButton waves-effect waves-light" id="' + id_Count + 'card" onclick="deleteCard(this.id)"><i class="material-icons">delete</i></button>'
         +          '<ul id="dropdown'+ id_Count +'" class="dropdown-content">'
