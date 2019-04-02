@@ -46,7 +46,9 @@ class Blocks:
         Generate json format file with given export path.
         :param path: string  Path to exporting JSON file
         """
-        HOST_PATH = "htmlforge-dev.us-east-1.elasticbeanstalk.com"
+        from CloudServiceConfig import flaskConfig
+        HOST_PATH = flaskConfig["serverAddress"]
+        # HOST_PATH = "htmlforge-dev.us-east-1.elasticbeanstalk.com"
         data = {}
         temp = []
         for i in self.blocks:
@@ -58,7 +60,7 @@ class Blocks:
                          'Predictions': self.getBlockByID(i).getPrediction(),
                          'Best_Predictions': self.getBlockByID(i).getBestPrediction(),
                          'Second_Best': self.getBlockByID(i).getScondBest(),
-                         'Image_Crop_Path': "http://" + HOST_PATH + "/api/blocksdetected/"+sessionID+"/CropImage/"+str(self.getBlockByID(i).getBlockID()),
+                         'Image_Crop_Path': HOST_PATH + "/api/blocksdetected/"+sessionID+"/CropImage/"+str(self.getBlockByID(i).getBlockID()),
                          'Server_Local_Image_Path': self.getBlockByID(i).getImagePath(),
                          'Block_Code': self.getBlockByID(i).getSingleBlock_HTMLCode()})
         # /api/blocksdetected/<usersession>/CropImage/<filename>
