@@ -28,8 +28,8 @@ var BLOCK_DATA;             // Stores JSON data returned by the Google AI
 var DEBUG_IMG;              // Stores Debugged image path returned by OpenCV with Google AI
 
 /** Card Animations **/
-var onAppear = 'fadeIn';    // Animation from Animate.css used when a card is created
-var onDelete = 'fadeOut';   // Animation from Animate.css used when a card is deleted
+var onAppear = 'fadeInRight';    // Animation from Animate.css used when a card is created
+var onDelete = 'zoomOut';   // Animation from Animate.css used when a card is deleted
 /** ------------------------------------------------------------------------------------- **/
 
 
@@ -66,15 +66,47 @@ function pageSwitch(page) {
     document.getElementById("loading_page").style.display   = "none";
     document.getElementById("detection_page").style.display = "none";
     document.getElementById("results_page").style.display   = "none";
-    // Switch to requested tab
-    if(page == 1) {document.getElementById("upload_page").style.display    = "block";}  
-    if(page == 2) {document.getElementById("loading_page").style.display   = "block";}  
-    if(page == 3) {document.getElementById("detection_page").style.display = "block";}  
-    if(page == 4) {document.getElementById("results_page").style.display   = "block";}  
+    // Switch to requested page
+    if(page == 1) {document.getElementById("upload_page").style.display    = "block"; progSwitch(1)}  
+    if(page == 2) {document.getElementById("loading_page").style.display   = "block"; }  
+    if(page == 3) {document.getElementById("detection_page").style.display = "block"; progSwitch(2)}  
+    if(page == 4) {document.getElementById("results_page").style.display   = "block"; progSwitch(3)}  
   }
 
 
+/** progSwitch:
+ *  Displays the current progress and hides all others
+ *      TAKES:      Tab number
+ *      RETURNS :   NONE
+*/
+function progSwitch(prog) {
 
+    // For animation
+    var prog_id;
+    if(prog == 2){ prog_id = "pb1";}    // Get previous image
+    if(prog == 3){ prog_id = "pb2";}    // Get previous image
+    
+    // Animate the previous Image
+    var child = document.getElementById(prog_id);
+    child.classList.remove('animated', 'fadeIn')
+    child.classList.add('animated', 'fadeOut');
+
+    // Wait until animation is completed
+    child.addEventListener('animationend', function() { 
+        
+        // Hides All
+        document.getElementById("pb1").style.display = "none";
+        document.getElementById("pb2").style.display = "none";
+        document.getElementById("pb3").style.display = "none";
+
+        // Switch to requested progress
+        if(prog == 1) {document.getElementById("pb1").style.display = "block";}  
+        if(prog == 2) {document.getElementById("pb2").style.display = "block";}  
+        if(prog == 3) {document.getElementById("pb3").style.display = "block";}  
+
+    })
+ 
+  }
 
 
 // $.ajax({

@@ -21,6 +21,24 @@ body {
 /*********************************************************************************/
 /**                             App Container CSS                               **/
 
+.progBar {
+    max-height: 100px;
+    width: auto;
+    overflow: hidden;
+    background: white;
+}
+
+.progBar img {
+    width: 100%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.progBarHide {
+    display: none;
+}
+
 .appContainerHeader {
     background-color: white; 
     width: 100%;
@@ -301,6 +319,7 @@ body {
 /**           Modification of App container size based on screen-size           **/
 
 @media screen and (min-width: 2000px) {  /* start of large tablet styles */
+    
     /* .appContainer{
         margin-left: 15vmin;
         margin-right: 15vmin;
@@ -309,8 +328,15 @@ body {
     } */
 }
     
+@media screen and (min-width: 1050px) { /* Custom Size for fixing Progress Bar */
+    .progBar img {
+        width: auto;
+        height: 100px;
+    } 
+}
 
-@media screen and (max-width: 991px) { /* start of large tablet styles */
+
+@media screen and (min-width: 991px) { /* start of large tablet styles */
 
 }
     
