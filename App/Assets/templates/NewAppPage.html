@@ -69,10 +69,10 @@
     </div>
 
     <!-- Inner Container -->
-    <div class="appInnerContainer col shadowInsetTop">
+    <div class="appInnerContainer col shadowInsetTop pl-3 pr-3 pt-2 pb-2">
 
          <!-- Progress Bar -->
-         <div class="pt-4 pl-4 pr-4 ml-1 mr-1 mb-3">
+         <div class="m-2">
                 <div class="uploadCard z-depth-1">
                      <!-- Header -->
                     <div class="uploadCard-head">
@@ -90,12 +90,12 @@
         <!-- -------------------------------------------------------------------------------------->
         <!--                                      UPLOAD PAGE                                    -->
         <!-- -------------------------------------------------------------------------------------->
-        <div id="upload_page" class="row animated fadeIn pl-4 pr-4" style="display: block">
+        <div id="upload_page" class="row animated fadeIn" style="display: block">
             
 
             <!-- OPTION 1: USER PICKS A PRE-FABRICATED IMAGE -->
             <div class="col s12 l6">
-                <div class="uploadCard z-depth-1 hoverable m-1 mb-3">
+                <div class="uploadCard z-depth-1 hoverable m-2">
                      <!-- Header -->
                     <div class="uploadCard-head">
                         <h7> Don't have an Image? Pick one of ours! </h7>
@@ -116,7 +116,7 @@
 
             <!-- OPTION 2: USER UPLOADS THEIR OWN IMAGE -->
             <div class="col s12 l6">
-                <div class="uploadCard z-depth-1 hoverable m-1 mb-5">
+                <div class="uploadCard z-depth-1 hoverable m-2">
                     <!-- Header -->
                     <div class="uploadCard-head">
                         <h7> Upload your own sketch </h7>
@@ -241,19 +241,19 @@
         <!--                                   DETECTION PAGE                                    -->
         <!-- -------------------------------------------------------------------------------------->
         <!-- DETECTED BLOCKS PAGE -->
-        <div id="detection_page" class="pl-4 pr-4 pb-4" style="display: none;"> 
+        <div id="detection_page" style="display: none;"> 
             <div class="row">
                 
 
                 <!-- Cards Populated -->
                 <div class="col m12 l5">
-                    <div class="mt-1 ml-2 mr-2" id="detected_box"> </div>
+                    <div class="m-2" id="detected_box"> </div>
                 </div>
 
 
                 <!-- Image Uploaded -->
-                <div id="returned_img" class="col m12 l7">
-                    <div class="uploadCard z-depth-1 m-1 mb-3">
+                <div class="col m12 l7">
+                    <div class="uploadCard z-depth-1 m-2">
 
                          <!-- Header -->
                         <div class="uploadCard-head">
@@ -281,11 +281,11 @@
         <!-- -------------------------------------------------------------------------------------->
         <!--                                    RESULTS PAGE                                     -->
         <!-- -------------------------------------------------------------------------------------->
-        <div id="results_page" class="mb-4" style= "display: none;">
+        <div id="results_page" style= "display: none;">
                 
 
             <!-- Result Card -->
-            <div class="pl-4 pr-4 ml-1 mr-1 pb-2">
+            <div class="p-2">
                 <div class="uploadCard z-depth-1">
 
                     <!-- Header -->
@@ -293,29 +293,63 @@
                         <h7> Generated Code </h7>
                     </div>
 
-                    <!-- Code Space -->
-                    <div class="p-3 shadowInsetTop" style="background: whitesmoke; overflow: scroll; max-height: 50vh">
+                    <!-- Tabs -->
+                    <div class="row">
+
+                        <div class="col s3" >
+                            <button class="tab-btn waves-effect shadowInsetTop" onclick="tabSwitch(1)" >HTML</button>
+                        </div>
+                        <div class="col s3 ">
+                            <button class="tab-btn waves-effect shadowInsetTop" onclick="tabSwitch(2)">CSS</button>
+                        </div>
+                        <div class="col s3">
+                            <button class="tab-btn waves-effect shadowInsetTop" onclick="tabSwitch(3)">Preview</button>
+                        </div>
+                        <div class="col s3">
+                            <button class="tab-btn waves-effect shadowInsetTop" onclick=" window.open('AppPage.html','_blank')"> Full Preview</button>
+                        </div>
+
+                    </div>
+
+
+                    <!-- HTML Space -->
+                    <div id="HTML_space" class="p-3 shadowInsetTop tab-view">
+                            <button class="uploadCard-btn waves-effect waves-light"  onclick="copyToClipboard('#pushed_code')">Copy This</button>   
                         <pre>
-                            <code id="pushed_code" class="language-html"></code>
+                            <code id="pushed_code" class="language-html"> HTML Code is here</code>
                         </pre>
                     </div>
 
-                    <!-- Buttons -->
-                    <div class="row">
-                        <div class="col s4">
-                            <button class="uploadCard-btn waves-effect waves-light" onclick="window.location.reload()">Upload Again</button>
+
+                    <!-- CSS Space -->
+                    <div id="CSS_space" class="p-3 shadowInsetTop tab-view">
+                            <button class="uploadCard-btn waves-effect waves-light"  onclick="copyToClipboard('#pushed_css')">Copy This</button>   
+                            <pre>
+                                <code id="pushed_css" class="language-html"> CSS Code is here</code>
+                            </pre>
                         </div>
-                        <div class="col s4">
-                            <button class="uploadCard-btn waves-effect waves-light"  onclick="copyToClipboard('#pushed_code')">Copy to Clipboard</button>                   
-                        </div>
-                        <div class="col s4">
-                            <button class="uploadCard-btn waves-effect waves-light" onclick="getZip(document.getElementById('pushed_code').innerText)">Download as Zip</button>
-                        </div>
-                    </div>
+
+
+                    <!-- Web View -->
+                    <iframe id="PREV_space" src="AppPage.html" class="shadowInsetTop tab-view"></iframe>
+                    
 
                 </div>               
             </div>
 
+            <!-- Buttons -->
+            <div class="row p-1">
+                <div class="col s6 ">
+                    <div class="m-2">
+                        <button class="uploadCard-btn waves-effect waves-light curve-b curve-t" onclick="window.location.reload()">Upload Again</button>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="m-2">
+                        <button class="uploadCard-btn waves-effect waves-light curve-b curve-t" onclick="getZip(document.getElementById('pushed_code').innerText)">Download as Zip</button>
+                    </div>    
+                </div>
+            </div>
 
         </div> <!-- End of Results Page-->
 
@@ -342,7 +376,8 @@
                 <a class="waves-effect waves-light btn red m-1" onclick="showLoading()">Show Load</a>
                 <a class="waves-effect waves-light btn red m-1" onclick="createCard()">DEBUG: Add Card</a> 
             </div>
-                        
+                      
+            <button class="btn-off shadowInset waves-effect waves-light mb-2" onclick="window.location.reload()">Upload Again</button>
         </div>               
     </div>
 

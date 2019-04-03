@@ -89,6 +89,7 @@ body {
 
 }
 
+.uploadCard-btn:hover { background-position: right center; }
 .uploadCard-btn {
     background-image: linear-gradient(to right, #3494E6 0%, #EC6EAD 100%);
     background-size: 400% 400%;
@@ -97,6 +98,39 @@ body {
     border: none; 
     color: white; 
     cursor: pointer; 
+}
+
+.tab-btn:focus { background-position: right center; }
+.tab-btn:hover { background-position: right center; }
+.tab-btn {
+    background-image: linear-gradient(to bottom, rgb(202, 202, 202) 0%, rgb(126, 126, 126) 100%);
+    background-size: 400% 400%;
+    height: 50px;
+    width: 100%;
+    border: none; 
+    color: white; 
+    cursor: pointer; 
+    margin: 0px;
+    padding: 0px;
+}
+
+.tab-view {
+    background: whitesmoke; 
+    overflow: scroll; 
+    height: 40vh;
+    width:100%;
+    display: none;
+}
+
+.row .col {
+    padding: 0px;
+}
+.col .row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.row {
+    margin-bottom: 0px;
 }
 
 .curve-b {    
@@ -109,7 +143,7 @@ body {
     border-top-right-radius: 5px;
 }
 
-.uploadCard-btn:hover { background-position: right center; }
+
 /*********************************************************************************/
 
 #loading_page {
@@ -236,35 +270,6 @@ body {
   }
 
 
-/* .blockCard .cardButtons:hover .overlay {
-    width: 100%;
-    left: 0;
-  }
-
-.blockCard .cardButtons .overlay {
-    position: absolute;
-    bottom: 0;
-    left: 100%;
-    right: 0;
-    background-color: #008CBA;
-    overflow: hidden;
-    width: 0;
-    height: 100%;
-    transition: .5s ease;
-  }
-
-.blockCard .cardButtons .overlay .cardSideSegment {
-    white-space: nowrap; 
-    color: white;
-    font-size: 20px;
-    position: absolute;
-    overflow: hidden;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-  } */
-
 /*********************************************************************************/
 /**              Background Animation movement (Browser Optimized)              **/
 
@@ -325,13 +330,19 @@ body {
     box-shadow:         inset 0 7px 9px -7px rgba(0,0,0,0.19);
  }
 
+ .shadowInset {
+    -moz-box-shadow:    inset 0 0 10px rgba(0,0,0,0.19);
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.19);
+    box-shadow:         inset 0 0 10px rgba(0,0,0,0.19);
+ }
+
  .ltBlue {
     background-color: powderblue;
  }
 
 
  /** Custom Padding Classes **/
-
+ 
  .p-1 { padding: 0.25rem;}
  .p-2 { padding: 0.94rem;}
  .p-3 { padding: 1.63rem;}
@@ -364,7 +375,7 @@ body {
 
 
  /** Custom Margin Classes **/
-
+ .m-0 { margin: 0rem;   }
  .m-1 { margin: 0.25rem;}
  .m-2 { margin: 0.94rem;}
  .m-3 { margin: 1.63rem;}

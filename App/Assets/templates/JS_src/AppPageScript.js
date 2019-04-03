@@ -181,6 +181,9 @@ function GenerateHTML(){
     // Prints generated HTML into div "pushed_code"
     console.log(code_generated);                                        // Debugging
     document.getElementById("pushed_code").innerText = code_generated;
+    tabSwitch(1);
+
+
     document.getElementById("upload_page").style.display = "none";      // Hides
     document.getElementById("detection_page").style.display = "none";   // Hides
     document.getElementById("results_page").style.display = "block";    // Shows
@@ -409,3 +412,14 @@ function copyToClipboard(element) {
     });
   }
   
+
+  function tabSwitch(tab) {
+    // Hides All
+    document.getElementById("HTML_space").style.display = "none";
+    document.getElementById("CSS_space").style.display  = "none";   
+    document.getElementById("PREV_space").style.display = "none";
+    // Switch to requested tab
+    if(tab == 1) {document.getElementById("HTML_space").style.display = "block";}  
+    if(tab == 2) {document.getElementById("CSS_space").style.display  = "block";}  
+    if(tab == 3) {document.getElementById("PREV_space").style.display = "block";}  
+  }
