@@ -314,7 +314,7 @@ function createCard(label, prob, image){
         // +        '<h5 id="'+ id_Count +'card_title" class="card-title m-0">' + label + '</h5>'
         // +        '<p  id="'+ id_Count +'card_prob"  class="card-text">Probability: ' + prob + ' % </p>'
         // +    '</div>'
-        +    '<div class="cardImage contain-content col s10">'
+        +    '<div class="cardImage contain-content col s10 valign-wrapper">'
         +        '<img class="materialboxed " src="' + image + '">'
         +        '<h5 id="'+ id_Count +'card_title" class="cc-tl card-title m-0">' + label + '</h5>'
         +        '<p  id="'+ id_Count +'card_prob"  class="cc-bl card-text">Probability: ' + prob + ' % </p>'
