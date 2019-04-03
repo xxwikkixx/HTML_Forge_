@@ -11,7 +11,14 @@ conf = {
     # "service_API_Path": "/Users/edwardlai/Documents/2019 Spring Assignments/clientTempAPIKey_htmlforge-d8f980d8c5e9.json",
     # "service_API_Path": "/home/wikki/Downloads/clientTempAPIKey_htmlforge-d8f980d8c5e9.json",
     "service_API_Path": r"C:\Users\wikki\Downloads\htmlforge-c3682ab4ffcb.json",
+    "service_API_Path": "/run/media/wikki/( ͡° ͜ʖ ͡°)/Users/wikki/Downloads/htmlforge-c3682ab4ffcb.json"
 
     "thresh": "0.3"
 
+}
+
+
+flaskConfig = {
+    # "serverAddress": "https://htmlforge-dev.us-east-1.elasticbeanstalk.com"
+    "serverAddress": "http://130.203.106.67:5000"
 }
