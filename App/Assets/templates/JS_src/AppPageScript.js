@@ -33,19 +33,48 @@ var onDelete = 'fadeOut';   // Animation from Animate.css used when a card is de
 /** ------------------------------------------------------------------------------------- **/
 
 
-/** ResetUpload:
- *  Re-displays the Upload Div from any button that calls it, will hide other pages
- *      TAKES:      NONE
+
+/** ------------------------------------------------------------------------------------- **/
+/** --------------------            Page & Tab Handlers              -------------------- **/
+
+
+/** tabSwitch:
+ *  Displays the requested tab and hides all others
+ *      TAKES:      Tab number
  *      RETURNS :   NONE
 */
-function resetUpload(){
-    // Pages
-    document.getElementById("upload_page").style.display = "block";     // Shows
-    document.getElementById("detection_page").style.display = "none";   // Hides
-    document.getElementById("results_page").style.display = "none";     // Hides
-    // Components
-    $('#confirm_button').prop('disabled', true);  // Blocks button from being pressed
-}
+function tabSwitch(tab) {
+    // Hides All
+    document.getElementById("HTML_space").style.display = "none";
+    document.getElementById("CSS_space").style.display  = "none";   
+    document.getElementById("PREV_space").style.display = "none";
+    // Switch to requested tab
+    if(tab == 1) {document.getElementById("HTML_space").style.display = "block";}  
+    if(tab == 2) {document.getElementById("CSS_space").style.display  = "block";}  
+    if(tab == 3) {document.getElementById("PREV_space").style.display = "block";}  
+  }
+
+
+/** pageSwitch:
+ *  Displays the requested page and hides all others
+ *      TAKES:      Tab number
+ *      RETURNS :   NONE
+*/
+function pageSwitch(page) {
+    // Hides All
+    document.getElementById("upload_page").style.display    = "none";
+    document.getElementById("loading_page").style.display   = "none";
+    document.getElementById("detection_page").style.display = "none";
+    document.getElementById("results_page").style.display   = "none";
+    // Switch to requested tab
+    if(page == 1) {document.getElementById("upload_page").style.display    = "block";}  
+    if(page == 2) {document.getElementById("loading_page").style.display   = "block";}  
+    if(page == 3) {document.getElementById("detection_page").style.display = "block";}  
+    if(page == 4) {document.getElementById("results_page").style.display   = "block";}  
+  }
+
+
+
 
 
 // $.ajax({
@@ -75,7 +104,7 @@ function resetUpload(){
 function confirmUpload(){
     
     // Show loading screen
-    showLoading();
+    pageSwitch(2);
 
     $.ajax({
         url: API_BLOCK_CONVERT,
@@ -95,8 +124,7 @@ function confirmUpload(){
                       "Access-Control-Allow-Origin":"*"
                   },
                 success: function (data) {
-                    document.getElementById("loading_page").style.display = "none";      // Hides
-                    document.getElementById("detection_page").style.display = "block";   // Shows
+                    pageSwitch(3);
 
                     console.log(data);
                     BLOCK_DATA = data.blocks;
@@ -133,28 +161,12 @@ function confirmUpload(){
 
 
 
-/** showLoading:
- *  Shows loading page
- *      TAKES:      NONE
- *      RETURNS :   Shows Loading Page
-*/
-function showLoading(){
-    // Show loading screen
-    document.getElementById("upload_page").style.display = "none";      // Hides
-    document.getElementById("loading_page").style.display = "block";    // Shows
-    document.getElementById("detection_page").style.display = "none";   // Hides
-    document.getElementById("results_page").style.display = "none";     // Hides
-}
 
-
-
-// FUnction similar to confirmUpload, but does not make any calls to googles real API
+// Function similar to confirmUpload, but does not make any calls to googles real API
 // Instead, it uses a prefabricated JSON: THIS IS FOR TESTING/DEBUGGING PURPOSES ONLY
 function bypassUpload(){  
 
-    document.getElementById("upload_page").style.display = "none";      // Hides
-    document.getElementById("detection_page").style.display = "block";  // Shows
-    document.getElementById("results_page").style.display = "none";     // Hides
+    pageSwitch(3); //Detection Page
 
     // This call retrieves a JSON SAMPLE COPY returned from Google's AI 
     //$.getJSON("https://api.myjson.com/bins/12dmxq", function(data){  // This is used for debugging
@@ -168,9 +180,9 @@ function bypassUpload(){
 }
 
 
-template_choice = 0;
+
 // Detection Page -> Generation Page
-function GenerateHTML(){
+function GenerateHTML(template_choice){
 
     // Blocks found in detection page pushed into an array in order of detection
     Populate_blocks(); 
@@ -181,12 +193,10 @@ function GenerateHTML(){
     // Prints generated HTML into div "pushed_code"
     console.log(code_generated);                                        // Debugging
     document.getElementById("pushed_code").innerText = code_generated;
+    
+    // Reveal appropriate Pages
     tabSwitch(1);
-
-
-    document.getElementById("upload_page").style.display = "none";      // Hides
-    document.getElementById("detection_page").style.display = "none";   // Hides
-    document.getElementById("results_page").style.display = "block";    // Shows
+    pageSwitch(4);
 }
 
 
@@ -413,13 +423,36 @@ function copyToClipboard(element) {
   }
   
 
-  function tabSwitch(tab) {
-    // Hides All
-    document.getElementById("HTML_space").style.display = "none";
-    document.getElementById("CSS_space").style.display  = "none";   
-    document.getElementById("PREV_space").style.display = "none";
-    // Switch to requested tab
-    if(tab == 1) {document.getElementById("HTML_space").style.display = "block";}  
-    if(tab == 2) {document.getElementById("CSS_space").style.display  = "block";}  
-    if(tab == 3) {document.getElementById("PREV_space").style.display = "block";}  
-  }
+
+
+
+
+/**------------------------------ FUNCTIONS TO BE DELETED --------------------------------------*/
+
+
+/** ResetUpload: 
+ *  Re-displays the Upload Div from any button that calls it, will hide other pages
+ *      TAKES:      NONE
+ *      RETURNS :   NONE
+*/
+function resetUpload(){
+    // Pages
+    document.getElementById("upload_page").style.display = "block";     // Shows
+    document.getElementById("detection_page").style.display = "none";   // Hides
+    document.getElementById("results_page").style.display = "none";     // Hides
+    // Components
+    $('#confirm_button').prop('disabled', true);  // Blocks button from being pressed
+}
+
+/** showLoading:
+ *  Shows loading page
+ *      TAKES:      NONE
+ *      RETURNS :   Shows Loading Page
+*/
+function showLoading(){
+    // Show loading screen
+    document.getElementById("upload_page").style.display = "none";      // Hides
+    document.getElementById("loading_page").style.display = "block";    // Shows
+    document.getElementById("detection_page").style.display = "none";   // Hides
+    document.getElementById("results_page").style.display = "none";     // Hides
+}
