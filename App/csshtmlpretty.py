@@ -105,11 +105,6 @@ z-index
 
 '''
 
-
-###############################################################################
-# CSS prettify
-
-
 def _compile_props(props_text: str) -> tuple:
     """Take a list of props and prepare them."""
     props, prefixes = [], "-webkit-,-khtml-,-epub-,-moz-,-ms-,-o-,".split(",")
@@ -294,12 +289,7 @@ def css_prettify(css: str) -> str:
     return css
 
 
-##############################################################################
-# HTML Prettify
-
-
 if BeautifulSoup:
-    # http://stackoverflow.com/a/15513483
     orig_prettify = BeautifulSoup.prettify
     regez = re.compile(r'^(\s*)', re.MULTILINE)
 
