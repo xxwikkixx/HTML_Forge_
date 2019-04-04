@@ -222,28 +222,33 @@ body {
     padding:0px; 
     border:0px; 
     height: 150px; 
-    /* background: grey;  */
     border-radius: 5px;
-    /* background-color:  rgba(0, 0, 0, 0.2); */
-    background-color:  rgba(255, 255, 255);
+    /* background-color:  rgba(0, 0, 0, 0.2); /* Transparent grey */
+    background-color:  rgba(255, 255, 255); /* Basic White*/
 }
-/* .blockCard p {} */
-/* .blockCard h5 {} */
-.blockCard .cardContent {margin: 0px; padding:1em; border:0px; height: 150px; text-align: left;
-    /* background-image: url("Images/Cards/cardBG-1.jpg");*/
-}
-.blockCard .cardImage {
+.cardContent {
     margin: 0px; 
+    padding:0px; 
+    border:0px; 
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+.cardImageOuter {
     padding:0px; 
     border:0px;
     height: 100%;
+    text-align: center;
+    margin: 0 auto;
+    display: table-cell;
+    vertical-align: middle;
 }
-.blockCard .cardImage img {
-    width:100%; 
-    max-height:150px;
+.cardImageInner {
+    width:100%;
+    max-height:150px; 
+    margin: 0 auto;
     object-fit: contain;
-    /* object-fit: cover;
-    object-fit: fill; */
 }
 .blockCard .cardButtons {margin: 0px; padding:0px; border:0px;}
 .blockCard .cardButtons .editButton {
@@ -266,7 +271,13 @@ body {
     border-bottom-right-radius: 5px;
 }
 .blockCard .cardButtons .delButton:hover {background-color: maroon;}
-.blockCard .cardButtons .dropdown-content {width: 160px !important;} 
+.blockCard .cardButtons .dropdown-content {
+    width: 160px !important;
+} 
+.dropdown-content li>a, .dropdown-content li>span {
+    /* color: #26a69a; /* older color */
+    color: #039be5;
+}
 
 /* Container holding the image and the text */
 .contain-content {
