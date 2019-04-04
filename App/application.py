@@ -4,6 +4,8 @@ from flask import Flask, abort, render_template, request, redirect, url_for, jso
     make_response, session, json
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
+from bs4 import BeautifulSoup as bs
+
 # Internal Classes
 from OpenCVBoxDetection import startSession, initializeSession
 
@@ -137,6 +139,19 @@ def ApiBlocksetectedReturn(usersession):
     return 'ok'
 
 
+@application.route('/api/<htmlstring>')
+@cross_origin(origin='*')
+def createHTMLFile(htmlstring):
+    pass
+
+@application.route('/api/<cssstring>')
+@cross_origin(origin='*')
+def createCSSFile(cssstring):
+    pass
+
+
+
+
 # def modifyJson(usersession):
 #     dirc = os.path.dirname(os.path.realpath(__file__))
 #     userUploadPath = os.path.join(dirc, "UserUpload")
@@ -151,4 +166,4 @@ def ApiBlocksetectedReturn(usersession):
 #                 print(resp)
 
 if __name__ == '__main__':
-    application.run(host='0.0.0.0')
+    application.run(host='0.0.0.0', threaded=True)
