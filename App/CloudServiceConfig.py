@@ -20,5 +20,9 @@ conf = {
 
 flaskConfig = {
     # "serverAddress": "https://htmlforge-dev.us-east-1.elasticbeanstalk.com"
-    "serverAddress": "http://130.203.106.67:5000"
+    "serverAddress": "http://localhost:5000"
+
+
+
+
 }

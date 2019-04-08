@@ -7,6 +7,7 @@ from flask_cors import CORS, cross_origin
 from bs4 import BeautifulSoup as bs
 
 # Internal Classes
+from CloudServiceConfig import flaskConfig
 from OpenCVBoxDetection import startSession, initializeSession
 
 application = Flask(__name__)
@@ -90,8 +91,8 @@ def ApiImageUploadedReturn():
             filesInDir.append(item)
     filesURL = {}
     for i in filesInDir:
-        # filesURL.update({i: 'http://localhost:5000' + url_for("static", filename=i)})
-        filesURL.update({i: 'http://htmlforge-dev.us-east-1.elasticbeanstalk.com/' + url_for("static", filename=i)})
+        filesURL.update({i: flaskConfig["serverAddress"] + url_for("static", filename=i)})
+
     return jsonify(ImageUpLoaded=filesURL)
 
 
