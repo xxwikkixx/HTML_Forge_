@@ -118,7 +118,6 @@ body {
     cursor: pointer; 
 }
 
-.tab-btn:focus { background-position: right center; }
 .tab-btn:hover { background-position: right center; }
 .tab-btn {
     background-image: linear-gradient(to bottom, rgb(202, 202, 202) 0%, rgb(126, 126, 126) 100%);
@@ -131,6 +130,7 @@ body {
     margin: 0px;
     padding: 0px;
 }
+.tab-btn-selected {background-position: right center; }
 
 .tab-view {
     background: whitesmoke; 
@@ -217,12 +217,20 @@ body {
 /*********************************************************************************/
 /**                                 Custom Card                                 **/
 
+.blockCard:focus {z-index: 9999;} 
+.blockCard:hover {z-index: 9999;} 
+/* .blockCard:focus-within {z-index: 9999;} 
+.blockCard:active {z-index: 9999;} 
+.blockCard:hover {z-index: 9999;} 
+.blockCard:visited {z-index: 9999;}  */
 .blockCard {
+    z-index: 1;
     margin: 0px; 
     padding:0px; 
     border:0px; 
     height: 150px; 
     border-radius: 5px;
+    position: relative;
     /* background-color:  rgba(0, 0, 0, 0.2); /* Transparent grey */
     background-color:  rgba(255, 255, 255); /* Basic White*/
 }

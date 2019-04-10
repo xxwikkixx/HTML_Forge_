@@ -48,10 +48,17 @@ function tabSwitch(tab) {
     document.getElementById("HTML_space").style.display = "none";
     document.getElementById("CSS_space").style.display  = "none";   
     document.getElementById("PREV_space").style.display = "none";
+    document.getElementById("tab_HTML").classList.remove('tab-btn-selected');
+    document.getElementById("tab_CSS").classList.remove('tab-btn-selected');
+    document.getElementById("tab_PREV").classList.remove('tab-btn-selected');
+
     // Switch to requested tab
-    if(tab == 1) {document.getElementById("HTML_space").style.display = "block";}  
-    if(tab == 2) {document.getElementById("CSS_space").style.display  = "block";}  
-    if(tab == 3) {document.getElementById("PREV_space").style.display = "block";}  
+    if(tab == 1) {  document.getElementById("HTML_space").style.display = "block";
+                    document.getElementById("tab_HTML").classList.add('tab-btn-selected');}  
+    if(tab == 2) {  document.getElementById("CSS_space").style.display  = "block";
+                    document.getElementById("tab_CSS").classList.add('tab-btn-selected');}  
+    if(tab == 3) {  document.getElementById("PREV_space").style.display = "block";
+                    document.getElementById("tab_PREV").classList.add('tab-btn-selected');}  
   }
 
 
@@ -309,7 +316,7 @@ function createCard(label, prob, image){
 
     if(cardVersion = 2){
         elem = 
-        '<div class="blockCard z-depth-1 hoverable row mb-2 animated ' + onAppear + '" id="' + id_Count + 'card"">'
+        '<div class="blockCard z-depth-1 hoverable row mb-2 animated ' + onAppear + '" id="' + id_Count + 'card">'
         // +    '<div class="cardContent col s4">'
         // +        '<h5 id="'+ id_Count +'card_title" class="card-title m-0">' + label + '</h5>'
         // +        '<p  id="'+ id_Count +'card_prob"  class="card-text">Probability: ' + prob + ' % </p>'
