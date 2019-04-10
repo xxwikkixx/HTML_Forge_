@@ -23,7 +23,7 @@ FilePond.create(
 
 FilePond.setOptions({
     server: {
-        url: 'http://130.203.106.67:5000',
+        url: 'http://localhost:5000',
         // url: 'http://localhost:5000',
         process: {
             url: '/upload',
@@ -54,7 +54,7 @@ FilePond.setOptions({
 
 
 function imageJSON() {
-    fetch('http://130.203.106.67:5000/api/imageuploaded', {
+    fetch('http://localhost:5000/api/imageuploaded', {
         dataType: "json",
         crossDomain: true,
         headers: {
