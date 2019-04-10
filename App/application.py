@@ -82,9 +82,9 @@ def upload_file():
 def ApiImageUploadedReturn():
     filesInDir = []
     # dirc = os.path.dirname(os.path.realpath(__file__))
-    # # print(dirc) # prints 'C:\Users\wikki\Desktop\COLLEGE\COLLEGE 2019 14th Spring Penn State\CS 488 Capstone\HTML_Forge\application'
+    # print(dirc) # prints 'C:....\HTML_Forge\application'
     # userUploadPath = os.path.join(dirc, "static")
-    # # print(userUploadPath) # prints "C:\Users\wikki\Desktop\COLLEGE\COLLEGE 2019 14th Spring Penn State\CS 488 Capstone\HTML_Forge\application\static''
+    # print(userUploadPath) # prints "C:....\HTML_Forge\application\static''
     for root, dirs, files in os.walk(os.path.abspath("static")):
         for item in files:
             # print(item)
@@ -140,15 +140,27 @@ def ApiBlocksetectedReturn(usersession):
     return 'ok'
 
 
-@application.route('/api/<htmlstring>')
+@application.route('/api/html/<htmlstring>', methods=['POST'])
 @cross_origin(origin='*')
 def createHTMLFile(htmlstring):
-    pass
+    dirc = os.path.dirname(os.path.realpath(__file__))
+    # print(dirc) # prints 'C:....\HTML_Forge\application'
+    userUploadPath = os.path.join(dirc, "UserUpload")
+    # print(userUploadPath) # prints "C:....\HTML_Forge\application\static''
+    html_file = open(userUploadPath+"htmlfile.html", "w")
+    html_file.write(htmlstring)
+    html_file.close()
 
-@application.route('/api/<cssstring>')
+@application.route('/api/css/<cssstring>', methods=['POST'])
 @cross_origin(origin='*')
 def createCSSFile(cssstring):
-    pass
+    dirc = os.path.dirname(os.path.realpath(__file__))
+    # print(dirc) # prints 'C:....\HTML_Forge\application'
+    userUploadPath = os.path.join(dirc, "UserUpload")
+    # print(userUploadPath) # prints "C:....\HTML_Forge\application\static''
+    css_file = open(userUploadPath+"cssfile.css", "w")
+    css_file.write(cssstring)
+    css_file.close()
 
 
 
