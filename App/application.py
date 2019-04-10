@@ -139,30 +139,31 @@ def ApiBlocksetectedReturn(usersession):
                 return jsonify(debugImage=path)
     return 'ok'
 
-
-@application.route('/api/html/<htmlstring>', methods=['POST'])
+# prettify the html string sent and return the URL back to the front end
+@application.route('/api/html/<htmlstring>')
 @cross_origin(origin='*')
 def createHTMLFile(htmlstring):
     dirc = os.path.dirname(os.path.realpath(__file__))
     # print(dirc) # prints 'C:....\HTML_Forge\application'
     userUploadPath = os.path.join(dirc, "UserUpload")
     # print(userUploadPath) # prints "C:....\HTML_Forge\application\static''
-    html_file = open(userUploadPath+"htmlfile.html", "w")
+    html_file = open(userUploadPath+"\htmlfile.html", "w")
     html_file.write(htmlstring)
     html_file.close()
+    return send_file(userUploadPath+"\htmlfile.html", mimetype='text/html')
 
-@application.route('/api/css/<cssstring>', methods=['POST'])
+# prettify the css string sent and return the URL back to the frontend
+@application.route('/api/css/<cssstring>')
 @cross_origin(origin='*')
 def createCSSFile(cssstring):
     dirc = os.path.dirname(os.path.realpath(__file__))
     # print(dirc) # prints 'C:....\HTML_Forge\application'
     userUploadPath = os.path.join(dirc, "UserUpload")
     # print(userUploadPath) # prints "C:....\HTML_Forge\application\static''
-    css_file = open(userUploadPath+"cssfile.css", "w")
+    css_file = open(userUploadPath+"\cssfile.css", "w")
     css_file.write(cssstring)
     css_file.close()
-
-
+    return send_file(userUploadPath+"\cssfile.css", mimetype='text/html')
 
 
 # def modifyJson(usersession):
