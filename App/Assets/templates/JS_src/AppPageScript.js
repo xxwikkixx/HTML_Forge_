@@ -28,7 +28,7 @@ var BLOCK_DATA;             // Stores JSON data returned by the Google AI
 var DEBUG_IMG;              // Stores Debugged image path returned by OpenCV with Google AI
 
 /** Card Animations **/
-var onAppear = 'fadeInRight';    // Animation from Animate.css used when a card is created
+var onAppear = 'fadeInLeft';    // Animation from Animate.css used when a card is created
 var onDelete = 'zoomOut';   // Animation from Animate.css used when a card is deleted
 /** ------------------------------------------------------------------------------------- **/
 

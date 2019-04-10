@@ -118,6 +118,20 @@ body {
     cursor: pointer; 
 }
 
+.copyThis-btn:hover { background-position: right center; }
+.copyThis-btn {
+    background-image: linear-gradient(to right, #3494E6 0%, #EC6EAD 100%);
+    background-size: 400% 400%;
+    height: auto;
+    width: auto;
+    border: none; 
+    color: white; 
+    cursor: pointer; 
+    border-radius: 7px;
+    position: absolute;
+    padding: 1em;
+}
+
 .tab-btn:hover { background-position: right center; }
 .tab-btn {
     background-image: linear-gradient(to bottom, rgb(202, 202, 202) 0%, rgb(126, 126, 126) 100%);
@@ -138,6 +152,13 @@ body {
     height: 40vh;
     width:100%;
     display: none;
+    position: relative;
+}
+
+.copyBtn_position {
+    position: absolute;
+    right: 65px;
+    top: 10px;
 }
 
 .row .col {

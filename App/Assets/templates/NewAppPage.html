@@ -68,17 +68,20 @@
         <!-- Note: The pretty font is called AudioWide -->
         <img class="p-1" src="Images/Brand/Icon1.png" style="height: 60px"/> 
         <img class="p-1" src="Images/Brand/Logo3.png" style="height: 50px"/> 
+
+        <!-- Progress Bar -->
+        <div class="progBar center-align">
+            <img id="pb1" class="curve-b curve-t animated fadeIn faster"              src="Images/ProgressBar/ProgressBar_1.jpg"/>
+            <img id="pb2" class="curve-b curve-t animated fadeIn faster progBarHide"  src="Images/ProgressBar/ProgressBar_2.jpg"/>
+            <img id="pb3" class="curve-b curve-t animated fadeIn faster progBarHide"  src="Images/ProgressBar/ProgressBar_3.jpg"/>      
+        </div>
+
     </div>
 
     <!-- Inner Container -->
     <div class="appInnerContainer col shadowInsetTop pl-3 pr-3 pt-2 pb-2">
 
-         <!-- Progress Bar -->
-         <div class="m-2 progBar curve-b curve-t z-depth-1 center-align">
-            <img id="pb1" class="curve-b curve-t animated fadeIn faster"              src="Images/ProgressBar/ProgressBar_1.jpg"/>
-            <img id="pb2" class="curve-b curve-t animated fadeIn faster progBarHide"  src="Images/ProgressBar/ProgressBar_2.jpg"/>
-            <img id="pb3" class="curve-b curve-t animated fadeIn faster progBarHide"  src="Images/ProgressBar/ProgressBar_3.jpg"/>      
-        </div>
+
 
         <!-- -------------------------------------------------------------------------------------->
         <!--                                      UPLOAD PAGE                                    -->
@@ -245,7 +248,7 @@
 
 
                 <!-- Image Uploaded -->
-                <div class="col s12 l7">
+                <div class="col s12 l7 fadeInRight animated">
                     <div class="uploadCard z-depth-1 m-2">
 
                          <!-- Header -->
@@ -274,7 +277,7 @@
         <!-- -------------------------------------------------------------------------------------->
         <!--                                    RESULTS PAGE                                     -->
         <!-- -------------------------------------------------------------------------------------->
-        <div id="results_page" style= "display: none;">
+        <div id="results_page" class="fadeIn animated" style= "display: none;">
                 
 
             <!-- Result Card -->
@@ -307,7 +310,11 @@
 
                     <!-- HTML Space -->
                     <div id="HTML_space" class="p-3 shadowInsetTop tab-view">
-                            <button class="uploadCard-btn waves-effect waves-light"  onclick="copyToClipboard('#pushed_code')">Copy This</button>   
+                        <div class="copyBtn_position">
+                            <button class="copyThis-btn waves-effect waves-light"  onclick="copyToClipboard('#pushed_code')">
+                                <i class="material-icons">content_paste</i>
+                            </button>   
+                        </div>
                         <pre>
                             <code id="pushed_code" class="language-html"> HTML Code is here</code>
                         </pre>
@@ -316,11 +323,15 @@
 
                     <!-- CSS Space -->
                     <div id="CSS_space" class="p-3 shadowInsetTop tab-view">
-                            <button class="uploadCard-btn waves-effect waves-light"  onclick="copyToClipboard('#pushed_css')">Copy This</button>   
-                            <pre>
-                                <code id="pushed_css" class="language-html"> CSS Code is here</code>
-                            </pre>
-                        </div>
+                        <div class="copyBtn_position">
+                            <button class="copyThis-btn waves-effect waves-light"  onclick="copyToClipboard('#pushed_css')">
+                                <i class="material-icons">content_paste</i>
+                            </button>
+                        </div>   
+                        <pre>
+                            <code id="pushed_css" class="language-html"> CSS Code is here</code>
+                        </pre>
+                    </div>
 
 
                     <!-- Web View -->
