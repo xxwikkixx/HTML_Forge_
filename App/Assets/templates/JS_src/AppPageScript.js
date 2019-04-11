@@ -282,7 +282,7 @@ function createCard(label, prob, image){
     /***** FRONT-END USE *****/
     var elem = "";
 
-    //image = 'http://via.placeholder.com/350x150'
+    image = 'http://via.placeholder.com/350x150'
     //image = 'https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80'
     // BEFORE col-md-4 col-sm-6:
     if (cardVersion = 1){
@@ -316,7 +316,7 @@ function createCard(label, prob, image){
 
     if(cardVersion = 2){
         elem = 
-        '<div class="blockCard z-depth-1 hoverable row mb-2 animated ' + onAppear + '" id="' + id_Count + 'card">'
+        '<div class="blockCard z-depth-1 hoverable row mb-2 animated ' + onAppear + '" id="' + id_Count + 'card" onClick="cardFocus(this.id)">'
         // +    '<div class="cardContent col s4">'
         // +        '<h5 id="'+ id_Count +'card_title" class="card-title m-0">' + label + '</h5>'
         // +        '<p  id="'+ id_Count +'card_prob"  class="card-text">Probability: ' + prob + ' % </p>'
@@ -357,6 +357,20 @@ function createCard(label, prob, image){
     id_Count++;
     
 }
+
+// Brings card to the top if clicked
+function cardFocus(id){
+
+    // Remove 'onTop' class from all 
+    for(var i = 0; i < CURRENT_CARDS.length; i++){
+        let cardID = CURRENT_CARDS[i] + 'card';
+        document.getElementById(cardID).classList.remove('onTop');
+    }
+
+    // Place passed card on top
+    document.getElementById(id).classList.add('onTop');
+}
+
 
 
 // Deletes a building-block card

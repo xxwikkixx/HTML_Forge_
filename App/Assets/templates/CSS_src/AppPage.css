@@ -7,7 +7,10 @@ body {
     -webkit-Font-smoothing: antialiased;
 
     /** Background colors **/
-    background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+    /* background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB); */
+    /* background: linear-gradient(-45deg, rgba(17, 46, 102), rgb(53, 50, 204), rgb(108, 51, 168), rgba(68, 26, 112)); */
+    background: linear-gradient(-45deg,#299472 , #185a9d );
+
     background-repeat: no-repeat;
     background-size: 400% 400%;
     
@@ -71,7 +74,9 @@ body {
 }
 
 .appInnerContainer{
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.7);
+    /* -webkit-filter: blur(5px);
+    filter: blur(5px); */
     margin-top: 0px;
     margin-left: 0px;
     margin-right:0px;
@@ -109,7 +114,8 @@ body {
 
 .uploadCard-btn:hover { background-position: right center; }
 .uploadCard-btn {
-    background-image: linear-gradient(to right, #3494E6 0%, #EC6EAD 100%);
+    background-image: linear-gradient(to right, #185a9d 0% ,#299472 100%);
+    /* background-image: linear-gradient(to right, #3494E6 0%, #EC6EAD 100%); */
     background-size: 400% 400%;
     height: 60px;
     width: 100%;
@@ -120,7 +126,8 @@ body {
 
 .copyThis-btn:hover { background-position: right center; }
 .copyThis-btn {
-    background-image: linear-gradient(to right, #3494E6 0%, #EC6EAD 100%);
+    background-image: linear-gradient(to right, #185a9d 0% ,#299472 100%);
+    /* background-image: linear-gradient(to right, #3494E6 0%, #EC6EAD 100%); */
     background-size: 400% 400%;
     height: auto;
     width: auto;
@@ -128,8 +135,17 @@ body {
     color: white; 
     cursor: pointer; 
     border-radius: 7px;
+
     position: absolute;
-    padding: 1em;
+   
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.copyThis_position {
+    position: absolute;
+    right: 45px;
+    top: 10px;
 }
 
 .tab-btn:hover { background-position: right center; }
@@ -155,11 +171,6 @@ body {
     position: relative;
 }
 
-.copyBtn_position {
-    position: absolute;
-    right: 65px;
-    top: 10px;
-}
 
 .row .col {
     padding: 0px;
@@ -238,8 +249,8 @@ body {
 /*********************************************************************************/
 /**                                 Custom Card                                 **/
 
-.blockCard:focus {z-index: 9999;} 
-.blockCard:hover {z-index: 9999;} 
+/* .blockCard:focus {z-index: 9999;} 
+.blockCard:hover {z-index: 9999;}  */
 /* .blockCard:focus-within {z-index: 9999;} 
 .blockCard:active {z-index: 9999;} 
 .blockCard:hover {z-index: 9999;} 
@@ -255,6 +266,9 @@ body {
     /* background-color:  rgba(0, 0, 0, 0.2); /* Transparent grey */
     background-color:  rgba(255, 255, 255); /* Basic White*/
 }
+
+.onTop {z-index: 9999;} 
+
 .cardContent {
     margin: 0px; 
     padding:0px; 

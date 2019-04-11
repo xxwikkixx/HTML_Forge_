@@ -310,7 +310,7 @@
 
                     <!-- HTML Space -->
                     <div id="HTML_space" class="p-3 shadowInsetTop tab-view">
-                        <div class="copyBtn_position">
+                        <div class="copyThis_position">
                             <button class="copyThis-btn waves-effect waves-light"  onclick="copyToClipboard('#pushed_code')">
                                 <i class="material-icons">content_paste</i>
                             </button>   
@@ -323,7 +323,7 @@
 
                     <!-- CSS Space -->
                     <div id="CSS_space" class="p-3 shadowInsetTop tab-view">
-                        <div class="copyBtn_position">
+                        <div class="copyThis_position">
                             <button class="copyThis-btn waves-effect waves-light"  onclick="copyToClipboard('#pushed_css')">
                                 <i class="material-icons">content_paste</i>
                             </button>
@@ -335,7 +335,7 @@
 
 
                     <!-- Web View -->
-                    <iframe id="PREV_space" src="AppPage.html" class="shadowInsetTop tab-view"></iframe>
+                    <iframe id="PREV_space" src="AppPage.html" class="shadowInsetTop tab-view" style="border: 0px;"></iframe>
                     
 
                 </div>               
@@ -350,7 +350,10 @@
                 </div>
                 <div class="col s6">
                     <div class="m-2">
-                        <button class="uploadCard-btn waves-effect waves-light curve-b curve-t" onclick="getZip(document.getElementById('pushed_code').innerText)">Download as Zip</button>
+                        <button class="uploadCard-btn waves-effect waves-light curve-b curve-t valign-wrapper row" onclick="getZip(document.getElementById('pushed_code').innerText)">
+                            <div class="col m10 s8">Download as Zip</div>
+                            <div class="col m2  s4"><i class="material-icons">file_download</i></div>
+                        </button>
                     </div>    
                 </div>
             </div>
