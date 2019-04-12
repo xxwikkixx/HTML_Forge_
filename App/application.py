@@ -7,16 +7,19 @@ from flask_cors import CORS, cross_origin
 from bs4 import BeautifulSoup as bs
 
 # Internal Classes
+from BoxDetection import boxDetection
 from CloudServiceConfig import flaskConfig
-from OpenCVBoxDetection import startSession, initializeSession
+# from OpenCVBoxDetection import startSession, initializeSession
 
 application = Flask(__name__)
 application.debug = True
 CORS(application, resources={r"/*": {"origins": "*"}})
 
+userQue = []
 
 session = ''
 imgPath = ''
+
 
 # import sys
 # print(sys.version)
@@ -28,6 +31,7 @@ def mainPage():
     # userUploadPath = os.path.join(dirc, "static")
     # shutil.rmtree(userUploadPath, ignore_errors=True)
     return "Server is up and running"
+
 
 #     global session
 #     sessionID, JSON_Path = startSession(img)
@@ -50,7 +54,6 @@ UPLOAD_FOLDER = 'static'
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-
 @application.route('/upload', methods=['GET', 'POST', 'DELETE'])
 @cross_origin(origin='*')
 def upload_file():
@@ -58,15 +61,17 @@ def upload_file():
     file = request.files['file']
     filename = secure_filename(file.filename)
     if request.method == 'POST':
-        if not os.path.exists(os.path.join('static')): # check if the folder exists
-            os.makedirs(os.path.join('static')) # make the static folder if it doesnt exist
+        if not os.path.exists(os.path.join('static')):  # check if the folder exists
+            os.makedirs(os.path.join('static'))  # make the static folder if it doesnt exist
         if file and allowed_file(file.filename):
             file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
             imgPath = os.path.join(application.config['UPLOAD_FOLDER'], filename)
             print(imgPath)
-            sess = initializeSession()
-            # print(sess)
-            return sess
+            job = boxDetection()
+            sessionID = job.getSessionID()
+            userQue.append([job, sessionID])
+            print ("UserQue", userQue)
+            return sessionID
         else:
             return "File Extension not allowed"
     # DELETE doesnt work yet
@@ -96,17 +101,20 @@ def ApiImageUploadedReturn():
     return jsonify(ImageUpLoaded=filesURL)
 
 
-@application.route('/api/startconvert')
+@application.route('/api/startconvert/<usersession>')
 @cross_origin(origin='*')
-def convertRequest():
-    global session
-    # if not os.path.exists(os.path.join('UserUpload')):
-    #     os.makedirs(os.path.join('UserUpload'))
-    print(imgPath)
-    sessionID, JSON_Path = startSession(imgPath)
-    session = sessionID
-    return jsonify(sessionID)
-
+def convertRequest(usersession):
+    # Search for session
+    for i in userQue:
+        if i[1] == usersession:
+            print ("Start Session", usersession)
+            sessionID, JSON_Path = i[0].startSession(imgPath)
+            print ("Start Session", "Done")
+            userQue.remove(i)
+            session = sessionID
+            return jsonify(sessionID)
+        else:
+            print ("Job Not Found")
 
 @application.route('/api/blocksdetected/getDebugImage/<usersession>')
 @cross_origin(origin='*')
@@ -139,6 +147,7 @@ def ApiBlocksetectedReturn(usersession):
                 return jsonify(debugImage=path)
     return 'ok'
 
+
 # prettify the html string sent and return the URL back to the front end
 @application.route('/api/html/<htmlstring>')
 @cross_origin(origin='*')
@@ -147,10 +156,11 @@ def createHTMLFile(htmlstring):
     # print(dirc) # prints 'C:....\HTML_Forge\application'
     userUploadPath = os.path.join(dirc, "UserUpload")
     # print(userUploadPath) # prints "C:....\HTML_Forge\application\static''
-    html_file = open(userUploadPath+"\htmlfile.html", "w")
+    html_file = open(userUploadPath + "\htmlfile.html", "w")
     html_file.write(htmlstring)
     html_file.close()
-    return send_file(userUploadPath+"\htmlfile.html", mimetype='text/html')
+    return send_file(userUploadPath + "\htmlfile.html", mimetype='text/html')
+
 
 # prettify the css string sent and return the URL back to the frontend
 @application.route('/api/css/<cssstring>')
@@ -160,10 +170,10 @@ def createCSSFile(cssstring):
     # print(dirc) # prints 'C:....\HTML_Forge\application'
     userUploadPath = os.path.join(dirc, "UserUpload")
     # print(userUploadPath) # prints "C:....\HTML_Forge\application\static''
-    css_file = open(userUploadPath+"\cssfile.css", "w")
+    css_file = open(userUploadPath + "\cssfile.css", "w")
     css_file.write(cssstring)
     css_file.close()
-    return send_file(userUploadPath+"\cssfile.css", mimetype='text/html')
+    return send_file(userUploadPath + "\cssfile.css", mimetype='text/html')
 
 
 # def modifyJson(usersession):
