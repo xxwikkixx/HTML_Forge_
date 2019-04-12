@@ -285,10 +285,12 @@
             <div class="p-2">
                 <div class="uploadCard z-depth-1">
 
+                    
                     <!-- Header -->
                     <div class="uploadCard-head">
                         <h7> Generated Code </h7>
                     </div>
+
 
                     <!-- Tabs -->
                     <div class="row">
@@ -310,28 +312,36 @@
 
 
                     <!-- HTML Space -->
-                    <div id="HTML_space" class="p-3 shadowInsetTop tab-view">
+                    <div id="HTML_space" class="tab-hide">
+                        <!-- Fixed Copy Button Position-->
                         <div class="copyThis_position">
                             <button class="copyThis-btn waves-effect waves-light"  onclick="copyToClipboard('#pushed_code')">
                                 <i class="material-icons">content_paste</i>
                             </button>   
                         </div>
-                        <pre>
-                            <code id="pushed_code" class="language-html"> HTML Code is here</code>
-                        </pre>
+                        <!-- Tab Space -->
+                        <div class="p-3 shadowInsetTop tab-view">
+                            <pre>
+                                    <code id="pushed_code" class="language-html"> HTML Code is here</code>
+                            </pre>
+                        </div>
                     </div>
 
 
                     <!-- CSS Space -->
-                    <div id="CSS_space" class="p-3 shadowInsetTop tab-view">
+                    <div id="CSS_space" class="tab-hide">
+                        <!-- Fixed Copy Button Position-->
                         <div class="copyThis_position">
                             <button class="copyThis-btn waves-effect waves-light"  onclick="copyToClipboard('#pushed_css')">
                                 <i class="material-icons">content_paste</i>
                             </button>
                         </div>   
-                        <pre>
-                            <code id="pushed_css" class="language-html"> CSS Code is here</code>
-                        </pre>
+                        <!-- Tab Space -->
+                        <div class="p-3 shadowInsetTop tab-view">
+                            <pre>
+                                <code id="pushed_css" class="language-html"> CSS Code is here</code>
+                            </pre>
+                        </div>  
                     </div>
 
 
@@ -367,10 +377,16 @@
 </div> <!-- End of appContainer-->
 
 
+
 <!-- -------------------------------------------------------------------------------------->
 <!--                                    DEBUGGER                                         -->
 <!-- -------------------------------------------------------------------------------------->
-    <div class="col s12 l6" style="display: block">
+
+    <button class="p-2 appDebugger-btn"  onclick="toggleDiv('appDebugger')">
+        <i class="material-icons">developer_mode</i>
+    </button>
+
+    <div id="appDebugger" class="col s12 l6" style="display: none">
         <div class="uploadCard mt-3 ml-2 mr-2 mb-3 z-depth-1 hoverable">
 
             <!-- Header -->

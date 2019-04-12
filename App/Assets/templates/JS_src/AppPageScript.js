@@ -116,6 +116,16 @@ function progSwitch(prog) {
   }
 
 
+  /** Toggle show of a div
+   * 
+   */
+  function toggleDiv(divID) {
+    var x = document.getElementById(divID);
+    if (x.style.display === "none") { x.style.display = "block";} 
+    else { x.style.display = "none";}
+  }
+
+
 // $.ajax({
 //     url: API_URL ,
 //                 crossDomain: true,
