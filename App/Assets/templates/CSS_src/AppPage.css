@@ -133,6 +133,9 @@ body {
     color: white; 
     cursor: pointer; 
 }
+button:disabled {
+    background-image: linear-gradient(to right, #999999 0% ,#535353 100%);
+}
 
 .copyThis-btn:hover { background-position: right center; }
 .copyThis-btn {
