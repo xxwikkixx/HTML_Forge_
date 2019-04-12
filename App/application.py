@@ -4,7 +4,8 @@ from flask import Flask, abort, render_template, request, redirect, url_for, jso
     make_response, session, json
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
-from bs4 import BeautifulSoup as bs
+import threading
+import time
 
 # Internal Classes
 from BoxDetection import boxDetection
@@ -57,6 +58,7 @@ application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @application.route('/upload', methods=['GET', 'POST', 'DELETE'])
 @cross_origin(origin='*')
 def upload_file():
+    mutex.acquire()
     global imgPath
     file = request.files['file']
     filename = secure_filename(file.filename)
@@ -71,14 +73,18 @@ def upload_file():
             sessionID = job.getSessionID()
             userQue.append([job, sessionID])
             print ("UserQue", userQue)
+            mutex.release()
             return sessionID
         else:
+            mutex.release()
             return "File Extension not allowed"
     # DELETE doesnt work yet
     if request.method == 'DELETE':
         if os.path.exists(application.config['UPLOAD_FOLDER'] + filename):
             os.remove(os.path.join(application.config['UPLOAD_FOLDER'], filename))
+            mutex.release()
             return "File Delete"
+    mutex.release()
     return 'ok'
 
 
@@ -105,6 +111,7 @@ def ApiImageUploadedReturn():
 @cross_origin(origin='*')
 def convertRequest(usersession):
     # Search for session
+    mutex.acquire()
     for i in userQue:
         if i[1] == usersession:
             print ("Start Session", usersession)
@@ -112,14 +119,18 @@ def convertRequest(usersession):
             print ("Start Session", "Done")
             userQue.remove(i)
             session = sessionID
+            mutex.release()
             return jsonify(sessionID)
         else:
             print ("Job Not Found")
+    mutex.release()
 
 @application.route('/api/blocksdetected/getDebugImage/<usersession>')
 @cross_origin(origin='*')
 def getDebugImage(usersession):
+    mutex.acquire()
     pid = 'UserUpload/' + usersession + "/" + usersession + ".jpg"
+    mutex.release()
     return send_file(pid, mimetype='image/gif')
 
 
@@ -190,4 +201,9 @@ def createCSSFile(cssstring):
 #                 print(resp)
 
 if __name__ == '__main__':
+    mutex = threading.Lock()
+    t1 = threading.Thread(target=upload_file).start()
+    t2 = threading.Thread(target=getDebugImage).start()
+    t3 = threading.Thread(target=convertRequest).start()
+
     application.run(host='0.0.0.0', threaded=True)
