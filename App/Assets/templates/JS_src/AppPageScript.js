@@ -14,7 +14,7 @@ var API_UL_IMAGE = "http://htmlforge.eastus.cloudapp.azure.com:8080/api/imageupl
 var API_BLOCK_CONVERT = "http://htmlforge.eastus.cloudapp.azure.com:8080/api/startconvert";   // API that calls the AI
 var API_BLOCK_REQ = "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/";    // MUST ADD Session Id
 var API_SESSION_ID = "ERROR";          // This gets populated by the API call from Upload.js
-var API_URL = "http://htmlforge.eastus.cloudapp.azure.com:8080/"
+var API_URL = "http://htmlforge.eastus.cloudapp.azure.com:8080/";
 /** ------------------------------------------------------------------------------------- **/
 
 
@@ -146,7 +146,7 @@ function confirmUpload(){
     pageSwitch(2);
 
     $.ajax({
-        url: API_BLOCK_CONVERT,
+        url: API_BLOCK_CONVERT + "/" + API_SESSION_ID,
         dataType: "json",
         crossDomain: true,
         headers: {
