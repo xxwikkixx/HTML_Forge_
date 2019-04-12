@@ -282,7 +282,7 @@ function createCard(label, prob, image){
     /***** FRONT-END USE *****/
     var elem = "";
 
-    image = 'http://via.placeholder.com/350x150'
+    //image = 'http://via.placeholder.com/350x150'
     //image = 'https://images.unsplash.com/photo-1508138221679-760a23a2285b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80'
     // BEFORE col-md-4 col-sm-6:
     if (cardVersion = 1){
