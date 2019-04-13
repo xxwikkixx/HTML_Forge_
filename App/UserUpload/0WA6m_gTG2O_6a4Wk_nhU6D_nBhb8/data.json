@@ -1,0 +1,110 @@
+{
+   "blocks": [
+      {
+         "Second_Best": [], 
+         "Predictions": [
+            [
+               "Title", 
+               0.7940161228179932
+            ]
+         ], 
+         "Width": 1641, 
+         "Best_Predictions": [
+            "Title", 
+            0.7940161228179932
+         ], 
+         "Height": 406, 
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/0WA6m_gTG2O_6a4Wk_nhU6D_nBhb8/CropImage/1", 
+         "Block_Code": "", 
+         "X_Axis": 91, 
+         "ID": 1, 
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/0WA6m_gTG2O_6a4Wk_nhU6D_nBhb8/ImageCrops/1.png", 
+         "Y_Axis": 101
+      }, 
+      {
+         "Second_Best": [], 
+         "Predictions": [
+            [
+               "Img_Gal_Parallax", 
+               0.9851374626159668
+            ]
+         ], 
+         "Width": 1678, 
+         "Best_Predictions": [
+            "Img_Gal_Parallax", 
+            0.9851374626159668
+         ], 
+         "Height": 596, 
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/0WA6m_gTG2O_6a4Wk_nhU6D_nBhb8/CropImage/2", 
+         "Block_Code": "", 
+         "X_Axis": 96, 
+         "ID": 2, 
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/0WA6m_gTG2O_6a4Wk_nhU6D_nBhb8/ImageCrops/2.png", 
+         "Y_Axis": 534
+      }, 
+      {
+         "Second_Best": [], 
+         "Predictions": [
+            [
+               "Img_Gal_Simple", 
+               0.5874095559120178
+            ]
+         ], 
+         "Width": 1524, 
+         "Best_Predictions": [
+            "Img_Gal_Simple", 
+            0.5874095559120178
+         ], 
+         "Height": 708, 
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/0WA6m_gTG2O_6a4Wk_nhU6D_nBhb8/CropImage/3", 
+         "Block_Code": "", 
+         "X_Axis": 201, 
+         "ID": 3, 
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/0WA6m_gTG2O_6a4Wk_nhU6D_nBhb8/ImageCrops/3.png", 
+         "Y_Axis": 1205
+      }, 
+      {
+         "Second_Best": [], 
+         "Predictions": [
+            [
+               "Title", 
+               0.9998225569725037
+            ]
+         ], 
+         "Width": 1568, 
+         "Best_Predictions": [
+            "Title", 
+            0.9998225569725037
+         ], 
+         "Height": 278, 
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/0WA6m_gTG2O_6a4Wk_nhU6D_nBhb8/CropImage/4", 
+         "Block_Code": "", 
+         "X_Axis": 197, 
+         "ID": 4, 
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/0WA6m_gTG2O_6a4Wk_nhU6D_nBhb8/ImageCrops/4.png", 
+         "Y_Axis": 2009
+      }, 
+      {
+         "Second_Best": [], 
+         "Predictions": [
+            [
+               "Footer", 
+               0.9992983341217041
+            ]
+         ], 
+         "Width": 1616, 
+         "Best_Predictions": [
+            "Footer", 
+            0.9992983341217041
+         ], 
+         "Height": 373, 
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/0WA6m_gTG2O_6a4Wk_nhU6D_nBhb8/CropImage/5", 
+         "Block_Code": "", 
+         "X_Axis": 213, 
+         "ID": 5, 
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/0WA6m_gTG2O_6a4Wk_nhU6D_nBhb8/ImageCrops/5.png", 
+         "Y_Axis": 2437
+      }
+   ], 
+   "debugImage": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/getDebugImage/0WA6m_gTG2O_6a4Wk_nhU6D_nBhb8"
+}
