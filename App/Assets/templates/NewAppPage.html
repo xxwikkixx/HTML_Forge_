@@ -2,27 +2,27 @@
 <html>
 
 <head>
+
     <!-- App Info -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="HTML Forge Application">
     <meta name="author" content="Khalid Qubbaj">
+    
+    <!-- Titles, Brands and Icons-->
     <title>HTML Forge - Build Your Site With AI</title>
-
     <link rel="icon" href="Images/Brand/Icon1.png">
     <link rel="apple-touch-icon-precomposed" sizes="57x57" href="appIcons/AppIcon.appiconset/57.png" />
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="appIcons/AppIcon.appiconset/72.png" />
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="appIcons/AppIcon.appiconset/114.png" />
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="appIcons/AppIcon.appiconset/144.png" />
 
-
     <!-- Compiled and minified Materialize CSS , icons , JS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>    
    
-
     <!-- Custom CSS -->
     <link rel="stylesheet" href="CSS_src/AppPage.css">
     <link rel="stylesheet" href="CSS_src/BGCircles.css">
@@ -40,6 +40,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel='stylesheet' href='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'>
     <link rel='stylesheet' href='https://unpkg.com/filepond/dist/filepond.min.css'>
+
 </head>
 
 
@@ -106,9 +107,11 @@
                             <a class="carousel-item hoverable" href="#four!">   <img src="Images/Samples/Samp4.jpg"></a>
                             <a class="carousel-item hoverable" href="#five!">   <img src="Images/Samples/Samp5.jpg"></a>
                         </div>
-                        </div>
+                    </div>
                     <!-- Button -->
-                    <button class="uploadCard-btn curve-b waves-effect waves-light" disabled>Use This Image!</button>
+                    <button class="uploadCard-btn curve-b waves-effect waves-light tooltipped" data-position="top" data-tooltip="Select an Image First!" disabled>
+                        Use This Image!
+                    </button>
                 </div>               
             </div>
 
@@ -268,7 +271,7 @@
                         <!-- Buttons -->
                         <div class="ml-3 mr-3">
                             <button class="uploadCard-btn curve-b curve-t waves-effect waves-light mb-2" onclick="window.location.reload()">Upload Again</button>
-                            <button class="uploadCard-btn curve-b curve-t waves-effect waves-light mb-3" onclick="GenerateHTML(0)">Generate HTML</button>
+                            <button class="uploadCard-btn curve-b curve-t waves-effect waves-light mb-3" onclick="GenerateHTML(0)" id="Generate-btn" disabled>Generate HTML</button>
                         </div>
                     </div>               
                 </div>
@@ -412,13 +415,14 @@
 
 
 </div>
-    <!-- file upload itself is disabled in this pen -->
+    <!-- file upload -->
     <script src='https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js'></script>
     <script src='https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js'></script>
     <script src='https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js'></script>
     <script src='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js'></script>
     <script src='https://unpkg.com/filepond/dist/filepond.min.js'></script>
 
+    <!-- Application JavaScript Files -->
     <script type="text/javascript" src="JS_src/hostConfig.js"></script>
     <script type="text/javascript" src="JS_src/HTML_Parser_JS.js"></script>
     <script type="text/javascript" src="JS_src/AppPageScript.js"></script>
@@ -432,20 +436,12 @@
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
 
+    <!-- Materialize Initialization -->
     <script type="text/javascript">
-        // Initialize Materialize JS
         M.AutoInit();
-
-        // $(document).ready(function(){
-        //     $('.carousel').carousel();                // Initialize: Carousel on Upload Page
-        //     $('.materialboxed').materialbox();        // Initialize: Image Enlargement 
-        //     $('.dropdown-trigger').dropdown();        // Initialize: Drop down 
-        // });
-
     </script>
 
 
-    
 </body>
 
 </html>

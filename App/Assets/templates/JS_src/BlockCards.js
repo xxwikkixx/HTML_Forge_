@@ -16,15 +16,14 @@ function makeCards(){
     // Create a Card for the front end
     for(var i = 0; i < BLOCK_DATA.length; i++){
         
-      //  setTimeout(
-            createCard(
-                BLOCK_DATA[i].Best_Predictions[0],
-                parseFloat(Math.round(BLOCK_DATA[i].Best_Predictions[1] * 100000) / 1000).toFixed(2),
-                BLOCK_DATA[i].Image_Crop_Path);
-       // ,1000);
+        createCard(
+            BLOCK_DATA[i].Best_Predictions[0],
+            parseFloat(Math.round(BLOCK_DATA[i].Best_Predictions[1] * 100000) / 1000).toFixed(2),
+            BLOCK_DATA[i].Image_Crop_Path
+        );
         
-        BLOCK_QUEUE.push(BLOCK_DATA[i].Best_Predictions[0]);
     }
+    isValidQueue();
 
     console.log("Current Block_queue: " + BLOCK_QUEUE);
     console.log("Current Cards: "       + CURRENT_CARDS);
@@ -75,12 +74,9 @@ function createCard(label, prob, image){
 
 
     if(cardVersion = 2){
+        if(label == "!!Not Recognize!! "){ label = "Not Recognized";}
         elem = 
         '<div class="blockCard z-depth-1 hoverable row mb-2 animated delay-' + (10 + (id_Count*2)) + ' ' + onAppear + '" id="' + id_Count + 'card" onClick="cardFocus(this.id)">'
-        // +    '<div class="cardContent col s4">'
-        // +        '<h5 id="'+ id_Count +'card_title" class="card-title m-0">' + label + '</h5>'
-        // +        '<p  id="'+ id_Count +'card_prob"  class="card-text">Probability: ' + prob + ' % </p>'
-        // +    '</div>'
         +    '<div class="cardContent contain-content col s10">'
         +        '<div class ="cardImageOuter valign-wrapper">'
         +           '<img class="materialboxed cardImageInner" src="' + image + '">'
@@ -115,6 +111,7 @@ function createCard(label, prob, image){
 
     //***** BACK-END USE *****/
     CURRENT_CARDS.push(id_Count);
+    BLOCK_QUEUE.push(label);
     id_Count++;
     
 }
@@ -156,20 +153,12 @@ function deleteCard(id){
     console.log(id);
     console.log(index);
     delete BLOCK_QUEUE[index];
-    CURRENT_CARDS = arrayRemove(CURRENT_CARDS, index)
+    CURRENT_CARDS = arrayRemove(CURRENT_CARDS, index);
+    isValidQueue();
 
     console.log("Current Block_queue: " + BLOCK_QUEUE);
     console.log("Current Cards: "       + CURRENT_CARDS);
 }
-
-
-// Deleting from an array is not native in JS, 
-// 
-function arrayRemove(arr, value) {
-    return arr.filter(function(ele){
-        return ele != value;
-    });
- }
 
 
 
@@ -189,7 +178,28 @@ function editCard(id, action){
     var index = parseFloat(id);
     console.log(index);
     BLOCK_QUEUE[index] = labels[action];
+    isValidQueue();
 
     console.log("Current Block_queue: " + BLOCK_QUEUE);
     console.log("Current Cards: "       + CURRENT_CARDS);
 }
+
+function isValidQueue(){
+    // Check for unrecognized labels in queue
+    for(var i = 0; i < BLOCK_QUEUE.length; i++){
+        if(BLOCK_QUEUE[i] == "Not Recognized" ) {
+            $('#Generate-btn').prop('disabled', true);
+            return false;
+        }
+    }
+    // Allow user to proceed if none are found
+    $('#Generate-btn').prop('disabled', false);
+    return true;
+}
+
+// Deleting from an array is not native in JS, 
+function arrayRemove(arr, value) {
+    return arr.filter(function(ele){
+        return ele != value;
+    });
+ }

@@ -95,6 +95,8 @@ body {
     width: auto;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    transition: all 1s;
+    transform: translateY(0px); 
 }
 /*********************************************************************************/
 
@@ -134,7 +136,8 @@ body {
     cursor: pointer; 
 }
 button:disabled {
-    background-image: linear-gradient(to right, #999999 0% ,#535353 100%);
+    /* background-image: linear-gradient(to right, #999999 0% ,#535353 100%); */
+    background-image: linear-gradient(to right, #999999 0% ,#888888 100%);
 }
 
 .copyThis-btn:hover { background-position: right center; }
