@@ -25,7 +25,7 @@ function T1_init () {
     codeBuffer +=   '<head>';
     codeBuffer +=   '<title>Generated Site</title>';
     codeBuffer +=   '<meta charset="UTF-8">';
-    codeBuffer +=   '<link rel="stylesheet" href="layout.css" type="text/css">'
+    codeBuffer +=   '<link rel="stylesheet" href="layout.css" type="text/css">';
     codeBuffer += '</head>';
     codeBuffer += '<body>';
 

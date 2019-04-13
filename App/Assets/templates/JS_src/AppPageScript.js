@@ -302,6 +302,18 @@ function copyToClipboard(element) {
     document.getElementById("PREV_space").src = URL.createObjectURL(htmlFile);
   });
 
+  $("#btn-css").click( function() {
+
+    fetch('/Generated/template-1/layout.css')
+    .then(response => response.text())
+    .then(text => console.log(text))
+    // outputs the content of the text file
+
+    // var text = document.getElementById("pushed_code").innerText
+    // var filename = $("#index").val()
+    // var htmlFile = new Blob([text], {type: "text/html"});
+    // document.getElementById("PREV_space").src = URL.createObjectURL(htmlFile);
+  });
 
 
 
