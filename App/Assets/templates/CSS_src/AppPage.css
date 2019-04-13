@@ -472,7 +472,7 @@ button:disabled {
 @media screen and (max-width: 894px) {  /* start of medium tablet styles */
     .appInnerContainer{
         background: rgba(255, 255, 255, 0.0);
-        padding-top: 30vmin !important;
+        padding-top: 25vmin !important;
     }
     .appContainer {
         margin-left: 0px;
@@ -489,6 +489,10 @@ button:disabled {
         border-radius: 0px;
         box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    .uploadCard{
+        margin-top: 3em !important;
+        margin-bottom: 3em !important;
     }
     .upld-btn {
         padding: 2em !important;
@@ -611,6 +615,41 @@ button:disabled {
  .my-3 { margin-top: 1.63rem; margin-bottom: 1.63rem;}
  .my-4 { margin-top: 2.32rem; margin-bottom: 2.32rem;}
  .my-5 { margin-top: 3.00rem; margin-bottom: 3.00rem;}
+
+ 
+  /**    Animation Delay Classes     **/
+  .delay-0  { animation-delay: 0ms;    }
+  .delay-1  { animation-delay: 100ms;  }
+  .delay-2  { animation-delay: 200ms;  }
+  .delay-3  { animation-delay: 300ms;  }
+  .delay-4  { animation-delay: 400ms;  }
+  .delay-5  { animation-delay: 500ms;  }
+  .delay-6  { animation-delay: 600ms;  }
+  .delay-7  { animation-delay: 700ms;  }
+  .delay-8  { animation-delay: 800ms;  }
+  .delay-9  { animation-delay: 900ms;  }
+  .delay-10 { animation-delay: 1000ms; }
+  .delay-11 { animation-delay: 1100ms; }
+  .delay-12 { animation-delay: 1200ms; }
+  .delay-13 { animation-delay: 1300ms; }
+  .delay-14 { animation-delay: 1400ms; }
+  .delay-15 { animation-delay: 1500ms; }
+  .delay-16 { animation-delay: 1600ms; }
+  .delay-17 { animation-delay: 1700ms; }
+  .delay-18 { animation-delay: 1800ms; }
+  .delay-19 { animation-delay: 1900ms; }
+  .delay-20 { animation-delay: 2000ms; }
+  .delay-21 { animation-delay: 2100ms; }
+  .delay-22 { animation-delay: 2200ms; }
+  .delay-23 { animation-delay: 2300ms; }
+  .delay-24 { animation-delay: 2400ms; }
+  .delay-25 { animation-delay: 2500ms; }
+  .delay-26 { animation-delay: 2600ms; }
+  .delay-27 { animation-delay: 2700ms; }
+  .delay-28 { animation-delay: 2800ms; }
+  .delay-29 { animation-delay: 2900ms; }
+  .delay-30 { animation-delay: 3000ms; }
+
 
  .resp-container {
     position: relative;

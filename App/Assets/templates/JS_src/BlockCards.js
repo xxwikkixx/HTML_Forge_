@@ -76,7 +76,7 @@ function createCard(label, prob, image){
 
     if(cardVersion = 2){
         elem = 
-        '<div class="blockCard z-depth-1 hoverable row mb-2 animated ' + onAppear + '" id="' + id_Count + 'card" onClick="cardFocus(this.id)">'
+        '<div class="blockCard z-depth-1 hoverable row mb-2 animated delay-' + (10 + (id_Count*2)) + ' ' + onAppear + '" id="' + id_Count + 'card" onClick="cardFocus(this.id)">'
         // +    '<div class="cardContent col s4">'
         // +        '<h5 id="'+ id_Count +'card_title" class="card-title m-0">' + label + '</h5>'
         // +        '<p  id="'+ id_Count +'card_prob"  class="card-text">Probability: ' + prob + ' % </p>'
