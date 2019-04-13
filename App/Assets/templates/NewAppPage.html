@@ -98,13 +98,15 @@
                         <h7> Don't have an Image? Pick one of ours! </h7>
                     </div>
                     <!-- Content (Carousel) -->
-                    <div class="carousel shadowInsetTop">
-                        <a class="carousel-item hoverable" href="#one!">    <img src="Images/Samples/Samp1.jpg"></a>
-                        <a class="carousel-item hoverable" href="#two!">    <img src="Images/Samples/Samp2.jpg"></a>
-                        <a class="carousel-item hoverable" href="#three!">  <img src="Images/Samples/Samp3.jpg"></a>
-                        <a class="carousel-item hoverable" href="#four!">   <img src="Images/Samples/Samp4.jpg"></a>
-                        <a class="carousel-item hoverable" href="#five!">   <img src="Images/Samples/Samp5.jpg"></a>
-                    </div>
+                    <div class="uploadWrapper shadowInsetTop">
+                        <div class="carousel upload-carousel">
+                            <a class="carousel-item hoverable" href="#one!">    <img src="Images/Samples/Samp1.jpg"></a>
+                            <a class="carousel-item hoverable" href="#two!">    <img src="Images/Samples/Samp2.jpg"></a>
+                            <a class="carousel-item hoverable" href="#three!">  <img src="Images/Samples/Samp3.jpg"></a>
+                            <a class="carousel-item hoverable" href="#four!">   <img src="Images/Samples/Samp4.jpg"></a>
+                            <a class="carousel-item hoverable" href="#five!">   <img src="Images/Samples/Samp5.jpg"></a>
+                        </div>
+                        </div>
                     <!-- Button -->
                     <button class="uploadCard-btn curve-b waves-effect waves-light" disabled>Use This Image!</button>
                 </div>               
@@ -119,14 +121,16 @@
                         <h7> Upload your own sketch </h7>
                     </div>
                     <!-- Content (Upload) -->
-                    <div id="uploadButton" class="shadowInsetTop">
-                        <input type="file" 
-                            class="filepond" 
-                            name="file" 
-                            multiple 
-                            data-max-files="1"
-                            data-max-file-size="10MB" 
-                            style="height: 80%"/>
+                    <div class="uploadWrapper shadowInsetTop">
+                        <div id="uploadButton" class="upld-btn" onclick="rePos('uploadButton')">
+                            <input type="file" 
+                                class="filepond" 
+                                name="file" 
+                                multiple 
+                                data-max-files="1"
+                                data-max-file-size="10MB" 
+                                style="height: 80%"/>
+                        </div>
                     </div>
                     <!-- Button --> <!-- onclick="confirmUpload()" -->
                     <button class="uploadCard-btn curve-b waves-effect waves-light" id="confirm_button" onClick="confirmUpload()" disabled>Convert This Image</button>

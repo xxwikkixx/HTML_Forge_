@@ -205,7 +205,11 @@ function confirmUpload(){
 }
 
 
-
+function rePos(divID){
+    var element = document.getElementById(divID);
+    element.classList.remove("upld-btn");
+    element.classList.add("expand-upld-btn");
+}
 
 // Function similar to confirmUpload, but does not make any calls to googles real API
 // Instead, it uses a prefabricated JSON: THIS IS FOR TESTING/DEBUGGING PURPOSES ONLY
