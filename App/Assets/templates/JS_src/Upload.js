@@ -23,8 +23,7 @@ FilePond.create(
 
 FilePond.setOptions({
     server: {
-        url: 'http://htmlforge.eastus.cloudapp.azure.com:8080',
-        // url: 'http://localhost:5000',
+        url: API_URL,
         process: {
             url: '/upload',
             method: 'POST',
@@ -54,7 +53,7 @@ FilePond.setOptions({
 
 
 function imageJSON() {
-    fetch('http://htmlforge.eastus.cloudapp.azure.com:8080/api/imageuploaded', {
+    fetch(API_File_Uploaded, {
         dataType: "json",
         crossDomain: true,
         headers: {

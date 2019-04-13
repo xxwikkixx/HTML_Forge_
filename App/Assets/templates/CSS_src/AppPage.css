@@ -20,6 +20,16 @@ body {
 	animation:          Gradient 15s ease infinite;
 }
 
+.appDebugger-btn:hover { background-color: rgb(100, 16, 16); }
+.appDebugger-btn {
+    background-color: rgb(199, 33, 33);
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    border: 0px;
+    border-radius: 25px;
+    z-index: 10000;
+}
 
 /*********************************************************************************/
 /**                             App Container CSS                               **/
@@ -123,29 +133,34 @@ body {
     color: white; 
     cursor: pointer; 
 }
+button:disabled {
+    background-image: linear-gradient(to right, #999999 0% ,#535353 100%);
+}
 
 .copyThis-btn:hover { background-position: right center; }
 .copyThis-btn {
     background-image: linear-gradient(to right, #185a9d 0% ,#299472 100%);
     /* background-image: linear-gradient(to right, #3494E6 0%, #EC6EAD 100%); */
     background-size: 400% 400%;
-    height: auto;
-    width: auto;
+    height: 40px;
+    width: 40px;
     border: none; 
     color: white; 
     cursor: pointer; 
     border-radius: 7px;
-
-    position: absolute;
    
     padding-top: 5px;
     padding-left: 5px;
     padding-right: 5px;
+
+    position: absolute;
+    right: 30px;
+    top: 50px;
+  
 }
 .copyThis_position {
-    position: absolute;
-    right: 45px;
-    top: 10px;
+    top: -40px;
+    position: relative;
 }
 
 .tab-btn:hover { background-position: right center; }
@@ -161,14 +176,17 @@ body {
     padding: 0px;
 }
 .tab-btn-selected {background-position: right center; }
-
+.tab-hide {
+    display: none;
+}
 .tab-view {
     background: whitesmoke; 
     overflow: scroll; 
-    height: 40vh;
+    height: 50vh;
     width:100%;
-    display: none;
     position: relative;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 
@@ -232,13 +250,30 @@ body {
 
 }
 
+.uploadWrapper {
+    min-height: 400px;
+}
 
-#uploadButton {
+.upload-carousel {
+    top: -25px;
+}
+
+.upld-btn {
     /* Used to center the upload button */
-    padding-top: 95px;
-    padding-left:2vw; 
-    padding-right:2vw;
-    min-height: 385px;
+    /* padding-top: 95px; */
+    padding-left: 2em; 
+    padding-right: 2em;
+    padding-top: 165px;
+}
+
+.expand-upld-btn{
+    /* Used to center the upload button */
+    /* padding-top: 95px; */
+    padding-left: 2em; 
+    padding-right: 2em;
+    padding-top: 57px;
+    transform: translateY(0px); 
+    transition: all 1s;
 }
 
 #pushed_code {
@@ -437,7 +472,7 @@ body {
 @media screen and (max-width: 894px) {  /* start of medium tablet styles */
     .appInnerContainer{
         background: rgba(255, 255, 255, 0.0);
-        padding-top: 28vmin !important;
+        padding-top: 30vmin !important;
     }
     .appContainer {
         margin-left: 0px;
@@ -454,6 +489,15 @@ body {
         border-radius: 0px;
         box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    .upld-btn {
+        padding: 2em !important;
+    }
+    .expand-upld-btn{
+        padding: 2em !important;
+    }
+    .uploadWrapper {
+        min-height: auto;
     }
 }
     

@@ -98,15 +98,17 @@
                         <h7> Don't have an Image? Pick one of ours! </h7>
                     </div>
                     <!-- Content (Carousel) -->
-                    <div class="carousel shadowInsetTop">
-                        <a class="carousel-item hoverable" href="#one!">    <img src="Images/Samples/Samp1.jpg"></a>
-                        <a class="carousel-item hoverable" href="#two!">    <img src="Images/Samples/Samp2.jpg"></a>
-                        <a class="carousel-item hoverable" href="#three!">  <img src="Images/Samples/Samp3.jpg"></a>
-                        <a class="carousel-item hoverable" href="#four!">   <img src="Images/Samples/Samp4.jpg"></a>
-                        <a class="carousel-item hoverable" href="#five!">   <img src="Images/Samples/Samp5.jpg"></a>
-                    </div>
+                    <div class="uploadWrapper shadowInsetTop">
+                        <div class="carousel upload-carousel">
+                            <a class="carousel-item hoverable" href="#one!">    <img src="Images/Samples/Samp1.jpg"></a>
+                            <a class="carousel-item hoverable" href="#two!">    <img src="Images/Samples/Samp2.jpg"></a>
+                            <a class="carousel-item hoverable" href="#three!">  <img src="Images/Samples/Samp3.jpg"></a>
+                            <a class="carousel-item hoverable" href="#four!">   <img src="Images/Samples/Samp4.jpg"></a>
+                            <a class="carousel-item hoverable" href="#five!">   <img src="Images/Samples/Samp5.jpg"></a>
+                        </div>
+                        </div>
                     <!-- Button -->
-                    <button class="uploadCard-btn curve-b waves-effect waves-light" id="confirm_button" disabled>Use This Image!</button>
+                    <button class="uploadCard-btn curve-b waves-effect waves-light" disabled>Use This Image!</button>
                 </div>               
             </div>
 
@@ -119,17 +121,19 @@
                         <h7> Upload your own sketch </h7>
                     </div>
                     <!-- Content (Upload) -->
-                    <div id="uploadButton" class="shadowInsetTop">
-                        <input type="file" 
-                            class="filepond" 
-                            name="file" 
-                            multiple 
-                            data-max-files="1"
-                            data-max-file-size="10MB" 
-                            style="height: 80%"/>
+                    <div class="uploadWrapper shadowInsetTop">
+                        <div id="uploadButton" class="upld-btn" onclick="rePos('uploadButton')">
+                            <input type="file" 
+                                class="filepond" 
+                                name="file" 
+                                multiple 
+                                data-max-files="1"
+                                data-max-file-size="10MB" 
+                                style="height: 80%"/>
+                        </div>
                     </div>
                     <!-- Button --> <!-- onclick="confirmUpload()" -->
-                    <button class="uploadCard-btn curve-b waves-effect waves-light" id="confirm_button" onClick="confirmUpload()">Convert This Image</button>
+                    <button class="uploadCard-btn curve-b waves-effect waves-light" id="confirm_button" onClick="confirmUpload()" disabled>Convert This Image</button>
                 </div>
             </div>
             
@@ -285,10 +289,12 @@
             <div class="p-2">
                 <div class="uploadCard z-depth-1">
 
+
                     <!-- Header -->
                     <div class="uploadCard-head">
                         <h7> Generated Code </h7>
                     </div>
+
 
                     <!-- Tabs -->
                     <div class="row">
@@ -310,28 +316,36 @@
 
 
                     <!-- HTML Space -->
-                    <div id="HTML_space" class="p-3 shadowInsetTop tab-view">
+                    <div id="HTML_space" class="tab-hide">
+                        <!-- Fixed Copy Button Position-->
                         <div class="copyThis_position">
                             <button class="copyThis-btn waves-effect waves-light"  onclick="copyToClipboard('#pushed_code')">
                                 <i class="material-icons">content_paste</i>
                             </button>   
                         </div>
-                        <pre>
-                            <code id="pushed_code" class="language-html"> HTML Code is here</code>
-                        </pre>
+                        <!-- Tab Space -->
+                        <div class="p-3 shadowInsetTop tab-view">
+                            <pre>
+                                    <code id="pushed_code" class="language-html"> HTML Code is here</code>
+                            </pre>
+                        </div>
                     </div>
 
 
                     <!-- CSS Space -->
-                    <div id="CSS_space" class="p-3 shadowInsetTop tab-view">
+                    <div id="CSS_space" class="tab-hide">
+                        <!-- Fixed Copy Button Position-->
                         <div class="copyThis_position">
                             <button class="copyThis-btn waves-effect waves-light"  onclick="copyToClipboard('#pushed_css')">
                                 <i class="material-icons">content_paste</i>
                             </button>
                         </div>   
-                        <pre>
-                            <code id="pushed_css" class="language-html"> CSS Code is here</code>
-                        </pre>
+                        <!-- Tab Space -->
+                        <div class="p-3 shadowInsetTop tab-view">
+                            <pre>
+                                <code id="pushed_css" class="language-html"> CSS Code is here</code>
+                            </pre>
+                        </div>  
                     </div>
 
 
@@ -367,10 +381,16 @@
 </div> <!-- End of appContainer-->
 
 
+
 <!-- -------------------------------------------------------------------------------------->
 <!--                                    DEBUGGER                                         -->
 <!-- -------------------------------------------------------------------------------------->
-    <div class="col s12 l6" style="display: block">
+
+    <button class="p-2 appDebugger-btn"  onclick="toggleDiv('appDebugger')">
+        <i class="material-icons">developer_mode</i>
+    </button>
+
+    <div id="appDebugger" class="col s12 l6" style="display: none">
         <div class="uploadCard mt-3 ml-2 mr-2 mb-3 z-depth-1 hoverable">
 
             <!-- Header -->
@@ -397,8 +417,8 @@
     <script src='https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js'></script>
     <script src='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js'></script>
     <script src='https://unpkg.com/filepond/dist/filepond.min.js'></script>
-       
-    <script type="text/javascript" src="JS_src/Upload.js"></script>
+
+    <script type="text/javascript" src="JS_src/hostConfig.js"></script>
     <script type="text/javascript" src="JS_src/HTML_Parser_JS.js"></script>
     <script type="text/javascript" src="JS_src/AppPageScript.js"></script>
     <script type="text/javascript" src="JS_src/BlockCards.js"></script>
@@ -406,6 +426,7 @@
     <script type="text/javascript" src="JS_src/jszip.min.js"></script>
     <script type="text/javascript" src="JS_src/FileSaver.min.js"></script>
     <script type="text/javascript" src="JS_src/codePrettyPrint.js"></script>
+    <script type="text/javascript" src="JS_src/Upload.js"></script>
 
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>

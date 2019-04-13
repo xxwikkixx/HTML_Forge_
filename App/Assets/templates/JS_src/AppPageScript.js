@@ -9,13 +9,7 @@
 
 
 
-/** ------------------------------------- API CALLS ------------------------------------- **/
-var API_UL_IMAGE = "http://htmlforge.eastus.cloudapp.azure.com:8080/api/imageuploaded";        // API to retrieve Image
-var API_BLOCK_CONVERT = "http://htmlforge.eastus.cloudapp.azure.com:8080/api/startconvert";   // API that calls the AI
-var API_BLOCK_REQ = "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/";    // MUST ADD Session Id
-var API_SESSION_ID = "ERROR";          // This gets populated by the API call from Upload.js
-var API_URL = "http://htmlforge.eastus.cloudapp.azure.com:8080/";
-/** ------------------------------------------------------------------------------------- **/
+
 
 
 
@@ -116,6 +110,16 @@ function progSwitch(prog) {
   }
 
 
+  /** Toggle show of a div
+   * 
+   */
+  function toggleDiv(divID) {
+    var x = document.getElementById(divID);
+    if (x.style.display === "none") { x.style.display = "block";} 
+    else { x.style.display = "none";}
+  }
+
+
 // $.ajax({
 //     url: API_URL ,
 //                 crossDomain: true,
@@ -201,7 +205,11 @@ function confirmUpload(){
 }
 
 
-
+function rePos(divID){
+    var element = document.getElementById(divID);
+    element.classList.remove("upld-btn");
+    element.classList.add("expand-upld-btn");
+}
 
 // Function similar to confirmUpload, but does not make any calls to googles real API
 // Instead, it uses a prefabricated JSON: THIS IS FOR TESTING/DEBUGGING PURPOSES ONLY
