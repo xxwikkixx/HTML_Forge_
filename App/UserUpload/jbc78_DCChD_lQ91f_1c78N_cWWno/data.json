@@ -1,0 +1,58 @@
+{
+   "blocks": [
+      {
+         "Second_Best": [], 
+         "Predictions": [
+            [
+               "Img_Left_Text_Right", 
+               0.9772944450378418
+            ]
+         ], 
+         "Width": 1669, 
+         "Best_Predictions": [
+            "Img_Left_Text_Right", 
+            0.9772944450378418
+         ], 
+         "Height": 833, 
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/jbc78_DCChD_lQ91f_1c78N_cWWno/CropImage/1", 
+         "Block_Code": "", 
+         "X_Axis": 175, 
+         "ID": 1, 
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/jbc78_DCChD_lQ91f_1c78N_cWWno/ImageCrops/1.png", 
+         "Y_Axis": 101
+      }, 
+      {
+         "Second_Best": [], 
+         "Predictions": [], 
+         "Width": 1534, 
+         "Best_Predictions": [
+            "!!Not Recognize!! ", 
+            0.0
+         ], 
+         "Height": 1039, 
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/jbc78_DCChD_lQ91f_1c78N_cWWno/CropImage/2", 
+         "Block_Code": "", 
+         "X_Axis": 256, 
+         "ID": 2, 
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/jbc78_DCChD_lQ91f_1c78N_cWWno/ImageCrops/2.png", 
+         "Y_Axis": 1060
+      }, 
+      {
+         "Second_Best": [], 
+         "Predictions": [], 
+         "Width": 1606, 
+         "Best_Predictions": [
+            "!!Not Recognize!! ", 
+            0.0
+         ], 
+         "Height": 626, 
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/jbc78_DCChD_lQ91f_1c78N_cWWno/CropImage/3", 
+         "Block_Code": "", 
+         "X_Axis": 193, 
+         "ID": 3, 
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/jbc78_DCChD_lQ91f_1c78N_cWWno/ImageCrops/3.png", 
+         "Y_Axis": 2190
+      }
+   ], 
+   "debugImage": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/getDebugImage/jbc78_DCChD_lQ91f_1c78N_cWWno"
+}

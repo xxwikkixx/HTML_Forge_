@@ -1,0 +1,138 @@
+{
+   "debugImage": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/getDebugImage/h6a5g_gWXfV_J09YX_OM7f4_h6Z4f",
+   "blocks": [
+      {
+         "ID": 1,
+         "X_Axis": 103,
+         "Y_Axis": 112,
+         "Width": 1705,
+         "Height": 394,
+         "Predictions": [
+            [
+               "Title",
+               0.9980694651603699
+            ]
+         ],
+         "Best_Predictions": [
+            "Title",
+            0.9980694651603699
+         ],
+         "Second_Best": [],
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/h6a5g_gWXfV_J09YX_OM7f4_h6Z4f/CropImage/1",
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/h6a5g_gWXfV_J09YX_OM7f4_h6Z4f/ImageCrops/1.png",
+         "Block_Code": ""
+      },
+      {
+         "ID": 2,
+         "X_Axis": 94,
+         "Y_Axis": 439,
+         "Width": 1750,
+         "Height": 384,
+         "Predictions": [
+            [
+               "Footer",
+               0.34926944971084595
+            ]
+         ],
+         "Best_Predictions": [
+            "Footer",
+            0.34926944971084595
+         ],
+         "Second_Best": [],
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/h6a5g_gWXfV_J09YX_OM7f4_h6Z4f/CropImage/2",
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/h6a5g_gWXfV_J09YX_OM7f4_h6Z4f/ImageCrops/2.png",
+         "Block_Code": ""
+      },
+      {
+         "ID": 3,
+         "X_Axis": 95,
+         "Y_Axis": 829,
+         "Width": 1769,
+         "Height": 575,
+         "Predictions": [
+            [
+               "Img_Left_Text_Right",
+               0.6184722781181335
+            ]
+         ],
+         "Best_Predictions": [
+            "Img_Left_Text_Right",
+            0.6184722781181335
+         ],
+         "Second_Best": [],
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/h6a5g_gWXfV_J09YX_OM7f4_h6Z4f/CropImage/3",
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/h6a5g_gWXfV_J09YX_OM7f4_h6Z4f/ImageCrops/3.png",
+         "Block_Code": ""
+      },
+      {
+         "ID": 4,
+         "X_Axis": 101,
+         "Y_Axis": 1409,
+         "Width": 1752,
+         "Height": 426,
+         "Predictions": [
+            [
+               "Header",
+               0.5214909315109253
+            ]
+         ],
+         "Best_Predictions": [
+            "Header",
+            0.5214909315109253
+         ],
+         "Second_Best": [],
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/h6a5g_gWXfV_J09YX_OM7f4_h6Z4f/CropImage/4",
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/h6a5g_gWXfV_J09YX_OM7f4_h6Z4f/ImageCrops/4.png",
+         "Block_Code": ""
+      },
+      {
+         "ID": 5,
+         "X_Axis": 166,
+         "Y_Axis": 1964,
+         "Width": 1672,
+         "Height": 391,
+         "Predictions": [
+            [
+               "Footer",
+               0.9916606545448303
+            ]
+         ],
+         "Best_Predictions": [
+            "Footer",
+            0.9916606545448303
+         ],
+         "Second_Best": [],
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/h6a5g_gWXfV_J09YX_OM7f4_h6Z4f/CropImage/5",
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/h6a5g_gWXfV_J09YX_OM7f4_h6Z4f/ImageCrops/5.png",
+         "Block_Code": ""
+      },
+      {
+         "ID": 6,
+         "X_Axis": 157,
+         "Y_Axis": 2436,
+         "Width": 1673,
+         "Height": 376,
+         "Predictions": [
+            [
+               "Header",
+               0.6775235533714294
+            ],
+            [
+               "Img_Gal_Preview",
+               0.46547356247901917
+            ]
+         ],
+         "Best_Predictions": [
+            "Header",
+            0.6775235533714294
+         ],
+         "Second_Best": [
+            "Img_Gal_Preview",
+            0.46547356247901917
+         ],
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/h6a5g_gWXfV_J09YX_OM7f4_h6Z4f/CropImage/6",
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/h6a5g_gWXfV_J09YX_OM7f4_h6Z4f/ImageCrops/6.png",
+         "Block_Code": ""
+      }
+   ]
+}

@@ -1,0 +1,58 @@
+{
+   "debugImage": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/getDebugImage/obeFU_HlKnn_EMpV1_Y901J_cIEhD",
+   "blocks": [
+      {
+         "ID": 1,
+         "X_Axis": 175,
+         "Y_Axis": 101,
+         "Width": 1669,
+         "Height": 833,
+         "Predictions": [
+            [
+               "Img_Left_Text_Right",
+               0.9772944450378418
+            ]
+         ],
+         "Best_Predictions": [
+            "Img_Left_Text_Right",
+            0.9772944450378418
+         ],
+         "Second_Best": [],
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/obeFU_HlKnn_EMpV1_Y901J_cIEhD/CropImage/1",
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/obeFU_HlKnn_EMpV1_Y901J_cIEhD/ImageCrops/1.png",
+         "Block_Code": ""
+      },
+      {
+         "ID": 2,
+         "X_Axis": 256,
+         "Y_Axis": 1060,
+         "Width": 1534,
+         "Height": 1039,
+         "Predictions": [],
+         "Best_Predictions": [
+            "!!Not Recognize!! ",
+            0.0
+         ],
+         "Second_Best": [],
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/obeFU_HlKnn_EMpV1_Y901J_cIEhD/CropImage/2",
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/obeFU_HlKnn_EMpV1_Y901J_cIEhD/ImageCrops/2.png",
+         "Block_Code": ""
+      },
+      {
+         "ID": 3,
+         "X_Axis": 193,
+         "Y_Axis": 2190,
+         "Width": 1606,
+         "Height": 626,
+         "Predictions": [],
+         "Best_Predictions": [
+            "!!Not Recognize!! ",
+            0.0
+         ],
+         "Second_Best": [],
+         "Image_Crop_Path": "http://htmlforge.eastus.cloudapp.azure.com:8080/api/blocksdetected/obeFU_HlKnn_EMpV1_Y901J_cIEhD/CropImage/3",
+         "Server_Local_Image_Path": "/home/htmlforge/HTML_Forge/App/UserUpload/obeFU_HlKnn_EMpV1_Y901J_cIEhD/ImageCrops/3.png",
+         "Block_Code": ""
+      }
+   ]
+}
