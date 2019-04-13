@@ -294,6 +294,13 @@ function copyToClipboard(element) {
     });
   }
   
+ 
+  $("#btn-save").click( function() {
+    var text = document.getElementById("pushed_code").innerText
+    var filename = $("#index").val()
+    var htmlFile = new Blob([text], {type: "text/html"});
+    document.getElementById("PREV_space").src = URL.createObjectURL(htmlFile);
+  });
 
 
 
