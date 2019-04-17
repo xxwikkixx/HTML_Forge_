@@ -162,19 +162,15 @@ def createHTMLFile(htmlstring):
     html_file.close()
     return send_file(userUploadPath + "\htmlfile.html", mimetype='text/html')
 
-
-# prettify the css string sent and return the URL back to the frontend
-@application.route('/api/css/<cssstring>')
+# Need to make a post request to send in a list and a number
+@application.route('/api/parser', methods=['GET', 'POST'])
 @cross_origin(origin='*')
-def createCSSFile(cssstring):
-    dirc = os.path.dirname(os.path.realpath(__file__))
-    # print(dirc) # prints 'C:....\HTML_Forge\application'
-    userUploadPath = os.path.join(dirc, "UserUpload")
-    # print(userUploadPath) # prints "C:....\HTML_Forge\application\static''
-    css_file = open(userUploadPath + "\cssfile.css", "w")
-    css_file.write(cssstring)
-    css_file.close()
-    return send_file(userUploadPath + "\cssfile.css", mimetype='text/html')
+def parser(list, num):
+    for x in num:
+        pass
+
+
+
 
 
 # def modifyJson(usersession):
