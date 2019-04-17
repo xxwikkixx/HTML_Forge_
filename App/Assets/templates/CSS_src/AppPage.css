@@ -294,6 +294,9 @@ button:disabled {
     text-align: left;
 }
 
+pre.prettyprint {
+    border-width: 0px !important;
+}
 
 /*********************************************************************************/
 /**                                 Custom Card                                 **/
