@@ -26,6 +26,7 @@ function T1_init () {
     codeBuffer +=   '<title>Generated Site</title>';
     codeBuffer +=   '<meta charset="UTF-8">';
     codeBuffer +=   '<link rel="stylesheet" href="layout.css" type="text/css">';
+    codeBuffer +=   '<link rel="stylesheet" href="http://htmlforge.com/Generated/template-1/layout.css" type="text/css">';
     codeBuffer += '</head>';
     codeBuffer += '<body>';
 
