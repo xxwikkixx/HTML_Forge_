@@ -230,6 +230,8 @@ function bypassUpload(){
 
 
 
+
+var htmlFile;
 // Detection Page -> Generation Page
 function GenerateHTML(template_choice){
 
@@ -242,11 +244,20 @@ function GenerateHTML(template_choice){
     // Prints generated HTML into div "pushed_code"
     console.log(code_generated);                                        // Debugging
     document.getElementById("pushed_code").innerText = code_generated;
-    
+
+    // Places Generated code in the preview tab
+    htmlFile = new Blob([code_generated], {type: "text/html"});
+    document.getElementById("PREV_space").src = URL.createObjectURL(htmlFile);
+
     // Reveal appropriate Pages
     tabSwitch(1);
     pageSwitch(4);
 }
+
+function fullPrev(){
+    window.open( URL.createObjectURL(htmlFile) ,'_blank')
+}
+
 
 
 
