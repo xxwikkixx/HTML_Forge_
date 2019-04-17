@@ -8,7 +8,7 @@ function formatFactory(html) {
 	            var tabs = new String();
 
 	            for (i=0; i < tab; i++){
-	              tabs += '\t';
+	              tabs += '  ';
 	            }
 	            return tabs;
 	        };
