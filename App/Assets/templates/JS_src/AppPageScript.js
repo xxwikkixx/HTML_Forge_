@@ -273,7 +273,7 @@ function copyToClipboard(element) {
       console.log(code);
     // zip.file("index.html", document.getElementById("pushed_code").value());
     zip.file("index.html", code);
-    zip.file("layout.css", "AWH YEAH!");
+    zip.file("layout.css", "./Generated/template-1/layout.css");
 
     // Add images
     // zip.file("index.html", "AWH YEAH!");
