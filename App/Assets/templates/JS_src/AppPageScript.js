@@ -14,16 +14,11 @@
 
 
 /** --------------------------------- GLOBAL VARIABLES ---------------------------------- **/
-var id_Count = 0;           // Counter to uniquely identify Cards(Blocks)
 var CURRENT_CARDS = [];     // Keeps track of all cards currently visible on the page
 var BLOCK_QUEUE = [];       // A Queue which is populated with labels, in order of which they
                             // Are found
 var BLOCK_DATA;             // Stores JSON data returned by the Google AI
 var DEBUG_IMG;              // Stores Debugged image path returned by OpenCV with Google AI
-
-/** Card Animations **/
-var onAppear = 'fadeInLeft';    // Animation from Animate.css used when a card is created
-var onDelete = 'zoomOut';   // Animation from Animate.css used when a card is deleted
 /** ------------------------------------------------------------------------------------- **/
 
 
