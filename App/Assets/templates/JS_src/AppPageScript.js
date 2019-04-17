@@ -273,7 +273,7 @@ function copyToClipboard(element) {
       console.log(code);
     // zip.file("index.html", document.getElementById("pushed_code").value());
     zip.file("index.html", code);
-    zip.file("layout.css", "./Generated/template-1/layout.css");
+    zip.file("layout.css", cssCodeString);
 
     // Add images
     // zip.file("index.html", "AWH YEAH!");
@@ -302,8 +302,29 @@ function copyToClipboard(element) {
     document.getElementById("PREV_space").src = URL.createObjectURL(htmlFile);
   });
 
-  $("#btn-css").click( function() {
+$("#tab_CSS").click(function () {
+//     console.log("Css");
+//     var reader = new FileReader();
+//     reader.onload = function(e) {
+//         var text = reader.result;
+//         console.log(text)
+//     };
+//     var file = File('Generated/template-1/layout.css');
+//     reader.readAsText(file);
 
+    // fetch('http://htmlforge.com/Generated/template-1/layout.css')
+    //     { mode: 'no-cors'})
+        // .then(function(response) {
+        //     console.log(response); // "opaque"
+        // });
+    document.getElementById("pushed_css").innerText = cssCodeString;
+    console.log(cssCodeString);
+});
+
+
+
+  $("#btn-css").click( function() {
+      console.log("Css");
     fetch('/Generated/template-1/layout.css')
     .then(response => response.text())
     .then(text => console.log(text))
