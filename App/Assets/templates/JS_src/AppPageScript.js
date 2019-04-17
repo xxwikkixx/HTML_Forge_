@@ -230,6 +230,8 @@ function bypassUpload(){
 
 
 
+
+var htmlFile;
 // Detection Page -> Generation Page
 function GenerateHTML(template_choice){
 
@@ -242,11 +244,20 @@ function GenerateHTML(template_choice){
     // Prints generated HTML into div "pushed_code"
     console.log(code_generated);                                        // Debugging
     document.getElementById("pushed_code").innerText = code_generated;
-    
+
+    // Places Generated code in the preview tab
+    htmlFile = new Blob([code_generated], {type: "text/html"});
+    document.getElementById("PREV_space").src = URL.createObjectURL(htmlFile);
+
     // Reveal appropriate Pages
     tabSwitch(1);
     pageSwitch(4);
 }
+
+function fullPrev(){
+    window.open( URL.createObjectURL(htmlFile) ,'_blank')
+}
+
 
 
 
@@ -273,7 +284,7 @@ function copyToClipboard(element) {
       console.log(code);
     // zip.file("index.html", document.getElementById("pushed_code").value());
     zip.file("index.html", code);
-    zip.file("layout.css", "AWH YEAH!");
+    zip.file("layout.css", cssCodeString);
 
     // Add images
     // zip.file("index.html", "AWH YEAH!");
@@ -302,8 +313,29 @@ function copyToClipboard(element) {
     document.getElementById("PREV_space").src = URL.createObjectURL(htmlFile);
   });
 
-  $("#btn-css").click( function() {
+$("#tab_CSS").click(function () {
+//     console.log("Css");
+//     var reader = new FileReader();
+//     reader.onload = function(e) {
+//         var text = reader.result;
+//         console.log(text)
+//     };
+//     var file = File('Generated/template-1/layout.css');
+//     reader.readAsText(file);
 
+    // fetch('http://htmlforge.com/Generated/template-1/layout.css')
+    //     { mode: 'no-cors'})
+        // .then(function(response) {
+        //     console.log(response); // "opaque"
+        // });
+    document.getElementById("pushed_css").innerText = cssCodeString;
+    console.log(cssCodeString);
+});
+
+
+
+  $("#btn-css").click( function() {
+      console.log("Css");
     fetch('/Generated/template-1/layout.css')
     .then(response => response.text())
     .then(text => console.log(text))

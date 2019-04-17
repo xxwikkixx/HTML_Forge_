@@ -1,5 +1,7 @@
 import os
 import shutil
+import socket
+
 from flask import Flask, abort, render_template, request, redirect, url_for, jsonify, send_file, send_from_directory, \
     make_response, session, json
 from werkzeug.utils import secure_filename
@@ -15,6 +17,10 @@ from CloudServiceConfig import flaskConfig
 application = Flask(__name__)
 application.debug = True
 CORS(application, resources={r"/*": {"origins": "*"}})
+
+if "local" in socket.getfqdn().lower():
+    flaskConfig["serverAddress"] = "http://localhost:5000"
+    print("The Server Is On Local")
 
 userQue = []
 

@@ -82,7 +82,7 @@ function createCard(label, prob, image){
         +           '<img class="materialboxed cardImageInner" src="' + image + '">'
         +        '</div>'
         +        '<h5 id="'+ id_Count +'card_title" class="cc-tl card-title m-0">' + label + '</h5>'
-        +        '<p  id="'+ id_Count +'card_prob"  class="cc-bl card-text">Probability: ' + prob + ' % </p>'
+        +        '<p  id="'+ id_Count +'card_prob"  class="cc-bl card-text m-0">Probability: ' + prob + ' % </p>'
         +    '</div>'
         +    '<div class="cardButtons col s2 valign-center">'
         +    '<div class="">'
