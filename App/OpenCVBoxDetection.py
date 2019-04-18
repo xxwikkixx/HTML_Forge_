@@ -481,6 +481,7 @@ def startSession(path_to_image):
     :return: SessionID, and path to the JSON file. JSON
             file contains all the information we have regard each building blocks
     """
+    global newSession
     newSession.userImageImport(path_to_image)
 
     # Initialize a new session base on user's request
