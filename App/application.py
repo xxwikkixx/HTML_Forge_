@@ -10,6 +10,7 @@ import threading
 import time
 
 # Internal Classes
+import OpenCVBoxDetection
 from BoxDetection import boxDetection
 from CloudServiceConfig import flaskConfig
 # from OpenCVBoxDetection import startSession, initializeSession
@@ -108,21 +109,32 @@ def ApiImageUploadedReturn():
     return jsonify(ImageUpLoaded=filesURL)
 
 
+# @application.route('/api/startconvert/<usersession>')
+# @cross_origin(origin='*')
+# def convertRequest(usersession):
+#     # Search for session
+#     for i in userQue:
+#         if i[1] == usersession:
+#             print ("Start Session", usersession)
+#             sessionID, JSON_Path = i[0].startSession(imgPath)
+#             print ("Start Session", "Done")
+#             userQue.remove(i)
+#             session = sessionID
+#             return jsonify(sessionID)
+#         else:
+#             print ("Job Not Found")
+#     return 'ok'
+
 @application.route('/api/startconvert/<usersession>')
 @cross_origin(origin='*')
 def convertRequest(usersession):
     # Search for session
-    for i in userQue:
-        if i[1] == usersession:
             print ("Start Session", usersession)
-            sessionID, JSON_Path = i[0].startSession(imgPath)
+            sessionID, JSON_Path = OpenCVBoxDetection.startSession(imgPath)
             print ("Start Session", "Done")
             userQue.remove(i)
             session = sessionID
             return jsonify(sessionID)
-        else:
-            print ("Job Not Found")
-    return 'ok'
 
 @application.route('/api/blocksdetected/getDebugImage/<usersession>')
 @cross_origin(origin='*')
