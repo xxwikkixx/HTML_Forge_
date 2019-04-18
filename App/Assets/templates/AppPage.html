@@ -69,10 +69,11 @@
 
     <!-- Header -->
     <div class="appContainerHeader p-1">  
-        <!-- Note: The pretty font is called AudioWide -->
-        <img class="p-1" src="Images/Brand/Icon1.png" style="height: 60px"/> 
-        <img class="p-1" src="Images/Brand/Logo3.png" style="height: 50px"/> 
-
+        <div class="icoBar">
+            <!-- Note: The pretty font is called AudioWide -->
+            <img class="p-1 forge-icon" src="Images/Brand/Icon1.png"/> 
+            <img class="p-1 forge-logo" src="Images/Brand/Logo3.png"/> 
+        </div>
         <!-- Progress Bar -->
         <div class="progBar center-align">
             <img id="pb1" class="curve-b curve-t animated fadeIn faster"              src="Images/ProgressBar/ProgressBar_1.jpg"/>
@@ -92,10 +93,33 @@
         <!-- -------------------------------------------------------------------------------------->
         <div id="upload_page" class="row animated fadeIn pt-4 pb-4" style="display: block">
             
+            <!-- OPTION 2: USER UPLOADS THEIR OWN IMAGE -->
+            <div class="col s12 l6">
+                <div class="uploadCard z-depth-1 hoverable m-2 fadeIn animated delay-5">
+                    <!-- Header -->
+                    <div class="uploadCard-head">
+                        <h7> Upload your own sketch </h7>
+                    </div>
+                    <!-- Content (Upload) -->
+                    <div class="uploadWrapper shadowInsetTop">
+                        <div id="uploadButton" class="upld-btn" onclick="rePos('uploadButton')">
+                            <input type="file" 
+                                class="filepond" 
+                                name="file" 
+                                multiple 
+                                data-max-files="1"
+                                data-max-file-size="10MB" 
+                                style="height: 80%"/>
+                        </div>
+                    </div>
+                    <!-- Button --> <!-- onclick="confirmUpload()" -->
+                    <button class="uploadCard-btn curve-b waves-effect waves-light" id="confirm_button" onClick="confirmUpload()" disabled>Convert This Image</button>
+                </div>
+            </div>
 
             <!-- OPTION 1: USER PICKS A PRE-FABRICATED IMAGE -->
             <div class="col s12 l6">
-                <div class="uploadCard z-depth-1 hoverable m-2 fadeIn animated delay-5">
+                <div class="uploadCard z-depth-1 hoverable m-2 fadeIn animated delay-10">
                      <!-- Header -->
                     <div class="uploadCard-head">
                         <h7> Don't have an Image? Pick one of ours! </h7>
@@ -117,30 +141,6 @@
                 </div>               
             </div>
 
-
-            <!-- OPTION 2: USER UPLOADS THEIR OWN IMAGE -->
-            <div class="col s12 l6">
-                <div class="uploadCard z-depth-1 hoverable m-2 fadeIn animated delay-10">
-                    <!-- Header -->
-                    <div class="uploadCard-head">
-                        <h7> Upload your own sketch </h7>
-                    </div>
-                    <!-- Content (Upload) -->
-                    <div class="uploadWrapper shadowInsetTop">
-                        <div id="uploadButton" class="upld-btn" onclick="rePos('uploadButton')">
-                            <input type="file" 
-                                class="filepond" 
-                                name="file" 
-                                multiple 
-                                data-max-files="1"
-                                data-max-file-size="10MB" 
-                                style="height: 80%"/>
-                        </div>
-                    </div>
-                    <!-- Button --> <!-- onclick="confirmUpload()" -->
-                    <button class="uploadCard-btn curve-b waves-effect waves-light" id="confirm_button" onClick="confirmUpload()" disabled>Convert This Image</button>
-                </div>
-            </div>
             
 
         </div> <!-- End of Upload Page -->
@@ -267,14 +267,14 @@
                         </div>
                        
                         <!-- Image-->
-                        <div class="pl-3 pr-3 pt-3 pb-2 " style="width:100%; position: relative;"> 
-                            <img id="uploaded_img" class="" src="" alt=" Image Not Found" style="width: 100%; object-fit: cover;">
+                        <div class="pl-3 pr-3 pt-3 pb-2 ul-img-container"> 
+                            <img id="uploaded_img" class="" src="" alt=" Image Not Found">
                         </div>
 
                         <!-- Buttons -->
                         <div class="ml-3 mr-3">
-                            <button class="uploadCard-btn curve-b curve-t waves-effect waves-light mb-2" onclick="window.location.reload()">Upload Again</button>
                             <button class="uploadCard-btn curve-b curve-t waves-effect waves-light mb-3" onclick="GenerateHTML(0)" id="Generate-btn" disabled>Generate HTML</button>
+                            <button class="uploadCard-btn curve-b curve-t waves-effect waves-light mb-2" onclick="window.location.reload()">Upload Again</button>
                         </div>
                     </div>               
                 </div>
@@ -354,25 +354,25 @@
 
 
                     <!-- Web View -->
-                    <iframe id="PREV_space" src="AppPage.html" class="shadowInsetTop tab-view" style="border: 0px;"></iframe>
+                    <iframe id="PREV_space" src="AppPage.html" class="shadowInsetTop tab-view"></iframe>
                     
 
                 </div>               
             </div>
 
             <!-- Buttons -->
-            <div class="row p-1">
-                <div class="col s6 fadeIn animated delay-15">
-                    <div class="m-2">
-                        <button class="uploadCard-btn waves-effect waves-light curve-b curve-t" onclick="window.location.reload()">
-                            Upload Again
-                        </button>
-                    </div>
-                </div>
-                <div class="col s6 fadeIn animated delay-20">
+            <div class="row">
+                <div class="col s12 l6 fadeIn animated delay-15">
                     <div class="m-2">
                         <button class="uploadCard-btn waves-effect waves-light curve-b curve-t" onclick="getZip()">
                             Download as Zip
+                        </button>
+                    </div>
+                </div>
+                <div class="col s12 l6 fadeIn animated delay-20">
+                    <div class="m-2">
+                        <button class="uploadCard-btn waves-effect waves-light curve-b curve-t" onclick="window.location.reload()">
+                            Upload Again
                         </button>
                     </div>    
                 </div>

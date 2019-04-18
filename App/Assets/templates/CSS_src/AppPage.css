@@ -72,7 +72,7 @@ body {
     /* Default margin sizes */
     margin-left: 10vmin;
     margin-right: 10vmin;
-    margin-top: 5vmin;
+    margin-top: 2.5vh;
     margin-bottom: 5vmin;
 
     animation-duration: 3s;
@@ -298,6 +298,23 @@ pre.prettyprint {
     border-width: 0px !important;
 }
 
+.forge-icon{   
+    height: 60px;
+}
+.forge-logo{
+    height: 50px;
+}
+.ul-img-container{
+    width:100%; 
+    position: relative;
+} 
+#uploaded_img {
+    width: 100%; 
+    object-fit: cover;
+}
+#PREV_space{
+    border: 0px;
+}
 /* #detected_box {
     transition: all 1s;
     transform: translateY(0px); 
@@ -491,29 +508,48 @@ pre.prettyprint {
 }
     
 @media screen and (max-width: 894px) {  /* start of medium tablet styles */
-    .appInnerContainer{
-        background: rgba(255, 255, 255, 0.0);
-        padding-top: 25vmin !important;
-    }
     .appContainer {
         margin-left: 0px;
         margin-right: 0px;
         margin-top: 0px;
+        margin-bottom: 0px;
         border-radius: 5px;
+        padding-bottom: 8em;
         /* Custom downward shadow */
         box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.0), 
                     0 0px 0px 0 rgba(0, 0, 0, 0.0);
     }
     .appContainerHeader{
         position: fixed;
+        background-color: transparent;
         z-index: 10000;
         border-radius: 0px;
+        padding: 0px !important;
+    }
+    .icoBar {
+        background-color: white;
         box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 
         0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
+    .progBar{
+        margin-top: 0.94rem;
+        margin-left: 0.94rem;
+        margin-right: 0.94rem;
+        border-radius: 2rem;
+        padding-left: 0.94rem;
+        padding-right: 0.94rem;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        position: fixed;
+        bottom: 15px;
+    }
+    .appInnerContainer{
+        background: rgba(255, 255, 255, 0.0);
+        padding-top: 7em !important;
+        padding-bottom: 0em !important;
+    }
     .uploadCard{
-        margin-top: 3em !important;
-        margin-bottom: 3em !important;
+        margin-top: 0.8em !important;
+        margin-bottom: 2.2em !important;
     }
     .upld-btn {
         padding: 2em !important;
@@ -523,6 +559,27 @@ pre.prettyprint {
     }
     .uploadWrapper {
         min-height: auto;
+    }
+    .copyThis-btn {
+        border-radius: 15em;
+    }
+    .ul-img-container {
+        padding-bottom: 0.94rem;
+    }
+    #upload_page{
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+    #detection_page{
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+    .appDebugger-btn {
+        bottom: 0px !important;
+        left: 0px !important;
+        border-radius: 0px;
+        background-color: transparent;
+        color: transparent;
     }
 }
     

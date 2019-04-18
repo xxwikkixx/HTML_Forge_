@@ -53,6 +53,8 @@ function tabSwitch(tab) {
  *      RETURNS :   NONE
 */
 function pageSwitch(page) {
+    // Adjust Scroll Bar
+    $(document).scrollTop(0);
     // Hides All
     document.getElementById("upload_page").style.display    = "none";
     document.getElementById("loading_page").style.display   = "none";
