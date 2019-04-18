@@ -9,23 +9,19 @@
 
 
 
-
-
-
-
 /** --------------------------------- GLOBAL VARIABLES ---------------------------------- **/
 var CURRENT_CARDS = [];     // Keeps track of all cards currently visible on the page
 var BLOCK_QUEUE = [];       // A Queue which is populated with labels, in order of which they
                             // Are found
 var BLOCK_DATA;             // Stores JSON data returned by the Google AI
 var DEBUG_IMG;              // Stores Debugged image path returned by OpenCV with Google AI
+var htmlFile;               // Stores an Instance of parsed HTML for live-Rendering 
 /** ------------------------------------------------------------------------------------- **/
 
 
 
 /** ------------------------------------------------------------------------------------- **/
 /** --------------------            Page & Tab Handlers              -------------------- **/
-
 
 /** tabSwitch:
  *  Displays the requested tab and hides all others
@@ -48,7 +44,7 @@ function tabSwitch(tab) {
                     document.getElementById("tab_CSS").classList.add('tab-btn-selected');}  
     if(tab == 3) {  document.getElementById("PREV_space").style.display = "block";
                     document.getElementById("tab_PREV").classList.add('tab-btn-selected');}  
-  }
+}
 
 
 /** pageSwitch:
@@ -67,7 +63,7 @@ function pageSwitch(page) {
     if(page == 2) {document.getElementById("loading_page").style.display   = "block"; }  
     if(page == 3) {document.getElementById("detection_page").style.display = "block"; progSwitch(2)}  
     if(page == 4) {document.getElementById("results_page").style.display   = "block"; progSwitch(3)}  
-  }
+}
 
 
 /** progSwitch:
@@ -102,33 +98,43 @@ function progSwitch(prog) {
 
     })
  
-  }
+}
 
 
-  /** Toggle show of a div
-   * 
-   */
-  function toggleDiv(divID) {
+
+/** toggleDiv:
+*  Toggle the display of a passed div On/Off
+*/
+function toggleDiv(divID) {
     var x = document.getElementById(divID);
     if (x.style.display === "none") { x.style.display = "block";} 
     else { x.style.display = "none";}
-  }
+}
 
 
-// $.ajax({
-//     url: API_URL ,
-//                 crossDomain: true,
-//                 headers: {
-//                       "accept": "application/json",
-//                       "Access-Control-Allow-Origin":"*"
-//                   },
-//                 success: function (data) {
-//                     console.log("OK")
-//                 },
-//                 error: function (xhr, status) {
-//                     alert("error");
-//                 }
-//             });
+/** bypassUpload:
+*   Function similar to confirmUpload, but does not make any calls to googles real API
+*   Instead, it uses a prefabricated JSON: THIS IS FOR TESTING/DEBUGGING PURPOSES ONLY
+*/
+function bypassUpload(){  
+
+  pageSwitch(3); //Detection Page
+
+  // This call retrieves a JSON SAMPLE COPY returned from Google's AI 
+  //$.getJSON("https://api.myjson.com/bins/12dmxq", function(data){  // This is used for debugging
+  $.getJSON("https://api.myjson.com/bins/12d9wa", function(data){
+      console.log(data);
+      console.log(data.blocks)
+      BLOCK_DATA = data.blocks;
+      makeCards();
+      
+  });
+}
+
+
+
+/** ------------------------------------------------------------------------------------- **/
+/** --------------------             API CALL Handlers               -------------------- **/
 
 
 /** confirmUpload:
@@ -181,56 +187,26 @@ function confirmUpload(){
             alert("error");
         }
     });
-
-    // Calls an API that runs the AI function on google
-    // $.getJSON(API_BLOCK_CONVERT, function(data1){
-    //
-    //     // This call retrieves the JSON returned from Google's AI
-    //     $.getJSON(API_BLOCK_REQ + API_SESSION_ID, function(data){
-    //
-    //         document.getElementById("loading_page").style.display = "none";      // Hides
-    //         document.getElementById("detection_page").style.display = "block";   // Shows
-    //
-    //         console.log(data);
-    //         BLOCK_DATA = data.blocks;
-    //         DEBUG_IMG = data.debugImage;
-    //         makeCards();
-    //     });
-    // });
-}
-
-
-function rePos(divID){
-    var element = document.getElementById(divID);
-    element.classList.remove("upld-btn");
-    element.classList.add("expand-upld-btn");
-}
-
-// Function similar to confirmUpload, but does not make any calls to googles real API
-// Instead, it uses a prefabricated JSON: THIS IS FOR TESTING/DEBUGGING PURPOSES ONLY
-function bypassUpload(){  
-
-    pageSwitch(3); //Detection Page
-
-    // This call retrieves a JSON SAMPLE COPY returned from Google's AI 
-    //$.getJSON("https://api.myjson.com/bins/12dmxq", function(data){  // This is used for debugging
-    $.getJSON("https://api.myjson.com/bins/12d9wa", function(data){
-        console.log(data);
-        console.log(data.blocks)
-        BLOCK_DATA = data.blocks;
-        makeCards();
-        
-    });
 }
 
 
 
+/** ------------------------------------------------------------------------------------- **/
+/** --------------------           Button Click Handlers             -------------------- **/
 
-var htmlFile;
-// Detection Page -> Generation Page
+
+/** GenerateHTML:
+ *  Runs when 'Generate' Button is pressed. 
+ *  IN:   template_choice
+ *  OUT:  - Generates HTML based on template choice
+ *        - Displays HTML in HTML tab
+ *        - Displays CSS in CSS tab
+ *        - Renders HTML in PREVIEW tab
+ *        - Displays the Page Holding all these Changes
+*/
 function GenerateHTML(template_choice){
 
-    // Blocks found in detection page pushed into an array in order of detection
+    // Blocks found in detection page pushed into an block_order array
     Populate_blocks(); 
 
     // Array is read and translated into appropriate HTML Code
@@ -238,7 +214,8 @@ function GenerateHTML(template_choice){
 
     // Prints generated HTML into div "pushed_code"
     console.log(code_generated);                                        // Debugging
-    document.getElementById("pushed_code").innerText = code_generated;
+    document.getElementById("pushed_code").innerText = code_generated;  // HTML Div
+    document.getElementById("pushed_css").innerText = cssCodeString;    // CSS Div
 
     // Places Generated code in the preview tab
     htmlFile = new Blob([code_generated], {type: "text/html"});
@@ -249,14 +226,24 @@ function GenerateHTML(template_choice){
     pageSwitch(4);
 }
 
+
+
+/** fullPrev:
+ *  Displays Full-Scale Web Render of the HTML in a new tab 
+ *  IN:   GLOBAL VAR: htmlFile
+ *  OUT:  Opens New tab with rendered website on it
+*/
 function fullPrev(){
     window.open( URL.createObjectURL(htmlFile) ,'_blank')
 }
 
 
 
-
-// Function that handles copying to clipboard (GENERIC)
+/** copyToClipboard:
+ *  Copies all text stored in a given div into user's clipboard. 
+ *  IN:   element_id to copy from
+ *  OUT:  String of all text in that div
+*/
 function copyToClipboard(element) {
     // Copy 
     var $temp = $("<input>");
@@ -267,110 +254,44 @@ function copyToClipboard(element) {
 
     // Alert
     alert("Succesfully copied to Clipboard");
-  }
+}
 
 
-  function getZip(code) {
+
+/** getZip:
+ *  Copies all text stored in HTML/CSS divs and creates zip file with them. 
+ *  IN:   /
+ *  OUT:  ZipFile to be downloaded
+*/
+function getZip() {
     // Creates a new instance
     var zip = new JSZip();
 
-    // Create a file
-    //   var html = document.getElementById("pushed_code").value();
-      console.log(code);
-    // zip.file("index.html", document.getElementById("pushed_code").value());
-    zip.file("index.html", code);
-    zip.file("layout.css", cssCodeString);
+    // Get Code from the divs
+    var HTMLcode = document.getElementById('pushed_code').innerText;   // HTML Div
+    var CSScode  = document.getElementById("pushed_css").innerText;    // CSS Div
 
-    // Add images
-    // zip.file("index.html", "AWH YEAH!");
-    // zip.file("index.html", "AWH YEAH!");
-    // zip.file("index.html", "AWH YEAH!");
- 
-
-    // create a file and a folder
-    // zip.file("nested/hello.txt", "Hello World\n");
-
-    // var img = zip.folder("images");
-    // img.file("smile.gif", imgData, {base64: true});
+    // Put the files in
+    zip.file("index.html", HTMLcode);
+    zip.file("layout.css", CSScode);
     
+    // Generate the zip file + Prompt download
     zip.generateAsync({type:"blob"})
         .then(function(content) {
             // see FileSaver.js
-            saveAs(content, "example.zip");
+            saveAs(content, "YourSite.zip");
     });
-  }
+}
   
- 
-  $("#btn-save").click( function() {
-    var text = document.getElementById("pushed_code").innerText
-    var filename = $("#index").val()
-    var htmlFile = new Blob([text], {type: "text/html"});
-    document.getElementById("PREV_space").src = URL.createObjectURL(htmlFile);
-  });
-
-$("#tab_CSS").click(function () {
-//     console.log("Css");
-//     var reader = new FileReader();
-//     reader.onload = function(e) {
-//         var text = reader.result;
-//         console.log(text)
-//     };
-//     var file = File('Generated/template-1/layout.css');
-//     reader.readAsText(file);
-
-    // fetch('http://htmlforge.com/Generated/template-1/layout.css')
-    //     { mode: 'no-cors'})
-        // .then(function(response) {
-        //     console.log(response); // "opaque"
-        // });
-    document.getElementById("pushed_css").innerText = cssCodeString;
-    console.log(cssCodeString);
-});
 
 
-
-  $("#btn-css").click( function() {
-      console.log("Css");
-    fetch('/Generated/template-1/layout.css')
-    .then(response => response.text())
-    .then(text => console.log(text))
-    // outputs the content of the text file
-
-    // var text = document.getElementById("pushed_code").innerText
-    // var filename = $("#index").val()
-    // var htmlFile = new Blob([text], {type: "text/html"});
-    // document.getElementById("PREV_space").src = URL.createObjectURL(htmlFile);
-  });
-
-
-
-
-/**------------------------------ FUNCTIONS TO BE DELETED --------------------------------------*/
-
-
-/** ResetUpload: 
- *  Re-displays the Upload Div from any button that calls it, will hide other pages
- *      TAKES:      NONE
- *      RETURNS :   NONE
+/** rePos:
+*   Used to adjust the position of the Upload Button on Click
 */
-function resetUpload(){
-    // Pages
-    document.getElementById("upload_page").style.display = "block";     // Shows
-    document.getElementById("detection_page").style.display = "none";   // Hides
-    document.getElementById("results_page").style.display = "none";     // Hides
-    // Components
-    $('#confirm_button').prop('disabled', true);  // Blocks button from being pressed
+function rePos(divID){
+  var element = document.getElementById(divID);
+  element.classList.remove("upld-btn");
+  element.classList.add("expand-upld-btn");
 }
 
-/** showLoading:
- *  Shows loading page
- *      TAKES:      NONE
- *      RETURNS :   Shows Loading Page
-*/
-function showLoading(){
-    // Show loading screen
-    document.getElementById("upload_page").style.display = "none";      // Hides
-    document.getElementById("loading_page").style.display = "block";    // Shows
-    document.getElementById("detection_page").style.display = "none";   // Hides
-    document.getElementById("results_page").style.display = "none";     // Hides
-}
+
