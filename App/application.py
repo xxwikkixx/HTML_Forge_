@@ -132,7 +132,6 @@ def convertRequest(usersession):
             print ("Start Session", usersession)
             sessionID, JSON_Path = OpenCVBoxDetection.startSession(imgPath)
             print ("Start Session", "Done")
-            userQue.remove(i)
             session = sessionID
             return jsonify(sessionID)
 
