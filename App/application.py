@@ -122,6 +122,7 @@ def convertRequest(usersession):
             return jsonify(sessionID)
         else:
             print ("Job Not Found")
+    return 'ok'
 
 @application.route('/api/blocksdetected/getDebugImage/<usersession>')
 @cross_origin(origin='*')
