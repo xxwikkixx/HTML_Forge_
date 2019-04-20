@@ -152,6 +152,16 @@ class boxDetection():
 
         # read the image
         img = cv2.imread(imgPath)
+
+        # h, w, meh = img.shape
+        # print("Height",h,"Width", w)
+        # if w > h:
+        #     print("Image Flipped")
+        #     img = cv2.warpAffine(img, cv2.getRotationMatrix2D(((h / 2), (w / 2)), 270, 1.0), (h, w))
+        #     cv2.imwrite("/Users/edwardlai/Documents/2019 Spring Assignments/HTML_Forge/App/test.jpg", img)
+        #
+
+
         # convert image to gray scale image
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         # detect corners with the goodFeaturesToTrack function.

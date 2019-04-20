@@ -2,6 +2,7 @@ import os
 import shutil
 import socket
 
+from PIL import Image
 from flask import Flask, abort, render_template, request, redirect, url_for, jsonify, send_file, send_from_directory, \
     make_response, session, json
 from werkzeug.utils import secure_filename
@@ -72,6 +73,11 @@ def upload_file():
             os.makedirs(os.path.join('static'))  # make the static folder if it doesnt exist
         if file and allowed_file(file.filename):
             file.save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
+            # Image rotation
+            picture = Image.open(os.path.join(application.config['UPLOAD_FOLDER'], filename))
+            width, height = picture.size
+            if width> height:
+                picture.rotate(270, expand=True).save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
             imgPath = os.path.join(application.config['UPLOAD_FOLDER'], filename)
             print(imgPath)
             job = boxDetection()
