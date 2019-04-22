@@ -114,32 +114,32 @@ def ApiImageUploadedReturn():
     return jsonify(ImageUpLoaded=filesURL)
 
 
-# @application.route('/api/startconvert/<usersession>')
-# @cross_origin(origin='*')
-# def convertRequest(usersession):
-#     # Search for session
-#     for i in userQue:
-#         if i[1] == usersession:
-#             print ("Start Session", usersession)
-#             sessionID, JSON_Path = i[0].startSession(imgPath)
-#             print ("Start Session", "Done")
-#             userQue.remove(i)
-#             session = sessionID
-#             return jsonify(sessionID)
-#         else:
-#             print ("Job Not Found")
-#     return 'ok'
-
 @application.route('/api/startconvert/<usersession>')
 @cross_origin(origin='*')
 def convertRequest(usersession):
     # Search for session
-    global session
-    print ("Start Session", usersession)
-    sessionID, JSON_Path = startSession(imgPath)
-    print ("Start Session", "Done")
-    session = sessionID
-    return jsonify(sessionID)
+    for i in userQue:
+        if i[1] == usersession:
+            print ("Start Session", usersession)
+            sessionID, JSON_Path = i[0].startSession(imgPath)
+            print ("Start Session", "Done")
+            userQue.remove(i)
+            session = sessionID
+            return jsonify(sessionID)
+        else:
+            print ("Job Not Found")
+    return 'ok'
+
+# @application.route('/api/startconvert/<usersession>')
+# @cross_origin(origin='*')
+# def convertRequest(usersession):
+#     # Search for session
+#     global session
+#     print ("Start Session", usersession)
+#     sessionID, JSON_Path = startSession(imgPath)
+#     print ("Start Session", "Done")
+#     session = sessionID
+#     return jsonify(sessionID)
 
 @application.route('/api/blocksdetected/getDebugImage/<usersession>')
 @cross_origin(origin='*')
@@ -192,23 +192,6 @@ def createHTMLFile(htmlstring):
 def parser(list, num):
     for x in num:
         pass
-
-
-
-
-
-# def modifyJson(usersession):
-#     dirc = os.path.dirname(os.path.realpath(__file__))
-#     userUploadPath = os.path.join(dirc, "UserUpload")
-#     jsonPath = os.path.join(userUploadPath, usersession)
-#     dict = []
-#     with open(os.path.join(jsonPath, 'data.json'), 'r') as f:
-#         jsonData = json.load(f)
-#         jsData = jsonData["blocks"]
-#         for i in jsData:
-#             resp = i["Image_Crop_Path"]
-#             for pths in resp:
-#                 print(resp)
 
 if __name__ == '__main__':
     application.run(host='0.0.0.0')
