@@ -1926,17 +1926,17 @@ iframe {
 /* Main slider Area css
 ============================================================================================ */
 .main_slider_area #main_slider {
-  background: url(../img/home-slider/slider-1.png) no-repeat scroll center center;
+  background: url(../img/home-slider/slider-1.jpg) no-repeat scroll center center;
   background-size: cover;
 }
 
 .main_slider_area #dash_slider {
-  background: url(../img/home-slider/slider-bg-1.png) no-repeat scroll center center;
+  background: url(../img/home-slider/slider-1.jpg) no-repeat scroll center center;
   background-size: cover;
 }
 
 .main_slider_area #main_slider_eight {
-  background: url(../img/home-slider/slider-8.png) no-repeat scroll center center;
+  background: url(../img/home-slider/slider-1.jpg) no-repeat scroll center center;
   background-size: cover;
 }
 
