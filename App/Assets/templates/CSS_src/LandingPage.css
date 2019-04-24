@@ -52,6 +52,12 @@ li:hover {
     margin: 1vh;
 }
 
+.forge-profile {
+    background-size: cover;
+    height: 400px;
+    width: 400px;
+    margin: 2em;
+}
 
 
 
