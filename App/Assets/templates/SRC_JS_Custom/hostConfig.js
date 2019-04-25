@@ -1,8 +1,8 @@
-var UseLocalHost = false;
+// var UseLocalHost = false;
 
 
 var host = "http://htmlforge.eastus.cloudapp.azure.com:8080";
-if(UseLocalHost)  host = "http://localhost:5000";
+// if(UseLocalHost)  host = "http://localhost:5000";
 
 
 /** ------------------------------------- API CALLS ------------------------------------- **/
