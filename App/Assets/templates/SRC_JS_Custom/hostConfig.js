@@ -1,4 +1,4 @@
-var UseLocalHost = true;
+var UseLocalHost = false;
 
 
 var host = "http://htmlforge.eastus.cloudapp.azure.com:8080";
