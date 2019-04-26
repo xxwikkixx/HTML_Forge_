@@ -94,6 +94,26 @@ def upload_file():
             return "File Delete"
     return 'ok'
 
+@application.route('/uploadStock/<ImageId>')
+def uploadStock(ImageId):
+    if request.method == 'POST':
+        if not os.path.exists(os.path.join('static')):  # check if the folder exists
+            os.makedirs(os.path.join('static'))  # make the static folder if it doesnt exist
+
+            picture = Image.open("Images/Samples/Samp"+ImageId+".jpg")
+
+            print(imgPath)
+            job = boxDetection()
+            sessionID = job.getSessionID()
+            userQue.append([job, sessionID])
+            print ("UserQue", userQue)
+            return sessionID
+        else:
+            return "File Extension not allowed"
+
+
+
+
 
 @application.route('/api/imageuploaded')
 @cross_origin(origin='*')

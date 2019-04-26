@@ -296,4 +296,59 @@ function rePos(divID){
   element.classList.add("expand-upld-btn");
 }
 
+var userSelectedImage;
+function selectPreMade(divID){
+    userSelectedImage = document.getElementById(divID).childNodes[0];
+    userSelectedImage = userSelectedImage.src;
+    console.log("image"+ userSelectedImage);
+    $('#userChoiceBtn').prop('disabled', false);        // Allows button to be pressed
+}
 
+function userSelectUpload(){
+    // console.log("image"+ userSelectedImage);
+
+
+    // var xmlHttpRequest = new XMLHttpRequest();
+    // var file = userSelectedImage;
+    // var fileName = userSelectedImage;
+    // var target = API_URL+"/upload";
+    // var mimeType = "image/jpg";
+
+    // xmlHttpRequest.open('POST', target, true);
+    // xmlHttpRequest.setRequestHeader('Content-Type', mimeType);
+    // xmlHttpRequest.setRequestHeader('Content-Disposition', 'attachment; filename="' + fileName + '"');
+    // xmlHttpRequest.send(file);
+
+
+    // let formData = new FormData();
+    // formData.append("photo", userSelectedImage);
+    // fetch(API_URL+'/upload', {method: "POST",  mode: 'no-cors', body:  });
+
+    var fd = new FormData();
+    fd.append('file', userSelectedImage);
+
+        $.ajax({
+            url: API_URL + "/upload",
+            type: 'post',
+            data: fd,
+            mode: 'no-cors',
+            contentType: false,
+            processData: false,
+            success: function(response){
+                if(response != 0){
+                    $("#img").attr("src",response);
+                    $(".preview img").show(); // Display image element
+                }else{
+                    alert('file not uploaded');
+                }
+            },
+        });
+
+
+
+    confirmUpload();
+    // pageSwitch(2);
+
+
+    // pageSwitch(3);
+}
