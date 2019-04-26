@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="SRC_CSS_Custom/BGCircles.css">
     <link rel="stylesheet" href="SRC_CSS_Custom/Upload.css">
     <link rel="stylesheet" href="SRC_CSS_Custom/loader.css">
+    <link rel="stylesheet" href="SRC_CSS_Custom/AppModal.css">
 
     <!-- Animation CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
@@ -64,6 +65,8 @@
     </ul>
 </div>
 
+
+      
 <!-- All content will be wrapped in this container-->
 <div class="appContainer animated fadeIn">
 
@@ -386,6 +389,54 @@
     </div> <!-- End of appInnerContainer-->
 </div> <!-- End of appContainer-->
 
+
+<!-- Modal for Error in AI detection -->
+<div id="detErr2" class="forge-modal">
+        <!-- Modal content -->
+        <div class="forge-modal-content">
+            <!-- Message -->
+            <div class="forge-modal-header ">
+                <h5>Edit the Label</h5>
+            </div>
+            <!-- Details -->
+            <div class="forge-modal-body">
+                <p>For now, either Edit or Delete the unrecognized label(s) to proceed with HTML Generation.</p>
+            </div>
+            <!-- Options -->
+            <div class="forge-modal-footer row">
+                <button class="forge-modal-btn" onclick="document.getElementById('detErr2').style.display = 'none'">
+                    Got it!
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+
+<!-- Modal for Error in AI detection -->
+<div id="detErr" class="forge-modal">
+        <!-- Modal content -->
+        <div class="forge-modal-content">
+            <!-- Message -->
+            <div class="forge-modal-header ">
+                <h5>Uh oh</h5>
+            </div>
+            <!-- Details -->
+            <div class="forge-modal-body">
+                <p>Our AI has detected some building blocks it doesn't recognize.</p>
+                <p>With your permission, we would like to use these images to make our AI smarter.</p>
+            </div>
+            <!-- Options -->
+            <div class="forge-modal-footer row">
+                <button class="forge-modal-btn" onclick="document.getElementById('detErr').style.display = 'none'">
+                    Allow
+                </button>
+                <button class="forge-modal-btn"onclick="document.getElementById('detErr').style.display = 'none'">
+                    Don't Allow
+                </button>
+            </div>
+        </div>
+    </div>
 
 
 <!-- -------------------------------------------------------------------------------------->
