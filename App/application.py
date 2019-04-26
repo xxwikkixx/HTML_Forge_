@@ -3,17 +3,13 @@ import shutil
 import socket
 
 from PIL import Image
-from flask import Flask, abort, render_template, request, redirect, url_for, jsonify, send_file, send_from_directory, \
-    make_response, session, json
+from flask import Flask, request, url_for, jsonify, send_file, json
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
-import threading
-import time
 
 # Internal Classes
 from BoxDetection import boxDetection
 from CloudServiceConfig import flaskConfig
-from OpenCVBoxDetection import startSession, initializeSession
 
 application = Flask(__name__)
 application.debug = True
@@ -25,13 +21,6 @@ if "local" in socket.getfqdn().lower():
 
 userQue = []
 
-session = ''
-# imgPath = ''
-
-
-# import sys
-# print(sys.version)
-
 @application.route('/')
 @cross_origin(origin='*')
 def mainPage():
@@ -39,17 +28,6 @@ def mainPage():
     # userUploadPath = os.path.join(dirc, "static")
     # shutil.rmtree(userUploadPath, ignore_errors=True)
     return "Server is up and running"
-
-
-#     global session
-#     sessionID, JSON_Path = startSession(img)
-#     session = sessionID
-#     return jsonify("Session ID : " + sessionID + "</br> JSON Path: " + JSON_Path)
-#     return render_template('Assets/templates/NewAppPage.html')
-
-# @application.route('/')
-# def mainPage():
-#     return render_template("application/Assets/templates/NewAppPage.html")
 
 
 def allowed_file(filename):
@@ -141,16 +119,6 @@ def convertRequest(usersession):
             print ("Job Not Found")
     return 'ok'
 
-# @application.route('/api/startconvert/<usersession>')
-# @cross_origin(origin='*')
-# def convertRequest(usersession):
-#     # Search for session
-#     global session
-#     print ("Start Session", usersession)
-#     sessionID, JSON_Path = startSession(imgPath)
-#     print ("Start Session", "Done")
-#     session = sessionID
-#     return jsonify(sessionID)
 
 @application.route('/api/blocksdetected/getDebugImage/<usersession>')
 @cross_origin(origin='*')
