@@ -68,8 +68,15 @@ FULL_PATH_TO_THIS_FOLDER = (os.getcwd())
 class boxDetection():
     def __init__(self):
         self.job = ImageProcessSession()
+        self.imagePath = ""
         self.sessionID = self.job.getSessionID()
         self.blocksDB = Blocks()
+
+    def setImagePath(self, path):
+        self.imagePath = path
+
+    def getImagePath(self):
+        return self.imagePath
 
     def getSessionID(self):
         return self.sessionID

@@ -15,7 +15,7 @@ var BLOCK_QUEUE = [];       // A Queue which is populated with labels, in order 
                             // Are found
 var BLOCK_DATA;             // Stores JSON data returned by the Google AI
 var DEBUG_IMG;              // Stores Debugged image path returned by OpenCV with Google AI
-var htmlFile;               // Stores an Instance of parsed HTML for live-Rendering 
+var htmlFile;               // Stores an Instance of parsed HTML for live-Rendering
 /** ------------------------------------------------------------------------------------- **/
 
 
@@ -133,7 +133,32 @@ function bypassUpload(){
   });
 }
 
+function setSessionID(sId) {
+    API_SESSION_ID = sId;
+}
 
+var userSelectedImage;
+function selectPreMade(divID){
+    userSelectedImage = divID;
+    console.log("image"+ userSelectedImage);
+    $('#userChoiceBtn').prop('disabled', false);        // Allows button to be pressed
+}
+
+function userSelectUpload(){
+    fetch(API_URL + "/upload/"+ userSelectedImage+"/Stock")
+      .then(function(response) {
+          return response.json();
+      })
+    .then(function(myJson) {
+        setSessionID(JSON.stringify(myJson.id));
+        console.log(API_SESSION_ID);
+        API_SESSION_ID = API_SESSION_ID.replace(/['"]+/g, '');
+        confirmUpload();
+    });
+
+    // window.API_SESSION_ID = SID;
+
+}
 
 /** ------------------------------------------------------------------------------------- **/
 /** --------------------             API CALL Handlers               -------------------- **/
@@ -151,7 +176,7 @@ function confirmUpload(){
     
     // Show loading screen
     pageSwitch(2);
-
+    console.log(API_BLOCK_CONVERT + "/" + API_SESSION_ID);
     $.ajax({
         url: API_BLOCK_CONVERT + "/" + API_SESSION_ID,
         dataType: "json",
@@ -296,59 +321,4 @@ function rePos(divID){
   element.classList.add("expand-upld-btn");
 }
 
-var userSelectedImage;
-function selectPreMade(divID){
-    userSelectedImage = document.getElementById(divID).childNodes[0];
-    userSelectedImage = userSelectedImage.src;
-    console.log("image"+ userSelectedImage);
-    $('#userChoiceBtn').prop('disabled', false);        // Allows button to be pressed
-}
 
-function userSelectUpload(){
-    // console.log("image"+ userSelectedImage);
-
-
-    // var xmlHttpRequest = new XMLHttpRequest();
-    // var file = userSelectedImage;
-    // var fileName = userSelectedImage;
-    // var target = API_URL+"/upload";
-    // var mimeType = "image/jpg";
-
-    // xmlHttpRequest.open('POST', target, true);
-    // xmlHttpRequest.setRequestHeader('Content-Type', mimeType);
-    // xmlHttpRequest.setRequestHeader('Content-Disposition', 'attachment; filename="' + fileName + '"');
-    // xmlHttpRequest.send(file);
-
-
-    // let formData = new FormData();
-    // formData.append("photo", userSelectedImage);
-    // fetch(API_URL+'/upload', {method: "POST",  mode: 'no-cors', body:  });
-
-    var fd = new FormData();
-    fd.append('file', userSelectedImage);
-
-        $.ajax({
-            url: API_URL + "/upload",
-            type: 'post',
-            data: fd,
-            mode: 'no-cors',
-            contentType: false,
-            processData: false,
-            success: function(response){
-                if(response != 0){
-                    $("#img").attr("src",response);
-                    $(".preview img").show(); // Display image element
-                }else{
-                    alert('file not uploaded');
-                }
-            },
-        });
-
-
-
-    confirmUpload();
-    // pageSwitch(2);
-
-
-    // pageSwitch(3);
-}

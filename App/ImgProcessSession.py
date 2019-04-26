@@ -51,6 +51,7 @@ class ImageProcessSession:
 
     def userImageImport(self, src):
         folderPath = (os.getcwd())
+        print (src)
         baseName = os.path.basename(src)
         self.fileName = baseName
         copyfile(src, self.sessionPath + baseName)

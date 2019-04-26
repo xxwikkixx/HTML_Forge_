@@ -26,7 +26,7 @@ if "local" in socket.getfqdn().lower():
 userQue = []
 
 session = ''
-imgPath = ''
+# imgPath = ''
 
 
 # import sys
@@ -65,7 +65,6 @@ application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @application.route('/upload', methods=['GET', 'POST', 'DELETE'])
 @cross_origin(origin='*')
 def upload_file():
-    global imgPath
     file = request.files['file']
     filename = secure_filename(file.filename)
     if request.method == 'POST':
@@ -79,8 +78,8 @@ def upload_file():
             if width> height:
                 picture.rotate(270, expand=True).save(os.path.join(application.config['UPLOAD_FOLDER'], filename))
             imgPath = os.path.join(application.config['UPLOAD_FOLDER'], filename)
-            print(imgPath)
             job = boxDetection()
+            job.setImagePath(imgPath)
             sessionID = job.getSessionID()
             userQue.append([job, sessionID])
             print ("UserQue", userQue)
@@ -94,25 +93,16 @@ def upload_file():
             return "File Delete"
     return 'ok'
 
-@application.route('/uploadStock/<ImageId>')
+@application.route('/upload/<ImageId>/Stock')
 def uploadStock(ImageId):
-    if request.method == 'POST':
-        if not os.path.exists(os.path.join('static')):  # check if the folder exists
-            os.makedirs(os.path.join('static'))  # make the static folder if it doesnt exist
-
-            picture = Image.open("Images/Samples/Samp"+ImageId+".jpg")
-
-            print(imgPath)
-            job = boxDetection()
-            sessionID = job.getSessionID()
-            userQue.append([job, sessionID])
-            print ("UserQue", userQue)
-            return sessionID
-        else:
-            return "File Extension not allowed"
-
-
-
+    # if not os.path.exists(os.path.join('static')):  # check if the folder exists
+    #     os.makedirs(os.path.join('static'))  # make the static folder if it doesnt exist
+    picture = "Assets/templates/Images/Samples/Samp"+ImageId+".jpg"
+    job = boxDetection()
+    job.setImagePath(picture)
+    userQue.append([job, job.getSessionID()])
+    print ("UserQue", userQue)
+    return json.dumps({"id": job.getSessionID()})
 
 
 @application.route('/api/imageuploaded')
@@ -138,13 +128,14 @@ def ApiImageUploadedReturn():
 @cross_origin(origin='*')
 def convertRequest(usersession):
     # Search for session
+    print(usersession)
     for i in userQue:
+        print(i)
         if i[1] == usersession:
             print ("Start Session", usersession)
-            sessionID, JSON_Path = i[0].startSession(imgPath)
+            sessionID, JSON_Path = i[0].startSession(i[0].getImagePath())
             print ("Start Session", "Done")
             userQue.remove(i)
-            session = sessionID
             return jsonify(sessionID)
         else:
             print ("Job Not Found")
