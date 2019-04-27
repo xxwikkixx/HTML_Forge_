@@ -138,7 +138,17 @@ function setSessionID(sId) {
 }
 
 var userSelectedImage;
-function selectPreMade(divID){
+function selectPreMade(actualID, divID){
+
+    // Removes CSS selected Class from all
+    document.getElementById("usu_1").classList.remove('selectedUpload');
+    document.getElementById("usu_2").classList.remove('selectedUpload');
+    document.getElementById("usu_3").classList.remove('selectedUpload');
+    document.getElementById("usu_4").classList.remove('selectedUpload');
+    document.getElementById("usu_5").classList.remove('selectedUpload');
+    // Adds CSS to selected Element
+    document.getElementById(actualID).classList.add('selectedUpload');
+
     userSelectedImage = divID;
     console.log("image"+ userSelectedImage);
     $('#userChoiceBtn').prop('disabled', false);        // Allows button to be pressed
