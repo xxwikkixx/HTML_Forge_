@@ -303,7 +303,7 @@ function copyToClipboard(element) {
     $temp.remove();
 
     // Alert
-    alert("Succesfully copied to Clipboard");
+    document.getElementById('copiedSuccess').style.display = "block";
 }
 
 
