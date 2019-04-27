@@ -130,7 +130,7 @@ body {
 
 .uploadCard-btn:hover { background-position: right center; }
 .uploadCard-btn {
-    background-image: linear-gradient(to right, #185a9d 0% ,#299472 100%);
+    background-image: linear-gradient(to right, #185a9d 0% ,rgb(41, 148, 114) 100%);
     /* background-image: linear-gradient(to right, #3494E6 0%, #EC6EAD 100%); */
     background-size: 400% 400%;
     height: 60px;
@@ -145,7 +145,7 @@ button:disabled {
 }
 .selectedUpload {
     /* box-shadow: 0px 0px 20px 5px rgba(17,97,140,0.8) !important; */
-    box-shadow: 0px 0px 20px 5px rgba(29,145,102,1) !important;
+    box-shadow: 0px 0px 20px 5px rgba(41, 148, 114, 1) !important;
 }
 
 /*********************************************************************************/
