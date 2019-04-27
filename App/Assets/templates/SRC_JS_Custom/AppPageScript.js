@@ -133,42 +133,6 @@ function bypassUpload(){
   });
 }
 
-function setSessionID(sId) {
-    API_SESSION_ID = sId;
-}
-
-var userSelectedImage;
-function selectPreMade(actualID, divID){
-
-    // Removes CSS selected Class from all
-    document.getElementById("usu_1").classList.remove('selectedUpload');
-    document.getElementById("usu_2").classList.remove('selectedUpload');
-    document.getElementById("usu_3").classList.remove('selectedUpload');
-    document.getElementById("usu_4").classList.remove('selectedUpload');
-    document.getElementById("usu_5").classList.remove('selectedUpload');
-    // Adds CSS to selected Element
-    document.getElementById(actualID).classList.add('selectedUpload');
-
-    userSelectedImage = divID;
-    console.log("image"+ userSelectedImage);
-    $('#userChoiceBtn').prop('disabled', false);        // Allows button to be pressed
-}
-
-function userSelectUpload(){
-    fetch(API_URL + "/upload/"+ userSelectedImage+"/Stock")
-      .then(function(response) {
-          return response.json();
-      })
-    .then(function(myJson) {
-        setSessionID(JSON.stringify(myJson.id));
-        console.log(API_SESSION_ID);
-        API_SESSION_ID = API_SESSION_ID.replace(/['"]+/g, '');
-        confirmUpload();
-    });
-
-    // window.API_SESSION_ID = SID;
-
-}
 
 /** ------------------------------------------------------------------------------------- **/
 /** --------------------             API CALL Handlers               -------------------- **/
@@ -224,6 +188,55 @@ function confirmUpload(){
             alert("error");
         }
     });
+}
+
+
+/** userSelectUpload:
+ *  Runs when 'Use This Image' Button is pressed and displays the detection page. 
+ *  Calls an alternate route to confirmUpload
+ *  Calls makeCards to generate cards based on returned JSON
+ *      TAKES:      Global Variable userSelectedImage
+ *      RETURNS :   NONE
+*/
+var userSelectedImage;  // Global Var Used for the Image
+function userSelectUpload(){
+    fetch(API_URL + "/upload/"+ userSelectedImage+"/Stock")
+      .then(function(response) {
+          return response.json();
+      })
+    .then(function(myJson) {
+        setSessionID(JSON.stringify(myJson.id));
+        console.log(API_SESSION_ID);
+        API_SESSION_ID = API_SESSION_ID.replace(/['"]+/g, '');
+        confirmUpload();
+    });
+}
+
+// Updates Image Choice and CSS
+function selectPreMade(actualID, divID){
+    // Removes CSS selected Class from all
+    document.getElementById("usu_1").classList.remove('selectedUpload');
+    document.getElementById("usu_2").classList.remove('selectedUpload');
+    document.getElementById("usu_3").classList.remove('selectedUpload');
+    document.getElementById("usu_4").classList.remove('selectedUpload');
+    document.getElementById("usu_5").classList.remove('selectedUpload');
+
+    // Adds CSS to selected Element
+    document.getElementById(actualID).classList.add('selectedUpload');
+
+    // Update Selected Image
+    userSelectedImage = divID;
+
+    // Allows button to be pressed
+    $('#userChoiceBtn').prop('disabled', false);     
+    
+    // Debugging:
+    // console.log("image"+ userSelectedImage);
+}
+
+// Setter Function to update the global variable 'User Selected Image' based on user choice
+function setSessionID(sId) {
+    API_SESSION_ID = sId;
 }
 
 
