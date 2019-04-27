@@ -191,6 +191,7 @@ function confirmUpload(){
 }
 
 
+
 /** userSelectUpload:
  *  Runs when 'Use This Image' Button is pressed and displays the detection page. 
  *  Calls an alternate route to confirmUpload
