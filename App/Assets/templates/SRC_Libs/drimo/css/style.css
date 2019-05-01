@@ -3896,6 +3896,7 @@ iframe {
   }
 }
 
+
 .app_feature_area_two .imag-two {
   left: 115px;
 }
@@ -13779,3 +13780,16 @@ iframe {
 /*---------------------------------------------------- */
 
 /*# sourceMappingURL=style.css.map */
+
+
+
+.qaH {
+  min-height: 230px;
+
+}
+
+@media (max-width: 767px) {
+  .qaH {
+    min-height: 0px;
+  }
+}
