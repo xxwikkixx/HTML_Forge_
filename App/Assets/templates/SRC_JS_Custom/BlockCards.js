@@ -26,9 +26,9 @@ var onDelete = 'zoomOut';           // Animation from Animate.css used when a ca
 function prettyLabel ( plabel ) {
 
     if(plabel == labels[5])             {return "Single Image";}           // Stand Alone Image
-    if(plabel == labels[6])             {return "Slider Gallary";}         // Slider Gallary
+    if(plabel == labels[6])             {return "Slider Gallery";}         // Slider Gallary
     if(plabel == labels[7])             {return "Image Preview";}          // Image Preview
-    if(plabel == labels[8])             {return "Image Gallary";}          // Image Gallary Spread
+    if(plabel == labels[8])             {return "Image Gallery";}          // Image Gallary Spread
     if(plabel == labels[9])             {return "Image-Left Text-Right";}  // Image-Left Text-Right 
     if(plabel == labels[10])            {return "Image-Right Text-Left";}  // Image-Right Text-Left
     if(plabel == labels[11])            {return "Image-Top Text-Bottom";}  // Image-Top Text-Bottom
@@ -64,7 +64,7 @@ function makeCards(){
         for(var i = 0; i < BLOCK_DATA.length; i++){
         
         createCard(
-            prettyLabel(BLOCK_DATA[i].Best_Predictions[0]),
+            BLOCK_DATA[i].Best_Predictions[0],
             parseFloat(Math.round(BLOCK_DATA[i].Best_Predictions[1] * 100000) / 1000).toFixed(2),
             BLOCK_DATA[i].Image_Crop_Path
         );
@@ -101,7 +101,7 @@ function createCard(label, prob, image){
     +        '<div class ="cardImageOuter valign-wrapper">'
     +           '<img class="materialboxed cardImageInner" src="' + image + '">'
     +        '</div>'
-    +        '<h5 id="'+ id_Count +'card_title" class="cc-tl card-title m-0">' + label + '</h5>'
+    +        '<h5 id="'+ id_Count +'card_title" class="cc-tl card-title m-0">' + prettyLabel(label) + '</h5>'
     +        '<p  id="'+ id_Count +'card_prob"  class="cc-bl card-text m-0">Probability: ' + prob + ' % </p>'
     +    '</div>'
     +    '<div class="cardButtons col s2 valign-center">'
@@ -114,9 +114,9 @@ function createCard(label, prob, image){
     +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 3)">Paragraph</a> </li>'
     +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 4)">Title</a> </li>'
     +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 5)">Single Image</a> </li>'
-    +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 6)">Slider Gallary</a> </li>'
+    +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 6)">Slider Gallery</a> </li>'
     +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 7)">Image Preview</a> </li>'
-    +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 8)">Image Gallary</a> </li>'
+    +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 8)">Image Gallery</a> </li>'
     +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 9)" >Image-L Text-R</a> </li>'
     +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 10)">Image-R Text-L</a> </li>'
     +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 11)">Image-T Text-B</a>  </li>'
