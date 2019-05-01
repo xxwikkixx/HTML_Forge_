@@ -732,12 +732,14 @@ iframe {
 /* Dashboard Menu css
 ============================================================================================ */
 .dash_tp_menu_area {
+  background-color: white !important;
   position: absolute;
   left: 0p;
   top: 0px;
   width: 100%;
   z-index: 22;
   padding: 0px 70px 0px 55px;
+  box-shadow: 0 0px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 .dash_tp_menu_area .navbar.navbar-default {
@@ -780,7 +782,8 @@ iframe {
   font-family: "Heebo", sans-serif;
   font-weight: 500;
   letter-spacing: .32px;
-  color: #fff;
+  color: grey;
+  /* text-shadow: 0px 0px 10px grey; */
   background: transparent;
   display: block;
   line-height: 42px;
@@ -886,12 +889,17 @@ iframe {
   margin-right: 0px;
 }
 
+.dash_tp_menu_area .navbar.navbar-default .nav.navbar-nav.navbar-right li.get_free_btn a:hover{  
+  background: rgb(196, 156, 38); 
+}
+
 .dash_tp_menu_area .navbar.navbar-default .nav.navbar-nav.navbar-right li.get_free_btn a {
-  background: #121921;
+  background: #F2C230;
   text-align: center;
   padding: 0px 18px;
   border-radius: 3px;
-  color: #ffcd2f;
+  color: white;
+  text-shadow: 0px 0px 0px grey;
   font-size: 14px;
 }
 
@@ -926,7 +934,7 @@ iframe {
   top: -70px;
   left: 0;
   right: 0;
-  background: #000;
+  background-color: white;
   -webkit-transform: translateY(70px);
   -ms-transform: translateY(70px);
   transform: translateY(70px);
@@ -5318,7 +5326,7 @@ iframe {
 .black_d_btn {
   display: inline-block;
   padding: 0px 52px;
-  background: rgba(255, 133, 0, 0.99);
+  background: #F2C230;
   color: #fff;
   line-height: 76px;
   border-radius: 3px;
@@ -5330,7 +5338,7 @@ iframe {
 }
 
 .black_d_btn:hover {
-  background: #ffcd2f;
+  background: rgb(156, 120, 11);
   color: #fff;
 }
 
@@ -13792,4 +13800,8 @@ iframe {
   .qaH {
     min-height: 0px;
   }
+}
+
+.tw1 {
+  text-shadow: 0px 0px 1px grey;
 }
