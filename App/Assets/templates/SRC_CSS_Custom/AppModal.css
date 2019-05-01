@@ -18,7 +18,8 @@
 
 .forge-modal-header {
     padding: 0.2em;
-    background-image: linear-gradient(to right, #185a9d 0% ,#299472 100%);
+    background-image: linear-gradient(to right, #04C4D9 0% ,#0B8CBF 100%);
+    /* background-image: linear-gradient(to right, #185a9d 0% ,#299472 100%); */
     color: white;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
@@ -50,13 +51,13 @@
 
 .forge-modal-footer {
     padding: 1em !important;
-    background-image: linear-gradient(to right, #185a9d 0% ,#299472 100%);
+    background-image: linear-gradient(to right, #04C4D9 0% ,#0B8CBF 100%);
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
   }
 
 .forge-modal-btn:hover { 
-    background-color:  orange; 
+    background-color:  #F2C230; 
     color: white;
 }
 .forge-modal-btn {

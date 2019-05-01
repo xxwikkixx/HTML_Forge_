@@ -231,7 +231,7 @@ function cardFocus(id){
 function isValidQueue(){
     // Check for unrecognized labels in queue
     for(var i = 0; i < BLOCK_QUEUE.length; i++){
-        if(BLOCK_QUEUE[i] == "Not Recognized" ) {
+        if(BLOCK_QUEUE[i] == "!!Not Recognize!! " ) {
             document.getElementById('detErr').style.display = "block";
             document.getElementById('detErr2').style.display = "block";
             $('#Generate-btn').prop('disabled', true);

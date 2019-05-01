@@ -9,7 +9,8 @@ body {
     /** Background colors **/
     /* background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB); */
     /* background: linear-gradient(-45deg, rgba(17, 46, 102), rgb(53, 50, 204), rgb(108, 51, 168), rgba(68, 26, 112)); */
-    background: linear-gradient(-45deg,#299472 , #185a9d );
+    /* background: linear-gradient(-45deg,#299472 , #185a9d ); */
+    background: linear-gradient(-45deg, #04C4D9, #0B8CBF);
 
     background-repeat: no-repeat;
     background-size: 400% 400%;
@@ -20,7 +21,7 @@ body {
 	animation:          Gradient 15s ease infinite;
 }
 
-.appDebugger-btn:hover { background-color: rgb(100, 16, 16); }
+.appDebugger-btn:hover { background-color: #F2C230; }
 .appDebugger-btn {
     background-color: transparent;
     color: transparent;
@@ -73,7 +74,7 @@ body {
     /* Default margin sizes */
     margin-left: 10vmin;
     margin-right: 10vmin;
-    margin-top: 2.5vh;
+    margin-top: 8vh;
     margin-bottom: 5vmin;
 
     animation-duration: 3s;
@@ -130,7 +131,8 @@ body {
 
 .uploadCard-btn:hover { background-position: right center; }
 .uploadCard-btn {
-    background-image: linear-gradient(to right, #185a9d 0% ,rgb(41, 148, 114) 100%);
+    /* background-image: linear-gradient(to right, #185a9d 0% ,rgb(41, 148, 114) 100%); */
+    background-image: linear-gradient(to right, rgb(10, 125, 170) 0% ,rgb(8, 89, 121) 100%);
     /* background-image: linear-gradient(to right, #3494E6 0%, #EC6EAD 100%); */
     background-size: 400% 400%;
     height: 60px;
@@ -145,7 +147,7 @@ button:disabled {
 }
 .selectedUpload {
     /* box-shadow: 0px 0px 20px 5px rgba(17,97,140,0.8) !important; */
-    box-shadow: 0px 0px 20px 5px rgba(41, 148, 114, 1) !important;
+    box-shadow: 0px 0px 20px 5px #F2C230 !important;
 }
 
 /*********************************************************************************/
@@ -157,7 +159,8 @@ button:disabled {
 
 .copyThis-btn:hover { background-position: right center; }
 .copyThis-btn {
-    background-image: linear-gradient(to right, #185a9d 0% ,#299472 100%);
+    background-image: linear-gradient(to right, #049DBF 0% ,#0BD9D9 100%);
+    /* background-image: linear-gradient(to right, #185a9d 0% ,#299472 100%); */
     /* background-image: linear-gradient(to right, #3494E6 0%, #EC6EAD 100%); */
     background-size: 400% 400%;
     height: 40px;
@@ -184,6 +187,7 @@ button:disabled {
 .tab-btn:hover { background-position: right center; }
 .tab-btn {
     background-image: linear-gradient(to bottom, rgb(202, 202, 202) 0%, rgb(126, 126, 126) 100%);
+    /* background-image: linear-gradient(to bottom, #F2C230 0%, rgb(180, 139, 15) 100%); */
     background-size: 400% 400%;
     height: 50px;
     width: 100%;
@@ -364,12 +368,13 @@ pre.prettyprint {
 }
 .cardImageInner {
     width:100%;
-    max-height:130px; 
+    max-height:90px; 
     margin: 0 auto;
     object-fit: contain;
 }
 .cardButtons {
-    background-image:  linear-gradient(to top,rgb(219, 35, 35) 0%, rgb(220, 36, 36) 15%, rgb(57, 136, 240) 85%,rgb(57, 136, 240) 100%);
+    /* background-image:  linear-gradient(to top,rgb(219, 35, 35) 0%, rgb(220, 36, 36) 15%, rgb(57, 136, 240) 85%,rgb(57, 136, 240) 100%); */
+    background-image:  linear-gradient(to top,#F2C230 0%, #F2C230 50%, #049DBF 50%,#049DBF 100%);
     /* background-image: grey; */
     /* #4A569D Blue */
     margin-left: 0px; 
@@ -417,7 +422,7 @@ pre.prettyprint {
 } 
 .dropdown-content li>a, .dropdown-content li>span {
     /* color: #26a69a; /* older color */
-    color: #039be5;
+    color: #049DBF;
 }
 
 /* Container holding the image and the text */
