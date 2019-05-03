@@ -3423,7 +3423,7 @@ iframe {
 /* Question Area css
 ============================================================================================ */
 .question_area {
-  background: #EFF1FF;
+  background:#f6f7fa ;
   padding: 100px 0px;
 }
 
@@ -3454,7 +3454,7 @@ iframe {
 .left_question_inner .panel-group .panel-default .panel-heading .panel-title a {
   font-size: 18px;
   color: #424242;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Heebo", sans-serif;
   font-weight: normal;
   line-height: 70px;
   padding: 0px 25px;
@@ -3801,6 +3801,10 @@ iframe {
   padding: 110px 0px;
 }
 
+.asked_ques_spacing {
+  padding: 110px 0px;
+}
+
 .asked_ques_inner {
   margin-bottom: -30px;
   overflow: hidden;
@@ -4057,7 +4061,7 @@ iframe {
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
   transform: translateX(-50%);
-  top: 108px;
+  top: 120px;
   max-width: 940px;
   z-index: -1;
 }
@@ -4072,7 +4076,7 @@ iframe {
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
   transform: translateX(-50%);
-  top: 115px;
+  top: 140px;
   max-width: 940px;
   z-index: -1;
 }
@@ -13792,7 +13796,7 @@ iframe {
 
 
 .qaH {
-  min-height: 230px;
+  min-height: 240px;
 
 }
 
@@ -13804,4 +13808,17 @@ iframe {
 
 .tw1 {
   text-shadow: 0px 0px 1px grey;
+}
+
+.shadowInset {
+  -moz-box-shadow:    inset 0 0 10px rgba(0,0,0,0.19);
+  -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.19);
+  box-shadow:         inset 0 0 10px rgba(0,0,0,0.19);
+}
+
+.shadowAround {
+  /* -moz-box-shadow:    0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+  -moz-box-shadow:    0px 3px 12.35px 0.65px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 3px 12.35px 0.65px rgba(0, 0, 0, 0.1);
+  box-shadow:         0px 3px 12.35px 0.65px rgba(0, 0, 0, 0.1);
 }
