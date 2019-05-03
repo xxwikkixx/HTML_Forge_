@@ -201,7 +201,7 @@ function T1_SingleImage () {
     var codeBuffer = "";
     codeBuffer += '<section id="slider">';
     codeBuffer +=   '<a href="#">';
-    codeBuffer +=       '<img src="Blank-grey.gif" alt="" style="width: 960px; height: 360px;">';
+    codeBuffer +=       '<img class="shadowAround" src="'+ getImage() + '" alt="" style="width: 960px; height: 360px; object-fit: cover;">';
     codeBuffer +=   '</a>';
     codeBuffer += '</section>';
 
@@ -225,7 +225,7 @@ function T1_ImagePara () {
     codeBuffer += '<section id="slider">';
     codeBuffer +=   '<a href="#">';
     codeBuffer +=       '<img src="Arrow_L.png" alt="" style="width: 130px; height: 360px;">';
-    codeBuffer +=       '<img src="Blank-grey.gif" alt="" style="width: 690px; height: 360px;">';
+    codeBuffer +=       '<img src="'+ getImage() + '" alt="" style="width: 690px; height: 360px; object-fit: cover;">';
     codeBuffer +=       '<img src="Arrow_R.png" alt="" style="width: 130px; height: 360px;">';
     codeBuffer +=   '</a>';
     codeBuffer += '</section>';
@@ -249,19 +249,19 @@ function T1_ImagePrev () {
     var codeBuffer = "";
     codeBuffer += '<section id="slider">';
     codeBuffer +=   '<a href="#">';
-    codeBuffer +=       '<img src="Blank-grey.gif" alt="" style="width: 960px; height: 360px;">';
+    codeBuffer +=       '<img src="'+ getImage() + '" alt="" style="width: 960px; height: 360px; object-fit: cover;">';
     codeBuffer +=   '</a>';
     codeBuffer += '</section>';
-    codeBuffer += '<section id="latest" class="last clear">';
+    codeBuffer += '<section id="latest" class="last clear" style="margin-bottom:50px;">';
     
     for (var i = 0; i < 3; i++){
         codeBuffer += '<article class="one_quarter">';
-        codeBuffer +=   '<figure><img src="Blank-grey.gif" width="215" height="100" alt=""></figure>';
+        codeBuffer +=   '<figure><img src="'+ getImage() + '" width="215" height="100" alt="" style="object-fit: cover;"></figure>';
         codeBuffer += '</article>';
     }
     
     codeBuffer += '<article class="one_quarter lastbox">';
-    codeBuffer +=   '<figure><img src="Blank-grey.gif" width="215" height="100" alt=""></figure>';
+    codeBuffer +=   '<figure><img src="'+ getImage() + '" width="215" height="100" alt="" style="object-fit: cover;"></figure>';
     codeBuffer += '</article>';
 
     codeBuffer += '</section>';
@@ -282,13 +282,13 @@ function T1_ImagePrev () {
 function T1_ImageSimple () {
 
     var codeBuffer = "";
-
+    codeBuffer += '<div class="margin-bottom:50px;">'
     for(var x = 0; x < 3; x++){
         codeBuffer += '<section id="latest" class="last clear">';
         for(var i = 0; i < 4; i++){
             if(i < 3) {codeBuffer += '<article class="one_quarter">';}
             else      {codeBuffer += '<article class="one_quarter lastbox">';}
-            codeBuffer +=   '<figure><img src="Blank-grey.gif" width="215" height="100" alt="">';
+            codeBuffer +=   '<figure><img src="'+ getImage() + '" style="object-fit: cover; width:215px; height:100px;" alt="">';
             codeBuffer +=      '<figcaption>';
             codeBuffer +=           '<h2>' + GenerateTitle() + '</h2>';
             codeBuffer +=           '<p>'  + GenerateParagraph(2) + '</p>';
@@ -298,6 +298,7 @@ function T1_ImageSimple () {
         }
         codeBuffer += '</section>';
     }
+    codeBuffer += '</div>'
 
     return codeBuffer;
 }
@@ -318,7 +319,7 @@ function T1_ImgLeft_TxtRight () {
     var codeBuffer = "";
 
     codeBuffer += '<section id="imgLTxtR" class="clear">';
-    codeBuffer +=   '<figure><img src="Blank-grey.gif" alt="">';
+    codeBuffer +=   '<figure><img src="'+ getImage() + '" alt="" style="object-fit: cover;">';
     codeBuffer +=       '<figcaption>';
     codeBuffer +=           '<h2>' + GenerateTitle() + '</h2>';
     codeBuffer +=           '<p>' + GenerateParagraph(5) + '</p>';
@@ -344,7 +345,7 @@ function T1_ImgRight_TxtLeft () {
     var codeBuffer = "";
 
     codeBuffer += '<section id="imgRTxtL" class="clear">';
-    codeBuffer +=   '<figure><img src="Blank-grey.gif" alt="">';
+    codeBuffer +=   '<figure><img src="'+ getImage() + '" alt="" style="object-fit: cover;">';
     codeBuffer +=       '<figcaption>';
     codeBuffer +=           '<h2>' + GenerateTitle() + '</h2>';
     codeBuffer +=           '<p>' + GenerateParagraph(5) + '</p>';
@@ -370,7 +371,7 @@ function T1_ImgTop_TxtBottom () {
     var codeBuffer = "";
 
     codeBuffer +=  '<section id="imgTTxtB" class="clear">';
-    codeBuffer +=    '<figure><img src="Blank-grey.gif" alt="">'; 
+    codeBuffer +=    '<figure><img src="'+ getImage() + '" alt="" style="object-fit: cover;">'; 
     codeBuffer +=      '<figcaption>';
     codeBuffer +=         '<h2>' + GenerateTitle() + '</h2>';
     codeBuffer +=         '<p>'  + GenerateParagraph(7) + '</p>';
