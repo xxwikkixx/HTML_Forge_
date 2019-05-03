@@ -32,6 +32,8 @@ function prettyLabel ( plabel ) {
     if(plabel == labels[9])             {return "Image-Left Text-Right";}  // Image-Left Text-Right 
     if(plabel == labels[10])            {return "Image-Right Text-Left";}  // Image-Right Text-Left
     if(plabel == labels[11])            {return "Image-Top Text-Bottom";}  // Image-Top Text-Bottom
+    if(plabel == labels[12])            {return "Image Text-Top";}         // Image with text on top
+    if(plabel == labels[13])            {return "People";}                 // Image-Right Text-Left
 
     if(plabel == "!!Not Recognize!! ")  {return "Not Recognized";}         // Unrecognized label (AI returned)
     return plabel;              // Return Unchanged Label Otherwise
@@ -120,6 +122,8 @@ function createCard(label, prob, image){
     +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 9)" >Image-L Text-R</a> </li>'
     +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 10)">Image-R Text-L</a> </li>'
     +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 11)">Image-T Text-B</a>  </li>'
+    +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 12)">Image Text-Top</a>  </li>'
+    +            '<li> <a id="' + id_Count + 'card" onclick="editCard(this.id, 13)">People</a>  </li>'
     +          '</ul>'
     +    '</div>'
     +'</div>';

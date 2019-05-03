@@ -27,6 +27,7 @@ function T1_init () {
     codeBuffer +=   '<meta charset="UTF-8">';
     codeBuffer +=   '<link rel="stylesheet" href="layout.css" type="text/css">';
     codeBuffer +=   '<link rel="stylesheet" href="http://htmlforge.com/Generated/template-1/layout.css" type="text/css">';
+    codeBuffer +=   '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css" type="text/css">';
     codeBuffer += '</head>';
     codeBuffer += '<body>';
 
@@ -157,7 +158,7 @@ function T1_Para () {
 
     var codeBuffer = "";
 
-    codeBuffer += '<section id="shout">';
+    codeBuffer += '<section id="shout" class="animated fadeIn">';
     codeBuffer +=   '<h2>' + GenerateTitle() + '</h2>';
     codeBuffer +=   '<p>' + GenerateParagraph(6) + '</p>';
     codeBuffer += '</section>';
@@ -179,7 +180,7 @@ function T1_Title () {
 
     var codeBuffer = "";    
 
-    codeBuffer += '<section id="shout">';
+    codeBuffer += '<section id="shout" class="animated fadeIn">';
     codeBuffer +=   '<h2>' + GenerateTitle() + '</h2>';
     codeBuffer += '</section>';
 
@@ -199,7 +200,7 @@ function T1_Title () {
 function T1_SingleImage () {
 
     var codeBuffer = "";
-    codeBuffer += '<section id="slider">';
+    codeBuffer += '<section id="slider" class="animated fadeIn">';
     codeBuffer +=   '<a href="#">';
     codeBuffer +=       '<img class="shadowAround" src="'+ getImage() + '" alt="" style="width: 960px; height: 360px; object-fit: cover;">';
     codeBuffer +=   '</a>';
@@ -222,7 +223,7 @@ function T1_SingleImage () {
 function T1_ImagePara () {
 
     var codeBuffer = "";
-    codeBuffer += '<section id="slider">';
+    codeBuffer += '<section id="slider" class="animated fadeIn">';
     codeBuffer +=   '<a href="#">';
     codeBuffer +=       '<img src="Arrow_L.png" alt="" style="width: 130px; height: 360px;">';
     codeBuffer +=       '<img src="'+ getImage() + '" alt="" style="width: 690px; height: 360px; object-fit: cover;">';
@@ -247,12 +248,13 @@ function T1_ImagePara () {
 function T1_ImagePrev () {
 
     var codeBuffer = "";
-    codeBuffer += '<section id="slider">';
+    codeBuffer += '<section id="slider" class="animated fadeIn">';
     codeBuffer +=   '<a href="#">';
     codeBuffer +=       '<img src="'+ getImage() + '" alt="" style="width: 960px; height: 360px; object-fit: cover;">';
     codeBuffer +=   '</a>';
     codeBuffer += '</section>';
-    codeBuffer += '<section id="latest" class="last clear" style="margin-bottom:50px;">';
+    
+    codeBuffer += '<section id="latest" class="last clear animated fadeIn" style="margin-bottom:50px;">';
     
     for (var i = 0; i < 3; i++){
         codeBuffer += '<article class="one_quarter">';
@@ -282,7 +284,8 @@ function T1_ImagePrev () {
 function T1_ImageSimple () {
 
     var codeBuffer = "";
-    codeBuffer += '<div class="margin-bottom:50px;">'
+
+    codeBuffer += '<div style="margin-bottom:50px;" class="animated fadeIn">'
     for(var x = 0; x < 3; x++){
         codeBuffer += '<section id="latest" class="last clear">';
         for(var i = 0; i < 4; i++){
@@ -319,8 +322,8 @@ function T1_ImgLeft_TxtRight () {
     var codeBuffer = "";
 
     codeBuffer += '<section id="imgLTxtR" class="clear">';
-    codeBuffer +=   '<figure><img src="'+ getImage() + '" alt="" style="object-fit: cover;">';
-    codeBuffer +=       '<figcaption>';
+    codeBuffer +=   '<figure><img src="'+ getImage() + '" class="animated fadeInLeft" alt="" style="object-fit: cover;">';
+    codeBuffer +=       '<figcaption class="animated fadeInRight">';
     codeBuffer +=           '<h2>' + GenerateTitle() + '</h2>';
     codeBuffer +=           '<p>' + GenerateParagraph(5) + '</p>';
     codeBuffer +=       '</figcaption>';
@@ -345,8 +348,8 @@ function T1_ImgRight_TxtLeft () {
     var codeBuffer = "";
 
     codeBuffer += '<section id="imgRTxtL" class="clear">';
-    codeBuffer +=   '<figure><img src="'+ getImage() + '" alt="" style="object-fit: cover;">';
-    codeBuffer +=       '<figcaption>';
+    codeBuffer +=   '<figure><img src="'+ getImage() + '" class="animated fadeInRight" alt="" style="object-fit: cover;">';
+    codeBuffer +=       '<figcaption class="animated fadeInLeft">';
     codeBuffer +=           '<h2>' + GenerateTitle() + '</h2>';
     codeBuffer +=           '<p>' + GenerateParagraph(5) + '</p>';
     codeBuffer +=       '</figcaption>';
@@ -370,7 +373,7 @@ function T1_ImgTop_TxtBottom () {
 
     var codeBuffer = "";
 
-    codeBuffer +=  '<section id="imgTTxtB" class="clear">';
+    codeBuffer +=  '<section id="imgTTxtB" class="clear animated fadeIn">';
     codeBuffer +=    '<figure><img src="'+ getImage() + '" alt="" style="object-fit: cover;">'; 
     codeBuffer +=      '<figcaption>';
     codeBuffer +=         '<h2>' + GenerateTitle() + '</h2>';
@@ -378,6 +381,58 @@ function T1_ImgTop_TxtBottom () {
     codeBuffer +=      '</figcaption>';
     codeBuffer +=    '</figure>';
     codeBuffer +=  '</section>';
+
+    return codeBuffer;
+}
+
+
+
+/**       LABEL 12: Image with text on Top
+ * Generates HTML code for Image Top text Bottom
+ * In:      Nothing
+ * Out:     Returns code for 
+ * **/
+function T1_Img_TxtTop () {
+
+    var codeBuffer = "";
+
+    codeBuffer += '<section id="ImgTxtT" style="position: relative; text-align: center; color: white;" class="animated fadeIn">';
+    codeBuffer +=   '<img class="shadowAround" src="'+ getImage() + '" alt="" style="width: 960px; height: 360px; object-fit: cover;">';
+    codeBuffer +=     '<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color:rgba(192,192,192,0.8); padding:30px;">';
+    codeBuffer +=       '<h4>' + GenerateParagraph(1) + '</h4>';
+    codeBuffer +=     '</div>';
+    codeBuffer += '</section>';
+
+    return codeBuffer;
+}
+
+
+
+/**       LABEL 13: People / Team members
+ * Generates HTML code for a People's div
+ * In:      Nothing
+ * Out:     Returns code for 
+ * **/
+function T1_People () {
+
+    var codeBuffer = "";
+
+        //codeBuffer += '<section id="ppl" style="margin-bottom:50px;">';
+        codeBuffer += '<section id="latest" class="last clear animated fadeIn" style="margin-bottom:50px;">';
+
+            for(var i = 0; i < 4; i++){
+                if(i < 3) {codeBuffer += '<article class="one_quarter">';}
+                else      {codeBuffer += '<article class="one_quarter lastbox">';}
+                codeBuffer +=   '<figure><img src="'+ getPerson() + '" style="object-fit: cover; width:215px; height:400px;" alt="">';
+                codeBuffer +=      '<figcaption>';
+                codeBuffer +=           '<h2>' + GenerateTitle() + '</h2>';
+                codeBuffer +=           '<p>'  + GenerateParagraph(2) + '</p>';
+                codeBuffer +=      '</figcaption>';
+                codeBuffer +=   '</figure>';
+                codeBuffer += '</article>';
+            }
+
+        codeBuffer += '</section>';
 
     return codeBuffer;
 }
@@ -437,6 +492,8 @@ function T1_MakeHTML (blocks) {
       if (blocks[i] == 'label_9')   {code += T1_ImgLeft_TxtRight();}
       if (blocks[i] == 'label_10')  {code += T1_ImgRight_TxtLeft();}
       if (blocks[i] == 'label_11')  {code += T1_ImgTop_TxtBottom();}
+      if (blocks[i] == 'label_12')  {code += T1_Img_TxtTop();}
+      if (blocks[i] == 'label_13')  {code += T1_People();}
     }
 
     // Container Close (Used only for the basic Template)
@@ -452,10 +509,6 @@ function T1_MakeHTML (blocks) {
     code = formatFactory(code);
     return code;
 }
-
-
-
-
 
 
 

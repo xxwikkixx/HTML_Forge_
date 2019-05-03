@@ -91,6 +91,28 @@ var stock_images = [
 
 
 
+/** Holds images to populate random people */
+var stock_people = [
+"https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
+"https://images.unsplash.com/photo-1450297350677-623de575f31c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80",
+"https://images.unsplash.com/photo-1495078065017-564723e7e3e7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80",
+"https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80",
+"https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80",
+"https://images.unsplash.com/photo-1496345875659-11f7dd282d1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
+"https://images.unsplash.com/photo-1526927071144-dbe4c41835e4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80",
+"https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
+"https://images.unsplash.com/photo-1482849297070-f4fae2173efe?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80",
+"https://images.unsplash.com/photo-1505503693641-1926193e8d57?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80",
+"https://cdn.pixabay.com/photo/2017/08/01/08/29/people-2563491_1280.jpg",
+"https://cdn.pixabay.com/photo/2017/01/23/19/40/woman-2003647_1280.jpg",
+"https://cdn.pixabay.com/photo/2015/11/26/00/14/fashion-1063100_1280.jpg",
+"https://cdn.pixabay.com/photo/2015/01/08/18/29/entrepreneur-593358_1280.jpg",
+"https://cdn.pixabay.com/photo/2016/03/23/04/01/beautiful-1274056_1280.jpg",
+"https://cdn.pixabay.com/photo/2016/01/19/17/48/woman-1149911_1280.jpg",
+"https://cdn.pixabay.com/photo/2014/05/03/00/50/flower-child-336658_1280.jpg",
+];
+
+
 /**  Holds random Lorem Ipsum statements for random text generation**/
 var rand_lorem_para = [
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -175,16 +197,31 @@ function GenerateTitle(){
 }
 
 
+
 /** 
  * Generates a random stock image 
  * In: Nothing
- * Out: Random Title
+ * Out: Random image
  * **/
 function getImage(){
     var min = 0; 
     var max = stock_images.length - 1;  
     var random = Math.floor(Math.random() * (+max - +min)) + +min;
     return stock_images[random];
+}
+
+
+
+/** 
+ * Generates a random image of a person
+ * In: Nothing
+ * Out: Random person
+ * **/
+function getPerson(){
+    var min = 0; 
+    var max = stock_people.length - 1;  
+    var random = Math.floor(Math.random() * (+max - +min)) + +min;
+    return stock_people[random];
 }
 
 
@@ -203,7 +240,9 @@ var labels = [
     "Img_Gal_Simple",       // index: 8   Image Gallary Spread
     "Img_Left_Text_Right",  // index: 9   Image-L Text-R
     "Img_Right_Text_Left",  // index: 10  Image-R Text-L
-    "Img_Top_Text_Bottom"   // index: 11  Image-T Text-B
+    "Img_Top_Text_Bottom",  // index: 11  Image-T Text-B
+    "Img_Bottom_Text_Top",  // index: 12  Image with text on top
+    "People",               // index: 13  People
 ];
 
 
@@ -232,7 +271,8 @@ function Populate_blocks () {
         if(BLOCK_QUEUE[i] == labels[9])     {block_order.push('label_9');}  // Image-Left Text-Right 
         if(BLOCK_QUEUE[i] == labels[10])    {block_order.push('label_10');} // Image-Right Text-Left
         if(BLOCK_QUEUE[i] == labels[11])    {block_order.push('label_11');} // Image-Top Text_Bottom
-
+        if(BLOCK_QUEUE[i] == labels[12])    {block_order.push('label_12');} // Image with text on top
+        if(BLOCK_QUEUE[i] == labels[13])    {block_order.push('label_13');} // People
     }
 
     console.log(block_order);
