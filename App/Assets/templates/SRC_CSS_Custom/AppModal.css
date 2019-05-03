@@ -63,7 +63,8 @@
 .forge-modal-btn {
     background-color: white;
     height: 45px;
-    width: 275px;
+    min-width: 150px;
+    max-width: 275px;
     margin: 0.4em;
     border: none; 
     color: grey; 

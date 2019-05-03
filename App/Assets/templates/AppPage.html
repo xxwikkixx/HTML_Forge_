@@ -427,7 +427,7 @@
                 <p><b>With your permission, we would like to use these images to make our AI smarter.</b></p>
             </div>
             <!-- Options -->
-            <div class="forge-modal-footer row">
+            <div class="forge-modal-footer">
                 <button class="forge-modal-btn" onclick="document.getElementById('detErr').style.display = 'none'">
                     Allow
                 </button>
@@ -482,6 +482,8 @@
                 <a class="waves-effect waves-light btn red m-1" onclick="bypassUpload()">Bypass for DEBUG</a>
                 <a class="waves-effect waves-light btn red m-1" onclick="pageSwitch(2)">Show Load</a>
                 <a class="waves-effect waves-light btn red m-1" onclick="createCard()">DEBUG: Add Card</a> 
+                <a class="waves-effect waves-light btn red m-1" onclick="document.getElementById('detErr').style.display = 'block'">detErr</a>
+                <a class="waves-effect waves-light btn red m-1" onclick="document.getElementById('detErr2').style.display = 'block'">detErr2</a>
             </div>
                       
             <button class="btn-off shadowInset waves-effect waves-light mb-2" onclick="window.location.reload()">Upload Again</button>

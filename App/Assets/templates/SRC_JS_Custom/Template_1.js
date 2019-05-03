@@ -459,7 +459,7 @@ function T1_MakeHTML (blocks) {
 
 
 //=================== Warning!!!! You may be triggered if you keep scrolling ===================
-const cssCodeString = "/**\n" +
+const T1_CSS = "/**\n" +
     "\n" +
     "**/\n" +
     "\n" +

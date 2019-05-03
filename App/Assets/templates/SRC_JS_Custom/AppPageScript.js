@@ -259,14 +259,19 @@ function GenerateHTML(template_choice){
 
     // Blocks found in detection page pushed into an block_order array
     Populate_blocks(); 
+    var code_generated;
 
-    // Array is read and translated into appropriate HTML Code
-    var code_generated = get_HTML(template_choice , block_order);
-
-    // Prints generated HTML into div "pushed_code"
-    console.log(code_generated);                                        // Debugging
-    document.getElementById("pushed_code").innerText = code_generated;  // HTML Div
-    document.getElementById("pushed_css").innerText = cssCodeString;    // CSS Div
+    // HTML & CSS are populated into their divs
+    if(template_choice == 0){
+        code_generated = T1_MakeHTML(block_order);
+        document.getElementById("pushed_code").innerText = code_generated;                    // HTML Div
+        document.getElementById("pushed_css").innerText = T1_CSS;                             // CSS Div
+    }
+    // Else-If -more themes go here-
+    else {
+        document.getElementById("pushed_code").innerText = "Template Currently Unavailable";  // HTML Div
+        document.getElementById("pushed_css").innerText  = "Template Currently Unavailable";  // CSS Div
+    }
 
     // Places Generated code in the preview tab
     htmlFile = new Blob([code_generated], {type: "text/html"});

@@ -148,16 +148,3 @@ function Populate_blocks () {
     console.log(block_order);
 }   
 
-
-
-/** 
- * Generates code requested by user
- * In: template_number, list of blocks to use
- * Out: code of given template
- * **/
-function get_HTML(choice, blocks){
-
-    if (choice == 0) {return T1_MakeHTML (blocks); }
-    // ADD MORE TEMPLATES HERE
-
-}
