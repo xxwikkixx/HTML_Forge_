@@ -1,0 +1,750 @@
+body {
+	width: 100%;
+	height: 100%;
+    color: #fff;
+
+    font-family: 'poppins', sans-serif;
+    -webkit-Font-smoothing: antialiased;
+
+    /** Background colors **/
+    /* background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB); */
+    /* background: linear-gradient(-45deg, rgba(17, 46, 102), rgb(53, 50, 204), rgb(108, 51, 168), rgba(68, 26, 112)); */
+    /* background: linear-gradient(-45deg,#299472 , #185a9d ); */
+    background: linear-gradient(-45deg, #04C4D9, #0B8CBF);
+
+    background-repeat: no-repeat;
+    background-size: 400% 400%;
+    
+    /** Background Animation **/
+	-webkit-animation:  Gradient 15s ease infinite;
+	-moz-animation:     Gradient 15s ease infinite;
+	animation:          Gradient 15s ease infinite;
+}
+
+.appDebugger-btn:hover { background-color: #F2C230; }
+.appDebugger-btn {
+    background-color: transparent;
+    color: transparent;
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    border: 0px;
+    border-radius: 25px;
+    z-index: 10000;
+}
+
+/*********************************************************************************/
+/**                             App Container CSS                               **/
+
+.progBar {
+    max-height: 100px;
+    width: auto;
+    overflow: hidden;
+    background: white;
+}
+
+.progBar img {
+    width: 100%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.progBarHide {
+    display: none;
+}
+
+.appContainerHeader {
+    background-color: white; 
+    width: 100%;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    text-align: center;
+}
+
+.appContainer {
+    /* background-color: white; */
+    color: black;
+    /* padding: 1vmin; */
+    
+    height: auto;
+    /* min-width: 1000px; */
+    max-width: 1400px;
+    
+    /* Default margin sizes */
+    margin-left: 10vmin;
+    margin-right: 10vmin;
+    margin-top: 8vh;
+    margin-bottom: 5vmin;
+
+    animation-duration: 3s;
+    /* animation-delay: 1s; */
+
+    border-radius: 5px;
+
+    /* Custom downward shadow */
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 
+                0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                
+}
+
+.appInnerContainer{
+    background: rgba(255, 255, 255, 0.7);
+    /* -webkit-filter: blur(5px);
+    filter: blur(5px); */
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right:0px;
+    margin-bottom: 1%;
+    height: auto;
+    width: auto;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    transition: all 1s;
+    transform: translateY(0px); 
+}
+/*********************************************************************************/
+
+
+
+/*********************************************************************************/
+/**                                 Upload Card                                 **/
+
+.uploadCard-head {
+    text-align: center;
+    vertical-align: auto;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background: white;
+    padding: 1em;
+}
+
+.uploadCard-head h7 {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.uploadCard {
+    background:  rgba(0, 0, 0, 0.2);
+    border-radius: 5px; 
+
+}
+
+.uploadCard-btn:hover { background-position: right center; }
+.uploadCard-btn {
+    /* background-image: linear-gradient(to right, #185a9d 0% ,rgb(41, 148, 114) 100%); */
+    background-image: linear-gradient(to right, rgb(10, 125, 170) 0% ,rgb(8, 89, 121) 100%);
+    /* background-image: linear-gradient(to right, #3494E6 0%, #EC6EAD 100%); */
+    background-size: 400% 400%;
+    height: 60px;
+    width: 100%;
+    border: none; 
+    color: white; 
+    cursor: pointer; 
+}
+button:disabled {
+    /* background-image: linear-gradient(to right, #999999 0% ,#535353 100%); */
+    background-image: linear-gradient(to right, #999999 0% ,#888888 100%);
+}
+.selectedUpload {
+    /* box-shadow: 0px 0px 20px 5px rgba(17,97,140,0.8) !important; */
+    box-shadow: 0px 0px 20px 5px #F2C230 !important;
+}
+
+/*********************************************************************************/
+
+
+
+/*********************************************************************************/
+/**                             Tabs / Result Page                              **/
+
+.copyThis-btn:hover { background-position: right center; }
+.copyThis-btn {
+    background-image: linear-gradient(to right, #049DBF 0% ,#0BD9D9 100%);
+    /* background-image: linear-gradient(to right, #185a9d 0% ,#299472 100%); */
+    /* background-image: linear-gradient(to right, #3494E6 0%, #EC6EAD 100%); */
+    background-size: 400% 400%;
+    height: 40px;
+    width: 40px;
+    border: none; 
+    color: white; 
+    cursor: pointer; 
+    border-radius: 7px;
+   
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+
+    position: absolute;
+    right: 30px;
+    top: 50px;
+  
+}
+.copyThis_position {
+    top: -40px;
+    position: relative;
+}
+
+.tab-btn:hover { background-position: right center; }
+.tab-btn {
+    background-image: linear-gradient(to bottom, rgb(202, 202, 202) 0%, rgb(126, 126, 126) 100%);
+    /* background-image: linear-gradient(to bottom, #F2C230 0%, rgb(180, 139, 15) 100%); */
+    background-size: 400% 400%;
+    height: 50px;
+    width: 100%;
+    border: none; 
+    color: white; 
+    cursor: pointer; 
+    margin: 0px;
+    padding: 0px;
+}
+.tab-btn-selected {background-position: right center; }
+.tab-hide {
+    display: none;
+}
+.tab-view {
+    background: whitesmoke; 
+    overflow: scroll; 
+    height: 50vh;
+    width:100%;
+    position: relative;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+/*********************************************************************************/
+
+
+
+/*********************************************************************************/
+/**                                  Utilities                                  **/
+
+.row .col {
+    padding: 0px;
+}
+.col .row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.row {
+    margin-bottom: 0px;
+}
+
+.curve-b {    
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.curve-t {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#loading_page {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding-top: 5vmax;
+    padding-bottom: 5vmax;
+}
+
+.loading-div {
+    zoom: 1.5;
+    -moz-transform: scale(1.5);
+    background: white;
+    width: 220px;
+    height: 200px;
+    padding: 1em;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    margin-top: 20p;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.centerDiv {
+    margin: 0px;
+	padding:0px;
+	float: left;
+	width:100%;
+	position:absolute;
+	top: 50%;
+	transform: translateY(-50%) translateX(-50%);
+	left:50%;
+
+}
+
+.uploadWrapper {
+    min-height: 400px;
+}
+
+.upload-carousel {
+    top: -25px;
+}
+
+.upld-btn {
+    /* Used to center the upload button */
+    /* padding-top: 95px; */
+    padding-left: 2em; 
+    padding-right: 2em;
+    padding-top: 165px;
+}
+
+.expand-upld-btn{
+    /* Used to center the upload button */
+    /* padding-top: 95px; */
+    padding-left: 2em; 
+    padding-right: 2em;
+    padding-top: 57px;
+    transform: translateY(0px); 
+    transition: all 1s;
+}
+
+#pushed_code {
+    text-align: left;
+}
+
+pre.prettyprint {
+    border-width: 0px !important;
+}
+
+.forge-icon{   
+    height: 60px;
+}
+.forge-logo{
+    height: 50px;
+}
+.ul-img-container{
+    width:100%; 
+    position: relative;
+} 
+#uploaded_img {
+    width: 100%; 
+    object-fit: cover;
+}
+#PREV_space{
+    border: 0px;
+}
+/* #detected_box {
+    transition: all 1s;
+    transform: translateY(0px); 
+} */
+
+/*********************************************************************************/
+/**                                 Custom Card                                 **/
+
+.blockCard {
+    z-index: 1;
+    margin: 0px; 
+    padding:0px; 
+    padding-right: 20px;
+    border:0px; 
+    height: 150px; 
+    border-radius: 5px;
+    position: relative;
+    /* background-color:  rgba(0, 0, 0, 0.2); /* Transparent grey */
+    background-color:  rgba(255, 255, 255); /* Basic White*/
+}
+
+.onTop {z-index: 9999;} 
+
+.cardContent {
+    margin: 0px; 
+    padding:0px; 
+    border:0px; 
+    display: table;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+.cardImageOuter {
+    padding: 10px; 
+    border:0px;
+    height: 100%;
+    text-align: center;
+    margin: 0 auto;
+    display: table-cell;
+    vertical-align: middle;
+}
+.cardImageInner {
+    width:100%;
+    max-height:90px; 
+    margin: 0 auto;
+    object-fit: contain;
+}
+.cardButtons {
+    /* background-image:  linear-gradient(to top,rgb(219, 35, 35) 0%, rgb(220, 36, 36) 15%, rgb(57, 136, 240) 85%,rgb(57, 136, 240) 100%); */
+    background-image:  linear-gradient(to top,#F2C230 0%, #F2C230 50%, #049DBF 50%,#049DBF 100%);
+    /* background-image: grey; */
+    /* #4A569D Blue */
+    margin-left: 0px; 
+    margin-right: 0px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 0px; 
+    padding-bottom: 0px;
+    border-radius: 5px;
+    border: 0px;
+}
+.blockCard .cardButtons .editButton {
+    background-color: rgba(0, 0, 0, 0.0); 
+    border: none; 
+    color: white; 
+    width: 100%;
+    height: 55px;
+    cursor: pointer; 
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    /* margin-top: 20px; */
+}
+.blockCard .cardButtons .editButton:hover {
+    /* background-color: RoyalBlue; */
+    background-color: rgba(0, 0, 0, 0.5); 
+}
+.blockCard .cardButtons .delButton {
+    background-color: rgba(0, 0, 0, 0.0); 
+    /* background-color: red;  */
+    border: none; 
+    color: white; 
+    width: 100%;
+    height: 55px;
+    cursor: pointer; 
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    /* margin-bottom: 20px; */
+}
+.blockCard .cardButtons .delButton:hover {
+    background-color: rgba(0, 0, 0, 0.5); 
+    /* background-color: maroon; */
+}
+.blockCard .cardButtons .dropdown-content {
+    width: 160px !important;
+} 
+.dropdown-content li>a, .dropdown-content li>span {
+    /* color: #26a69a; /* older color */
+    color: #049DBF;
+}
+
+/* Container holding the image and the text */
+.contain-content {
+    position: relative;
+    text-align: center;
+  }
+  
+  .cc-c {
+    position: absolute;
+    left: 0px;
+    width: 100%;
+
+    text-align: center;
+    font-size: 18px;
+  }
+
+  .cc-r {
+    width: 100%;
+    position: relative;
+    right: 0px;
+  }
+
+  /* Bottom left text */
+  .cc-bl {
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+  }
+  
+  /* Top left text */
+  .cc-tl {
+    position: absolute;
+    top: 8px;
+    left: 16px;
+  }
+/*********************************************************************************/
+
+
+
+/*********************************************************************************/
+/**              Background Animation movement (Browser Optimized)              **/
+
+/** Animated Background support for Safari / Chrome **/
+@-webkit-keyframes Gradient {
+	0%      { background-position: 0% 50% }
+	50%     { background-position: 100% 50% }
+	100%    { background-position: 0% 50% }
+}
+
+/** Animated Background support for Firefox **/
+@-moz-keyframes Gradient {
+	0%      { background-position: 0% 50% }
+	50%     { background-position: 100% 50% }
+	100%    { background-position: 0% 50% }
+}
+
+/** Animated Background support for most stable versions of browsers **/
+@keyframes Gradient {
+	0%      { background-position: 0% 50% }
+	50%     { background-position: 100% 50% }
+	100%    { background-position: 0% 50% }
+}
+/*********************************************************************************/
+
+
+
+/*********************************************************************************/
+/**           Modification of App container size based on screen-size           **/
+
+@media screen and (min-width: 2000px) {  /* start of large tablet styles */
+    
+    /* .appContainer{
+        margin-left: 15vmin;
+        margin-right: 15vmin;
+        margin-top: 7vmin;
+        margin-bottom: 7vmin;
+    } */
+}
+    
+@media screen and (min-width: 1050px) { /* Custom Size for fixing Progress Bar */
+    .progBar img {
+        width: auto;
+        height: 100px;
+    } 
+}
+
+
+@media screen and (min-width: 1600px) { /* start of large tablet styles */
+    .appContainer{
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+    
+@media screen and (max-width: 894px) {  /* start of medium tablet styles */
+    .appContainer {
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        border-radius: 5px;
+        padding-bottom: 8em;
+        /* Custom downward shadow */
+        box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.0), 
+                    0 0px 0px 0 rgba(0, 0, 0, 0.0);
+    }
+    .appContainerHeader{
+        position: fixed;
+        background-color: transparent;
+        z-index: 10000;
+        border-radius: 0px;
+        padding: 0px !important;
+    }
+    .icoBar {
+        background-color: white;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 
+        0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    .progBar{
+        margin-top: 0.94rem;
+        /* margin-left: 0.94rem;
+        margin-right: 0.94rem; */
+        /* border-radius: 2rem; */
+        padding-left: 0.94rem;
+        padding-right: 0.94rem;
+        padding-top: 0.6rem;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        max-height: 10vh;
+        position: fixed;
+        bottom: 0px;
+    }
+    .appInnerContainer{
+        background: rgba(255, 255, 255, 0.0);
+        padding-top: 7em !important;
+        padding-bottom: 0em !important;
+    }
+    .uploadCard{
+        margin-top: 0.8em !important;
+        margin-bottom: 2.2em !important;
+    }
+    .upld-btn {
+        padding: 2em !important;
+    }
+    .expand-upld-btn{
+        padding: 2em !important;
+    }
+    .uploadWrapper {
+        min-height: auto;
+    }
+    .copyThis-btn {
+        border-radius: 15em;
+    }
+    .ul-img-container {
+        padding-bottom: 0.94rem;
+    }
+    #upload_page{
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+    #detection_page{
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+    .appDebugger-btn {
+        bottom: 0px !important;
+        left: 0px !important;
+        border-radius: 0px;
+        background-color: transparent;
+        color: transparent;
+    }
+}
+    
+@media screen and (max-width: 479px) {  /* start of phone styles */
+    
+}
+/*********************************************************************************/
+
+
+
+/*********************************************************************************/
+/**                             Generic CSS Classes                             **/
+
+/** Shadow Classes **/
+
+.shadowInsetTop {
+    -moz-box-shadow:    inset 0 7px 9px -7px rgba(0,0,0,0.19);
+    -webkit-box-shadow: inset 0 7px 9px -7px rgba(0,0,0,0.19);
+    box-shadow:         inset 0 7px 9px -7px rgba(0,0,0,0.19);
+ }
+
+ .shadowInset {
+    -moz-box-shadow:    inset 0 0 10px rgba(0,0,0,0.19);
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.19);
+    box-shadow:         inset 0 0 10px rgba(0,0,0,0.19);
+ }
+
+ .ltBlue {
+    background-color: powderblue;
+ }
+
+ /** Custom Padding Classes **/
+ 
+ .p-1 { padding: 0.25rem;}
+ .p-2 { padding: 0.94rem;}
+ .p-3 { padding: 1.63rem;}
+ .p-4 { padding: 2.32rem;}
+ .p-5 { padding: 3.00rem;}
+
+ .pt-1 { padding-top: 0.25rem;}
+ .pt-2 { padding-top: 0.94rem;}
+ .pt-3 { padding-top: 1.63rem;}
+ .pt-4 { padding-top: 2.32rem;}
+ .pt-5 { padding-top: 3.00rem;}
+
+ .pb-1 { padding-bottom: 0.25rem;}
+ .pb-2 { padding-bottom: 0.94rem;}
+ .pb-3 { padding-bottom: 1.63rem;}
+ .pb-4 { padding-bottom: 2.32rem;}
+ .pb-5 { padding-bottom: 3.00rem;}
+
+ .pl-1 { padding-left: 0.25rem;}
+ .pl-2 { padding-left: 0.94rem;}
+ .pl-3 { padding-left: 1.63rem;}
+ .pl-4 { padding-left: 2.32rem;}
+ .pl-5 { padding-left: 3.00rem;}
+
+ .pr-1 { padding-right: 0.25rem;}
+ .pr-2 { padding-right: 0.94rem;}
+ .pr-3 { padding-right: 1.63rem;}
+ .pr-4 { padding-right: 2.32rem;}
+ .pr-5 { padding-right: 3.00rem;}
+
+ .px-1 { padding-right: 0.25rem; padding-left: 0.25rem;}
+ .px-2 { padding-right: 0.94rem; padding-left: 0.94rem;}
+ .px-3 { padding-right: 1.63rem; padding-left: 1.63rem;}
+ .px-4 { padding-right: 2.32rem; padding-left: 2.32rem;}
+ .px-5 { padding-right: 3.00rem; padding-left: 3.00rem;}
+
+ .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem;}
+ .py-2 { padding-top: 0.94rem; padding-bottom: 0.94rem;}
+ .py-3 { padding-top: 1.63rem; padding-bottom: 1.63rem;}
+ .py-4 { padding-top: 2.32rem; padding-bottom: 2.32rem;}
+ .py-5 { padding-top: 3.00rem; padding-bottom: 3.00rem;}
+
+ /** Custom Margin Classes **/
+
+ .m-0 { margin: 0rem;   }
+ .m-1 { margin: 0.25rem;}
+ .m-2 { margin: 0.94rem;}
+ .m-3 { margin: 1.63rem;}
+ .m-4 { margin: 2.32rem;}
+ .m-5 { margin: 3.00rem;}
+
+ .mt-1 { margin-top: 0.25rem;}
+ .mt-2 { margin-top: 0.94rem;}
+ .mt-3 { margin-top: 1.63rem;}
+ .mt-4 { margin-top: 2.32rem;}
+ .mt-5 { margin-top: 3.00rem;}
+
+ .mb-1 { margin-bottom: 0.25rem;}
+ .mb-2 { margin-bottom: 0.94rem;}
+ .mb-3 { margin-bottom: 1.63rem;}
+ .mb-4 { margin-bottom: 2.32rem;}
+ .mb-5 { margin-bottom: 3.00rem;}
+
+ .ml-1 { margin-left: 0.25rem;}
+ .ml-2 { margin-left: 0.94rem;}
+ .ml-3 { margin-left: 1.63rem;}
+ .ml-4 { margin-left: 2.32rem;}
+ .ml-5 { margin-left: 3.00rem;}
+
+ .mr-1 { margin-right: 0.25rem;}
+ .mr-2 { margin-right: 0.94rem;}
+ .mr-3 { margin-right: 1.63rem;}
+ .mr-4 { margin-right: 2.32rem;}
+ .mr-5 { margin-right: 3.00rem;}
+
+ .mx-1 { margin-right: 0.25rem; margin-left: 0.25rem;}
+ .mx-2 { margin-right: 0.94rem; margin-left: 0.94rem;}
+ .mx-3 { margin-right: 1.63rem; margin-left: 1.63rem;}
+ .mx-4 { margin-right: 2.32rem; margin-left: 2.32rem;}
+ .mx-5 { margin-right: 3.00rem; margin-left: 3.00rem;}
+
+ .my-1 { margin-top: 0.25rem; margin-bottom: 0.25rem;}
+ .my-2 { margin-top: 0.94rem; margin-bottom: 0.94rem;}
+ .my-3 { margin-top: 1.63rem; margin-bottom: 1.63rem;}
+ .my-4 { margin-top: 2.32rem; margin-bottom: 2.32rem;}
+ .my-5 { margin-top: 3.00rem; margin-bottom: 3.00rem;}
+
+  /**    Animation Delay Classes     **/
+
+  .delay-0  { animation-delay: 0ms;    }
+  .delay-1  { animation-delay: 100ms;  }
+  .delay-2  { animation-delay: 200ms;  }
+  .delay-3  { animation-delay: 300ms;  }
+  .delay-4  { animation-delay: 400ms;  }
+  .delay-5  { animation-delay: 500ms;  }
+  .delay-6  { animation-delay: 600ms;  }
+  .delay-7  { animation-delay: 700ms;  }
+  .delay-8  { animation-delay: 800ms;  }
+  .delay-9  { animation-delay: 900ms;  }
+  .delay-10 { animation-delay: 1000ms; }
+  .delay-11 { animation-delay: 1100ms; }
+  .delay-12 { animation-delay: 1200ms; }
+  .delay-13 { animation-delay: 1300ms; }
+  .delay-14 { animation-delay: 1400ms; }
+  .delay-15 { animation-delay: 1500ms; }
+  .delay-16 { animation-delay: 1600ms; }
+  .delay-17 { animation-delay: 1700ms; }
+  .delay-18 { animation-delay: 1800ms; }
+  .delay-19 { animation-delay: 1900ms; }
+  .delay-20 { animation-delay: 2000ms; }
+  .delay-21 { animation-delay: 2100ms; }
+  .delay-22 { animation-delay: 2200ms; }
+  .delay-23 { animation-delay: 2300ms; }
+  .delay-24 { animation-delay: 2400ms; }
+  .delay-25 { animation-delay: 2500ms; }
+  .delay-26 { animation-delay: 2600ms; }
+  .delay-27 { animation-delay: 2700ms; }
+  .delay-28 { animation-delay: 2800ms; }
+  .delay-29 { animation-delay: 2900ms; }
+  .delay-30 { animation-delay: 3000ms; }
+
+  /*********************************************************************************/
