@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <!-- App Info -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="HTML Forge Application">
+    <meta name="author" content="Khalid Qubbaj">
+    
+    <!-- Titles, Brands and Icons-->
+    <title>HTML Forge - Build Your Site With AI</title>
+    <link rel="icon" href="Images/Brand/Icon1.png">
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="Images/AppIcon/57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="Images/AppIcon/72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="Images/AppIcon/114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="Images/AppIcon/144.png" />
+
+    <!-- Compiled and minified Materialize CSS , icons , JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>    
+   
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="SRC_CSS_Custom/AppPage.css">
+    <link rel="stylesheet" href="SRC_CSS_Custom/BGCircles.css">
+    <link rel="stylesheet" href="SRC_CSS_Custom/Upload.css">
+    <link rel="stylesheet" href="SRC_CSS_Custom/loader.css">
+    <link rel="stylesheet" href="SRC_CSS_Custom/AppModal.css">
+
+    <!-- Animation CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+    <!-- File Pond CSS & JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+    <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script>
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css'>
+    <link rel='stylesheet' href='https://unpkg.com/filepond/dist/filepond.min.css'>
+
+</head>
+
+
+<body >
+
+<!-- Generate Objects for Back-ground animation -->
+<div class="area" >
+    <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+
+
+      
+<!-- All content will be wrapped in this container-->
+<div class="appContainer animated fadeIn">
+
+    <!-- Header -->
+    <div class="appContainerHeader p-1">  
+        <div class="icoBar">
+            <!-- Note: The pretty font is called AudioWide -->
+            <img class="p-1 forge-icon" src="Images/Brand/Icon1.png"/> 
+            <img class="p-1 forge-logo" src="Images/Brand/Logo3.png"/> 
+        </div>
+        <!-- Progress Bar -->
+        <div class="progBar center-align">
+            <img id="pb1" class="curve-b curve-t animated fadeIn faster"              src="Images/ProgressBar/ProgressBar_1.jpg"/>
+            <img id="pb2" class="curve-b curve-t animated fadeIn faster progBarHide"  src="Images/ProgressBar/ProgressBar_2.jpg"/>
+            <img id="pb3" class="curve-b curve-t animated fadeIn faster progBarHide"  src="Images/ProgressBar/ProgressBar_3.jpg"/>      
+        </div>
+
+    </div>
+
+    <!-- Inner Container -->
+    <div class="appInnerContainer col shadowInsetTop pl-3 pr-3 pt-2 pb-2">
+
+
+
+        <!-- -------------------------------------------------------------------------------------->
+        <!--                                      UPLOAD PAGE                                    -->
+        <!-- -------------------------------------------------------------------------------------->
+        <div id="upload_page" class="row animated fadeIn pt-4 pb-4" style="display: block">
+            
+            <!-- OPTION 2: USER UPLOADS THEIR OWN IMAGE -->
+            <div class="col s12 l6">
+                <div class="uploadCard z-depth-1 hoverable m-2 fadeIn animated delay-5">
+                    <!-- Header -->
+                    <div class="uploadCard-head">
+                        <h7> Upload your own sketch </h7>
+                    </div>
+                    <!-- Content (Upload) -->
+                    <div class="uploadWrapper shadowInsetTop">
+                        <div id="uploadButton" class="upld-btn" onclick="rePos('uploadButton')">
+                            <input type="file" 
+                                class="filepond" 
+                                name="file" 
+                                multiple 
+                                data-max-files="1"
+                                data-max-file-size="10MB" 
+                                style="height: 80%"/>
+                        </div>
+                    </div>
+                    <!-- Button --> <!-- onclick="confirmUpload()" -->
+                    <button class="uploadCard-btn curve-b waves-effect waves-light" id="confirm_button" onClick="confirmUpload()" disabled>Convert This Image</button>
+                </div>
+            </div>
+
+            <!-- OPTION 1: USER PICKS A PRE-FABRICATED IMAGE -->
+            <div class="col s12 l6">
+                <div class="uploadCard z-depth-1 hoverable m-2 fadeIn animated delay-10">
+                     <!-- Header -->
+                    <div class="uploadCard-head">
+                        <h7> Don't have an Image? Pick one of ours! </h7>
+                    </div>
+                    <!-- Content (Carousel) -->
+                    <div class="uploadWrapper shadowInsetTop">
+                        <div class="carousel upload-carousel">
+                            <a class="carousel-item"><img class="hoverable" id="usu_1" onclick="selectPreMade(this.id, 1)" src="Images/Samples/Samp1.jpg"></a>
+                            <a class="carousel-item"><img class="hoverable" id="usu_2" onclick="selectPreMade(this.id, 2)" src="Images/Samples/Samp2.jpg"></a>
+                            <a class="carousel-item"><img class="hoverable" id="usu_3" onclick="selectPreMade(this.id, 3)" src="Images/Samples/Samp3.jpg"></a>
+                            <a class="carousel-item"><img class="hoverable" id="usu_4" onclick="selectPreMade(this.id, 4)" src="Images/Samples/Samp4.jpg"></a>
+                            <a class="carousel-item"><img class="hoverable" id="usu_5" onclick="selectPreMade(this.id, 5)" src="Images/Samples/Samp5.jpg"></a>
+                        </div>
+                    </div>
+                    <!-- Button -->
+
+                    <button id="userChoiceBtn" onclick="userSelectUpload()" class="uploadCard-btn curve-b waves-effect waves-light tooltipped" data-position="top" data-tooltip="Select an Image First!" disabled>
+                        Use This Image!
+                    </button>
+                </div>               
+            </div>
+
+            
+
+        </div> <!-- End of Upload Page -->
+
+
+
+        <!-- -------------------------------------------------------------------------------------->
+        <!--                                     LOADING PAGE                                    -->
+        <!-- -------------------------------------------------------------------------------------->
+        <div id="loading_page" class="text-center" style="display: none;">
+
+            <!-- Load Container-->
+            <div class="loading-div z-depth-1">
+
+                <!-- Text -->
+                <div class="container">
+                    <div class="loadText-wrapper">
+                        <div class="loadText">
+                            <!-- <div class="text1">Something is Wrong</div>
+                            <div class="text1">If only the Devs did their job properly...</div>
+                            <div class="text1">This loading is Suspicious</div>
+                            <div class="text1">You're still here!</div>
+                            <div class="text2">:(-</div>
+                            <div class="text1">Dont leave</div>
+                            <div class="text2">No Wait-</div>
+                            <div class="text1">Getting Bored?</div>
+                            <div class="text2">Still Loading...</div>
+                             -->
+                            <div class="text1">Please Wait</div>
+                            <div class="text2">Its Super Effective!</div>
+                            <div class="text3">AI uses Magic!</div>
+                            <div class="text4">Sprinkling Magic Dust</div>
+                            <div class="text5">Preparing Cauldron</div>
+                            <div class="text6">Taking a while, huh?</div>
+                            <div class="text7">Please Wait</div>
+                            <div class="text8">Retrieving Data</div>
+                            <div class="text9">Making Predictions</div>
+                            <div class="text10">Detecting Blocks</div>
+                            <div class="text11">To the Cloud!</div>
+                        </div> 
+                    </div> 
+                </div>
+             
+                <!-- Google's Loading Spinner-->
+                <div class="preloader-wrapper big active m-4">
+
+                    <div class="spinner-layer spinner-blue">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                
+                    <div class="spinner-layer spinner-red">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                
+                    <div class="spinner-layer spinner-yellow">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                
+                    <div class="spinner-layer spinner-green">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="gap-patch">
+                            <div class="circle"></div>
+                        </div>
+                        <div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+
+                </div>
+            
+            </div> <!-- End Container -->
+
+        </div> <!-- End of Loading Page -->
+
+
+
+        <!-- -------------------------------------------------------------------------------------->
+        <!--                                   DETECTION PAGE                                    -->
+        <!-- -------------------------------------------------------------------------------------->
+        <!-- DETECTED BLOCKS PAGE -->
+        <div id="detection_page" style="display: none;"> 
+            <div class="row">
+                
+
+                <!-- Cards Populated -->
+                <div class="col s12 l5">
+                    <div class="m-2" id="detected_box"> </div>
+                </div>
+
+
+                <!-- Image Uploaded -->
+                <div class="col s12 l7 fadeInRight animated delay-5">
+                    <div class="uploadCard z-depth-1 m-2">
+
+                         <!-- Header -->
+                        <div class="uploadCard-head">
+                            <h7> Your Uploaded Image </h7>
+                        </div>
+                       
+                        <!-- Image-->
+                        <div class="pl-3 pr-3 pt-3 pb-2 ul-img-container"> 
+                            <img id="uploaded_img" class="" src="" alt=" Image Not Found">
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="ml-3 mr-3">
+                            <button class="uploadCard-btn curve-b curve-t waves-effect waves-light mb-3" onclick="GenerateHTML(0)" id="Generate-btn" disabled>Generate HTML</button>
+                            <button class="uploadCard-btn curve-b curve-t waves-effect waves-light mb-2" onclick="window.location.reload()">Upload Again</button>
+                        </div>
+                    </div>               
+                </div>
+
+
+            </div>
+        </div> <!-- End of Detected Page-->
+
+
+
+        <!-- -------------------------------------------------------------------------------------->
+        <!--                                    RESULTS PAGE                                     -->
+        <!-- -------------------------------------------------------------------------------------->
+        <div id="results_page" class="fadeIn animated delay-10" style= "display: none;">
+                
+
+            <!-- Result Card -->
+            <div class="p-2">
+                <div class="uploadCard z-depth-1">
+
+
+                    <!-- Header -->
+                    <div class="uploadCard-head">
+                        <h7> Generated Code </h7>
+                    </div>
+
+
+                    <!-- Tabs -->
+                    <div class="row">
+
+                        <div class="col s3" >
+                            <button id="tab_HTML" class="tab-btn waves-effect shadowInsetTop" onclick="tabSwitch(1)" >HTML</button>
+                        </div>
+                        <div class="col s3 ">
+                            <button id="tab_CSS" class="tab-btn waves-effect shadowInsetTop" onclick="tabSwitch(2)">CSS</button>
+                        </div>
+                        <div class="col s3">
+                            <button id="tab_PREV" class="tab-btn waves-effect shadowInsetTop" onclick="tabSwitch(3)">Preview</button>
+                        </div>
+                        <div class="col s3">
+                            <button class="tab-btn waves-effect shadowInsetTop" onclick="fullPrev()"> Full Preview</button>
+                        </div>
+
+                    </div>
+
+
+                    <!-- HTML Space -->
+                    <div id="HTML_space" class="tab-hide">
+                        <!-- Fixed Copy Button Position-->
+                        <div class="copyThis_position">
+                            <button class="copyThis-btn waves-effect waves-light"  onclick="copyToClipboard('#pushed_code')">
+                                <i class="material-icons">content_paste</i>
+                            </button>   
+                        </div>
+                        <!-- Tab Space -->
+                        <div class="p-3 shadowInsetTop tab-view">
+                            <pre id="pushed_code" class="prettyprint lang-html linenums">
+                            </pre>
+                        </div>
+                    </div>
+
+
+                    <!-- CSS Space -->
+                    <div id="CSS_space" class="tab-hide">
+                        <!-- Fixed Copy Button Position-->
+                        <div class="copyThis_position">
+                            <button class="copyThis-btn waves-effect waves-light"  onclick="copyToClipboard('#pushed_css')">
+                                <i class="material-icons">content_paste</i>
+                            </button>
+                        </div>   
+                        <!-- Tab Space -->
+                        <div class="p-3 shadowInsetTop tab-view">
+                            <pre id="pushed_css" class="prettyprint lang-css linenums">
+                            </pre>
+                        </div>  
+                    </div>
+
+
+                    <!-- Web View -->
+                    <iframe id="PREV_space" src="AppPage.html" class="shadowInsetTop tab-view"></iframe>
+                    
+
+                </div>               
+            </div>
+
+            <!-- Buttons -->
+            <div class="row">
+                <div class="col s12 l6 fadeIn animated delay-15">
+                    <div class="m-2">
+                        <button class="uploadCard-btn waves-effect waves-light curve-b curve-t" onclick="getZip()">
+                            Download as Zip
+                        </button>
+                    </div>
+                </div>
+                <div class="col s12 l6 fadeIn animated delay-20">
+                    <div class="m-2">
+                        <button class="uploadCard-btn waves-effect waves-light curve-b curve-t" onclick="window.location.reload()">
+                            Upload Again
+                        </button>
+                    </div>    
+                </div>
+            </div>
+
+        </div> <!-- End of Results Page-->
+
+
+        
+    </div> <!-- End of appInnerContainer-->
+</div> <!-- End of appContainer-->
+
+
+<!-- Modal for Error in AI detection -->
+<div id="detErr2" class="forge-modal">
+        <!-- Modal content -->
+        <div class="forge-modal-content">
+            <!-- Message -->
+            <div class="forge-modal-header ">
+                <h5>Edit the Label</h5>
+            </div>
+            <!-- Details -->
+            <div class="forge-modal-body">
+                <p><b>For now, either edit or delete the unrecognized label(s) to proceed with HTML Generation.</b></p>
+            </div>
+            <!-- Options -->
+            <div class="forge-modal-footer row">
+                <button class="forge-modal-btn" onclick="document.getElementById('detErr2').style.display = 'none'">
+                    Got it!
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+
+<!-- Modal for Error in AI detection -->
+<div id="detErr" class="forge-modal">
+        <!-- Modal content -->
+        <div class="forge-modal-content">
+            <!-- Message -->
+            <div class="forge-modal-header ">
+                <h5>Uh oh</h5>
+            </div>
+            <!-- Details -->
+            <div class="forge-modal-body">
+                <p><b>Our AI has detected some building blocks it doesn't recognize.</b></p>
+                <p><b>With your permission, we would like to use these images to make our AI smarter.</b></p>
+            </div>
+            <!-- Options -->
+            <div class="forge-modal-footer">
+                <button class="forge-modal-btn" onclick="document.getElementById('detErr').style.display = 'none'">
+                    Allow
+                </button>
+                <button class="forge-modal-btn"onclick="document.getElementById('detErr').style.display = 'none'">
+                    Don't Allow
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+<!-- Copy success Message -->
+<div id="copiedSuccess" class="forge-modal">
+    <!-- Modal content -->
+    <div class="forge-modal-content">
+        <!-- Message -->
+        <div class="forge-modal-header ">
+            <h5>A Message from the Forge</h5>
+        </div>
+        <!-- Details -->
+        <div class="forge-modal-body">
+            <p><b>Your code was successfully copied! </b></p>
+        </div>
+        <!-- Options -->
+        <div class="forge-modal-footer row">
+            <button class="forge-modal-btn" onclick="document.getElementById('copiedSuccess').style.display = 'none'">
+                Got it!
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- -------------------------------------------------------------------------------------->
+<!--                                    DEBUGGER                                         -->
+<!-- -------------------------------------------------------------------------------------->
+
+    <button class="p-2 appDebugger-btn"  onclick="toggleDiv('appDebugger')">
+        <i class="material-icons">developer_mode</i>
+    </button>
+
+    <div id="appDebugger" class="col s12 l6" style="display: none">
+        <div class="uploadCard mt-3 ml-2 mr-2 mb-3 z-depth-1 hoverable">
+
+            <!-- Header -->
+            <div class="uploadCard-head">
+                <h7> FRONT END DEBUGGER</h7>
+            </div>
+            
+            <!-- Khalids FrontEnd Debugger-->
+            <div class="col s12 center-align">
+                <a class="waves-effect waves-light btn red m-1" onclick="bypassUpload()">Bypass for DEBUG</a>
+                <a class="waves-effect waves-light btn red m-1" onclick="pageSwitch(2)">Show Load</a>
+                <a class="waves-effect waves-light btn red m-1" onclick="createCard()">DEBUG: Add Card</a> 
+                <a class="waves-effect waves-light btn red m-1" onclick="document.getElementById('detErr').style.display = 'block'">detErr</a>
+                <a class="waves-effect waves-light btn red m-1" onclick="document.getElementById('detErr2').style.display = 'block'">detErr2</a>
+            </div>
+                      
+            <button class="btn-off shadowInset waves-effect waves-light mb-2" onclick="window.location.reload()">Upload Again</button>
+        </div>               
+    </div>
+
+
+
+    <!-- file upload -->
+    <script src='https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js'></script>
+    <script src='https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js'></script>
+    <script src='https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js'></script>
+    <script src='https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js'></script>
+    <script src='https://unpkg.com/filepond/dist/filepond.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+    <!-- Application JavaScript Files : Custom -->
+    <script type="text/javascript" src="SRC_JS_Custom/hostConfig.js"></script>
+    <script type="text/javascript" src="SRC_JS_Custom/HTML_Parser_JS.js"></script>
+    <script type="text/javascript" src="SRC_JS_Custom/AppPageScript.js"></script>
+    <script type="text/javascript" src="SRC_JS_Custom/BlockCards.js"></script>
+    <script type="text/javascript" src="SRC_JS_Custom/Template_1.js"></script>
+    <script type="text/javascript" src="SRC_JS_Custom/codePrettyPrint.js"></script>
+    <script type="text/javascript" src="SRC_JS_Custom/Upload.js"></script>
+    <!-- Application JavaScript Files : Libraries -->
+    <script type="text/javascript" src="SRC_Libs/jszipper/js/jszip.min.js"></script>
+    <script type="text/javascript" src="SRC_Libs/filesaver/js/FileSaver.min.js"></script>
+
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+
+    <!-- Materialize Initialization -->
+    <script type="text/javascript">
+        M.AutoInit();
+    </script>
+
+
+</body>
+
+</html>
