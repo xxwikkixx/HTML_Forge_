@@ -391,6 +391,26 @@
 
 
 <!-- Modal for Error in AI detection -->
+<div id="servdownErr" class="forge-modal" style= "display: block;">
+    <!-- Modal content -->
+    <div class="forge-modal-content">
+        <!-- Message -->
+        <div class="forge-modal-header ">
+            <h5>Application Server is Down</h5>
+        </div>
+        <!-- Details -->
+        <div class="forge-modal-body">
+            <p><b>Thank you for your interest in HTML Forge! Unfortunately, we have shut off the servers responsible for handling image processing and API Requests.</b></p>
+            <p><b> If you would like a private demo of this application, please contact any of the members listed at the bottom of the website.</b></p>
+        </div>
+        <!-- Options -->
+        <div class="forge-modal-footer row">
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal for Error in AI detection -->
 <div id="detErr2" class="forge-modal">
         <!-- Modal content -->
         <div class="forge-modal-content">
@@ -484,6 +504,8 @@
                 <a class="waves-effect waves-light btn red m-1" onclick="createCard()">DEBUG: Add Card</a> 
                 <a class="waves-effect waves-light btn red m-1" onclick="document.getElementById('detErr').style.display = 'block'">detErr</a>
                 <a class="waves-effect waves-light btn red m-1" onclick="document.getElementById('detErr2').style.display = 'block'">detErr2</a>
+                <!-- Shutoff Server Error -->
+                <a class="waves-effect waves-light btn red m-1" onclick="document.getElementById('servdownErr').style.display = 'none'">bypass Server block</a>
             </div>
                       
             <button class="btn-off shadowInset waves-effect waves-light mb-2" onclick="window.location.reload()">Upload Again</button>
